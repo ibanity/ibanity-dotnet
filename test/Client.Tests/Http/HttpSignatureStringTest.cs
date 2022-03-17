@@ -22,7 +22,7 @@ ibanity-idempotency-key: 61f02718-eeee-46e1-b5eb-e8fd6e799c2d";
         [TestMethod]
         public void ComputeReturnsAProperString()
         {
-            var target = new HttpSignatureString();
+            var target = new HttpSignatureString(new Uri("https://api.ibanity.com/"));
             var result = target.Compute(
                 "POST",
                 new Uri(Url),
