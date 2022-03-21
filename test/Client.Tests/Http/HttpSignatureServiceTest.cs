@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Ibanity.Apis.Client.Crypto;
 using Ibanity.Apis.Client.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Ibanity.Apis.Client.Tests.Http
 {
@@ -33,7 +35,12 @@ namespace Ibanity.Apis.Client.Tests.Http
 
         private IDictionary<string, string> GetHeaders()
         {
-            var target = new HttpSignatureService();
+            var digest = new Mock<IDigest>();
+            digest.
+                Setup(d => d.Compute(It.IsAny<string>())).
+                Returns(ExpectedDigest);
+
+            var target = new HttpSignatureService(digest.Object);
 
             return target.GetHttpSignatureHeaders(
                 "POST",
