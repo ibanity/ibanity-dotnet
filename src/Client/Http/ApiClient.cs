@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
@@ -13,10 +14,12 @@ namespace Ibanity.Apis.Client.Http
         private readonly HttpClient _httpClient;
 
         private readonly ISerializer<string> _serializer;
+        private readonly IHttpSignatureService _signatureService;
 
-        public ApiClient(ISerializer<string> serializer, Uri endpoint, X509Certificate2? clientCertificate, IWebProxy? proxy)
+        public ApiClient(ISerializer<string> serializer, IHttpSignatureService signatureService, Uri endpoint, X509Certificate2? clientCertificate, IWebProxy? proxy)
         {
             _serializer = serializer;
+            _signatureService = signatureService;
 
             var handler = new HttpClientHandler
             {
@@ -35,7 +38,18 @@ namespace Ibanity.Apis.Client.Http
 
         public async Task<T?> Get<T>(string path, CancellationToken cancellationToken) where T : class
         {
-            var response = (await _httpClient.GetAsync(path, cancellationToken)).EnsureSuccessStatusCode();
+            var signatureHeaders = _signatureService.GetHttpSignatureHeaders(
+                "GET",
+                new Uri(_httpClient.BaseAddress + path),
+                new Dictionary<string, string>(),
+                null);
+
+            using var request = new HttpRequestMessage(HttpMethod.Get, path);
+
+            foreach (var kvp in signatureHeaders)
+                request.Headers.Add(kvp.Key, kvp.Value);
+
+            var response = (await _httpClient.SendAsync(request, cancellationToken)).EnsureSuccessStatusCode();
             var body = await response.Content.ReadAsStringAsync();
             return _serializer.Deserialize<T>(body);
         }

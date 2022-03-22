@@ -2,6 +2,7 @@ using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
+using Ibanity.Apis.Client.Crypto;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -19,19 +20,31 @@ namespace Ibanity.Apis.Client.Tests.Http
             var certificatePassword = Environment.GetEnvironmentVariable("MTLS_CERTIFICATE_PASSWORD");
 
             if (string.IsNullOrWhiteSpace(certificatePath) || string.IsNullOrWhiteSpace(certificatePassword))
-                Assert.Inconclusive("Missing 'MTLS_CERTIFICATE_PATH' and 'MTLS_CERTIFICATE_PASSWORD' environment variables");
+                Assert.Inconclusive("Missing 'MTLS_CERTIFICATE_PATH' or 'MTLS_CERTIFICATE_PASSWORD' environment variables");
+
+            var signatureCertificatePath = Environment.GetEnvironmentVariable("SIGNATURE_CERTIFICATE_PATH");
+            var signatureCertificatePassword = Environment.GetEnvironmentVariable("SIGNATURE_CERTIFICATE_PASSWORD");
+
+            if (string.IsNullOrWhiteSpace(signatureCertificatePath) || string.IsNullOrWhiteSpace(signatureCertificatePassword))
+                Assert.Inconclusive("Missing 'SIGNATURE_CERTIFICATE_PATH' or 'SIGNATURE_CERTIFICATE_PASSWORD' environment variables");
 
             var nullSerializer = new Mock<ISerializer<string>>();
             nullSerializer.
                 Setup(s => s.Deserialize<string>(It.IsAny<string>())).
                 Returns<string>(v => v);
 
-            var certificate = new X509Certificate2(certificatePath!, certificatePassword);
+            Uri endpoint = new Uri("https://api.ibanity.com");
 
             var target = new ApiClient(
                 nullSerializer.Object,
-                new Uri("https://api.ibanity.com"),
-                certificate,
+                new HttpSignatureService(
+                    new Sha512Digest(),
+                    new RsaSsaPssSignature(new X509Certificate2(signatureCertificatePath!, signatureCertificatePassword)),
+                    new Clock(),
+                    new HttpSignatureString(endpoint),
+                    "7705c535-e9b4-416d-9a4a-97337b24fa1b"),
+                endpoint,
+                new X509Certificate2(certificatePath!, certificatePassword),
                 null);
 
             var result = await target.Get<string>("ponto-connect/financial-institutions", CancellationToken.None);

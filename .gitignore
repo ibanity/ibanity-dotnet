@@ -454,4 +454,5 @@ $RECYCLE.BIN/
 !.vscode/extensions.json
 
 # Contains secret stuff used by system tests
+.env
 .runsettings
