@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Ibanity.Apis.Client.Tests.Http
 {
     [TestClass]
-    public class ApiClientIntegrationTest
+    public class FinancialInstitutionsIntegrationTest
     {
         [TestMethod]
         public async Task AbleToAuthenticateAndGetFinancialInstitutions()
@@ -36,11 +36,9 @@ namespace Ibanity.Apis.Client.Tests.Http
                 "7705c535-e9b4-416d-9a4a-97337b24fa1b",
                 "", "", "", "", new Uri("https://fake-tpp.com/ponto-authorization"), null); // OAuth2 not yet implemented
 
-            var target = ibanityService.PontoConnect.ApiClient;
+            var financialInstitutions = await ibanityService.PontoConnect.FinancialInstitutions.List();
 
-            var result = await target.Get<object>("ponto-connect/financial-institutions", CancellationToken.None);
-
-            Assert.IsNotNull(result);
+            Assert.IsNotNull(financialInstitutions);
         }
     }
 }
