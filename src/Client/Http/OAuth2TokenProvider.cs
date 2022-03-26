@@ -6,7 +6,7 @@ using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Http
 {
-    public class OAuth2TokenProvider : IOAuth2TokenProvider
+    public class OAuth2TokenProvider : ITokenProvider
     {
         private readonly HttpClient _httpClient;
         private readonly IClock _clock;
@@ -48,11 +48,5 @@ namespace Ibanity.Apis.Client.Http
         {
             return Task.FromResult(string.Empty);
         }
-    }
-
-    public interface IOAuth2TokenProvider
-    {
-        Task<string> GetRefreshToken(CancellationToken cancellationToken);
-        Task<string> GetBearerToken(CancellationToken cancellationToken);
     }
 }
