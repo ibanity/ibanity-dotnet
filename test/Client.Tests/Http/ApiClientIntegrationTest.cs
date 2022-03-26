@@ -11,7 +11,7 @@ using Moq;
 namespace Ibanity.Apis.Client.Tests.Http
 {
     [TestClass]
-    public class ApiClientSystemTest
+    public class ApiClientIntegrationTest
     {
         [TestMethod]
         public async Task AbleToAuthenticateAndGetFinancialInstitutions()
