@@ -2,6 +2,7 @@ using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
+using Ibanity.Apis.Client.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Ibanity.Apis.Client.Tests.Http
@@ -39,7 +40,8 @@ namespace Ibanity.Apis.Client.Tests.Http
             var financialInstitution = await ibanityService.PontoConnect.FinancialInstitutions.Get(id);
             Assert.IsNotNull(financialInstitution);
 
-            var financialInstitutions = await ibanityService.PontoConnect.FinancialInstitutions.List();
+            var filters = new[] { new Filter("name", FilterOperator.Like, "gring") };
+            var financialInstitutions = await ibanityService.PontoConnect.FinancialInstitutions.List(filters);
             Assert.IsNotNull(financialInstitutions);
         }
     }

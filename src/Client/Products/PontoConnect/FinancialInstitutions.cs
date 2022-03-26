@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.JsonApi;
+using Ibanity.Apis.Client.Models;
 using Ibanity.Apis.Client.Products.PontoConnect.Models;
 using Ibanity.Apis.Client.Utils;
 
@@ -24,11 +26,16 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             _urlPrefix = urlPrefix;
         }
 
-        public async Task<PaginatedCollection<FinancialInstitution>> List(ContinuationToken continuationToken, CancellationToken? cancellationToken)
+        public async Task<PaginatedCollection<FinancialInstitution>> List(IEnumerable<Filter> filters, ContinuationToken continuationToken, CancellationToken? cancellationToken)
         {
+            var queryParameters = string.Join("&", (filters ?? Enumerable.Empty<Filter>()).Select(f => f.ToString()));
+
+            if (!string.IsNullOrWhiteSpace(queryParameters))
+                queryParameters = "?" + queryParameters; // we need a proper builder here
+
             var page = await _apiClient.Get<JsonApi.Collection<FinancialInstitution>>(
                 continuationToken == null
-                    ? $"{_urlPrefix}/{EntityName}"
+                    ? $"{_urlPrefix}/{EntityName}{queryParameters}"
                     : continuationToken.NextUrl,
                 cancellationToken ?? CancellationToken.None);
 
@@ -56,7 +63,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
     public interface IFinancialInstitutions
     {
-        Task<PaginatedCollection<FinancialInstitution>> List(ContinuationToken continuationToken = null, CancellationToken? cancellationToken = null);
+        Task<PaginatedCollection<FinancialInstitution>> List(IEnumerable<Filter> filters = null, ContinuationToken continuationToken = null, CancellationToken? cancellationToken = null);
         Task<FinancialInstitution> Get(Guid id, CancellationToken? cancellationToken = null);
     }
 }
