@@ -41,6 +41,11 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             return result;
         }
 
+        public async Task<FinancialInstitution> Get(Guid id, CancellationToken? cancellationToken) =>
+            Map((await _apiClient.Get<JsonApi.Resource<FinancialInstitution>>(
+                $"{_urlPrefix}/{EntityName}/{id}",
+                cancellationToken ?? CancellationToken.None)).Data);
+
         private T Map<T>(Data<T> data) where T : Identified<Guid>
         {
             var result = data.Attributes;
@@ -52,5 +57,6 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     public interface IFinancialInstitutions
     {
         Task<PaginatedCollection<FinancialInstitution>> List(ContinuationToken continuationToken = null, CancellationToken? cancellationToken = null);
+        Task<FinancialInstitution> Get(Guid id, CancellationToken? cancellationToken = null);
     }
 }

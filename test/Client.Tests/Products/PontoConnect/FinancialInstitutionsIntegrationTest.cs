@@ -35,8 +35,11 @@ namespace Ibanity.Apis.Client.Tests.Http
                 "7705c535-e9b4-416d-9a4a-97337b24fa1b",
                 "", "", "", "", new Uri("https://fake-tpp.com/ponto-authorization"), null); // OAuth2 not yet implemented
 
-            var financialInstitutions = await ibanityService.PontoConnect.FinancialInstitutions.List();
+            Guid id = Guid.Parse("433329cb-3a66-4d47-8387-98bdaa5e55ad");
+            var financialInstitution = await ibanityService.PontoConnect.FinancialInstitutions.Get(id);
+            Assert.IsNotNull(financialInstitution);
 
+            var financialInstitutions = await ibanityService.PontoConnect.FinancialInstitutions.List();
             Assert.IsNotNull(financialInstitutions);
         }
     }
