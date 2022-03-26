@@ -57,6 +57,16 @@ namespace Ibanity.Apis.Client.Http
         }
     }
 
+    public class NullHttpSignatureService : IHttpSignatureService
+    {
+        public static readonly IHttpSignatureService Instance = new NullHttpSignatureService();
+
+        private NullHttpSignatureService() { }
+
+        public IDictionary<string, string> GetHttpSignatureHeaders(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, string? payload) =>
+            new Dictionary<string, string>();
+    }
+
     public interface IHttpSignatureService
     {
         IDictionary<string, string> GetHttpSignatureHeaders(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, string? payload);
