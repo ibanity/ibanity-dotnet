@@ -25,11 +25,9 @@ namespace Ibanity.Apis.Client.Tests.Http
             if (string.IsNullOrWhiteSpace(signatureCertificatePath) || string.IsNullOrWhiteSpace(signatureCertificatePassword))
                 Assert.Inconclusive("Missing 'SIGNATURE_CERTIFICATE_PATH' or 'SIGNATURE_CERTIFICATE_PASSWORD' environment variables");
 
-            Uri endpoint = new Uri("https://api.ibanity.com");
-
             var builder = new IbanityServiceBuilder();
             var ibanityService = builder.Build(
-                endpoint,
+                new Uri("https://api.ibanity.com"),
                 null,
                 new X509Certificate2(certificatePath, certificatePassword),
                 new X509Certificate2(signatureCertificatePath, signatureCertificatePassword),
