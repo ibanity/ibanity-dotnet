@@ -13,42 +13,42 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// </summary>
         /// <value>Availability of the connection (experimental, beta, stable)</value>
         [DataMember(Name = "status", EmitDefaultValue = false)]
-        public string? Status { get; set; }
+        public string Status { get; set; }
 
         /// <summary>
         /// Attribute used to group multiple individual financial institutions in the same country
         /// </summary>
         /// <value>Attribute used to group multiple individual financial institutions in the same country</value>
         [DataMember(Name = "sharedBrandReference", EmitDefaultValue = false)]
-        public object? SharedBrandReference { get; set; }
+        public Object SharedBrandReference { get; set; }
 
         /// <summary>
         /// Customer-friendly name of the financial institution&#39;s shared brand, if it is a member of one
         /// </summary>
         /// <value>Customer-friendly name of the financial institution&#39;s shared brand, if it is a member of one</value>
         [DataMember(Name = "sharedBrandName", EmitDefaultValue = false)]
-        public object? SharedBrandName { get; set; }
+        public Object SharedBrandName { get; set; }
 
         /// <summary>
         /// Hexadecimal color code related to the secondary branding color of the financial institution
         /// </summary>
         /// <value>Hexadecimal color code related to the secondary branding color of the financial institution</value>
         [DataMember(Name = "secondaryColor", EmitDefaultValue = false)]
-        public string? SecondaryColor { get; set; }
+        public string SecondaryColor { get; set; }
 
         /// <summary>
         /// Hexadecimal color code related to the primary branding color of the financial institution
         /// </summary>
         /// <value>Hexadecimal color code related to the primary branding color of the financial institution</value>
         [DataMember(Name = "primaryColor", EmitDefaultValue = false)]
-        public string? PrimaryColor { get; set; }
+        public string PrimaryColor { get; set; }
 
         /// <summary>
         /// Identifies which values are accepted for the periodic payment initiation request &lt;code&gt;productType&lt;/code&gt;
         /// </summary>
         /// <value>Identifies which values are accepted for the periodic payment initiation request &lt;code&gt;productType&lt;/code&gt;</value>
         [DataMember(Name = "periodicPaymentsProductTypes", EmitDefaultValue = false)]
-        public List<string> PeriodicPaymentsProductTypes { get; set; } = new List<string>();
+        public List<string> PeriodicPaymentsProductTypes { get; set; }
 
         /// <summary>
         /// Indicates whether the financial institution allows periodic payment initiation requests
@@ -62,7 +62,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// </summary>
         /// <value>Identifies which values are accepted for the &lt;a href&#x3D;&#39;https://documentation.ibanity.com//api#payment-initiation-request&#39;&gt;payment initiation request&lt;/a&gt; &lt;code&gt;productType&lt;/code&gt;</value>
         [DataMember(Name = "paymentsProductTypes", EmitDefaultValue = false)]
-        public List<string> PaymentsProductTypes { get; set; } = new List<string>();
+        public List<string> PaymentsProductTypes { get; set; }
 
         /// <summary>
         /// Indicates whether the financial institution allows &lt;a href&#x3D;&#39;https://documentation.ibanity.com//api#payment-initiation-request&#39;&gt;payment initiation requests&lt;/a&gt;
@@ -76,35 +76,35 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// </summary>
         /// <value>Name of the financial institution</value>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Indicates if there is an ongoing or scheduled maintenance. If present, the possible values are:&lt;ul&gt;&lt;li&gt;&lt;code&gt;internal&lt;/code&gt;, meaning we are working on the connection and no data access is possible&lt;/li&gt;&lt;li&gt;&lt;code&gt;financialInstitution&lt;/code&gt;, indicating the financial institution cannot be reached, but existing data is available in read-only mode&lt;/li&gt;&lt;/ul&gt;
         /// </summary>
         /// <value>Indicates if there is an ongoing or scheduled maintenance. If present, the possible values are:&lt;ul&gt;&lt;li&gt;&lt;code&gt;internal&lt;/code&gt;, meaning we are working on the connection and no data access is possible&lt;/li&gt;&lt;li&gt;&lt;code&gt;financialInstitution&lt;/code&gt;, indicating the financial institution cannot be reached, but existing data is available in read-only mode&lt;/li&gt;&lt;/ul&gt;</value>
         [DataMember(Name = "maintenanceType", EmitDefaultValue = false)]
-        public object? MaintenanceType { get; set; }
+        public Object MaintenanceType { get; set; }
 
         /// <summary>
         /// Indicates the end date of the maintenance.
         /// </summary>
         /// <value>Indicates the end date of the maintenance.</value>
         [DataMember(Name = "maintenanceTo", EmitDefaultValue = false)]
-        public object? MaintenanceTo { get; set; }
+        public Object MaintenanceTo { get; set; }
 
         /// <summary>
         /// Indicates the start date of the maintenance.
         /// </summary>
         /// <value>Indicates the start date of the maintenance.</value>
         [DataMember(Name = "maintenanceFrom", EmitDefaultValue = false)]
-        public object? MaintenanceFrom { get; set; }
+        public Object MaintenanceFrom { get; set; }
 
         /// <summary>
         /// Location of the logo image for the financial institution
         /// </summary>
         /// <value>Location of the logo image for the financial institution</value>
         [DataMember(Name = "logoUrl", EmitDefaultValue = false)]
-        public string? LogoUrl { get; set; }
+        public string LogoUrl { get; set; }
 
         /// <summary>
         /// Indicates whether a &lt;code&gt;requestedExecutionDate&lt;/code&gt; is supported for &lt;a href&#x3D;&#39;https://documentation.ibanity.com//api#payment&#39;&gt;payments&lt;/a&gt; from accounts belonging to this financial institution
@@ -125,14 +125,14 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// </summary>
         /// <value>Country of the financial institution, in &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2&#39;&gt;ISO 3166-1 alpha-2&lt;/a&gt; format. Is &lt;code&gt;null&lt;/code&gt; in the case of an international financial institution.</value>
         [DataMember(Name = "country", EmitDefaultValue = false)]
-        public string? Country { get; set; }
+        public string Country { get; set; }
 
         /// <summary>
         /// Identifies which values are accepted for the bulk payment initiation request &lt;code&gt;productType&lt;/code&gt;
         /// </summary>
         /// <value>Identifies which values are accepted for the bulk payment initiation request &lt;code&gt;productType&lt;/code&gt;</value>
         [DataMember(Name = "bulkPaymentsProductTypes", EmitDefaultValue = false)]
-        public List<string> BulkPaymentsProductTypes { get; set; } = new List<string>();
+        public List<string> BulkPaymentsProductTypes { get; set; }
 
         /// <summary>
         /// Indicates whether the financial institution allows bulk payment initiation requests
@@ -146,6 +146,6 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// </summary>
         /// <value>Identifier for the financial institution, in &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_9362&#39;&gt;ISO9362&lt;/a&gt; format.</value>
         [DataMember(Name = "bic", EmitDefaultValue = false)]
-        public string? Bic { get; set; }
+        public string Bic { get; set; }
     }
 }

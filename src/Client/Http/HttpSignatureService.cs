@@ -24,7 +24,7 @@ namespace Ibanity.Apis.Client.Http
             _certificateId = certificateId;
         }
 
-        public IDictionary<string, string> GetHttpSignatureHeaders(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, string? payload)
+        public IDictionary<string, string> GetHttpSignatureHeaders(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, string payload)
         {
             var now = _clock.Now;
             var digest = _digest.Compute(payload ?? string.Empty);
@@ -63,12 +63,12 @@ namespace Ibanity.Apis.Client.Http
 
         private NullHttpSignatureService() { }
 
-        public IDictionary<string, string> GetHttpSignatureHeaders(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, string? payload) =>
+        public IDictionary<string, string> GetHttpSignatureHeaders(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, string payload) =>
             new Dictionary<string, string>();
     }
 
     public interface IHttpSignatureService
     {
-        IDictionary<string, string> GetHttpSignatureHeaders(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, string? payload);
+        IDictionary<string, string> GetHttpSignatureHeaders(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, string payload);
     }
 }

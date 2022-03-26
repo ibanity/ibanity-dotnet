@@ -6,6 +6,6 @@ namespace Ibanity.Apis.Client.JsonApi
     public class Links
     {
         [DataMember(Name = "next", EmitDefaultValue = false)]
-        public string? Next { get; set; }
+        public string Next { get; set; }
     }
 }

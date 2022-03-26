@@ -6,6 +6,6 @@ namespace Ibanity.Apis.Client.JsonApi
     public class Meta
     {
         [DataMember(Name = "paging", EmitDefaultValue = false)]
-        public Paging? Paging { get; set; }
+        public Paging Paging { get; set; }
     }
 }

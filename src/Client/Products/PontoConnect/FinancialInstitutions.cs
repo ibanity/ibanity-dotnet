@@ -24,7 +24,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             _urlPrefix = urlPrefix;
         }
 
-        public async Task<PaginatedCollection<FinancialInstitution>> List(ContinuationToken? continuationToken, CancellationToken? cancellationToken)
+        public async Task<PaginatedCollection<FinancialInstitution>> List(ContinuationToken continuationToken, CancellationToken? cancellationToken)
         {
             var page = await _apiClient.Get<JsonApi.Collection<FinancialInstitution>>(
                 continuationToken == null
@@ -33,9 +33,9 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 cancellationToken ?? CancellationToken.None);
 
             var result = new PaginatedCollection<FinancialInstitution>();
-            result.AddRange(page!.Data.Select(SetId));
+            result.AddRange(page.Data.Select(SetId));
 
-            result.ContinuationToken = page.Links!.Next == null
+            result.ContinuationToken = page.Links.Next == null
                 ? null
                 : new ContinuationToken(page.Links.Next);
 
@@ -45,13 +45,13 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         private T SetId<T>(Data<T> data) where T : Identified<Guid>
         {
             var result = data.Attributes;
-            result!.Id = Guid.Parse(data!.Id);
+            result.Id = Guid.Parse(data.Id);
             return result;
         }
     }
 
     public interface IFinancialInstitutions
     {
-        Task<PaginatedCollection<FinancialInstitution>> List(ContinuationToken? continuationToken = null, CancellationToken? cancellationToken = null);
+        Task<PaginatedCollection<FinancialInstitution>> List(ContinuationToken continuationToken = null, CancellationToken? cancellationToken = null);
     }
 }

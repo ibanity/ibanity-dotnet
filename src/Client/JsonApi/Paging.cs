@@ -9,9 +9,9 @@ namespace Ibanity.Apis.Client.JsonApi
         public long Limit { get; set; }
 
         [DataMember(Name = "before", EmitDefaultValue = false)]
-        public string? Before { get; set; }
+        public string Before { get; set; }
 
         [DataMember(Name = "after", EmitDefaultValue = false)]
-        public string? After { get; set; }
+        public string After { get; set; }
     }
 }

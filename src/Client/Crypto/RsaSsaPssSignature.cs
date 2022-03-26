@@ -18,8 +18,9 @@ namespace Ibanity.Apis.Client.Crypto
         {
             var bytes = Encoding.GetBytes(value);
 
-            using var privateKey = _certificate.GetRSAPrivateKey();
-            var signature = privateKey.SignData(bytes, HashAlgorithmName.SHA256, RSASignaturePadding.Pss);
+            byte[] signature;
+            using (var privateKey = _certificate.GetRSAPrivateKey())
+                signature = privateKey.SignData(bytes, HashAlgorithmName.SHA256, RSASignaturePadding.Pss);
 
             return Convert.ToBase64String(signature);
         }

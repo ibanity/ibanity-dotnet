@@ -12,16 +12,16 @@ namespace Ibanity.Apis.Client.Http
     {
         public IIbanityService Build(
             Uri endpoint,
-            IWebProxy? proxy,
+            IWebProxy proxy,
             X509Certificate2 clientCertificate,
-            X509Certificate2? signatureCertificate,
+            X509Certificate2 signatureCertificate,
             string signatureCertificateId,
             string clientId,
             string clientSecret,
             string authorizationCode,
             string codeVerifier,
             Uri redirectUri,
-            string? refreshToken)
+            string refreshToken)
         {
             var handler = new HttpClientHandler
             {
@@ -65,15 +65,15 @@ namespace Ibanity.Apis.Client.Http
     {
         IIbanityService Build(
             Uri endpoint,
-            IWebProxy? proxy,
+            IWebProxy proxy,
             X509Certificate2 clientCertificate,
-            X509Certificate2? signatureCertificate,
+            X509Certificate2 signatureCertificate,
             string signatureCertificateId,
             string clientId,
             string clientSecret,
             string authorizationCode,
             string codeVerifier,
             Uri redirectUri,
-            string? refreshToken);
+            string refreshToken);
     }
 }

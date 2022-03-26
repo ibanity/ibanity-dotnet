@@ -4,7 +4,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 {
     public class PaginatedCollection<T> : List<T>
     {
-        public ContinuationToken? ContinuationToken { get; set; }
+        public ContinuationToken ContinuationToken { get; set; }
     }
 
     public class ContinuationToken

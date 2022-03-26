@@ -11,15 +11,15 @@ namespace Ibanity.Apis.Client.Http
         private readonly HttpClient _httpClient;
         private readonly IClock _clock;
 
-        private readonly string? _clientId;
-        private readonly string? _clientSecret;
-        private readonly string? _authorizationCode;
-        private readonly string? _codeVerifier;
-        private readonly Uri? _redirectUri;
+        private readonly string _clientId;
+        private readonly string _clientSecret;
+        private readonly string _authorizationCode;
+        private readonly string _codeVerifier;
+        private readonly Uri _redirectUri;
 
-        private string? _accessToken;
+        private string _accessToken;
         private DateTimeOffset _validUntil = DateTimeOffset.MinValue;
-        private string? _refreshToken;
+        private string _refreshToken;
 
         public OAuth2TokenProvider(HttpClient httpClient, IClock clock, string clientId, string clientSecret, string authorizationCode, string codeVerifier, Uri redirectUri)
         {

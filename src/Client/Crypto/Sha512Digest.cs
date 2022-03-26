@@ -13,8 +13,9 @@ namespace Ibanity.Apis.Client.Crypto
         {
             var bytes = Encoding.GetBytes(value);
 
-            using var algorithm = new SHA512Managed();
-            var digest = algorithm.ComputeHash(bytes);
+            byte[] digest;
+            using (var algorithm = new SHA512Managed())
+                digest = algorithm.ComputeHash(bytes);
 
             return Prefix + Convert.ToBase64String(digest);
         }

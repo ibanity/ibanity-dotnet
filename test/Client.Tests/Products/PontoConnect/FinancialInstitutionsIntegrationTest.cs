@@ -1,6 +1,5 @@
 using System;
 using System.Security.Cryptography.X509Certificates;
-using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -31,8 +30,8 @@ namespace Ibanity.Apis.Client.Tests.Http
             var ibanityService = builder.Build(
                 endpoint,
                 null,
-                new X509Certificate2(certificatePath!, certificatePassword),
-                new X509Certificate2(signatureCertificatePath!, signatureCertificatePassword),
+                new X509Certificate2(certificatePath, certificatePassword),
+                new X509Certificate2(signatureCertificatePath, signatureCertificatePassword),
                 "7705c535-e9b4-416d-9a4a-97337b24fa1b",
                 "", "", "", "", new Uri("https://fake-tpp.com/ponto-authorization"), null); // OAuth2 not yet implemented
 
