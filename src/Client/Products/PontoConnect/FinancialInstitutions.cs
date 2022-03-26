@@ -32,7 +32,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                     : continuationToken.NextUrl,
                 cancellationToken ?? CancellationToken.None);
 
-            var result = new PaginatedCollection<FinancialInstitution>(page.Data.Select(SetId));
+            var result = new PaginatedCollection<FinancialInstitution>(page.Data.Select(Map));
 
             result.ContinuationToken = page.Links.Next == null
                 ? null
@@ -41,7 +41,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             return result;
         }
 
-        private T SetId<T>(Data<T> data) where T : Identified<Guid>
+        private T Map<T>(Data<T> data) where T : Identified<Guid>
         {
             var result = data.Attributes;
             result.Id = Guid.Parse(data.Id);
