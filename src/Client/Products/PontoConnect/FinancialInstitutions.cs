@@ -32,8 +32,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                     : continuationToken.NextUrl,
                 cancellationToken ?? CancellationToken.None);
 
-            var result = new PaginatedCollection<FinancialInstitution>();
-            result.AddRange(page.Data.Select(SetId));
+            var result = new PaginatedCollection<FinancialInstitution>(page.Data.Select(SetId));
 
             result.ContinuationToken = page.Links.Next == null
                 ? null
