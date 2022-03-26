@@ -2,11 +2,8 @@ using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
-using Ibanity.Apis.Client.Crypto;
 using Ibanity.Apis.Client.Http;
-using Ibanity.Apis.Client.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 
 namespace Ibanity.Apis.Client.Tests.Http
 {
@@ -28,26 +25,20 @@ namespace Ibanity.Apis.Client.Tests.Http
             if (string.IsNullOrWhiteSpace(signatureCertificatePath) || string.IsNullOrWhiteSpace(signatureCertificatePassword))
                 Assert.Inconclusive("Missing 'SIGNATURE_CERTIFICATE_PATH' or 'SIGNATURE_CERTIFICATE_PASSWORD' environment variables");
 
-            var nullSerializer = new Mock<ISerializer<string>>();
-            nullSerializer.
-                Setup(s => s.Deserialize<string>(It.IsAny<string>())).
-                Returns<string>(v => v);
-
             Uri endpoint = new Uri("https://api.ibanity.com");
 
-            var target = new ApiClient(
-                nullSerializer.Object,
-                new HttpSignatureService(
-                    new Sha512Digest(),
-                    new RsaSsaPssSignature(new X509Certificate2(signatureCertificatePath!, signatureCertificatePassword)),
-                    new Clock(),
-                    new HttpSignatureString(endpoint),
-                    "7705c535-e9b4-416d-9a4a-97337b24fa1b"),
+            var builder = new IbanityServiceBuilder();
+            var ibanityService = builder.Build(
                 endpoint,
+                null,
                 new X509Certificate2(certificatePath!, certificatePassword),
-                null);
+                new X509Certificate2(signatureCertificatePath!, signatureCertificatePassword),
+                "7705c535-e9b4-416d-9a4a-97337b24fa1b",
+                "", "", "", "", new Uri("https://fake-tpp.com/ponto-authorization"), null); // OAuth2 not yet implemented
 
-            var result = await target.Get<string>("ponto-connect/financial-institutions", CancellationToken.None);
+            var target = ibanityService.PontoConnect.ApiClient;
+
+            var result = await target.Get<object>("ponto-connect/financial-institutions", CancellationToken.None);
 
             Assert.IsNotNull(result);
         }

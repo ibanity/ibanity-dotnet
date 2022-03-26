@@ -12,28 +12,14 @@ namespace Ibanity.Apis.Client.Http
     public class ApiClient : IApiClient
     {
         private readonly HttpClient _httpClient;
-
         private readonly ISerializer<string> _serializer;
         private readonly IHttpSignatureService _signatureService;
 
-        public ApiClient(ISerializer<string> serializer, IHttpSignatureService signatureService, Uri endpoint, X509Certificate2? clientCertificate, IWebProxy? proxy)
+        public ApiClient(HttpClient httpClient, ISerializer<string> serializer, IHttpSignatureService signatureService)
         {
+            _httpClient = httpClient;
             _serializer = serializer;
             _signatureService = signatureService;
-
-            var handler = new HttpClientHandler
-            {
-                ClientCertificateOptions = ClientCertificateOption.Manual,
-                UseProxy = proxy != null
-            };
-
-            if (clientCertificate != null)
-                handler.ClientCertificates.Add(clientCertificate);
-
-            if (proxy != null)
-                handler.Proxy = proxy;
-
-            _httpClient = new HttpClient(handler) { BaseAddress = endpoint };
         }
 
         public async Task<T?> Get<T>(string path, CancellationToken cancellationToken) where T : class
@@ -53,21 +39,9 @@ namespace Ibanity.Apis.Client.Http
             var body = await response.Content.ReadAsStringAsync();
             return _serializer.Deserialize<T>(body);
         }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-                _httpClient.Dispose();
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
     }
 
-    public interface IApiClient : IDisposable
+    public interface IApiClient
     {
         Task<T?> Get<T>(string path, CancellationToken cancellationToken) where T : class;
     }
