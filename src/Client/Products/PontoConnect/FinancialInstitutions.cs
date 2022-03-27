@@ -16,17 +16,17 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         private const string EntityName = "financial-institutions";
 
         private readonly IApiClient _apiClient;
-        private readonly ITokenProvider _tokenService;
+        private readonly IAccessTokenProvider _accessTokenProvider;
         private readonly string _urlPrefix;
 
-        public FinancialInstitutions(IApiClient apiClient, ITokenProvider tokenService, string urlPrefix)
+        public FinancialInstitutions(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix)
         {
             _apiClient = apiClient;
-            _tokenService = tokenService;
+            _accessTokenProvider = accessTokenProvider;
             _urlPrefix = urlPrefix;
         }
 
-        public async Task<PaginatedCollection<FinancialInstitution>> List(IEnumerable<Filter> filters, ContinuationToken continuationToken, CancellationToken? cancellationToken)
+        public async Task<PaginatedCollection<FinancialInstitution>> ListForOrganization(Token token, IEnumerable<Filter> filters, ContinuationToken continuationToken, CancellationToken? cancellationToken)
         {
             var queryParameters = string.Join("&", (filters ?? Enumerable.Empty<Filter>()).Select(f => f.ToString()));
 
@@ -37,6 +37,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 continuationToken == null
                     ? $"{_urlPrefix}/{EntityName}{queryParameters}"
                     : continuationToken.NextUrl,
+                await GetAccessToken(token),
                 cancellationToken ?? CancellationToken.None);
 
             var result = new PaginatedCollection<FinancialInstitution>(page.Data.Select(Map));
@@ -48,10 +49,17 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             return result;
         }
 
-        public async Task<FinancialInstitution> Get(Guid id, CancellationToken? cancellationToken) =>
+        public async Task<FinancialInstitution> GetForOrganization(Token token, Guid id, CancellationToken? cancellationToken) =>
             Map((await _apiClient.Get<JsonApi.Resource<FinancialInstitution>>(
                 $"{_urlPrefix}/{EntityName}/{id}",
+                await GetAccessToken(token),
                 cancellationToken ?? CancellationToken.None)).Data);
+
+        public Task<PaginatedCollection<FinancialInstitution>> List(IEnumerable<Filter> filters, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
+            ListForOrganization(null, filters, continuationToken, cancellationToken);
+
+        public Task<FinancialInstitution> Get(Guid id, CancellationToken? cancellationToken) =>
+            GetForOrganization(null, id, cancellationToken);
 
         private T Map<T>(Data<T> data) where T : Identified<Guid>
         {
@@ -59,10 +67,16 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             result.Id = Guid.Parse(data.Id);
             return result;
         }
+
+        private async Task<string> GetAccessToken(Token token) => token == null
+            ? null
+            : (await _accessTokenProvider.RefreshToken(token)).AccessToken;
     }
 
     public interface IFinancialInstitutions
     {
+        Task<PaginatedCollection<FinancialInstitution>> ListForOrganization(Token token, IEnumerable<Filter> filters = null, ContinuationToken continuationToken = null, CancellationToken? cancellationToken = null);
+        Task<FinancialInstitution> GetForOrganization(Token token, Guid id, CancellationToken? cancellationToken = null);
         Task<PaginatedCollection<FinancialInstitution>> List(IEnumerable<Filter> filters = null, ContinuationToken continuationToken = null, CancellationToken? cancellationToken = null);
         Task<FinancialInstitution> Get(Guid id, CancellationToken? cancellationToken = null);
     }

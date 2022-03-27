@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
@@ -22,17 +23,22 @@ namespace Ibanity.Apis.Client.Http
             _signatureService = signatureService;
         }
 
-        public async Task<T> Get<T>(string path, CancellationToken cancellationToken)
+        public async Task<T> Get<T>(string path, string bearerToken, CancellationToken cancellationToken)
         {
+            var headers = new Dictionary<string, string>();
+
+            if (!string.IsNullOrWhiteSpace(bearerToken))
+                headers["Authorization"] = $"Bearer {bearerToken}";
+
             var signatureHeaders = _signatureService.GetHttpSignatureHeaders(
                 "GET",
                 new Uri(_httpClient.BaseAddress + path),
-                new Dictionary<string, string>(),
+                headers,
                 null);
 
             using (var request = new HttpRequestMessage(HttpMethod.Get, path))
             {
-                foreach (var kvp in signatureHeaders)
+                foreach (var kvp in headers.Union(signatureHeaders))
                     request.Headers.Add(kvp.Key, kvp.Value);
 
                 var response = (await _httpClient.SendAsync(request, cancellationToken)).EnsureSuccessStatusCode();
@@ -44,6 +50,6 @@ namespace Ibanity.Apis.Client.Http
 
     public interface IApiClient
     {
-        Task<T> Get<T>(string path, CancellationToken cancellationToken);
+        Task<T> Get<T>(string path, string bearerToken, CancellationToken cancellationToken);
     }
 }
