@@ -11,6 +11,9 @@ namespace Ibanity.Apis.Client.Crypto
 
         public string Compute(string value)
         {
+            if (value is null)
+                throw new ArgumentNullException(nameof(value));
+
             var bytes = Encoding.GetBytes(value);
 
             byte[] digest;

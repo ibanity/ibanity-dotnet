@@ -6,6 +6,9 @@ namespace Ibanity.Apis.Client.Http
     {
         internal Token(string accessToken, DateTimeOffset validUntil, string refreshToken)
         {
+            if (string.IsNullOrWhiteSpace(refreshToken))
+                throw new ArgumentException($"'{nameof(refreshToken)}' cannot be null or whitespace.", nameof(refreshToken));
+
             AccessToken = accessToken;
             ValidUntil = validUntil;
             RefreshToken = refreshToken;

@@ -16,17 +16,32 @@ namespace Ibanity.Apis.Client.Http
         public HttpSignatureString(Uri ibanityEndpoint) =>
             _ibanityEndpoint = ibanityEndpoint;
 
-        public string Compute(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, string digest, DateTimeOffset timestamp) => string.Join(
-            "\n",
-            new[]
-            {
-                $"(request-target): {httpMethod.ToLower()} {url.PathAndQuery}",
-                "host: " + _ibanityEndpoint.Host,
-                "digest: " + digest,
-                "(created): " + timestamp.ToUnixTimeSeconds()
-            }.Union(requestHeaders.
-                Where(kvp => HeaderPattern.IsMatch(kvp.Key)).
-                Select(kvp => $"{kvp.Key.ToLower()}: {kvp.Value}")));
+        public string Compute(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, string digest, DateTimeOffset timestamp)
+        {
+            if (string.IsNullOrEmpty(httpMethod))
+                throw new ArgumentException($"'{nameof(httpMethod)}' cannot be null or empty.", nameof(httpMethod));
+
+            if (url is null)
+                throw new ArgumentNullException(nameof(url));
+
+            if (requestHeaders is null)
+                throw new ArgumentNullException(nameof(requestHeaders));
+
+            if (string.IsNullOrEmpty(digest))
+                throw new ArgumentException($"'{nameof(digest)}' cannot be null or empty.", nameof(digest));
+
+            return string.Join(
+                "\n",
+                new[]
+                {
+                    $"(request-target): {httpMethod.ToLower()} {url.PathAndQuery}",
+                    "host: " + _ibanityEndpoint.Host,
+                    "digest: " + digest,
+                    "(created): " + timestamp.ToUnixTimeSeconds()
+                }.Union(requestHeaders.
+                    Where(kvp => HeaderPattern.IsMatch(kvp.Key)).
+                    Select(kvp => $"{kvp.Key.ToLower()}: {kvp.Value}")));
+        }
 
         public IEnumerable<string> GetSignedHeaders(IDictionary<string, string> requestHeaders)
         {

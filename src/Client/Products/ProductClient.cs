@@ -6,9 +6,9 @@ namespace Ibanity.Apis.Client.Products
     {
         public ProductClient(IApiClient apiClient, ITokenProvider tokenService, IClientAccessTokenProvider clientAccessTokenService)
         {
-            ApiClient = apiClient;
-            TokenService = tokenService;
-            ClientTokenService = clientAccessTokenService;
+            ApiClient = apiClient ?? throw new System.ArgumentNullException(nameof(apiClient));
+            TokenService = tokenService ?? throw new System.ArgumentNullException(nameof(tokenService));
+            ClientTokenService = clientAccessTokenService ?? throw new System.ArgumentNullException(nameof(clientAccessTokenService));
         }
 
         public IApiClient ApiClient { get; }

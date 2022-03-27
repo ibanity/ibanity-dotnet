@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 
 namespace Ibanity.Apis.Client.Utils
@@ -8,7 +9,7 @@ namespace Ibanity.Apis.Client.Utils
             JsonConvert.SerializeObject(value);
 
         public T Deserialize<T>(string value) =>
-            JsonConvert.DeserializeObject<T>(value);
+            JsonConvert.DeserializeObject<T>(value ?? throw new ArgumentNullException(nameof(value)));
     }
 
     public interface ISerializer<U>

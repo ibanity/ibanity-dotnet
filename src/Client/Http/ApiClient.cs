@@ -16,13 +16,16 @@ namespace Ibanity.Apis.Client.Http
 
         public ApiClient(HttpClient httpClient, ISerializer<string> serializer, IHttpSignatureService signatureService)
         {
-            _httpClient = httpClient;
-            _serializer = serializer;
-            _signatureService = signatureService;
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            _signatureService = signatureService ?? throw new ArgumentNullException(nameof(signatureService));
         }
 
         public async Task<T> Get<T>(string path, string bearerToken, CancellationToken cancellationToken)
         {
+            if (path is null)
+                throw new ArgumentNullException(nameof(path));
+
             var headers = new Dictionary<string, string>();
 
             if (!string.IsNullOrWhiteSpace(bearerToken))

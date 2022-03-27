@@ -21,8 +21,11 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
         public FinancialInstitutions(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix)
         {
-            _apiClient = apiClient;
-            _accessTokenProvider = accessTokenProvider;
+            if (string.IsNullOrEmpty(urlPrefix))
+                throw new ArgumentException($"'{nameof(urlPrefix)}' cannot be null or empty.", nameof(urlPrefix));
+
+            _apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
+            _accessTokenProvider = accessTokenProvider ?? throw new ArgumentNullException(nameof(accessTokenProvider));
             _urlPrefix = urlPrefix;
         }
 
@@ -63,6 +66,9 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
         private T Map<T>(Data<T> data) where T : Identified<Guid>
         {
+            if (data is null)
+                throw new ArgumentNullException(nameof(data));
+
             var result = data.Attributes;
             result.Id = Guid.Parse(data.Id);
             return result;

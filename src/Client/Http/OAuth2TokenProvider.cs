@@ -20,9 +20,18 @@ namespace Ibanity.Apis.Client.Http
 
         public OAuth2TokenProvider(HttpClient httpClient, IClock clock, ISerializer<string> serializer, string urlPrefix, string clientId, string clientSecret)
         {
-            _httpClient = httpClient;
-            _clock = clock;
-            _serializer = serializer;
+            if (string.IsNullOrEmpty(urlPrefix))
+                throw new ArgumentException($"'{nameof(urlPrefix)}' cannot be null or empty.", nameof(urlPrefix));
+
+            if (string.IsNullOrEmpty(clientId))
+                throw new ArgumentException($"'{nameof(clientId)}' cannot be null or empty.", nameof(clientId));
+
+            if (string.IsNullOrEmpty(clientSecret))
+                throw new ArgumentException($"'{nameof(clientSecret)}' cannot be null or empty.", nameof(clientSecret));
+
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _clock = clock ?? throw new ArgumentNullException(nameof(clock));
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _urlPrefix = urlPrefix;
             _clientId = clientId;
             _clientSecret = clientSecret;
@@ -30,6 +39,15 @@ namespace Ibanity.Apis.Client.Http
 
         public async Task<Token> GetToken(string authorizationCode, string codeVerifier, Uri redirectUri, CancellationToken? cancellationToken)
         {
+            if (string.IsNullOrEmpty(authorizationCode))
+                throw new ArgumentException($"'{nameof(authorizationCode)}' cannot be null or empty.", nameof(authorizationCode));
+
+            if (string.IsNullOrEmpty(codeVerifier))
+                throw new ArgumentException($"'{nameof(codeVerifier)}' cannot be null or empty.", nameof(codeVerifier));
+
+            if (redirectUri is null)
+                throw new ArgumentNullException(nameof(redirectUri));
+
             var payload = new Dictionary<string, string>
             {
                 { "grant_type", "authorization_code" },
@@ -57,6 +75,9 @@ namespace Ibanity.Apis.Client.Http
 
         public async Task<Token> GetToken(string refreshToken, CancellationToken? cancellationToken)
         {
+            if (string.IsNullOrWhiteSpace(refreshToken))
+                throw new ArgumentException($"'{nameof(refreshToken)}' cannot be null or whitespace.", nameof(refreshToken));
+
             var token = new Token(
                 null,
                 DateTimeOffset.MinValue,
@@ -67,6 +88,9 @@ namespace Ibanity.Apis.Client.Http
 
         public async Task<Token> RefreshToken(Token token, CancellationToken? cancellationToken)
         {
+            if (token is null)
+                throw new ArgumentNullException(nameof(token));
+
             if (token.ValidUntil - _clock.Now >= ValidityThreshold)
                 return token;
 
@@ -95,6 +119,9 @@ namespace Ibanity.Apis.Client.Http
 
         public async Task RevokeToken(Token token, CancellationToken? cancellationToken)
         {
+            if (token is null)
+                throw new ArgumentNullException(nameof(token));
+
             var payload = new Dictionary<string, string>
             {
                 { "token", token.RefreshToken }

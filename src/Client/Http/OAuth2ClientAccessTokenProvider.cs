@@ -20,9 +20,18 @@ namespace Ibanity.Apis.Client.Http
 
         public OAuth2ClientAccessTokenProvider(HttpClient httpClient, IClock clock, ISerializer<string> serializer, string urlPrefix, string clientId, string clientSecret)
         {
-            _httpClient = httpClient;
-            _clock = clock;
-            _serializer = serializer;
+            if (string.IsNullOrEmpty(urlPrefix))
+                throw new ArgumentException($"'{nameof(urlPrefix)}' cannot be null or empty.", nameof(urlPrefix));
+
+            if (string.IsNullOrEmpty(clientId))
+                throw new ArgumentException($"'{nameof(clientId)}' cannot be null or empty.", nameof(clientId));
+
+            if (string.IsNullOrEmpty(clientSecret))
+                throw new ArgumentException($"'{nameof(clientSecret)}' cannot be null or empty.", nameof(clientSecret));
+
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _clock = clock ?? throw new ArgumentNullException(nameof(clock));
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _urlPrefix = urlPrefix;
             _clientId = clientId;
             _clientSecret = clientSecret;
@@ -39,6 +48,9 @@ namespace Ibanity.Apis.Client.Http
 
         public async Task<ClientAccessToken> RefreshToken(ClientAccessToken token, CancellationToken? cancellationToken)
         {
+            if (token is null)
+                throw new ArgumentNullException(nameof(token));
+
             if (token.ValidUntil - _clock.Now >= ValidityThreshold)
                 return token;
 

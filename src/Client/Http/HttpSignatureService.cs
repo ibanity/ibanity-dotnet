@@ -17,15 +17,27 @@ namespace Ibanity.Apis.Client.Http
 
         public HttpSignatureService(IDigest digest, ISignature signature, IClock clock, IHttpSignatureString signatureString, string certificateId)
         {
-            _digest = digest;
-            _signature = signature;
-            _clock = clock;
-            _signatureString = signatureString;
+            if (string.IsNullOrEmpty(certificateId))
+                throw new ArgumentException($"'{nameof(certificateId)}' cannot be null or empty.", nameof(certificateId));
+
+            _digest = digest ?? throw new ArgumentNullException(nameof(digest));
+            _signature = signature ?? throw new ArgumentNullException(nameof(signature));
+            _clock = clock ?? throw new ArgumentNullException(nameof(clock));
+            _signatureString = signatureString ?? throw new ArgumentNullException(nameof(signatureString));
             _certificateId = certificateId;
         }
 
         public IDictionary<string, string> GetHttpSignatureHeaders(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, string payload)
         {
+            if (string.IsNullOrEmpty(httpMethod))
+                throw new ArgumentException($"'{nameof(httpMethod)}' cannot be null or empty.", nameof(httpMethod));
+
+            if (url is null)
+                throw new ArgumentNullException(nameof(url));
+
+            if (requestHeaders is null)
+                throw new ArgumentNullException(nameof(requestHeaders));
+
             var now = _clock.Now;
             var digest = _digest.Compute(payload ?? string.Empty);
 

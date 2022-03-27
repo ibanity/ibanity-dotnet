@@ -25,6 +25,12 @@ namespace Ibanity.Apis.Client.Tests.Http
             if (string.IsNullOrWhiteSpace(signatureCertificatePath) || string.IsNullOrWhiteSpace(signatureCertificatePassword))
                 Assert.Inconclusive("Missing 'SIGNATURE_CERTIFICATE_PATH' or 'SIGNATURE_CERTIFICATE_PASSWORD' environment variables");
 
+            var pontoConnectClientId = Environment.GetEnvironmentVariable("PONTO_CONNECT_CLIENT_ID");
+            var pontoConnectClientSecret = Environment.GetEnvironmentVariable("PONTO_CONNECT_CLIENT_SECRET");
+
+            if (string.IsNullOrWhiteSpace(pontoConnectClientId) || string.IsNullOrWhiteSpace(pontoConnectClientSecret))
+                Assert.Inconclusive("Missing 'PONTO_CONNECT_CLIENT_ID' or 'PONTO_CONNECT_CLIENT_SECRET' environment variables");
+
             var builder = new IbanityServiceBuilder();
             var ibanityService = builder.Build(
                 new Uri("https://api.ibanity.com"),
@@ -32,8 +38,8 @@ namespace Ibanity.Apis.Client.Tests.Http
                 new X509Certificate2(certificatePath, certificatePassword),
                 new X509Certificate2(signatureCertificatePath, signatureCertificatePassword),
                 "7705c535-e9b4-416d-9a4a-97337b24fa1b",
-                "979fd4d2-cc1e-4265-8351-26a0c3ec1885",
-                 null);
+                pontoConnectClientId,
+                pontoConnectClientSecret);
 
             Guid id = Guid.Parse("433329cb-3a66-4d47-8387-98bdaa5e55ad");
             var financialInstitution = await ibanityService.PontoConnect.FinancialInstitutions.Get(id);

@@ -11,8 +11,8 @@ namespace Ibanity.Apis.Client.Http
 
         public IbanityService(HttpClient httpClient, IPontoConnectClient pontoConnectClient)
         {
-            _httpClient = httpClient;
-            PontoConnect = pontoConnectClient;
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            PontoConnect = pontoConnectClient ?? throw new ArgumentNullException(nameof(pontoConnectClient));
         }
 
         public IPontoConnectClient PontoConnect { get; }

@@ -8,6 +8,12 @@ namespace Ibanity.Apis.Client.Models
 
         public Filter(string field, FilterOperator @operator, string value)
         {
+            if (string.IsNullOrEmpty(field))
+                throw new System.ArgumentException($"'{nameof(field)}' cannot be null or empty.", nameof(field));
+
+            if (string.IsNullOrEmpty(value))
+                throw new System.ArgumentException($"'{nameof(value)}' cannot be null or empty.", nameof(value));
+
             _field = field;
             _operator = @operator;
             _value = value;
