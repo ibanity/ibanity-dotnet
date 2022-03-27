@@ -4,22 +4,22 @@ namespace Ibanity.Apis.Client.Products
 {
     public class ProductClient : IProductClient
     {
-        public ProductClient(IApiClient apiClient, ITokenProvider tokenService, IAccessTokenProvider clientTokenService)
+        public ProductClient(IApiClient apiClient, ITokenProvider tokenService, IClientAccessTokenProvider clientAccessTokenService)
         {
             ApiClient = apiClient;
             TokenService = tokenService;
-            ClientTokenService = clientTokenService;
+            ClientTokenService = clientAccessTokenService;
         }
 
         public IApiClient ApiClient { get; }
         public ITokenProvider TokenService { get; }
-        public IAccessTokenProvider ClientTokenService { get; }
+        public IClientAccessTokenProvider ClientTokenService { get; }
     }
 
     public interface IProductClient
     {
         IApiClient ApiClient { get; }
         ITokenProvider TokenService { get; }
-        IAccessTokenProvider ClientTokenService { get; }
+        IClientAccessTokenProvider ClientTokenService { get; }
     }
 }

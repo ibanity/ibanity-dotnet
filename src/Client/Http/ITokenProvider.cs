@@ -15,4 +15,10 @@ namespace Ibanity.Apis.Client.Http
     {
         Task<Token> RefreshToken(Token token, CancellationToken? cancellationToken = null);
     }
+
+    public interface IClientAccessTokenProvider
+    {
+        Task<ClientAccessToken> GetToken(CancellationToken? cancellationToken = null);
+        Task<ClientAccessToken> RefreshToken(ClientAccessToken token, CancellationToken? cancellationToken = null);
+    }
 }

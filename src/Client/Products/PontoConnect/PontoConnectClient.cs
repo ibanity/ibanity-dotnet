@@ -7,8 +7,8 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     {
         private const string UrlPrefix = "ponto-connect";
 
-        public PontoConnectClient(IApiClient apiClient, ITokenProvider tokenService, IAccessTokenProvider clientTokenService)
-            : base(apiClient, tokenService, clientTokenService)
+        public PontoConnectClient(IApiClient apiClient, ITokenProvider tokenService, IClientAccessTokenProvider clientAccessTokenService)
+            : base(apiClient, tokenService, clientAccessTokenService)
         {
             FinancialInstitutions = new FinancialInstitutions(apiClient, tokenService, UrlPrefix);
         }
