@@ -93,9 +93,21 @@ namespace Ibanity.Apis.Client.Http
                 response.RefreshToken);
         }
 
-        public Task RevokeRefreshToken(CancellationToken? cancellationToken)
+        public async Task RevokeToken(Token token, CancellationToken? cancellationToken)
         {
-            return Task.CompletedTask;
+            var payload = new Dictionary<string, string>
+            {
+                { "token", token.RefreshToken }
+            };
+
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{_urlPrefix}/oauth2/revoke")
+            {
+                Content = new FormUrlEncodedContent(payload)
+            };
+
+            request.Headers.Authorization = new BasicAuthenticationHeaderValue(_clientId, _clientSecret);
+
+            var result = (await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None)).EnsureSuccessStatusCode();
         }
     }
 }

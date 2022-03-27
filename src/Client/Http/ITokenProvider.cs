@@ -8,7 +8,7 @@ namespace Ibanity.Apis.Client.Http
     {
         Task<Token> GetToken(string authorizationCode, string codeVerifier, Uri redirectUri, CancellationToken? cancellationToken = null);
         Task<Token> GetToken(string refreshToken, CancellationToken? cancellationToken = null);
-        Task RevokeRefreshToken(CancellationToken? cancellationToken);
+        Task RevokeToken(Token token, CancellationToken? cancellationToken = null);
     }
 
     public interface IAccessTokenProvider
