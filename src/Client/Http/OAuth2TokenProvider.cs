@@ -20,13 +20,13 @@ namespace Ibanity.Apis.Client.Http
 
         public OAuth2TokenProvider(HttpClient httpClient, IClock clock, ISerializer<string> serializer, string urlPrefix, string clientId, string clientSecret)
         {
-            if (string.IsNullOrEmpty(urlPrefix))
+            if (string.IsNullOrWhiteSpace(urlPrefix))
                 throw new ArgumentException($"'{nameof(urlPrefix)}' cannot be null or empty.", nameof(urlPrefix));
 
-            if (string.IsNullOrEmpty(clientId))
+            if (string.IsNullOrWhiteSpace(clientId))
                 throw new ArgumentException($"'{nameof(clientId)}' cannot be null or empty.", nameof(clientId));
 
-            if (string.IsNullOrEmpty(clientSecret))
+            if (string.IsNullOrWhiteSpace(clientSecret))
                 throw new ArgumentException($"'{nameof(clientSecret)}' cannot be null or empty.", nameof(clientSecret));
 
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
@@ -39,10 +39,10 @@ namespace Ibanity.Apis.Client.Http
 
         public async Task<Token> GetToken(string authorizationCode, string codeVerifier, Uri redirectUri, CancellationToken? cancellationToken)
         {
-            if (string.IsNullOrEmpty(authorizationCode))
+            if (string.IsNullOrWhiteSpace(authorizationCode))
                 throw new ArgumentException($"'{nameof(authorizationCode)}' cannot be null or empty.", nameof(authorizationCode));
 
-            if (string.IsNullOrEmpty(codeVerifier))
+            if (string.IsNullOrWhiteSpace(codeVerifier))
                 throw new ArgumentException($"'{nameof(codeVerifier)}' cannot be null or empty.", nameof(codeVerifier));
 
             if (redirectUri is null)

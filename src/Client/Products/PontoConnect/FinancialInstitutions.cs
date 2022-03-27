@@ -21,7 +21,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
         public FinancialInstitutions(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix)
         {
-            if (string.IsNullOrEmpty(urlPrefix))
+            if (string.IsNullOrWhiteSpace(urlPrefix))
                 throw new ArgumentException($"'{nameof(urlPrefix)}' cannot be null or empty.", nameof(urlPrefix));
 
             _apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));

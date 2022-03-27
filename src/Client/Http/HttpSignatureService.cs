@@ -17,7 +17,7 @@ namespace Ibanity.Apis.Client.Http
 
         public HttpSignatureService(IDigest digest, ISignature signature, IClock clock, IHttpSignatureString signatureString, string certificateId)
         {
-            if (string.IsNullOrEmpty(certificateId))
+            if (string.IsNullOrWhiteSpace(certificateId))
                 throw new ArgumentException($"'{nameof(certificateId)}' cannot be null or empty.", nameof(certificateId));
 
             _digest = digest ?? throw new ArgumentNullException(nameof(digest));
@@ -29,7 +29,7 @@ namespace Ibanity.Apis.Client.Http
 
         public IDictionary<string, string> GetHttpSignatureHeaders(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, string payload)
         {
-            if (string.IsNullOrEmpty(httpMethod))
+            if (string.IsNullOrWhiteSpace(httpMethod))
                 throw new ArgumentException($"'{nameof(httpMethod)}' cannot be null or empty.", nameof(httpMethod));
 
             if (url is null)

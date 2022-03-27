@@ -20,13 +20,13 @@ namespace Ibanity.Apis.Client.Http
 
         public OAuth2ClientAccessTokenProvider(HttpClient httpClient, IClock clock, ISerializer<string> serializer, string urlPrefix, string clientId, string clientSecret)
         {
-            if (string.IsNullOrEmpty(urlPrefix))
+            if (string.IsNullOrWhiteSpace(urlPrefix))
                 throw new ArgumentException($"'{nameof(urlPrefix)}' cannot be null or empty.", nameof(urlPrefix));
 
-            if (string.IsNullOrEmpty(clientId))
+            if (string.IsNullOrWhiteSpace(clientId))
                 throw new ArgumentException($"'{nameof(clientId)}' cannot be null or empty.", nameof(clientId));
 
-            if (string.IsNullOrEmpty(clientSecret))
+            if (string.IsNullOrWhiteSpace(clientSecret))
                 throw new ArgumentException($"'{nameof(clientSecret)}' cannot be null or empty.", nameof(clientSecret));
 
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
