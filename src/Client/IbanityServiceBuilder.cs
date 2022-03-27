@@ -46,8 +46,8 @@ namespace Ibanity.Apis.Client.Http
 
             var pontoConnectClient = new PontoConnectClient(
                 apiClient,
-                new OAuth2TokenProvider(httpClient, clock, serializer, "ponto-connect", pontoConnectClientId, pontoConnectClientSecret),
-                new OAuth2ClientAccessTokenProvider(httpClient, clock, serializer, "ponto-connect", pontoConnectClientId, pontoConnectClientSecret));
+                new OAuth2TokenProvider(httpClient, clock, serializer, PontoConnectClient.UrlPrefix, pontoConnectClientId, pontoConnectClientSecret),
+                new OAuth2ClientAccessTokenProvider(httpClient, clock, serializer, PontoConnectClient.UrlPrefix, pontoConnectClientId, pontoConnectClientSecret));
 
             return new IbanityService(httpClient, pontoConnectClient);
         }
