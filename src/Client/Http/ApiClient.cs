@@ -42,7 +42,7 @@ namespace Ibanity.Apis.Client.Http
                 foreach (var kvp in headers.Union(signatureHeaders))
                     request.Headers.Add(kvp.Key, kvp.Value);
 
-                var response = (await _httpClient.SendAsync(request, cancellationToken)).EnsureSuccessStatusCode();
+                var response = await (await _httpClient.SendAsync(request, cancellationToken)).ThrowOnFailure(_serializer);
                 var body = await response.Content.ReadAsStringAsync();
                 return _serializer.Deserialize<T>(body);
             }
