@@ -48,5 +48,10 @@ namespace Ibanity.Apis.Client.Http
         {
             return Task.FromResult(string.Empty);
         }
+
+        public Task RevokeRefreshToken(CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
+        }
     }
 }
