@@ -17,11 +17,7 @@ namespace Ibanity.Apis.Client.Http
             X509Certificate2 signatureCertificate,
             string signatureCertificateId,
             string clientId,
-            string clientSecret,
-            string authorizationCode,
-            string codeVerifier,
-            Uri redirectUri,
-            string refreshToken)
+            string clientSecret)
         {
             var handler = new HttpClientHandler
             {
@@ -48,14 +44,10 @@ namespace Ibanity.Apis.Client.Http
 
             var apiClient = new ApiClient(httpClient, serializer, signatureService);
 
-            var tokenProvider = refreshToken == null
-                ? new OAuth2TokenProvider(httpClient, clock, clientId, clientSecret, authorizationCode, codeVerifier, redirectUri)
-                : new OAuth2TokenProvider(httpClient, clock, refreshToken);
-
             var pontoConnectClient = new PontoConnectClient(
                 apiClient,
-                tokenProvider,
-                new OAuth2ClientAccessTokenProvider(httpClient, clock, clientId, clientSecret));
+                new OAuth2TokenProvider(httpClient, clock, serializer, "ponto-connect", clientId, clientSecret),
+                new OAuth2ClientAccessTokenProvider(httpClient, clock, "ponto-connect", clientId, clientSecret));
 
             return new IbanityService(httpClient, pontoConnectClient);
         }
@@ -70,10 +62,6 @@ namespace Ibanity.Apis.Client.Http
             X509Certificate2 signatureCertificate,
             string signatureCertificateId,
             string clientId,
-            string clientSecret,
-            string authorizationCode,
-            string codeVerifier,
-            Uri redirectUri,
-            string refreshToken);
+            string clientSecret);
     }
 }

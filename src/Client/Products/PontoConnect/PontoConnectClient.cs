@@ -1,3 +1,4 @@
+using System;
 using Ibanity.Apis.Client.Http;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect
@@ -6,7 +7,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     {
         private const string UrlPrefix = "ponto-connect";
 
-        public PontoConnectClient(IApiClient apiClient, ITokenProvider tokenService, IBearerTokenProvider clientTokenService)
+        public PontoConnectClient(IApiClient apiClient, ITokenProvider tokenService, IAccessTokenProvider clientTokenService)
             : base(apiClient, tokenService, clientTokenService)
         {
             FinancialInstitutions = new FinancialInstitutions(apiClient, tokenService, UrlPrefix);

@@ -32,7 +32,8 @@ namespace Ibanity.Apis.Client.Tests.Http
                 new X509Certificate2(certificatePath, certificatePassword),
                 new X509Certificate2(signatureCertificatePath, signatureCertificatePassword),
                 "7705c535-e9b4-416d-9a4a-97337b24fa1b",
-                "", "", "", "", new Uri("https://fake-tpp.com/ponto-authorization"), null); // OAuth2 not yet implemented
+                "979fd4d2-cc1e-4265-8351-26a0c3ec1885",
+                 null);
 
             Guid id = Guid.Parse("433329cb-3a66-4d47-8387-98bdaa5e55ad");
             var financialInstitution = await ibanityService.PontoConnect.FinancialInstitutions.Get(id);

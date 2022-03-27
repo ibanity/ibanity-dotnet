@@ -1,17 +1,18 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ibanity.Apis.Client.Http
 {
-    public interface ITokenProvider : IBearerTokenProvider, IRefreshTokenProvider { }
-
-    public interface IBearerTokenProvider
+    public interface ITokenProvider : IAccessTokenProvider
     {
-        Task<string> GetBearerToken(CancellationToken cancellationToken);
+        Task<Token> GetToken(string authorizationCode, string codeVerifier, Uri redirectUri, CancellationToken? cancellationToken = null);
+        Task<Token> GetToken(string refreshToken, CancellationToken? cancellationToken = null);
+        Task RevokeRefreshToken(CancellationToken? cancellationToken);
     }
 
-    public interface IRefreshTokenProvider
+    public interface IAccessTokenProvider
     {
-        Task<string> GetRefreshToken(CancellationToken cancellationToken);
+        Task<Token> RefreshToken(Token token, CancellationToken? cancellationToken = null);
     }
 }
