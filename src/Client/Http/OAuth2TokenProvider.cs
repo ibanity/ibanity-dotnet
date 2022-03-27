@@ -64,7 +64,7 @@ namespace Ibanity.Apis.Client.Http
 
             request.Headers.Authorization = new BasicAuthenticationHeaderValue(_clientId, _clientSecret);
 
-            var result = (await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None)).EnsureSuccessStatusCode();
+            var result = await (await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None)).ThrowOnOAuth2Failure(_serializer);
             var response = _serializer.Deserialize<OAuth2Response>(await result.Content.ReadAsStringAsync());
 
             return new Token(
@@ -108,7 +108,7 @@ namespace Ibanity.Apis.Client.Http
 
             request.Headers.Authorization = new BasicAuthenticationHeaderValue(_clientId, _clientSecret);
 
-            var result = (await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None)).EnsureSuccessStatusCode();
+            var result = await (await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None)).ThrowOnOAuth2Failure(_serializer);
             var response = _serializer.Deserialize<OAuth2Response>(await result.Content.ReadAsStringAsync());
 
             return new Token(
@@ -134,7 +134,7 @@ namespace Ibanity.Apis.Client.Http
 
             request.Headers.Authorization = new BasicAuthenticationHeaderValue(_clientId, _clientSecret);
 
-            var result = (await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None)).EnsureSuccessStatusCode();
+            await (await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None)).ThrowOnOAuth2Failure(_serializer);
         }
     }
 }
