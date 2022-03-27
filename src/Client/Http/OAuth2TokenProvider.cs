@@ -9,6 +9,8 @@ namespace Ibanity.Apis.Client.Http
 {
     public class OAuth2TokenProvider : ITokenProvider
     {
+        private static readonly TimeSpan ValidityThreshold = TimeSpan.FromMinutes(1d);
+
         private readonly HttpClient _httpClient;
         private readonly IClock _clock;
         private readonly ISerializer<string> _serializer;
@@ -63,9 +65,32 @@ namespace Ibanity.Apis.Client.Http
             return await RefreshToken(token, cancellationToken);
         }
 
-        public Task<Token> RefreshToken(Token token, CancellationToken? cancellationToken)
+        public async Task<Token> RefreshToken(Token token, CancellationToken? cancellationToken)
         {
-            return Task.FromResult(token);
+            if (token.ValidUntil - _clock.Now >= ValidityThreshold)
+                return token;
+
+            var payload = new Dictionary<string, string>
+            {
+                { "grant_type", "refresh_token" },
+                { "refresh_token", token.RefreshToken },
+                { "client_id", _clientId }
+            };
+
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{_urlPrefix}/oauth2/token")
+            {
+                Content = new FormUrlEncodedContent(payload)
+            };
+
+            request.Headers.Authorization = new BasicAuthenticationHeaderValue(_clientId, _clientSecret);
+
+            var result = (await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None)).EnsureSuccessStatusCode();
+            var response = _serializer.Deserialize<OAuth2Response>(await result.Content.ReadAsStringAsync());
+
+            return new Token(
+                response.AccessToken,
+                _clock.Now + response.ExpiresIn,
+                response.RefreshToken);
         }
 
         public Task RevokeRefreshToken(CancellationToken? cancellationToken)
