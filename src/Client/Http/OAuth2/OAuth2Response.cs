@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Ibanity.Apis.Client.Http
+namespace Ibanity.Apis.Client.Http.OAuth2
 {
     [DataContract]
     public class OAuth2Response

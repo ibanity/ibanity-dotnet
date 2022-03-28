@@ -40,11 +40,4 @@ namespace Ibanity.Apis.Client.Http
             base(requestId, statusCode, error)
         { }
     }
-
-    public class IbanityOAuth2Exception : IbanityRequestException
-    {
-        public IbanityOAuth2Exception(string requestId, HttpStatusCode statusCode, JsonApi.Error error) :
-            base(requestId, statusCode, error)
-        { }
-    }
 }

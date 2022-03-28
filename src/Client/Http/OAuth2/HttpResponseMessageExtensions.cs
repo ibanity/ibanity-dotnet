@@ -4,13 +4,13 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Utils;
 
-namespace Ibanity.Apis.Client.Http
+namespace Ibanity.Apis.Client.Http.OAuth2
 {
     public static class HttpResponseMessageExtensions
     {
         private const string RequestIdHeader = "ibanity-request-id";
 
-        public static async Task<HttpResponseMessage> ThrowOnFailure(this HttpResponseMessage @this, ISerializer<string> serializer)
+        public static async Task<HttpResponseMessage> ThrowOnOAuth2Failure(this HttpResponseMessage @this, ISerializer<string> serializer)
         {
             if (@this is null)
                 throw new ArgumentNullException(nameof(@this));
@@ -27,12 +27,9 @@ namespace Ibanity.Apis.Client.Http
 
             var requestId = @this.Headers.GetValues(RequestIdHeader).SingleOrDefault();
             var statusCode = @this.StatusCode;
-            var errors = serializer.Deserialize<JsonApi.Error>(body);
+            var errors = serializer.Deserialize<OAuth2Error>(body);
 
-            if ((int)@this.StatusCode < 500)
-                throw new IbanityClientException(requestId, statusCode, errors);
-            else
-                throw new IbanityServerException(requestId, statusCode, errors);
+            throw new IbanityOAuth2Exception(requestId, statusCode, errors.ToJsonApi());
         }
     }
 }

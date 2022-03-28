@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Utils;
 
-namespace Ibanity.Apis.Client.Http
+namespace Ibanity.Apis.Client.Http.OAuth2
 {
     public class OAuth2ClientAccessTokenProvider : IClientAccessTokenProvider
     {
