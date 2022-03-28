@@ -6,4 +6,9 @@ namespace Ibanity.Apis.Client
     {
         public IbanityException(string message) : base(message) { }
     }
+
+    public class IbanityConfigurationException : IbanityException
+    {
+        public IbanityConfigurationException(string message) : base(message) { }
+    }
 }
