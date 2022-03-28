@@ -5,17 +5,23 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Utils;
+using Ibanity.Apis.Client.Utils.Logging;
 
 namespace Ibanity.Apis.Client.Http
 {
     public class ApiClient : IApiClient
     {
+        private readonly ILogger _logger;
         private readonly HttpClient _httpClient;
         private readonly ISerializer<string> _serializer;
         private readonly IHttpSignatureService _signatureService;
 
-        public ApiClient(HttpClient httpClient, ISerializer<string> serializer, IHttpSignatureService signatureService)
+        public ApiClient(ILoggerFactory loggerFactory, HttpClient httpClient, ISerializer<string> serializer, IHttpSignatureService signatureService)
         {
+            if (loggerFactory is null)
+                throw new ArgumentNullException(nameof(loggerFactory));
+
+            _logger = loggerFactory.CreateLogger<ApiClient>();
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _signatureService = signatureService ?? throw new ArgumentNullException(nameof(signatureService));
@@ -36,6 +42,9 @@ namespace Ibanity.Apis.Client.Http
                 new Uri(_httpClient.BaseAddress + path),
                 headers,
                 null);
+
+
+            _logger?.Debug("Sending request: GET " + path);
 
             using (var request = new HttpRequestMessage(HttpMethod.Get, path))
             {

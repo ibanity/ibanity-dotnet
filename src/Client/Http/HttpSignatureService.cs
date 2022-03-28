@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Ibanity.Apis.Client.Crypto;
 using Ibanity.Apis.Client.Utils;
+using Ibanity.Apis.Client.Utils.Logging;
 
 namespace Ibanity.Apis.Client.Http
 {
@@ -9,17 +10,22 @@ namespace Ibanity.Apis.Client.Http
     {
         private const string SignatureHeaderAlgorithm = "hs2019";
 
+        private readonly ILogger _logger;
         private readonly IDigest _digest;
         private readonly ISignature _signature;
         private readonly IClock _clock;
         private readonly IHttpSignatureString _signatureString;
         private readonly string _certificateId;
 
-        public HttpSignatureService(IDigest digest, ISignature signature, IClock clock, IHttpSignatureString signatureString, string certificateId)
+        public HttpSignatureService(ILoggerFactory loggerFactory, IDigest digest, ISignature signature, IClock clock, IHttpSignatureString signatureString, string certificateId)
         {
+            if (loggerFactory is null)
+                throw new ArgumentNullException(nameof(loggerFactory));
+
             if (string.IsNullOrWhiteSpace(certificateId))
                 throw new ArgumentException($"'{nameof(certificateId)}' cannot be null or empty.", nameof(certificateId));
 
+            _logger = loggerFactory.CreateLogger<HttpSignatureService>();
             _digest = digest ?? throw new ArgumentNullException(nameof(digest));
             _signature = signature ?? throw new ArgumentNullException(nameof(signature));
             _clock = clock ?? throw new ArgumentNullException(nameof(clock));
@@ -37,6 +43,8 @@ namespace Ibanity.Apis.Client.Http
 
             if (requestHeaders is null)
                 throw new ArgumentNullException(nameof(requestHeaders));
+
+            _logger?.Trace("Signing request with certificate " + _certificateId);
 
             var now = _clock.Now;
             var digest = _digest.Compute(payload ?? string.Empty);

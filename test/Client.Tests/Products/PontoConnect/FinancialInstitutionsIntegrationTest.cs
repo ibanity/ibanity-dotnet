@@ -1,10 +1,13 @@
 using System;
+using System.Diagnostics;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Models;
+using Ibanity.Apis.Client.Utils.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Ibanity.Apis.Client.Tests.Http
 {
@@ -32,16 +35,26 @@ namespace Ibanity.Apis.Client.Tests.Http
             if (string.IsNullOrWhiteSpace(pontoConnectClientId) || string.IsNullOrWhiteSpace(pontoConnectClientSecret))
                 Assert.Inconclusive("Missing 'PONTO_CONNECT_CLIENT_ID' or 'PONTO_CONNECT_CLIENT_SECRET' environment variables");
 
+            var expectedDebugLog = "Sending request: GET ponto-connect/financial-institutions/433329cb-3a66-4d47-8387-98bdaa5e55ad";
+
+            var logger = new Mock<ILogger>();
+            logger.
+                Setup(l => l.Debug(expectedDebugLog));
+
             var ibanityService = new IbanityServiceBuilder().
                 SetEndpoint("https://api.ibanity.com").
                 AddClientCertificate(certificatePath, certificatePassword).
                 AddSignatureCertificate("7705c535-e9b4-416d-9a4a-97337b24fa1b", signatureCertificatePath, signatureCertificatePassword).
                 AddPontoConnectOAuth2Authentication(pontoConnectClientId, pontoConnectClientSecret).
+                AddLogging(logger.Object).
                 Build();
 
             Guid id = Guid.Parse("433329cb-3a66-4d47-8387-98bdaa5e55ad");
             var financialInstitution = await ibanityService.PontoConnect.FinancialInstitutions.Get(id);
             Assert.IsNotNull(financialInstitution);
+
+            logger.
+                Verify(l => l.Debug(expectedDebugLog), Times.Once);
 
             var filters = new[] { new Filter("name", FilterOperator.Like, "gring") };
             var financialInstitutions = await ibanityService.PontoConnect.FinancialInstitutions.List(filters);

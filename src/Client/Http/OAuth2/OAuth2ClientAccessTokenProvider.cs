@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Utils;
+using Ibanity.Apis.Client.Utils.Logging;
 
 namespace Ibanity.Apis.Client.Http.OAuth2
 {
@@ -11,6 +12,7 @@ namespace Ibanity.Apis.Client.Http.OAuth2
     {
         private static readonly TimeSpan ValidityThreshold = TimeSpan.FromMinutes(1d);
 
+        private ILogger _logger;
         private readonly HttpClient _httpClient;
         private readonly IClock _clock;
         private readonly ISerializer<string> _serializer;
@@ -18,8 +20,11 @@ namespace Ibanity.Apis.Client.Http.OAuth2
         private readonly string _clientId;
         private readonly string _clientSecret;
 
-        public OAuth2ClientAccessTokenProvider(HttpClient httpClient, IClock clock, ISerializer<string> serializer, string urlPrefix, string clientId, string clientSecret)
+        public OAuth2ClientAccessTokenProvider(ILoggerFactory loggerFactory, HttpClient httpClient, IClock clock, ISerializer<string> serializer, string urlPrefix, string clientId, string clientSecret)
         {
+            if (loggerFactory is null)
+                throw new ArgumentNullException(nameof(loggerFactory));
+
             if (string.IsNullOrWhiteSpace(urlPrefix))
                 throw new ArgumentException($"'{nameof(urlPrefix)}' cannot be null or empty.", nameof(urlPrefix));
 
@@ -29,6 +34,7 @@ namespace Ibanity.Apis.Client.Http.OAuth2
             if (string.IsNullOrWhiteSpace(clientSecret))
                 throw new ArgumentException($"'{nameof(clientSecret)}' cannot be null or empty.", nameof(clientSecret));
 
+            _logger = loggerFactory.CreateLogger<OAuth2ClientAccessTokenProvider>();
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _clock = clock ?? throw new ArgumentNullException(nameof(clock));
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
@@ -65,6 +71,8 @@ namespace Ibanity.Apis.Client.Http.OAuth2
             };
 
             request.Headers.Authorization = new BasicAuthenticationHeaderValue(_clientId, _clientSecret);
+
+            _logger?.Debug("Getting new token from client credentials");
 
             var result = await (await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None)).ThrowOnOAuth2Failure(_serializer);
             var response = _serializer.Deserialize<OAuth2Response>(await result.Content.ReadAsStringAsync());

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Ibanity.Apis.Client.Crypto;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Utils;
+using Ibanity.Apis.Client.Utils.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -77,6 +78,7 @@ namespace Ibanity.Apis.Client.Tests.Http
                 Returns(new[] { "foo", "(bar)" });
 
             var target = new HttpSignatureService(
+                new Mock<ILoggerFactory>().Object,
                 digest.Object,
                 signature.Object,
                 clock.Object,

@@ -48,26 +48,32 @@ namespace Ibanity.Apis.Client.Http
             var httpClient = new HttpClient(handler) { BaseAddress = endpoint };
             var serializer = new JsonSerializer();
             var clock = new Clock();
+            var nonNullLoggerFactory = loggerFactory ?? NullLoggerFactory.Instance;
 
             var signatureService = signatureCertificate == null
                 ? NullHttpSignatureService.Instance
                 : new HttpSignatureService(
+                    nonNullLoggerFactory,
                     new Sha512Digest(),
                     new RsaSsaPssSignature(signatureCertificate),
                     clock,
                     new HttpSignatureString(endpoint),
                     signatureCertificateId);
 
-            var apiClient = new ApiClient(httpClient, serializer, signatureService);
+            var apiClient = new ApiClient(
+                nonNullLoggerFactory,
+                httpClient,
+                serializer,
+                signatureService);
 
             var pontoConnectClient = new PontoConnectClient(
                 apiClient,
                 pontoConnectClientId == null
                     ? UnconfiguredTokenProvider.Instance
-                    : new OAuth2TokenProvider(httpClient, clock, serializer, PontoConnectClient.UrlPrefix, pontoConnectClientId, pontoConnectClientSecret),
+                    : new OAuth2TokenProvider(nonNullLoggerFactory, httpClient, clock, serializer, PontoConnectClient.UrlPrefix, pontoConnectClientId, pontoConnectClientSecret),
                 pontoConnectClientId == null
                     ? UnconfiguredTokenProvider.ClientAccessInstance
-                    : new OAuth2ClientAccessTokenProvider(httpClient, clock, serializer, PontoConnectClient.UrlPrefix, pontoConnectClientId, pontoConnectClientSecret));
+                    : new OAuth2ClientAccessTokenProvider(nonNullLoggerFactory, httpClient, clock, serializer, PontoConnectClient.UrlPrefix, pontoConnectClientId, pontoConnectClientSecret));
 
             return new IbanityService(httpClient, pontoConnectClient);
         }
