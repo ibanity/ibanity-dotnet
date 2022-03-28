@@ -6,6 +6,7 @@ using Ibanity.Apis.Client.Crypto;
 using Ibanity.Apis.Client.Http.OAuth2;
 using Ibanity.Apis.Client.Products.PontoConnect;
 using Ibanity.Apis.Client.Utils;
+using Ibanity.Apis.Client.Utils.Logging;
 
 namespace Ibanity.Apis.Client.Http
 {
@@ -22,6 +23,7 @@ namespace Ibanity.Apis.Client.Http
         private X509Certificate2 _signatureCertificate;
         private string _pontoConnectClientId;
         private string _pontoConnectClientSecret;
+        private ILoggerFactory _loggerFactory;
 
         private IIbanityService Build(
             Uri endpoint,
@@ -30,7 +32,8 @@ namespace Ibanity.Apis.Client.Http
             X509Certificate2 signatureCertificate,
             string signatureCertificateId,
             string pontoConnectClientId,
-            string pontoConnectClientSecret)
+            string pontoConnectClientSecret,
+            ILoggerFactory loggerFactory)
         {
             var handler = new HttpClientHandler
             {
@@ -162,6 +165,15 @@ namespace Ibanity.Apis.Client.Http
             return this;
         }
 
+        IIbanityServiceOptionalPropertiesBuilder IIbanityServiceOptionalPropertiesBuilder.AddLogging(ILogger logger) =>
+            ((IIbanityServiceOptionalPropertiesBuilder)this).AddLogging(new SimpleLoggerFactory(logger ?? throw new ArgumentNullException(nameof(logger))));
+
+        IIbanityServiceOptionalPropertiesBuilder IIbanityServiceOptionalPropertiesBuilder.AddLogging(ILoggerFactory loggerFactory)
+        {
+            _loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
+            return this;
+        }
+
         IIbanityService IIbanityServiceOptionalPropertiesBuilder.Build() => Build(
             _endpoint,
             _proxy,
@@ -169,7 +181,8 @@ namespace Ibanity.Apis.Client.Http
             _signatureCertificate,
             _signatureCertificateId,
             _pontoConnectClientId,
-            _pontoConnectClientSecret);
+            _pontoConnectClientSecret,
+            _loggerFactory);
     }
 
     public interface IIbanityServiceEndpointBuilder
@@ -197,6 +210,8 @@ namespace Ibanity.Apis.Client.Http
         IIbanityServiceOptionalPropertiesBuilder AddSignatureCertificate(string id, X509Certificate2 certificate);
         IIbanityServiceOptionalPropertiesBuilder AddSignatureCertificate(string id, string path, string password);
         IIbanityServiceOptionalPropertiesBuilder AddPontoConnectOAuth2Authentication(string clientId, string clientSecret);
+        IIbanityServiceOptionalPropertiesBuilder AddLogging(ILogger logger);
+        IIbanityServiceOptionalPropertiesBuilder AddLogging(ILoggerFactory loggerFactory);
 
         IIbanityService Build();
     }
