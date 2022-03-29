@@ -27,7 +27,16 @@ namespace Ibanity.Apis.Client.Http
 
             var requestId = @this.Headers.GetValues(RequestIdHeader).SingleOrDefault();
             var statusCode = @this.StatusCode;
-            var errors = serializer.Deserialize<JsonApi.Error>(body);
+
+            JsonApi.Error errors;
+            try
+            {
+                errors = serializer.Deserialize<JsonApi.Error>(body);
+            }
+            catch
+            {
+                errors = null;
+            }
 
             if ((int)@this.StatusCode < 500)
                 throw new IbanityClientException(requestId, statusCode, errors);
