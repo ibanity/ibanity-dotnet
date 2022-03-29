@@ -48,7 +48,7 @@ namespace Ibanity.Apis.Client.Http
             var httpClient = new HttpClient(handler) { BaseAddress = endpoint };
             var serializer = new JsonSerializer();
             var clock = new Clock();
-            var nonNullLoggerFactory = loggerFactory ?? NullLoggerFactory.Instance;
+            var nonNullLoggerFactory = loggerFactory ?? new SimpleLoggerFactory(NullLogger.Instance);
 
             var signatureService = signatureCertificate == null
                 ? NullHttpSignatureService.Instance
