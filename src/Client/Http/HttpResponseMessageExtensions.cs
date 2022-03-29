@@ -25,7 +25,7 @@ namespace Ibanity.Apis.Client.Http
             using (var content = @this.Content)
                 body = await content?.ReadAsStringAsync();
 
-            var requestId = @this.Headers.GetValues(RequestIdHeader).SingleOrDefault();
+            var requestId = @this.Headers.TryGetValues(RequestIdHeader, out var values) ? values.SingleOrDefault() : null;
             var statusCode = @this.StatusCode;
 
             JsonApi.Error errors;
