@@ -16,10 +16,10 @@ namespace Ibanity.Apis.Client.Http
 
         private static string Format(Error error)
         {
-            if (!error?.Errors?.Any() ?? false)
-                return "Unspecified";
+            if (error?.Errors?.Any() ?? false)
+                return string.Join(" - ", error.Errors.Select(e => $"{e.Code} ({e.Detail})"));
 
-            return string.Join(" - ", error.Errors.Select(e => $"{e.Code} ({e.Detail})"));
+            return "Unspecified";
         }
 
         public string RequestId { get; }
