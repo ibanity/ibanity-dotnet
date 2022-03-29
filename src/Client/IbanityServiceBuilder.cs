@@ -142,7 +142,7 @@ namespace Ibanity.Apis.Client
             var httpClient = new HttpClient(handler) { BaseAddress = _endpoint };
             var serializer = new JsonSerializer();
             var clock = new Clock();
-            var nonNullLoggerFactory = _loggerFactory ?? new SimpleLoggerFactory(NullLogger.Instance);
+            var loggerFactory = _loggerFactory ?? new SimpleLoggerFactory(NullLogger.Instance);
 
             var signatureService = _signatureCertificate == null
                 ? NullHttpSignatureService.Instance
@@ -153,7 +153,7 @@ namespace Ibanity.Apis.Client
                     Build();
 
             var apiClient = new ApiClient(
-                nonNullLoggerFactory,
+                loggerFactory,
                 httpClient,
                 serializer,
                 signatureService);
@@ -163,7 +163,7 @@ namespace Ibanity.Apis.Client
                 _pontoConnectClientId == null
                     ? UnconfiguredTokenProvider.Instance
                     : new OAuth2TokenProvider(
-                        nonNullLoggerFactory,
+                        loggerFactory,
                         httpClient,
                         clock,
                         serializer,
@@ -173,7 +173,7 @@ namespace Ibanity.Apis.Client
                 _pontoConnectClientId == null
                     ? UnconfiguredTokenProvider.ClientAccessInstance
                     : new OAuth2ClientAccessTokenProvider(
-                        nonNullLoggerFactory,
+                        loggerFactory,
                         httpClient,
                         clock,
                         serializer,
