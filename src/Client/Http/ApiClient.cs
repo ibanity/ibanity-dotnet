@@ -15,16 +15,21 @@ namespace Ibanity.Apis.Client.Http
         private readonly HttpClient _httpClient;
         private readonly ISerializer<string> _serializer;
         private readonly IHttpSignatureService _signatureService;
+        private readonly string _apiVersion;
 
-        public ApiClient(ILoggerFactory loggerFactory, HttpClient httpClient, ISerializer<string> serializer, IHttpSignatureService signatureService)
+        public ApiClient(ILoggerFactory loggerFactory, HttpClient httpClient, ISerializer<string> serializer, IHttpSignatureService signatureService, string apiVersion)
         {
             if (loggerFactory is null)
                 throw new ArgumentNullException(nameof(loggerFactory));
+
+            if (string.IsNullOrWhiteSpace(apiVersion))
+                throw new ArgumentException($"'{nameof(apiVersion)}' cannot be null or whitespace.", nameof(apiVersion));
 
             _logger = loggerFactory.CreateLogger<ApiClient>();
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _signatureService = signatureService ?? throw new ArgumentNullException(nameof(signatureService));
+            _apiVersion = apiVersion;
         }
 
         public async Task<T> Get<T>(string path, string bearerToken, CancellationToken cancellationToken)
@@ -32,7 +37,10 @@ namespace Ibanity.Apis.Client.Http
             if (path is null)
                 throw new ArgumentNullException(nameof(path));
 
-            var headers = new Dictionary<string, string>();
+            var headers = new Dictionary<string, string>
+            {
+                { "Accept", "application/vnd.api+json;version=" + _apiVersion }
+            };
 
             if (!string.IsNullOrWhiteSpace(bearerToken))
                 headers["Authorization"] = $"Bearer {bearerToken}";

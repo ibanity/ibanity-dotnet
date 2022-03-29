@@ -152,14 +152,15 @@ namespace Ibanity.Apis.Client
                     AddLogging(_loggerFactory).
                     Build();
 
-            var apiClient = new ApiClient(
+            var v1ApiClient = new ApiClient(
                 loggerFactory,
                 httpClient,
                 serializer,
-                signatureService);
+                signatureService,
+                "1");
 
             var pontoConnectClient = new PontoConnectClient(
-                apiClient,
+                v1ApiClient,
                 _pontoConnectClientId == null
                     ? UnconfiguredTokenProvider.Instance
                     : new OAuth2TokenProvider(
