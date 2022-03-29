@@ -3,12 +3,13 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using Ibanity.Apis.Client.Crypto;
+using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Http.OAuth2;
 using Ibanity.Apis.Client.Products.PontoConnect;
 using Ibanity.Apis.Client.Utils;
 using Ibanity.Apis.Client.Utils.Logging;
 
-namespace Ibanity.Apis.Client.Http
+namespace Ibanity.Apis.Client
 {
     public class IbanityServiceBuilder :
         IIbanityServiceEndpointBuilder,

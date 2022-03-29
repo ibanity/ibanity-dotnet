@@ -2,7 +2,7 @@ using System;
 using System.Net.Http;
 using Ibanity.Apis.Client.Products.PontoConnect;
 
-namespace Ibanity.Apis.Client.Http
+namespace Ibanity.Apis.Client
 {
     public class IbanityService : IIbanityService
     {
