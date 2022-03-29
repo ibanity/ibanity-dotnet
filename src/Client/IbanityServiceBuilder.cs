@@ -2,7 +2,6 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
-using Ibanity.Apis.Client.Crypto;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Http.OAuth2;
 using Ibanity.Apis.Client.Products.PontoConnect;
@@ -53,13 +52,11 @@ namespace Ibanity.Apis.Client
 
             var signatureService = signatureCertificate == null
                 ? NullHttpSignatureService.Instance
-                : new HttpSignatureService(
-                    nonNullLoggerFactory,
-                    new Sha512Digest(),
-                    new RsaSsaPssSignature(signatureCertificate),
-                    clock,
-                    new HttpSignatureString(endpoint),
-                    signatureCertificateId);
+                : new HttpSignatureServiceBuilder(clock).
+                    SetEndpoint(endpoint).
+                    AddCertificate(signatureCertificateId, signatureCertificate).
+                    AddLogging(loggerFactory).
+                    Build();
 
             var apiClient = new ApiClient(
                 nonNullLoggerFactory,
