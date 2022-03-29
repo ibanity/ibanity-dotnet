@@ -24,6 +24,7 @@ namespace Ibanity.Apis.Client
         private string _pontoConnectClientId;
         private string _pontoConnectClientSecret;
         private ILoggerFactory _loggerFactory;
+        private TimeSpan? _timeout;
 
         public IIbanityServiceMutualTlsBuilder SetEndpoint(Uri endpoint)
         {
@@ -127,6 +128,12 @@ namespace Ibanity.Apis.Client
             return this;
         }
 
+        IIbanityServiceOptionalPropertiesBuilder IIbanityServiceOptionalPropertiesBuilder.SetTimeout(TimeSpan timeout)
+        {
+            _timeout = timeout;
+            return this;
+        }
+
         IIbanityService IIbanityServiceOptionalPropertiesBuilder.Build()
         {
             var handler = new HttpClientHandler
@@ -140,6 +147,10 @@ namespace Ibanity.Apis.Client
                 handler.ClientCertificates.Add(_clientCertificate);
 
             var httpClient = new HttpClient(handler) { BaseAddress = _endpoint };
+
+            if (_timeout.HasValue)
+                httpClient.Timeout = _timeout.Value;
+
             var serializer = new JsonSerializer();
             var clock = new Clock();
             var loggerFactory = _loggerFactory ?? new SimpleLoggerFactory(NullLogger.Instance);
@@ -213,6 +224,7 @@ namespace Ibanity.Apis.Client
         IIbanityServiceOptionalPropertiesBuilder AddPontoConnectOAuth2Authentication(string clientId, string clientSecret);
         IIbanityServiceOptionalPropertiesBuilder AddLogging(ILogger logger);
         IIbanityServiceOptionalPropertiesBuilder AddLogging(ILoggerFactory loggerFactory);
+        IIbanityServiceOptionalPropertiesBuilder SetTimeout(TimeSpan timeout);
 
         IIbanityService Build();
     }
