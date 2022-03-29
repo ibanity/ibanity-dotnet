@@ -25,57 +25,6 @@ namespace Ibanity.Apis.Client
         private string _pontoConnectClientSecret;
         private ILoggerFactory _loggerFactory;
 
-        private IIbanityService Build(
-            Uri endpoint,
-            IWebProxy proxy,
-            X509Certificate2 clientCertificate,
-            X509Certificate2 signatureCertificate,
-            string signatureCertificateId,
-            string pontoConnectClientId,
-            string pontoConnectClientSecret,
-            ILoggerFactory loggerFactory)
-        {
-            var handler = new HttpClientHandler
-            {
-                ClientCertificateOptions = ClientCertificateOption.Manual,
-                Proxy = proxy,
-                UseProxy = proxy != null
-            };
-
-            if (clientCertificate != null)
-                handler.ClientCertificates.Add(clientCertificate);
-
-            var httpClient = new HttpClient(handler) { BaseAddress = endpoint };
-            var serializer = new JsonSerializer();
-            var clock = new Clock();
-            var nonNullLoggerFactory = loggerFactory ?? new SimpleLoggerFactory(NullLogger.Instance);
-
-            var signatureService = signatureCertificate == null
-                ? NullHttpSignatureService.Instance
-                : new HttpSignatureServiceBuilder(clock).
-                    SetEndpoint(endpoint).
-                    AddCertificate(signatureCertificateId, signatureCertificate).
-                    AddLogging(loggerFactory).
-                    Build();
-
-            var apiClient = new ApiClient(
-                nonNullLoggerFactory,
-                httpClient,
-                serializer,
-                signatureService);
-
-            var pontoConnectClient = new PontoConnectClient(
-                apiClient,
-                pontoConnectClientId == null
-                    ? UnconfiguredTokenProvider.Instance
-                    : new OAuth2TokenProvider(nonNullLoggerFactory, httpClient, clock, serializer, PontoConnectClient.UrlPrefix, pontoConnectClientId, pontoConnectClientSecret),
-                pontoConnectClientId == null
-                    ? UnconfiguredTokenProvider.ClientAccessInstance
-                    : new OAuth2ClientAccessTokenProvider(nonNullLoggerFactory, httpClient, clock, serializer, PontoConnectClient.UrlPrefix, pontoConnectClientId, pontoConnectClientSecret));
-
-            return new IbanityService(httpClient, pontoConnectClient);
-        }
-
         public IIbanityServiceMutualTlsBuilder SetEndpoint(Uri endpoint)
         {
             _endpoint = endpoint ?? throw new ArgumentNullException(nameof(endpoint));
@@ -178,15 +127,48 @@ namespace Ibanity.Apis.Client
             return this;
         }
 
-        IIbanityService IIbanityServiceOptionalPropertiesBuilder.Build() => Build(
-            _endpoint,
-            _proxy,
-            _clientCertificate,
-            _signatureCertificate,
-            _signatureCertificateId,
-            _pontoConnectClientId,
-            _pontoConnectClientSecret,
-            _loggerFactory);
+        IIbanityService IIbanityServiceOptionalPropertiesBuilder.Build()
+        {
+            var handler = new HttpClientHandler
+            {
+                ClientCertificateOptions = ClientCertificateOption.Manual,
+                Proxy = _proxy,
+                UseProxy = _proxy != null
+            };
+
+            if (_clientCertificate != null)
+                handler.ClientCertificates.Add(_clientCertificate);
+
+            var httpClient = new HttpClient(handler) { BaseAddress = _endpoint };
+            var serializer = new JsonSerializer();
+            var clock = new Clock();
+            var nonNullLoggerFactory = _loggerFactory ?? new SimpleLoggerFactory(NullLogger.Instance);
+
+            var signatureService = _signatureCertificate == null
+                ? NullHttpSignatureService.Instance
+                : new HttpSignatureServiceBuilder(clock).
+                    SetEndpoint(_endpoint).
+                    AddCertificate(_signatureCertificateId, _signatureCertificate).
+                    AddLogging(_loggerFactory).
+                    Build();
+
+            var apiClient = new ApiClient(
+                nonNullLoggerFactory,
+                httpClient,
+                serializer,
+                signatureService);
+
+            var pontoConnectClient = new PontoConnectClient(
+                apiClient,
+                _pontoConnectClientId == null
+                    ? UnconfiguredTokenProvider.Instance
+                    : new OAuth2TokenProvider(nonNullLoggerFactory, httpClient, clock, serializer, PontoConnectClient.UrlPrefix, _pontoConnectClientId, _pontoConnectClientSecret),
+                _pontoConnectClientId == null
+                    ? UnconfiguredTokenProvider.ClientAccessInstance
+                    : new OAuth2ClientAccessTokenProvider(nonNullLoggerFactory, httpClient, clock, serializer, PontoConnectClient.UrlPrefix, _pontoConnectClientId, _pontoConnectClientSecret));
+
+            return new IbanityService(httpClient, pontoConnectClient);
+        }
     }
 
     public interface IIbanityServiceEndpointBuilder
