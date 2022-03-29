@@ -1,9 +1,5 @@
 using System;
-using System.Diagnostics;
-using System.Net;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Models;
 using Ibanity.Apis.Client.Utils.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
