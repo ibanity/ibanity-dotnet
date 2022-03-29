@@ -162,10 +162,24 @@ namespace Ibanity.Apis.Client
                 apiClient,
                 _pontoConnectClientId == null
                     ? UnconfiguredTokenProvider.Instance
-                    : new OAuth2TokenProvider(nonNullLoggerFactory, httpClient, clock, serializer, PontoConnectClient.UrlPrefix, _pontoConnectClientId, _pontoConnectClientSecret),
+                    : new OAuth2TokenProvider(
+                        nonNullLoggerFactory,
+                        httpClient,
+                        clock,
+                        serializer,
+                        PontoConnectClient.UrlPrefix,
+                        _pontoConnectClientId,
+                        _pontoConnectClientSecret),
                 _pontoConnectClientId == null
                     ? UnconfiguredTokenProvider.ClientAccessInstance
-                    : new OAuth2ClientAccessTokenProvider(nonNullLoggerFactory, httpClient, clock, serializer, PontoConnectClient.UrlPrefix, _pontoConnectClientId, _pontoConnectClientSecret));
+                    : new OAuth2ClientAccessTokenProvider(
+                        nonNullLoggerFactory,
+                        httpClient,
+                        clock,
+                        serializer,
+                        PontoConnectClient.UrlPrefix,
+                        _pontoConnectClientId,
+                        _pontoConnectClientSecret));
 
             return new IbanityService(httpClient, pontoConnectClient);
         }
