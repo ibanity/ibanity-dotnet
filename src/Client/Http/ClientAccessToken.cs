@@ -10,7 +10,7 @@ namespace Ibanity.Apis.Client.Http
             ValidUntil = validUntil;
         }
 
-        public string AccessToken { get; }
-        public DateTimeOffset ValidUntil { get; }
+        public string AccessToken { get; internal set; }
+        public DateTimeOffset ValidUntil { get; internal set; }
     }
 }

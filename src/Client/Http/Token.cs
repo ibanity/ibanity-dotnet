@@ -14,8 +14,8 @@ namespace Ibanity.Apis.Client.Http
             RefreshToken = refreshToken;
         }
 
-        public string AccessToken { get; }
-        public DateTimeOffset ValidUntil { get; }
-        public string RefreshToken { get; }
+        public string AccessToken { get; internal set; }
+        public DateTimeOffset ValidUntil { get; internal set; }
+        public string RefreshToken { get; internal set; }
     }
 }
