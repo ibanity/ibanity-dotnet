@@ -71,8 +71,12 @@ namespace Ibanity.Apis.Client
 
         IHttpSignatureService IHttpSignatureServiceOptionalPropertiesBuilder.Build()
         {
+            var loggerFactory = _loggerFactory == null
+                ? (ILoggerFactory)new SimpleLoggerFactory(NullLogger.Instance)
+                : new LoggerFactoryNotNullDecorator(_loggerFactory);
+
             return new HttpSignatureService(
-                _loggerFactory,
+                loggerFactory,
                 new Sha512Digest(),
                 new RsaSsaPssSignature(_certificate),
                 _clock ?? new Clock(),

@@ -70,7 +70,7 @@ namespace Ibanity.Apis.Client.Http.OAuth2
 
             request.Headers.Authorization = new BasicAuthenticationHeaderValue(_clientId, _clientSecret);
 
-            _logger?.Debug("Getting new token from authorization code");
+            _logger.Debug("Getting new token from authorization code");
 
             var result = await (await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None)).ThrowOnOAuth2Failure(_serializer);
             var response = _serializer.Deserialize<OAuth2Response>(await result.Content.ReadAsStringAsync());
@@ -116,7 +116,7 @@ namespace Ibanity.Apis.Client.Http.OAuth2
 
             request.Headers.Authorization = new BasicAuthenticationHeaderValue(_clientId, _clientSecret);
 
-            _logger?.Debug("Getting new token from refresh token");
+            _logger.Debug("Getting new token from refresh token");
 
             var result = await (await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None)).ThrowOnOAuth2Failure(_serializer);
             var response = _serializer.Deserialize<OAuth2Response>(await result.Content.ReadAsStringAsync());

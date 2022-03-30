@@ -48,6 +48,11 @@ namespace Ibanity.Apis.Client.Tests.Http
 
         private IDictionary<string, string> GetHeaders()
         {
+            var loggerFactory = new Mock<ILoggerFactory>();
+            loggerFactory.
+                Setup(f => f.CreateLogger<HttpSignatureService>()).
+                Returns(new Mock<ILogger>().Object);
+
             var digest = new Mock<IDigest>();
             digest.
                 Setup(d => d.Compute(It.IsAny<string>())).
@@ -78,7 +83,7 @@ namespace Ibanity.Apis.Client.Tests.Http
                 Returns(new[] { "foo", "(bar)" });
 
             var target = new HttpSignatureService(
-                new Mock<ILoggerFactory>().Object,
+                loggerFactory.Object,
                 digest.Object,
                 signature.Object,
                 clock.Object,

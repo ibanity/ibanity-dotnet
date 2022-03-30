@@ -153,7 +153,6 @@ namespace Ibanity.Apis.Client
 
             var serializer = new JsonSerializer();
             var clock = new Clock();
-            var loggerFactory = _loggerFactory ?? new SimpleLoggerFactory(NullLogger.Instance);
 
             var signatureService = _signatureCertificate == null
                 ? NullHttpSignatureService.Instance
@@ -162,6 +161,10 @@ namespace Ibanity.Apis.Client
                     AddCertificate(_signatureCertificateId, _signatureCertificate).
                     AddLogging(_loggerFactory).
                     Build();
+
+            var loggerFactory = _loggerFactory == null
+                ? (ILoggerFactory)new SimpleLoggerFactory(NullLogger.Instance)
+                : new LoggerFactoryNotNullDecorator(_loggerFactory);
 
             var v1ApiClient = new ApiClient(
                 loggerFactory,

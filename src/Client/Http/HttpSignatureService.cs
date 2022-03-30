@@ -44,7 +44,7 @@ namespace Ibanity.Apis.Client.Http
             if (requestHeaders is null)
                 throw new ArgumentNullException(nameof(requestHeaders));
 
-            _logger?.Trace("Signing request with certificate " + _certificateId);
+            _logger.Trace("Signing request with certificate " + _certificateId);
 
             var now = _clock.Now;
             var digest = _digest.Compute(payload ?? string.Empty);

@@ -51,7 +51,7 @@ namespace Ibanity.Apis.Client.Http
                 headers,
                 null);
 
-            _logger?.Debug("Sending request: GET " + path);
+            _logger.Debug("Sending request: GET " + path);
 
             using (var request = new HttpRequestMessage(HttpMethod.Get, path))
             {
