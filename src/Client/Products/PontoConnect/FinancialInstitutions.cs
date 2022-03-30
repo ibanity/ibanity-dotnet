@@ -28,18 +28,56 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             _accessTokenProvider = accessTokenProvider ?? throw new ArgumentNullException(nameof(accessTokenProvider));
             _urlPrefix = urlPrefix;
         }
+        public Task<PaginatedCollection<FinancialInstitution>> ListForOrganization(Token token, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken) =>
+            InternalList(
+                token ?? throw new ArgumentNullException(nameof(token)),
+                filters,
+                pageSize,
+                cancellationToken);
 
-        public async Task<PaginatedCollection<FinancialInstitution>> ListForOrganization(Token token, IEnumerable<Filter> filters, ContinuationToken continuationToken, CancellationToken? cancellationToken)
+        public Task<PaginatedCollection<FinancialInstitution>> ListForOrganization(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
+            InternalList(
+                token ?? throw new ArgumentNullException(nameof(token)),
+                continuationToken ?? throw new ArgumentNullException(nameof(continuationToken)),
+                cancellationToken);
+
+        public Task<PaginatedCollection<FinancialInstitution>> List(ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
+            InternalList(
+                null,
+                continuationToken ?? throw new ArgumentNullException(nameof(continuationToken)),
+                cancellationToken);
+
+        public Task<PaginatedCollection<FinancialInstitution>> List(IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken) =>
+            InternalList(null, filters, pageSize, cancellationToken);
+
+        private Task<PaginatedCollection<FinancialInstitution>> InternalList(Token token, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken)
         {
-            var queryParameters = string.Join("&", (filters ?? Enumerable.Empty<Filter>()).Select(f => f.ToString()));
+            var parameters = (filters ?? Enumerable.Empty<Filter>()).Select(f => f.ToString()).ToList();
 
-            if (!string.IsNullOrWhiteSpace(queryParameters))
-                queryParameters = "?" + queryParameters; // we need a proper builder here
+            if (pageSize.HasValue)
+                parameters.Add($"page[limit]={pageSize.Value}");
 
+            // we need a proper builder here
+            var queryParameters = parameters.Any()
+                ? "?" + string.Join("&", parameters)
+                : string.Empty;
+
+            return InternalList(
+                token,
+                $"{_urlPrefix}/{EntityName}{queryParameters}",
+                cancellationToken);
+        }
+
+        private Task<PaginatedCollection<FinancialInstitution>> InternalList(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
+            InternalList(
+                token ?? throw new ArgumentNullException(nameof(token)),
+                (continuationToken ?? throw new ArgumentNullException(nameof(continuationToken))).NextUrl,
+                cancellationToken);
+
+        private async Task<PaginatedCollection<FinancialInstitution>> InternalList(Token token, string path, CancellationToken? cancellationToken)
+        {
             var page = await _apiClient.Get<JsonApi.Collection<FinancialInstitution>>(
-                continuationToken == null
-                    ? $"{_urlPrefix}/{EntityName}{queryParameters}"
-                    : continuationToken.NextUrl,
+                path,
                 await GetAccessToken(token),
                 cancellationToken ?? CancellationToken.None);
 
@@ -57,9 +95,6 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 $"{_urlPrefix}/{EntityName}/{id}",
                 await GetAccessToken(token),
                 cancellationToken ?? CancellationToken.None)).Data);
-
-        public Task<PaginatedCollection<FinancialInstitution>> List(IEnumerable<Filter> filters, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
-            ListForOrganization(null, filters, continuationToken, cancellationToken);
 
         public Task<FinancialInstitution> Get(Guid id, CancellationToken? cancellationToken) =>
             GetForOrganization(null, id, cancellationToken);
@@ -81,9 +116,11 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
     public interface IFinancialInstitutions
     {
-        Task<PaginatedCollection<FinancialInstitution>> ListForOrganization(Token token, IEnumerable<Filter> filters = null, ContinuationToken continuationToken = null, CancellationToken? cancellationToken = null);
+        Task<PaginatedCollection<FinancialInstitution>> ListForOrganization(Token token, IEnumerable<Filter> filters = null, int? pageSize = null, CancellationToken? cancellationToken = null);
+        Task<PaginatedCollection<FinancialInstitution>> ListForOrganization(Token token, ContinuationToken continuationToken = null, CancellationToken? cancellationToken = null);
         Task<FinancialInstitution> GetForOrganization(Token token, Guid id, CancellationToken? cancellationToken = null);
-        Task<PaginatedCollection<FinancialInstitution>> List(IEnumerable<Filter> filters = null, ContinuationToken continuationToken = null, CancellationToken? cancellationToken = null);
+        Task<PaginatedCollection<FinancialInstitution>> List(IEnumerable<Filter> filters = null, int? pageSize = null, CancellationToken? cancellationToken = null);
+        Task<PaginatedCollection<FinancialInstitution>> List(ContinuationToken continuationToken = null, CancellationToken? cancellationToken = null);
         Task<FinancialInstitution> Get(Guid id, CancellationToken? cancellationToken = null);
     }
 }
