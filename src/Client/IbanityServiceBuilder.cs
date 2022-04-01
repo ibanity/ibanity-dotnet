@@ -25,6 +25,9 @@ namespace Ibanity.Apis.Client
         private string _pontoConnectClientSecret;
         private ILoggerFactory _loggerFactory;
         private TimeSpan? _timeout;
+        private Action<HttpClient> _customizeClient;
+        private Action<HttpClientHandler> _customizeHandler;
+        private Action<HttpRequestMessage> _customizeRequest;
 
         public IIbanityServiceMutualTlsBuilder SetEndpoint(Uri endpoint)
         {
@@ -134,6 +137,15 @@ namespace Ibanity.Apis.Client
             return this;
         }
 
+        IIbanityServiceOptionalPropertiesBuilder IIbanityServiceOptionalPropertiesBuilder.CustomizeHttpClient(Action<HttpClient> customizeClient, Action<HttpClientHandler> customizeHandler, Action<HttpRequestMessage> customizeRequest)
+        {
+            _customizeClient = customizeClient;
+            _customizeHandler = customizeHandler;
+            _customizeRequest = customizeRequest;
+
+            return this;
+        }
+
         IIbanityService IIbanityServiceOptionalPropertiesBuilder.Build()
         {
             var handler = new HttpClientHandler
@@ -146,10 +158,16 @@ namespace Ibanity.Apis.Client
             if (_clientCertificate != null)
                 handler.ClientCertificates.Add(_clientCertificate);
 
+            if (_customizeHandler != null)
+                _customizeHandler(handler);
+
             var httpClient = new HttpClient(handler) { BaseAddress = _endpoint };
 
             if (_timeout.HasValue)
                 httpClient.Timeout = _timeout.Value;
+
+            if (_customizeClient != null)
+                _customizeClient(httpClient);
 
             var serializer = new JsonSerializer();
             var clock = new Clock();
@@ -171,7 +189,8 @@ namespace Ibanity.Apis.Client
                 httpClient,
                 serializer,
                 signatureService,
-                "1");
+                "1",
+                _customizeRequest ?? (_ => { }));
 
             var pontoConnectClient = new PontoConnectClient(
                 v1ApiClient,
@@ -228,6 +247,7 @@ namespace Ibanity.Apis.Client
         IIbanityServiceOptionalPropertiesBuilder AddLogging(ILogger logger);
         IIbanityServiceOptionalPropertiesBuilder AddLogging(ILoggerFactory loggerFactory);
         IIbanityServiceOptionalPropertiesBuilder SetTimeout(TimeSpan timeout);
+        IIbanityServiceOptionalPropertiesBuilder CustomizeHttpClient(Action<HttpClient> customizeClient, Action<HttpClientHandler> customizeHandler, Action<HttpRequestMessage> customizeRequest);
 
         IIbanityService Build();
     }

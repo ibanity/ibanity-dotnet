@@ -16,8 +16,9 @@ namespace Ibanity.Apis.Client.Http
         private readonly ISerializer<string> _serializer;
         private readonly IHttpSignatureService _signatureService;
         private readonly string _apiVersion;
+        private readonly Action<HttpRequestMessage> _customizeRequest;
 
-        public ApiClient(ILoggerFactory loggerFactory, HttpClient httpClient, ISerializer<string> serializer, IHttpSignatureService signatureService, string apiVersion)
+        public ApiClient(ILoggerFactory loggerFactory, HttpClient httpClient, ISerializer<string> serializer, IHttpSignatureService signatureService, string apiVersion, Action<HttpRequestMessage> customizeRequest)
         {
             if (loggerFactory is null)
                 throw new ArgumentNullException(nameof(loggerFactory));
@@ -30,6 +31,7 @@ namespace Ibanity.Apis.Client.Http
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _signatureService = signatureService ?? throw new ArgumentNullException(nameof(signatureService));
             _apiVersion = apiVersion;
+            _customizeRequest = customizeRequest ?? throw new ArgumentNullException(nameof(customizeRequest));
         }
 
         public async Task<T> Get<T>(string path, string bearerToken, CancellationToken cancellationToken)
@@ -57,6 +59,8 @@ namespace Ibanity.Apis.Client.Http
             {
                 foreach (var kvp in headers.Union(signatureHeaders))
                     request.Headers.Add(kvp.Key, kvp.Value);
+
+                _customizeRequest(request);
 
                 var response = await (await _httpClient.SendAsync(request, cancellationToken)).ThrowOnFailure(_serializer);
                 var body = await response.Content.ReadAsStringAsync();
