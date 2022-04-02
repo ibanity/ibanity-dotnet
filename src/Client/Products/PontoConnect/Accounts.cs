@@ -39,7 +39,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     public interface IAccounts
     {
         Task<PaginatedCollection<Account>> List(Token token, IEnumerable<Filter> filters = null, int? pageSize = null, CancellationToken? cancellationToken = null);
-        Task<PaginatedCollection<Account>> List(Token token, ContinuationToken continuationToken = null, CancellationToken? cancellationToken = null);
+        Task<PaginatedCollection<Account>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
         Task<Account> Get(Token token, Guid id, CancellationToken? cancellationToken = null);
     }
 }

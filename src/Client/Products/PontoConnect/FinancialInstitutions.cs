@@ -54,7 +54,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         Task<PaginatedCollection<FinancialInstitution>> ListForOrganization(Token token, ContinuationToken continuationToken = null, CancellationToken? cancellationToken = null);
         Task<FinancialInstitution> GetForOrganization(Token token, Guid id, CancellationToken? cancellationToken = null);
         Task<PaginatedCollection<FinancialInstitution>> List(IEnumerable<Filter> filters = null, int? pageSize = null, CancellationToken? cancellationToken = null);
-        Task<PaginatedCollection<FinancialInstitution>> List(ContinuationToken continuationToken = null, CancellationToken? cancellationToken = null);
+        Task<PaginatedCollection<FinancialInstitution>> List(ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
         Task<FinancialInstitution> Get(Guid id, CancellationToken? cancellationToken = null);
     }
 }
