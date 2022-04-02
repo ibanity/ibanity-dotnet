@@ -39,6 +39,45 @@ namespace Ibanity.Apis.Client.Http
             if (path is null)
                 throw new ArgumentNullException(nameof(path));
 
+            var headers = GetCommonHeaders(HttpMethod.Get, bearerToken, path);
+
+            _logger.Debug("Sending request: GET " + path);
+
+            using (var request = new HttpRequestMessage(HttpMethod.Get, path))
+            {
+                foreach (var header in headers)
+                    request.Headers.Add(header.Key, header.Value);
+
+                _customizeRequest(request);
+
+                var response = await (await _httpClient.SendAsync(request, cancellationToken)).ThrowOnFailure(_serializer);
+                var body = await response.Content.ReadAsStringAsync();
+                return _serializer.Deserialize<T>(body);
+            }
+        }
+
+        public async Task Delete(string path, string bearerToken, CancellationToken cancellationToken)
+        {
+            if (path is null)
+                throw new ArgumentNullException(nameof(path));
+
+            var headers = GetCommonHeaders(HttpMethod.Delete, bearerToken, path);
+
+            _logger.Debug("Sending request: DELETE " + path);
+
+            using (var request = new HttpRequestMessage(HttpMethod.Delete, path))
+            {
+                foreach (var header in headers)
+                    request.Headers.Add(header.Key, header.Value);
+
+                _customizeRequest(request);
+
+                await (await _httpClient.SendAsync(request, cancellationToken)).ThrowOnFailure(_serializer);
+            }
+        }
+
+        private Dictionary<string, string> GetCommonHeaders(HttpMethod method, string bearerToken, string path)
+        {
             var headers = new Dictionary<string, string>
             {
                 { "Accept", "application/vnd.api+json;version=" + _apiVersion }
@@ -48,29 +87,21 @@ namespace Ibanity.Apis.Client.Http
                 headers["Authorization"] = $"Bearer {bearerToken}";
 
             var signatureHeaders = _signatureService.GetHttpSignatureHeaders(
-                "GET",
+                method.Method.ToUpper(),
                 new Uri(_httpClient.BaseAddress + path),
                 headers,
                 null);
 
-            _logger.Debug("Sending request: GET " + path);
+            foreach (var header in signatureHeaders)
+                headers.Add(header.Key, header.Value);
 
-            using (var request = new HttpRequestMessage(HttpMethod.Get, path))
-            {
-                foreach (var kvp in headers.Union(signatureHeaders))
-                    request.Headers.Add(kvp.Key, kvp.Value);
-
-                _customizeRequest(request);
-
-                var response = await (await _httpClient.SendAsync(request, cancellationToken)).ThrowOnFailure(_serializer);
-                var body = await response.Content.ReadAsStringAsync();
-                return _serializer.Deserialize<T>(body);
-            }
+            return headers;
         }
     }
 
     public interface IApiClient
     {
         Task<T> Get<T>(string path, string bearerToken, CancellationToken cancellationToken);
+        Task Delete(string path, string bearerToken, CancellationToken cancellationToken);
     }
 }
