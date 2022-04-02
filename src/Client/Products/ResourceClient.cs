@@ -77,6 +77,12 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 await GetAccessToken(token),
                 cancellationToken ?? CancellationToken.None)).Data);
 
+        protected async Task InternalDelete(Token token, Guid id, CancellationToken? cancellationToken) =>
+            await _apiClient.Delete(
+                $"{_urlPrefix}/{_entityName}/{id}",
+                await GetAccessToken(token),
+                cancellationToken ?? CancellationToken.None);
+
         protected T Map(Data<T> data)
         {
             if (data is null)

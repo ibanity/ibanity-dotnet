@@ -34,6 +34,9 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
         public Task<Account> Get(Token token, Guid id, CancellationToken? cancellationToken) =>
             InternalGet(token, id, cancellationToken);
+
+        public Task Revoke(Token token, Guid id, CancellationToken? cancellationToken = null) =>
+            InternalDelete(token, id, cancellationToken);
     }
 
     public interface IAccounts
@@ -41,5 +44,6 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         Task<PaginatedCollection<Account>> List(Token token, IEnumerable<Filter> filters = null, int? pageSize = null, CancellationToken? cancellationToken = null);
         Task<PaginatedCollection<Account>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
         Task<Account> Get(Token token, Guid id, CancellationToken? cancellationToken = null);
+        Task Revoke(Token token, Guid id, CancellationToken? cancellationToken = null);
     }
 }
