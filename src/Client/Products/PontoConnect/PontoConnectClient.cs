@@ -10,13 +10,16 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             : base(apiClient, tokenService, clientAccessTokenService)
         {
             FinancialInstitutions = new FinancialInstitutions(apiClient, tokenService, UrlPrefix);
+            Accounts = new Accounts(apiClient, tokenService, UrlPrefix);
         }
 
         public IFinancialInstitutions FinancialInstitutions { get; }
+        public IAccounts Accounts { get; }
     }
 
     public interface IPontoConnectClient : IProductClient
     {
         IFinancialInstitutions FinancialInstitutions { get; }
+        IAccounts Accounts { get; }
     }
 }
