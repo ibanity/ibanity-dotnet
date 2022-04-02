@@ -1,13 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
-using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Models;
 using Ibanity.Apis.Client.Products.PontoConnect.Models;
-using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect
 {
