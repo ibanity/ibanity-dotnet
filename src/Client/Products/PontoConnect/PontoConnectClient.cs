@@ -1,4 +1,3 @@
-using System;
 using Ibanity.Apis.Client.Http;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect
