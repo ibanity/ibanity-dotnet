@@ -11,23 +11,14 @@ using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect
 {
-    public class FinancialInstitutions : IFinancialInstitutions
+    public class FinancialInstitutions : ResourceClient<FinancialInstitution>, IFinancialInstitutions
     {
         private const string EntityName = "financial-institutions";
 
-        private readonly IApiClient _apiClient;
-        private readonly IAccessTokenProvider _accessTokenProvider;
-        private readonly string _urlPrefix;
+        public FinancialInstitutions(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix) :
+            base(apiClient, accessTokenProvider, urlPrefix, EntityName)
+        { }
 
-        public FinancialInstitutions(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix)
-        {
-            if (string.IsNullOrWhiteSpace(urlPrefix))
-                throw new ArgumentException($"'{nameof(urlPrefix)}' cannot be null or empty.", nameof(urlPrefix));
-
-            _apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
-            _accessTokenProvider = accessTokenProvider ?? throw new ArgumentNullException(nameof(accessTokenProvider));
-            _urlPrefix = urlPrefix;
-        }
         public Task<PaginatedCollection<FinancialInstitution>> ListForOrganization(Token token, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken) =>
             InternalList(
                 token ?? throw new ArgumentNullException(nameof(token)),
@@ -50,68 +41,11 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         public Task<PaginatedCollection<FinancialInstitution>> List(IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken) =>
             InternalList(null, filters, pageSize, cancellationToken);
 
-        private Task<PaginatedCollection<FinancialInstitution>> InternalList(Token token, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken)
-        {
-            var parameters = (filters ?? Enumerable.Empty<Filter>()).Select(f => f.ToString()).ToList();
-
-            if (pageSize.HasValue)
-                parameters.Add($"page[limit]={pageSize.Value}");
-
-            // we need a proper builder here
-            var queryParameters = parameters.Any()
-                ? "?" + string.Join("&", parameters)
-                : string.Empty;
-
-            return InternalList(
-                token,
-                $"{_urlPrefix}/{EntityName}{queryParameters}",
-                cancellationToken);
-        }
-
-        private Task<PaginatedCollection<FinancialInstitution>> InternalList(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
-            InternalList(
-                token ?? throw new ArgumentNullException(nameof(token)),
-                (continuationToken ?? throw new ArgumentNullException(nameof(continuationToken))).NextUrl,
-                cancellationToken);
-
-        private async Task<PaginatedCollection<FinancialInstitution>> InternalList(Token token, string path, CancellationToken? cancellationToken)
-        {
-            var page = await _apiClient.Get<JsonApi.Collection<FinancialInstitution>>(
-                path,
-                await GetAccessToken(token),
-                cancellationToken ?? CancellationToken.None);
-
-            var result = new PaginatedCollection<FinancialInstitution>(page.Data.Select(Map));
-
-            result.ContinuationToken = page.Links.Next == null
-                ? null
-                : new ContinuationToken(page.Links.Next);
-
-            return result;
-        }
-
-        public async Task<FinancialInstitution> GetForOrganization(Token token, Guid id, CancellationToken? cancellationToken) =>
-            Map((await _apiClient.Get<JsonApi.Resource<FinancialInstitution>>(
-                $"{_urlPrefix}/{EntityName}/{id}",
-                await GetAccessToken(token),
-                cancellationToken ?? CancellationToken.None)).Data);
+        public Task<FinancialInstitution> GetForOrganization(Token token, Guid id, CancellationToken? cancellationToken) =>
+            InternalGet(token, id, cancellationToken);
 
         public Task<FinancialInstitution> Get(Guid id, CancellationToken? cancellationToken) =>
             GetForOrganization(null, id, cancellationToken);
-
-        private T Map<T>(Data<T> data) where T : Identified<Guid>
-        {
-            if (data is null)
-                throw new ArgumentNullException(nameof(data));
-
-            var result = data.Attributes;
-            result.Id = Guid.Parse(data.Id);
-            return result;
-        }
-
-        private async Task<string> GetAccessToken(Token token) => token == null
-            ? null
-            : (await _accessTokenProvider.RefreshToken(token)).AccessToken;
     }
 
     public interface IFinancialInstitutions
