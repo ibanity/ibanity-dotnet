@@ -19,7 +19,7 @@ namespace Ibanity.Apis.Client.Http
         public string Compute(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, string digest, DateTimeOffset timestamp)
         {
             if (string.IsNullOrWhiteSpace(httpMethod))
-                throw new ArgumentException($"'{nameof(httpMethod)}' cannot be null or empty.", nameof(httpMethod));
+                throw new ArgumentException($"'{nameof(httpMethod)}' cannot be null or whitespace.", nameof(httpMethod));
 
             if (url is null)
                 throw new ArgumentNullException(nameof(url));
@@ -28,7 +28,7 @@ namespace Ibanity.Apis.Client.Http
                 throw new ArgumentNullException(nameof(requestHeaders));
 
             if (string.IsNullOrWhiteSpace(digest))
-                throw new ArgumentException($"'{nameof(digest)}' cannot be null or empty.", nameof(digest));
+                throw new ArgumentException($"'{nameof(digest)}' cannot be null or whitespace.", nameof(digest));
 
             return string.Join(
                 "\n",

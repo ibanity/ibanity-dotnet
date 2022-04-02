@@ -38,7 +38,7 @@ namespace Ibanity.Apis.Client
         IHttpSignatureServiceOptionalPropertiesBuilder IHttpSignatureServiceCertificateBuilder.AddCertificate(string id, X509Certificate2 certificate)
         {
             if (string.IsNullOrWhiteSpace(id))
-                throw new ArgumentException($"'{nameof(id)}' cannot be null or empty.", nameof(id));
+                throw new ArgumentException($"'{nameof(id)}' cannot be null or whitespace.", nameof(id));
 
             _certificateId = id;
             _certificate = certificate ?? throw new ArgumentNullException(nameof(certificate));
@@ -49,13 +49,13 @@ namespace Ibanity.Apis.Client
         IHttpSignatureServiceOptionalPropertiesBuilder IHttpSignatureServiceCertificateBuilder.AddCertificate(string id, string path, string password)
         {
             if (string.IsNullOrWhiteSpace(id))
-                throw new ArgumentException($"'{nameof(id)}' cannot be null or empty.", nameof(id));
+                throw new ArgumentException($"'{nameof(id)}' cannot be null or whitespace.", nameof(id));
 
             if (string.IsNullOrWhiteSpace(path))
-                throw new ArgumentException($"'{nameof(path)}' cannot be null or empty.", nameof(path));
+                throw new ArgumentException($"'{nameof(path)}' cannot be null or whitespace.", nameof(path));
 
             if (string.IsNullOrWhiteSpace(password))
-                throw new ArgumentException($"'{nameof(password)}' cannot be null or empty.", nameof(password));
+                throw new ArgumentException($"'{nameof(password)}' cannot be null or whitespace.", nameof(password));
 
             return ((IHttpSignatureServiceCertificateBuilder)this).AddCertificate(id, new X509Certificate2(path, password));
         }

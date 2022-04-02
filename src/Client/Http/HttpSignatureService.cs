@@ -23,7 +23,7 @@ namespace Ibanity.Apis.Client.Http
                 throw new ArgumentNullException(nameof(loggerFactory));
 
             if (string.IsNullOrWhiteSpace(certificateId))
-                throw new ArgumentException($"'{nameof(certificateId)}' cannot be null or empty.", nameof(certificateId));
+                throw new ArgumentException($"'{nameof(certificateId)}' cannot be null or whitespace.", nameof(certificateId));
 
             _logger = loggerFactory.CreateLogger<HttpSignatureService>();
             _digest = digest ?? throw new ArgumentNullException(nameof(digest));
@@ -36,7 +36,7 @@ namespace Ibanity.Apis.Client.Http
         public IDictionary<string, string> GetHttpSignatureHeaders(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, string payload)
         {
             if (string.IsNullOrWhiteSpace(httpMethod))
-                throw new ArgumentException($"'{nameof(httpMethod)}' cannot be null or empty.", nameof(httpMethod));
+                throw new ArgumentException($"'{nameof(httpMethod)}' cannot be null or whitespace.", nameof(httpMethod));
 
             if (url is null)
                 throw new ArgumentNullException(nameof(url));

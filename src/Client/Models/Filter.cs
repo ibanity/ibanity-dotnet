@@ -9,10 +9,10 @@ namespace Ibanity.Apis.Client.Models
         public Filter(string field, FilterOperator @operator, string value)
         {
             if (string.IsNullOrWhiteSpace(field))
-                throw new System.ArgumentException($"'{nameof(field)}' cannot be null or empty.", nameof(field));
+                throw new System.ArgumentException($"'{nameof(field)}' cannot be null or whitespace.", nameof(field));
 
             if (string.IsNullOrWhiteSpace(value))
-                throw new System.ArgumentException($"'{nameof(value)}' cannot be null or empty.", nameof(value));
+                throw new System.ArgumentException($"'{nameof(value)}' cannot be null or whitespace.", nameof(value));
 
             _field = field;
             _operator = @operator;

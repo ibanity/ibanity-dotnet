@@ -26,13 +26,13 @@ namespace Ibanity.Apis.Client.Http.OAuth2
                 throw new ArgumentNullException(nameof(loggerFactory));
 
             if (string.IsNullOrWhiteSpace(urlPrefix))
-                throw new ArgumentException($"'{nameof(urlPrefix)}' cannot be null or empty.", nameof(urlPrefix));
+                throw new ArgumentException($"'{nameof(urlPrefix)}' cannot be null or whitespace.", nameof(urlPrefix));
 
             if (string.IsNullOrWhiteSpace(clientId))
-                throw new ArgumentException($"'{nameof(clientId)}' cannot be null or empty.", nameof(clientId));
+                throw new ArgumentException($"'{nameof(clientId)}' cannot be null or whitespace.", nameof(clientId));
 
             if (string.IsNullOrWhiteSpace(clientSecret))
-                throw new ArgumentException($"'{nameof(clientSecret)}' cannot be null or empty.", nameof(clientSecret));
+                throw new ArgumentException($"'{nameof(clientSecret)}' cannot be null or whitespace.", nameof(clientSecret));
 
             _logger = loggerFactory.CreateLogger<OAuth2TokenProvider>();
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
@@ -46,10 +46,10 @@ namespace Ibanity.Apis.Client.Http.OAuth2
         public async Task<Token> GetToken(string authorizationCode, string codeVerifier, Uri redirectUri, CancellationToken? cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(authorizationCode))
-                throw new ArgumentException($"'{nameof(authorizationCode)}' cannot be null or empty.", nameof(authorizationCode));
+                throw new ArgumentException($"'{nameof(authorizationCode)}' cannot be null or whitespace.", nameof(authorizationCode));
 
             if (string.IsNullOrWhiteSpace(codeVerifier))
-                throw new ArgumentException($"'{nameof(codeVerifier)}' cannot be null or empty.", nameof(codeVerifier));
+                throw new ArgumentException($"'{nameof(codeVerifier)}' cannot be null or whitespace.", nameof(codeVerifier));
 
             if (redirectUri is null)
                 throw new ArgumentNullException(nameof(redirectUri));

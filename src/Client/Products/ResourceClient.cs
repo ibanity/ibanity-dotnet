@@ -20,7 +20,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         public ResourceClient(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix, string entityName)
         {
             if (string.IsNullOrWhiteSpace(urlPrefix))
-                throw new ArgumentException($"'{nameof(urlPrefix)}' cannot be null or empty.", nameof(urlPrefix));
+                throw new ArgumentException($"'{nameof(urlPrefix)}' cannot be null or whitespace.", nameof(urlPrefix));
 
             if (string.IsNullOrWhiteSpace(entityName))
                 throw new ArgumentException($"'{nameof(entityName)}' cannot be null or whitespace.", nameof(entityName));

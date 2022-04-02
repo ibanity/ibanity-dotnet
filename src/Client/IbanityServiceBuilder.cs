@@ -52,10 +52,10 @@ namespace Ibanity.Apis.Client
         IIbanityServiceOptionalPropertiesBuilder IIbanityServiceMutualTlsBuilder.AddClientCertificate(string path, string password)
         {
             if (string.IsNullOrWhiteSpace(path))
-                throw new ArgumentException($"'{nameof(path)}' cannot be null or empty.", nameof(path));
+                throw new ArgumentException($"'{nameof(path)}' cannot be null or whitespace.", nameof(path));
 
             if (string.IsNullOrWhiteSpace(password))
-                throw new ArgumentException($"'{nameof(password)}' cannot be null or empty.", nameof(password));
+                throw new ArgumentException($"'{nameof(password)}' cannot be null or whitespace.", nameof(password));
 
             return ((IIbanityServiceMutualTlsBuilder)this).AddClientCertificate(new X509Certificate2(path, password));
         }
@@ -86,7 +86,7 @@ namespace Ibanity.Apis.Client
         IIbanityServiceOptionalPropertiesBuilder IIbanityServiceOptionalPropertiesBuilder.AddSignatureCertificate(string id, X509Certificate2 certificate)
         {
             if (string.IsNullOrWhiteSpace(id))
-                throw new ArgumentException($"'{nameof(id)}' cannot be null or empty.", nameof(id));
+                throw new ArgumentException($"'{nameof(id)}' cannot be null or whitespace.", nameof(id));
 
             _signatureCertificateId = id;
             _signatureCertificate = certificate ?? throw new ArgumentNullException(nameof(certificate));
@@ -97,13 +97,13 @@ namespace Ibanity.Apis.Client
         IIbanityServiceOptionalPropertiesBuilder IIbanityServiceOptionalPropertiesBuilder.AddSignatureCertificate(string id, string path, string password)
         {
             if (string.IsNullOrWhiteSpace(id))
-                throw new ArgumentException($"'{nameof(id)}' cannot be null or empty.", nameof(id));
+                throw new ArgumentException($"'{nameof(id)}' cannot be null or whitespace.", nameof(id));
 
             if (string.IsNullOrWhiteSpace(path))
-                throw new ArgumentException($"'{nameof(path)}' cannot be null or empty.", nameof(path));
+                throw new ArgumentException($"'{nameof(path)}' cannot be null or whitespace.", nameof(path));
 
             if (string.IsNullOrWhiteSpace(password))
-                throw new ArgumentException($"'{nameof(password)}' cannot be null or empty.", nameof(password));
+                throw new ArgumentException($"'{nameof(password)}' cannot be null or whitespace.", nameof(password));
 
             return ((IIbanityServiceOptionalPropertiesBuilder)this).AddSignatureCertificate(id, new X509Certificate2(path, password));
         }
@@ -111,10 +111,10 @@ namespace Ibanity.Apis.Client
         IIbanityServiceOptionalPropertiesBuilder IIbanityServiceOptionalPropertiesBuilder.AddPontoConnectOAuth2Authentication(string clientId, string clientSecret)
         {
             if (string.IsNullOrWhiteSpace(clientId))
-                throw new ArgumentException($"'{nameof(clientId)}' cannot be null or empty.", nameof(clientId));
+                throw new ArgumentException($"'{nameof(clientId)}' cannot be null or whitespace.", nameof(clientId));
 
             if (string.IsNullOrWhiteSpace(clientSecret))
-                throw new ArgumentException($"'{nameof(clientSecret)}' cannot be null or empty.", nameof(clientSecret));
+                throw new ArgumentException($"'{nameof(clientSecret)}' cannot be null or whitespace.", nameof(clientSecret));
 
             _pontoConnectClientId = clientId;
             _pontoConnectClientSecret = clientSecret;
