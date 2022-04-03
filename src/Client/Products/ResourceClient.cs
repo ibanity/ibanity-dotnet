@@ -71,6 +71,12 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 await GetAccessToken(token),
                 cancellationToken ?? CancellationToken.None)).Data);
 
+        protected async Task InternalDelete(Token token, string path, Guid id, CancellationToken? cancellationToken) =>
+            await _apiClient.Delete(
+                $"{path}/{id}",
+                await GetAccessToken(token),
+                cancellationToken ?? CancellationToken.None);
+
         protected async Task<TAttributes> InternalCreate<T>(Token token, string path, T payload, CancellationToken? cancellationToken) =>
             Map((await _apiClient.Post<T, JsonApi.Resource<TAttributes, TMeta, TRelationships, TLinks>>(
                 $"{path}",
@@ -113,11 +119,8 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         protected Task<TAttributes> InternalGet(Token token, Guid id, CancellationToken? cancellationToken) =>
             InternalGet(token, $"{_urlPrefix}/{_entityName}", id, cancellationToken);
 
-        protected async Task InternalDelete(Token token, Guid id, CancellationToken? cancellationToken) =>
-            await _apiClient.Delete(
-                $"{_urlPrefix}/{_entityName}/{id}",
-                await GetAccessToken(token),
-                cancellationToken ?? CancellationToken.None);
+        protected Task InternalDelete(Token token, Guid id, CancellationToken? cancellationToken) =>
+            InternalDelete(token, $"{_urlPrefix}/{_entityName}", id, cancellationToken);
     }
 
     public abstract class ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks> :
@@ -144,6 +147,9 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
         protected Task<TAttributes> InternalGet(Token token, Guid parentId, Guid id, CancellationToken? cancellationToken) =>
             InternalGet(token, $"{_urlPrefix}/{_parentEntityName}/{parentId}/{_entityName}", id, cancellationToken);
+
+        protected Task InternalDelete(Token token, Guid parentId, Guid id, CancellationToken? cancellationToken) =>
+            InternalDelete(token, $"{_urlPrefix}/{_parentEntityName}/{parentId}/{_entityName}", id, cancellationToken);
 
         protected Task<TAttributes> InternalCreate<T>(Token token, Guid parentId, T payload, CancellationToken? cancellationToken) =>
             InternalCreate(token, $"{_urlPrefix}/{_parentEntityName}/{parentId}/{_entityName}", payload, cancellationToken);
