@@ -8,7 +8,7 @@ using Ibanity.Apis.Client.Models;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect
 {
-    public class Transactions : ResourceWithParentClient<Transaction, object, TransactionRelationships>, ITransactions
+    public class Transactions : ResourceWithParentClient<Transaction, object, TransactionRelationships, object>, ITransactions
     {
         private const string ParentEntityName = "accounts";
         private const string EntityName = "transactions";
@@ -34,7 +34,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         public Task<Transaction> Get(Token token, Guid accountId, Guid id, CancellationToken? cancellationToken) =>
             InternalGet(token, accountId, id, cancellationToken);
 
-        protected override Transaction Map(Data<Transaction, object, TransactionRelationships> data)
+        protected override Transaction Map(Data<Transaction, object, TransactionRelationships, object> data)
         {
             var result = base.Map(data);
 

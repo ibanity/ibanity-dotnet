@@ -9,7 +9,7 @@ using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect
 {
-    public abstract class BaseResourceClient<TAttributes, TMeta, TRelationships> where TAttributes : Identified<Guid>
+    public abstract class BaseResourceClient<TAttributes, TMeta, TRelationships, TLinks> where TAttributes : Identified<Guid>
     {
         protected readonly IApiClient _apiClient;
         private readonly IAccessTokenProvider _accessTokenProvider;
@@ -51,7 +51,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
         protected async Task<PaginatedCollection<TAttributes>> InternalList(Token token, string path, CancellationToken? cancellationToken)
         {
-            var page = await _apiClient.Get<JsonApi.Collection<TAttributes, TMeta, TRelationships>>(
+            var page = await _apiClient.Get<JsonApi.Collection<TAttributes, TMeta, TRelationships, TLinks>>(
                 path,
                 await GetAccessToken(token),
                 cancellationToken ?? CancellationToken.None);
@@ -66,12 +66,19 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         }
 
         protected async Task<TAttributes> InternalGet(Token token, string path, Guid id, CancellationToken? cancellationToken) =>
-            Map((await _apiClient.Get<JsonApi.Resource<TAttributes, TMeta, TRelationships>>(
+            Map((await _apiClient.Get<JsonApi.Resource<TAttributes, TMeta, TRelationships, TLinks>>(
                 $"{path}/{id}",
                 await GetAccessToken(token),
                 cancellationToken ?? CancellationToken.None)).Data);
 
-        protected virtual TAttributes Map(JsonApi.Data<TAttributes, TMeta, TRelationships> data)
+        protected async Task<TAttributes> InternalCreate<T>(Token token, string path, T payload, CancellationToken? cancellationToken) =>
+            Map((await _apiClient.Post<T, JsonApi.Resource<TAttributes, TMeta, TRelationships, TLinks>>(
+                $"{path}",
+                await GetAccessToken(token),
+                payload,
+                cancellationToken ?? CancellationToken.None)).Data);
+
+        protected virtual TAttributes Map(JsonApi.Data<TAttributes, TMeta, TRelationships, TLinks> data)
         {
             if (data is null)
                 throw new ArgumentNullException(nameof(data));
@@ -86,8 +93,8 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             : (await _accessTokenProvider.RefreshToken(token)).AccessToken;
     }
 
-    public abstract class ResourceClient<TAttributes, TMeta, TRelationships> :
-        BaseResourceClient<TAttributes, TMeta, TRelationships> where TAttributes : Identified<Guid>
+    public abstract class ResourceClient<TAttributes, TMeta, TRelationships, TLinks> :
+        BaseResourceClient<TAttributes, TMeta, TRelationships, TLinks> where TAttributes : Identified<Guid>
     {
         private readonly string _entityName;
 
@@ -113,8 +120,8 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 cancellationToken ?? CancellationToken.None);
     }
 
-    public abstract class ResourceWithParentClient<TAttributes, TMeta, TRelationships> :
-        BaseResourceClient<TAttributes, TMeta, TRelationships> where TAttributes : Identified<Guid>
+    public abstract class ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks> :
+        BaseResourceClient<TAttributes, TMeta, TRelationships, TLinks> where TAttributes : Identified<Guid>
     {
         private readonly string _parentEntityName;
         private readonly string _entityName;
@@ -137,5 +144,8 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
         protected Task<TAttributes> InternalGet(Token token, Guid parentId, Guid id, CancellationToken? cancellationToken) =>
             InternalGet(token, $"{_urlPrefix}/{_parentEntityName}/{parentId}/{_entityName}", id, cancellationToken);
+
+        protected Task<TAttributes> InternalCreate<T>(Token token, Guid parentId, T payload, CancellationToken? cancellationToken) =>
+            InternalCreate(token, $"{_urlPrefix}/{_parentEntityName}/{parentId}/{_entityName}", payload, cancellationToken);
     }
 }

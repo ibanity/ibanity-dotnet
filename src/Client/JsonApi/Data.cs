@@ -13,7 +13,7 @@ namespace Ibanity.Apis.Client.JsonApi
     }
 
     [DataContract]
-    public class Data<TAttributes, TMeta, TRelationships> : Data
+    public class Data<TAttributes, TMeta, TRelationships, TLinks> : Data
     {
         [DataMember(Name = "attributes", EmitDefaultValue = false)]
         public TAttributes Attributes { get; set; }
@@ -23,5 +23,8 @@ namespace Ibanity.Apis.Client.JsonApi
 
         [DataMember(Name = "relationships", EmitDefaultValue = false)]
         public TRelationships Relationships { get; set; }
+
+        [DataMember(Name = "links", EmitDefaultValue = false)]
+        public TLinks Links { get; set; }
     }
 }

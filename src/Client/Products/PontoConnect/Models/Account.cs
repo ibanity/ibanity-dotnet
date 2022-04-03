@@ -111,7 +111,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public DateTimeOffset SynchronizedAt { get; set; }
 
         [DataMember(Name = "latestSynchronization", EmitDefaultValue = false)]
-        public Data<Synchronization, object, object> LatestSynchronization { get; set; }
+        public Data<Synchronization, object, object, object> LatestSynchronization { get; set; }
 
         [DataMember(Name = "availability", EmitDefaultValue = false)]
         public string Availability { get; set; }

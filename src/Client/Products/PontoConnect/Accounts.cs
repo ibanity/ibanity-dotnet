@@ -9,7 +9,7 @@ using Ibanity.Apis.Client.Products.PontoConnect.Models;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect
 {
-    public class Accounts : ResourceClient<Account, AccountMeta, object>, IAccounts
+    public class Accounts : ResourceClient<Account, AccountMeta, object, object>, IAccounts
     {
         private const string EntityName = "accounts";
 
@@ -36,7 +36,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         public Task Revoke(Token token, Guid id, CancellationToken? cancellationToken = null) =>
             InternalDelete(token, id, cancellationToken);
 
-        protected override Account Map(Data<Account, AccountMeta, object> data)
+        protected override Account Map(Data<Account, AccountMeta, object, object> data)
         {
             var result = base.Map(data);
 
