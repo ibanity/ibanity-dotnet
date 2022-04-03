@@ -31,6 +31,9 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             return InternalCreate(token, accountId, payload, cancellationToken);
         }
 
+        public Task<PaymentResponse> Get(Token token, Guid accountId, Guid id, CancellationToken? cancellationToken) =>
+            InternalGet(token, accountId, id, cancellationToken);
+
         protected override PaymentResponse Map(Data<PaymentResponse, object, object, PaymentLinks> data)
         {
             var result = base.Map(data);
@@ -44,5 +47,6 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     public interface IPayments
     {
         Task<PaymentResponse> Create(Token token, Guid accountId, PaymentRequest payment, CancellationToken? cancellationToken = null);
+        Task<PaymentResponse> Get(Token token, Guid accountId, Guid id, CancellationToken? cancellationToken = null);
     }
 }
