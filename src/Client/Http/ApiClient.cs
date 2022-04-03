@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Utils;
@@ -11,6 +12,8 @@ namespace Ibanity.Apis.Client.Http
 {
     public class ApiClient : IApiClient
     {
+        private static readonly Encoding Encoding = Encoding.UTF8;
+
         private readonly ILogger _logger;
         private readonly HttpClient _httpClient;
         private readonly ISerializer<string> _serializer;
@@ -76,6 +79,31 @@ namespace Ibanity.Apis.Client.Http
             }
         }
 
+        public async Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, CancellationToken cancellationToken)
+        {
+            if (path is null)
+                throw new ArgumentNullException(nameof(path));
+
+            var headers = GetCommonHeaders(HttpMethod.Post, bearerToken, path);
+
+            _logger.Debug("Sending request: POST " + path);
+
+            using (var request = new HttpRequestMessage(HttpMethod.Post, path))
+            {
+                foreach (var header in headers)
+                    request.Headers.Add(header.Key, header.Value);
+
+                var content = _serializer.Serialize(payload);
+                request.Content = new StringContent(content, Encoding, "application/vnd.api+json");
+
+                _customizeRequest(request);
+
+                var response = await (await _httpClient.SendAsync(request, cancellationToken)).ThrowOnFailure(_serializer);
+                var body = await response.Content.ReadAsStringAsync();
+                return _serializer.Deserialize<TResponse>(body);
+            }
+        }
+
         private Dictionary<string, string> GetCommonHeaders(HttpMethod method, string bearerToken, string path)
         {
             var headers = new Dictionary<string, string>
@@ -103,5 +131,6 @@ namespace Ibanity.Apis.Client.Http
     {
         Task<T> Get<T>(string path, string bearerToken, CancellationToken cancellationToken);
         Task Delete(string path, string bearerToken, CancellationToken cancellationToken);
+        Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, CancellationToken cancellationToken);
     }
 }
