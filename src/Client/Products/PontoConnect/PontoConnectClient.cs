@@ -13,12 +13,14 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             Accounts = new Accounts(apiClient, tokenService, UrlPrefix);
             Transactions = new Transactions(apiClient, tokenService, UrlPrefix);
             ReauthorizationRequests = new ReauthorizationRequests(apiClient, tokenService, UrlPrefix);
+            Payments = new Payments(apiClient, tokenService, UrlPrefix);
         }
 
         public IFinancialInstitutions FinancialInstitutions { get; }
         public IAccounts Accounts { get; }
         public ITransactions Transactions { get; }
         public IReauthorizationRequests ReauthorizationRequests { get; }
+        public IPayments Payments { get; }
     }
 
     public interface IPontoConnectClient : IProductClient
@@ -27,5 +29,6 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         IAccounts Accounts { get; }
         ITransactions Transactions { get; }
         IReauthorizationRequests ReauthorizationRequests { get; }
+        IPayments Payments { get; }
     }
 }
