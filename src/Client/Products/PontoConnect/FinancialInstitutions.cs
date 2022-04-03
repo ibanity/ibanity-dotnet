@@ -8,7 +8,7 @@ using Ibanity.Apis.Client.Products.PontoConnect.Models;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect
 {
-    public class FinancialInstitutions : ResourceClient<FinancialInstitution>, IFinancialInstitutions
+    public class FinancialInstitutions : ResourceClient<FinancialInstitution, object, object>, IFinancialInstitutions
     {
         private const string EntityName = "financial-institutions";
 

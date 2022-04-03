@@ -3,9 +3,9 @@ using System.Runtime.Serialization;
 namespace Ibanity.Apis.Client.JsonApi
 {
     [DataContract]
-    public class Resource<T>
+    public class Resource<TAttributes, TMeta, TRelationships>
     {
         [DataMember(Name = "data", EmitDefaultValue = false)]
-        public Data<T> Data { get; set; }
+        public Data<TAttributes, TMeta, TRelationships> Data { get; set; }
     }
 }

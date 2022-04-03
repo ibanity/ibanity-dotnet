@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.Serialization;
+using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect.Models
@@ -97,5 +98,18 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// <value>Amount of financial institution account funds that can be accessed immediately</value>
         [DataMember(Name = "availableBalance", EmitDefaultValue = false)]
         public decimal AvailableBalance { get; set; }
+    }
+
+    [DataContract]
+    public class AccountMeta
+    {
+        [DataMember(Name = "synchronizedAt", EmitDefaultValue = false)]
+        public DateTimeOffset SynchronizedAt { get; set; }
+
+        [DataMember(Name = "latestSynchronization", EmitDefaultValue = false)]
+        public Data<Synchronization, object, object> LatestSynchronization { get; set; }
+
+        [DataMember(Name = "availability", EmitDefaultValue = false)]
+        public string Availability { get; set; }
     }
 }

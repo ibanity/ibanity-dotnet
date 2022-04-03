@@ -4,13 +4,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
-using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Models;
 using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect
 {
-    public abstract class ResourceClient<T> where T : Identified<Guid>
+    public abstract class ResourceClient<TAttributes, TMeta, TRelationships> where TAttributes : Identified<Guid>
     {
         private readonly IApiClient _apiClient;
         private readonly IAccessTokenProvider _accessTokenProvider;
@@ -31,7 +30,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             _entityName = entityName;
         }
 
-        protected Task<PaginatedCollection<T>> InternalList(Token token, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken)
+        protected Task<PaginatedCollection<TAttributes>> InternalList(Token token, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken)
         {
             var parameters = (filters ?? Enumerable.Empty<Filter>()).Select(f => f.ToString()).ToList();
 
@@ -49,20 +48,20 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 cancellationToken);
         }
 
-        protected Task<PaginatedCollection<T>> InternalList(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
+        protected Task<PaginatedCollection<TAttributes>> InternalList(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
             InternalList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 (continuationToken ?? throw new ArgumentNullException(nameof(continuationToken))).NextUrl,
                 cancellationToken);
 
-        protected async Task<PaginatedCollection<T>> InternalList(Token token, string path, CancellationToken? cancellationToken)
+        protected async Task<PaginatedCollection<TAttributes>> InternalList(Token token, string path, CancellationToken? cancellationToken)
         {
-            var page = await _apiClient.Get<JsonApi.Collection<T>>(
+            var page = await _apiClient.Get<JsonApi.Collection<TAttributes, TMeta, TRelationships>>(
                 path,
                 await GetAccessToken(token),
                 cancellationToken ?? CancellationToken.None);
 
-            var result = new PaginatedCollection<T>(page.Data.Select(Map));
+            var result = new PaginatedCollection<TAttributes>(page.Data.Select(Map));
 
             result.ContinuationToken = page.Links.Next == null
                 ? null
@@ -71,8 +70,8 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             return result;
         }
 
-        protected async Task<T> InternalGet(Token token, Guid id, CancellationToken? cancellationToken) =>
-            Map((await _apiClient.Get<JsonApi.Resource<T>>(
+        protected async Task<TAttributes> InternalGet(Token token, Guid id, CancellationToken? cancellationToken) =>
+            Map((await _apiClient.Get<JsonApi.Resource<TAttributes, TMeta, TRelationships>>(
                 $"{_urlPrefix}/{_entityName}/{id}",
                 await GetAccessToken(token),
                 cancellationToken ?? CancellationToken.None)).Data);
@@ -83,7 +82,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 await GetAccessToken(token),
                 cancellationToken ?? CancellationToken.None);
 
-        protected T Map(Data<T> data)
+        protected TAttributes Map(JsonApi.Data<TAttributes, TMeta, TRelationships> data)
         {
             if (data is null)
                 throw new ArgumentNullException(nameof(data));

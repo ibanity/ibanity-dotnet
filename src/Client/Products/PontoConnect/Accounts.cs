@@ -8,7 +8,7 @@ using Ibanity.Apis.Client.Products.PontoConnect.Models;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect
 {
-    public class Accounts : ResourceClient<Account>, IAccounts
+    public class Accounts : ResourceClient<Account, AccountMeta, object>, IAccounts
     {
         private const string EntityName = "accounts";
 
