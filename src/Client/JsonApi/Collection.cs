@@ -10,7 +10,7 @@ namespace Ibanity.Apis.Client.JsonApi
         public CollectionMeta Meta { get; set; }
 
         [DataMember(Name = "links", EmitDefaultValue = false)]
-        public Links Links { get; set; }
+        public CollectionLinks Links { get; set; }
 
         [DataMember(Name = "data", EmitDefaultValue = false)]
         public List<Data<TAttributes, TMeta, TRelationships>> Data { get; set; } = new List<Data<TAttributes, TMeta, TRelationships>>();
