@@ -8,13 +8,6 @@ namespace Ibanity.Apis.Client.Models
     public abstract class Payment
     {
         /// <summary>
-        /// Current status of the payment.
-        /// </summary>
-        /// <value>Current status of the payment.</value>
-        [DataMember(Name = "status", EmitDefaultValue = false)]
-        public string Status { get; set; }
-
-        /// <summary>
         /// A date in the future when the payment is requested to be executed. The availability of this feature depends on each financial institution. See &lt;a href&#x3D;&#39;https://documentation.ibanity.com/ponto-connect/api#financial-institution-attributes&#39;&gt;financial institution attributes&lt;/a&gt;
         /// </summary>
         /// <value>A date in the future when the payment is requested to be executed. The availability of this feature depends on each financial institution. See &lt;a href&#x3D;&#39;https://documentation.ibanity.com/ponto-connect/api#financial-institution-attributes&#39;&gt;financial institution attributes&lt;/a&gt;</value>
@@ -97,6 +90,13 @@ namespace Ibanity.Apis.Client.Models
 
     public class PaymentResponse : Payment, IIdentified<Guid>
     {
+        /// <summary>
+        /// Current status of the payment.
+        /// </summary>
+        /// <value>Current status of the payment.</value>
+        [DataMember(Name = "status", EmitDefaultValue = false)]
+        public string Status { get; set; }
+
         /// <summary>
         /// URI to redirect to from your customer frontend to conduct the authorization flow.
         /// </summary>
