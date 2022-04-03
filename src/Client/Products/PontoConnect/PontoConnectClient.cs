@@ -14,6 +14,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             Transactions = new Transactions(apiClient, tokenService, UrlPrefix);
             ReauthorizationRequests = new ReauthorizationRequests(apiClient, tokenService, UrlPrefix);
             Payments = new Payments(apiClient, tokenService, UrlPrefix);
+            BulkPayments = new BulkPayments(apiClient, tokenService, UrlPrefix);
         }
 
         public IFinancialInstitutions FinancialInstitutions { get; }
@@ -21,6 +22,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         public ITransactions Transactions { get; }
         public IReauthorizationRequests ReauthorizationRequests { get; }
         public IPayments Payments { get; }
+        public IBulkPayments BulkPayments { get; }
     }
 
     public interface IPontoConnectClient : IProductClient
@@ -30,5 +32,6 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         ITransactions Transactions { get; }
         IReauthorizationRequests ReauthorizationRequests { get; }
         IPayments Payments { get; }
+        IBulkPayments BulkPayments { get; }
     }
 }

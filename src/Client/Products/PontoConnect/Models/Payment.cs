@@ -5,7 +5,7 @@ using Ibanity.Apis.Client.Utils;
 namespace Ibanity.Apis.Client.Models
 {
     [DataContract]
-    public abstract class Payment
+    public class Payment
     {
         /// <summary>
         /// A date in the future when the payment is requested to be executed. The availability of this feature depends on each financial institution. See &lt;a href&#x3D;&#39;https://documentation.ibanity.com/ponto-connect/api#financial-institution-attributes&#39;&gt;financial institution attributes&lt;/a&gt;
