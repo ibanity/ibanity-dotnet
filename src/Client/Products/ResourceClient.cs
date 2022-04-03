@@ -9,7 +9,7 @@ using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect
 {
-    public abstract class BaseResourceClient<TAttributes, TMeta, TRelationships, TLinks> where TAttributes : Identified<Guid>
+    public abstract class BaseResourceClient<TAttributes, TMeta, TRelationships, TLinks> where TAttributes : IIdentified<Guid>
     {
         protected readonly IApiClient _apiClient;
         private readonly IAccessTokenProvider _accessTokenProvider;
@@ -94,7 +94,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     }
 
     public abstract class ResourceClient<TAttributes, TMeta, TRelationships, TLinks> :
-        BaseResourceClient<TAttributes, TMeta, TRelationships, TLinks> where TAttributes : Identified<Guid>
+        BaseResourceClient<TAttributes, TMeta, TRelationships, TLinks> where TAttributes : IIdentified<Guid>
     {
         private readonly string _entityName;
 
@@ -121,7 +121,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     }
 
     public abstract class ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks> :
-        BaseResourceClient<TAttributes, TMeta, TRelationships, TLinks> where TAttributes : Identified<Guid>
+        BaseResourceClient<TAttributes, TMeta, TRelationships, TLinks> where TAttributes : IIdentified<Guid>
     {
         private readonly string _parentEntityName;
         private readonly string _entityName;
