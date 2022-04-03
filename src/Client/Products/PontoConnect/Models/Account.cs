@@ -98,6 +98,10 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// <value>Amount of financial institution account funds that can be accessed immediately</value>
         [DataMember(Name = "availableBalance", EmitDefaultValue = false)]
         public decimal AvailableBalance { get; set; }
+
+        public DateTimeOffset SynchronizedAt { get; set; }
+        public Synchronization LatestSynchronization { get; set; }
+        public string Availability { get; set; }
     }
 
     [DataContract]

@@ -82,7 +82,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 await GetAccessToken(token),
                 cancellationToken ?? CancellationToken.None);
 
-        protected TAttributes Map(JsonApi.Data<TAttributes, TMeta, TRelationships> data)
+        protected virtual TAttributes Map(JsonApi.Data<TAttributes, TMeta, TRelationships> data)
         {
             if (data is null)
                 throw new ArgumentNullException(nameof(data));

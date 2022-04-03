@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
+using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Models;
 using Ibanity.Apis.Client.Products.PontoConnect.Models;
 
@@ -34,6 +35,19 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
         public Task Revoke(Token token, Guid id, CancellationToken? cancellationToken = null) =>
             InternalDelete(token, id, cancellationToken);
+
+        protected override Account Map(Data<Account, AccountMeta, object> data)
+        {
+            var result = base.Map(data);
+
+            result.SynchronizedAt = data.Meta.SynchronizedAt;
+            result.Availability = data.Meta.Availability;
+
+            result.LatestSynchronization = data.Meta.LatestSynchronization.Attributes;
+            result.LatestSynchronization.Id = Guid.Parse(data.Meta.LatestSynchronization.Id);
+
+            return result;
+        }
     }
 
     public interface IAccounts
