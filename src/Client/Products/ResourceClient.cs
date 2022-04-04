@@ -121,16 +121,19 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         }
 
         protected Task<PaginatedCollection<TAttributes>> InternalList(Token token, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken) =>
-            InternalList(token, $"{_urlPrefix}/{_entityName}", filters, pageSize, cancellationToken);
+            InternalList(token, GetPath(), filters, pageSize, cancellationToken);
 
         protected Task<TAttributes> InternalGet(Token token, Guid id, CancellationToken? cancellationToken) =>
-            InternalGet(token, $"{_urlPrefix}/{_entityName}", id, cancellationToken);
+            InternalGet(token, GetPath(), id, cancellationToken);
 
         protected Task InternalDelete(Token token, Guid id, CancellationToken? cancellationToken) =>
-            InternalDelete(token, $"{_urlPrefix}/{_entityName}", id, cancellationToken);
+            InternalDelete(token, GetPath(), id, cancellationToken);
 
         protected Task<TAttributes> InternalCreate<T>(Token token, T payload, CancellationToken? cancellationToken) =>
-            InternalCreate(token, $"{_urlPrefix}/{_entityName}", payload, cancellationToken);
+            InternalCreate(token, GetPath(), payload, cancellationToken);
+
+        private string GetPath() =>
+            $"{_urlPrefix}/{_entityName}";
     }
 
     public abstract class ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks> :
