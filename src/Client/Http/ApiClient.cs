@@ -37,16 +37,19 @@ namespace Ibanity.Apis.Client.Http
             _customizeRequest = customizeRequest ?? throw new ArgumentNullException(nameof(customizeRequest));
         }
 
-        public async Task<T> Get<T>(string path, string bearerToken, CancellationToken cancellationToken)
+        public Task<T> Get<T>(string path, string bearerToken, CancellationToken cancellationToken) =>
+            SendWithoutPayload<T>(HttpMethod.Get, path, bearerToken, cancellationToken);
+
+        private async Task<T> SendWithoutPayload<T>(HttpMethod method, string path, string bearerToken, CancellationToken cancellationToken)
         {
             if (path is null)
                 throw new ArgumentNullException(nameof(path));
 
-            var headers = GetCommonHeaders(HttpMethod.Get, bearerToken, path);
+            var headers = GetCommonHeaders(method, bearerToken, path);
 
-            _logger.Debug("Sending request: GET " + path);
+            _logger.Debug($"Sending request: {method.ToString().ToUpper()} {path}");
 
-            using (var request = new HttpRequestMessage(HttpMethod.Get, path))
+            using (var request = new HttpRequestMessage(method, path))
             {
                 foreach (var header in headers)
                     request.Headers.Add(header.Key, header.Value);
@@ -59,25 +62,11 @@ namespace Ibanity.Apis.Client.Http
             }
         }
 
-        public async Task Delete(string path, string bearerToken, CancellationToken cancellationToken)
-        {
-            if (path is null)
-                throw new ArgumentNullException(nameof(path));
+        public Task<T> Delete<T>(string path, string bearerToken, CancellationToken cancellationToken) =>
+            SendWithoutPayload<T>(HttpMethod.Delete, path, bearerToken, cancellationToken);
 
-            var headers = GetCommonHeaders(HttpMethod.Delete, bearerToken, path);
-
-            _logger.Debug("Sending request: DELETE " + path);
-
-            using (var request = new HttpRequestMessage(HttpMethod.Delete, path))
-            {
-                foreach (var header in headers)
-                    request.Headers.Add(header.Key, header.Value);
-
-                _customizeRequest(request);
-
-                await (await _httpClient.SendAsync(request, cancellationToken)).ThrowOnFailure(_serializer);
-            }
-        }
+        public Task Delete(string path, string bearerToken, CancellationToken cancellationToken) =>
+            Delete<object>(path, bearerToken, cancellationToken);
 
         public Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, CancellationToken cancellationToken) =>
             SendWithPayload<TRequest, TResponse>(HttpMethod.Post, path, bearerToken, payload, cancellationToken);
@@ -136,6 +125,7 @@ namespace Ibanity.Apis.Client.Http
     public interface IApiClient
     {
         Task<T> Get<T>(string path, string bearerToken, CancellationToken cancellationToken);
+        Task<T> Delete<T>(string path, string bearerToken, CancellationToken cancellationToken);
         Task Delete(string path, string bearerToken, CancellationToken cancellationToken);
         Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, CancellationToken cancellationToken);
         Task<TResponse> Patch<TRequest, TResponse>(string path, string bearerToken, TRequest payload, CancellationToken cancellationToken);
