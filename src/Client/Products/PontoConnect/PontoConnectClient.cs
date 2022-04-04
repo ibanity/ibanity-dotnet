@@ -20,6 +20,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             OnboardingDetails = new OnboardingDetails(apiClient, tokenService, UrlPrefix);
             UserInfo = new UserInfo(apiClient, tokenService, UrlPrefix);
             Usages = new Usages(apiClient, clientAccessTokenService, UrlPrefix);
+            Integrations = new Integrations(apiClient, clientAccessTokenService, UrlPrefix);
         }
 
         public IFinancialInstitutions FinancialInstitutions { get; }
@@ -33,6 +34,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         public IOnboardingDetails OnboardingDetails { get; }
         public IUserInfo UserInfo { get; }
         public IUsages Usages { get; }
+        public IIntegrations Integrations { get; }
     }
 
     public interface IPontoConnectClient : IProductClient
@@ -48,5 +50,6 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         IOnboardingDetails OnboardingDetails { get; }
         IUserInfo UserInfo { get; }
         IUsages Usages { get; }
+        IIntegrations Integrations { get; }
     }
 }
