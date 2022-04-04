@@ -6,7 +6,7 @@ using Ibanity.Apis.Client.Utils;
 namespace Ibanity.Apis.Client.Products.PontoConnect.Models
 {
     [DataContract]
-    public class Account : Identified<Guid>
+    public class Account
     {
         /// <summary>
         /// Type of financial institution account. Can be &lt;code&gt;checking&lt;/code&gt;, &lt;code&gt;savings&lt;/code&gt;, &lt;code&gt;securities&lt;/code&gt;, &lt;code&gt;card&lt;/code&gt; or &lt;code&gt;psp&lt;/code&gt;
@@ -98,7 +98,11 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// <value>Amount of financial institution account funds that can be accessed immediately</value>
         [DataMember(Name = "availableBalance", EmitDefaultValue = false)]
         public decimal AvailableBalance { get; set; }
+    }
 
+    public class AccountResponse : Account, IIdentified<Guid>
+    {
+        public Guid Id { get; set; }
         public DateTimeOffset SynchronizedAt { get; set; }
         public Synchronization LatestSynchronization { get; set; }
         public string Availability { get; set; }

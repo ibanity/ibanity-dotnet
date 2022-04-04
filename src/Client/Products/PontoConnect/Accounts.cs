@@ -9,7 +9,7 @@ using Ibanity.Apis.Client.Products.PontoConnect.Models;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect
 {
-    public class Accounts : ResourceClient<Account, AccountMeta, object, object>, IAccounts
+    public class Accounts : ResourceClient<AccountResponse, AccountMeta, object, object>, IAccounts
     {
         private const string EntityName = "accounts";
 
@@ -17,26 +17,26 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             base(apiClient, accessTokenProvider, urlPrefix, EntityName)
         { }
 
-        public Task<PaginatedCollection<Account>> List(Token token, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken) =>
+        public Task<PaginatedCollection<AccountResponse>> List(Token token, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken) =>
             InternalList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 filters,
                 pageSize,
                 cancellationToken);
 
-        public Task<PaginatedCollection<Account>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
+        public Task<PaginatedCollection<AccountResponse>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
             InternalList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 continuationToken ?? throw new ArgumentNullException(nameof(continuationToken)),
                 cancellationToken);
 
-        public Task<Account> Get(Token token, Guid id, CancellationToken? cancellationToken) =>
+        public Task<AccountResponse> Get(Token token, Guid id, CancellationToken? cancellationToken) =>
             InternalGet(token, id, cancellationToken);
 
         public Task Revoke(Token token, Guid id, CancellationToken? cancellationToken = null) =>
             InternalDelete(token, id, cancellationToken);
 
-        protected override Account Map(Data<Account, AccountMeta, object, object> data)
+        protected override AccountResponse Map(Data<AccountResponse, AccountMeta, object, object> data)
         {
             var result = base.Map(data);
 
@@ -52,9 +52,9 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
     public interface IAccounts
     {
-        Task<PaginatedCollection<Account>> List(Token token, IEnumerable<Filter> filters = null, int? pageSize = null, CancellationToken? cancellationToken = null);
-        Task<PaginatedCollection<Account>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
-        Task<Account> Get(Token token, Guid id, CancellationToken? cancellationToken = null);
+        Task<PaginatedCollection<AccountResponse>> List(Token token, IEnumerable<Filter> filters = null, int? pageSize = null, CancellationToken? cancellationToken = null);
+        Task<PaginatedCollection<AccountResponse>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
+        Task<AccountResponse> Get(Token token, Guid id, CancellationToken? cancellationToken = null);
         Task Revoke(Token token, Guid id, CancellationToken? cancellationToken = null);
     }
 }
