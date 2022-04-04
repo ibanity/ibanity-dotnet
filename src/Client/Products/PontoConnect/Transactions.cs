@@ -8,7 +8,7 @@ using Ibanity.Apis.Client.Models;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect
 {
-    public class Transactions : ResourceWithParentClient<Transaction, object, TransactionRelationships, object>, ITransactions
+    public class Transactions : ResourceWithParentClient<TransactionResponse, object, TransactionRelationships, object>, ITransactions
     {
         private const string ParentEntityName = "accounts";
         private const string EntityName = "transactions";
@@ -17,7 +17,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName })
         { }
 
-        public Task<PaginatedCollection<Transaction>> List(Token token, Guid accountId, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken) =>
+        public Task<PaginatedCollection<TransactionResponse>> List(Token token, Guid accountId, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken) =>
             InternalList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 new[] { accountId },
@@ -25,16 +25,16 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 pageSize,
                 cancellationToken);
 
-        public Task<PaginatedCollection<Transaction>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
+        public Task<PaginatedCollection<TransactionResponse>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
             InternalList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 continuationToken ?? throw new ArgumentNullException(nameof(continuationToken)),
                 cancellationToken);
 
-        public Task<Transaction> Get(Token token, Guid accountId, Guid id, CancellationToken? cancellationToken) =>
+        public Task<TransactionResponse> Get(Token token, Guid accountId, Guid id, CancellationToken? cancellationToken) =>
             InternalGet(token, new[] { accountId }, id, cancellationToken);
 
-        protected override Transaction Map(Data<Transaction, object, TransactionRelationships, object> data)
+        protected override TransactionResponse Map(Data<TransactionResponse, object, TransactionRelationships, object> data)
         {
             var result = base.Map(data);
 
@@ -46,8 +46,8 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
     public interface ITransactions
     {
-        Task<PaginatedCollection<Transaction>> List(Token token, Guid accountId, IEnumerable<Filter> filters = null, int? pageSize = null, CancellationToken? cancellationToken = null);
-        Task<PaginatedCollection<Transaction>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
-        Task<Transaction> Get(Token token, Guid accountId, Guid id, CancellationToken? cancellationToken = null);
+        Task<PaginatedCollection<TransactionResponse>> List(Token token, Guid accountId, IEnumerable<Filter> filters = null, int? pageSize = null, CancellationToken? cancellationToken = null);
+        Task<PaginatedCollection<TransactionResponse>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
+        Task<TransactionResponse> Get(Token token, Guid accountId, Guid id, CancellationToken? cancellationToken = null);
     }
 }

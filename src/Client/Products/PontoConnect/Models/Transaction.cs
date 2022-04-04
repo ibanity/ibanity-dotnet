@@ -5,7 +5,7 @@ using Ibanity.Apis.Client.Utils;
 namespace Ibanity.Apis.Client.Models
 {
     [DataContract]
-    public class Transaction : Identified<Guid>
+    public class Transaction
     {
         /// <summary>
         /// Date representing the moment the financial institution transaction is considered effective
@@ -13,13 +13,6 @@ namespace Ibanity.Apis.Client.Models
         /// <value>Date representing the moment the financial institution transaction is considered effective</value>
         [DataMember(Name = "valueDate", EmitDefaultValue = false)]
         public DateTimeOffset ValueDate { get; set; }
-
-        /// <summary>
-        /// When this financial institution transaction was last synchronized successfully. Formatted according to &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_8601&#39;&gt;ISO8601&lt;/a&gt; spec
-        /// </summary>
-        /// <value>When this financial institution transaction was last synchronized successfully. Formatted according to &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_8601&#39;&gt;ISO8601&lt;/a&gt; spec</value>
-        [DataMember(Name = "updatedAt", EmitDefaultValue = false)]
-        public DateTimeOffset UpdatedAt { get; set; }
 
         /// <summary>
         /// Type of remittance information, can be &lt;code&gt;structured&lt;/code&gt; or &lt;code&gt;unstructured&lt;/code&gt;
@@ -132,8 +125,21 @@ namespace Ibanity.Apis.Client.Models
         /// <value>Additional transaction-related information provided from the financial institution to the customer</value>
         [DataMember(Name = "additionalInformation", EmitDefaultValue = false)]
         public string AdditionalInformation { get; set; }
+    }
+
+    [DataContract]
+    public class TransactionResponse : Transaction, IIdentified<Guid>
+    {
+        public Guid Id { get; set; }
 
         public Guid AccountId { get; set; }
+
+        /// <summary>
+        /// When this financial institution transaction was last synchronized successfully. Formatted according to &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_8601&#39;&gt;ISO8601&lt;/a&gt; spec
+        /// </summary>
+        /// <value>When this financial institution transaction was last synchronized successfully. Formatted according to &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_8601&#39;&gt;ISO8601&lt;/a&gt; spec</value>
+        [DataMember(Name = "updatedAt", EmitDefaultValue = false)]
+        public DateTimeOffset UpdatedAt { get; set; }
     }
 
     [DataContract]
