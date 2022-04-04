@@ -25,7 +25,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 pageSize,
                 cancellationToken);
 
-        public Task<PaginatedCollection<Transaction>> List(Token token, Guid accountId, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
+        public Task<PaginatedCollection<Transaction>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
             InternalList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 continuationToken ?? throw new ArgumentNullException(nameof(continuationToken)),
@@ -47,7 +47,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     public interface ITransactions
     {
         Task<PaginatedCollection<Transaction>> List(Token token, Guid accountId, IEnumerable<Filter> filters = null, int? pageSize = null, CancellationToken? cancellationToken = null);
-        Task<PaginatedCollection<Transaction>> List(Token token, Guid accountId, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
+        Task<PaginatedCollection<Transaction>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
         Task<Transaction> Get(Token token, Guid accountId, Guid id, CancellationToken? cancellationToken = null);
     }
 }
