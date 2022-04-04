@@ -17,6 +17,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             BulkPayments = new BulkPayments(apiClient, tokenService, UrlPrefix);
             Synchronizations = new Synchronizations(apiClient, tokenService, UrlPrefix);
             Sandbox = new Sandbox(apiClient, tokenService, UrlPrefix);
+            OnboardingDetails = new OnboardingDetails(apiClient, tokenService, UrlPrefix);
         }
 
         public IFinancialInstitutions FinancialInstitutions { get; }
@@ -27,6 +28,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         public IBulkPayments BulkPayments { get; }
         public ISynchronizations Synchronizations { get; }
         public ISandbox Sandbox { get; }
+        public IOnboardingDetails OnboardingDetails { get; }
     }
 
     public interface IPontoConnectClient : IProductClient
@@ -39,5 +41,6 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         IBulkPayments BulkPayments { get; }
         ISynchronizations Synchronizations { get; }
         ISandbox Sandbox { get; }
+        IOnboardingDetails OnboardingDetails { get; }
     }
 }
