@@ -84,6 +84,13 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 payload,
                 cancellationToken ?? CancellationToken.None)).Data);
 
+        protected async Task<TAttributes> InternalUpdate<T>(Token token, string path, T payload, CancellationToken? cancellationToken) =>
+            Map((await _apiClient.Patch<T, JsonApi.Resource<TAttributes, TMeta, TRelationships, TLinks>>(
+                $"{path}",
+                await GetAccessToken(token),
+                payload,
+                cancellationToken ?? CancellationToken.None)).Data);
+
         protected virtual TAttributes Map(JsonApi.Data<TAttributes, TMeta, TRelationships, TLinks> data)
         {
             if (data is null)
@@ -148,6 +155,9 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
         protected Task<TAttributes> InternalCreate<T>(Token token, Guid[] parentIds, T payload, CancellationToken? cancellationToken) =>
             InternalCreate(token, GetPath(parentIds), payload, cancellationToken);
+
+        protected Task<TAttributes> InternalUpdate<T>(Token token, Guid[] parentIds, T payload, CancellationToken? cancellationToken) =>
+            InternalUpdate(token, GetPath(parentIds), payload, cancellationToken);
 
         private string GetPath(Guid[] ids)
         {
