@@ -121,6 +121,9 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
         protected Task InternalDelete(Token token, Guid id, CancellationToken? cancellationToken) =>
             InternalDelete(token, $"{_urlPrefix}/{_entityName}", id, cancellationToken);
+
+        protected Task<TAttributes> InternalCreate<T>(Token token, T payload, CancellationToken? cancellationToken) =>
+            InternalCreate(token, $"{_urlPrefix}/{_entityName}", payload, cancellationToken);
     }
 
     public abstract class ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks> :
