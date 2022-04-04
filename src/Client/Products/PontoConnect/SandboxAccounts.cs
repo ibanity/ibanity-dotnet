@@ -30,11 +30,15 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 token ?? throw new ArgumentNullException(nameof(token)),
                 continuationToken ?? throw new ArgumentNullException(nameof(continuationToken)),
                 cancellationToken);
+
+        public Task<SandboxAccount> Get(Token token, Guid financialInstitutionId, Guid id, CancellationToken? cancellationToken) =>
+            InternalGet(token, financialInstitutionId, id, cancellationToken);
     }
 
     public interface ISandboxAccounts
     {
         Task<PaginatedCollection<SandboxAccount>> List(Token token, Guid financialInstitutionId, IEnumerable<Filter> filters = null, int? pageSize = null, CancellationToken? cancellationToken = null);
         Task<PaginatedCollection<SandboxAccount>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
+        Task<SandboxAccount> Get(Token token, Guid financialInstitutionId, Guid id, CancellationToken? cancellationToken = null);
     }
 }
