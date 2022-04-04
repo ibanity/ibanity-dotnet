@@ -13,7 +13,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         private const string EntityName = "transactions";
 
         public ReauthorizationRequests(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix) :
-            base(apiClient, accessTokenProvider, urlPrefix, ParentEntityName, EntityName)
+            base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName })
         { }
 
         public Task<ReauthorizationRequest> Create(Token token, Guid accountId, Uri redirect, CancellationToken? cancellationToken)
@@ -28,7 +28,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             payload.Type = "reauthorizationRequest";
             payload.Attributes.Redirect = redirect;
 
-            return InternalCreate(token, accountId, payload, cancellationToken);
+            return InternalCreate(token, new[] { accountId }, payload, cancellationToken);
         }
 
         public Task<ReauthorizationRequest> Create(Token token, Guid accountId, string redirectUri, CancellationToken? cancellationToken)

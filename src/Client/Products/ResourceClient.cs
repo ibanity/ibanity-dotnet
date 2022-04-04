@@ -129,32 +129,38 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     public abstract class ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks> :
         BaseResourceClient<TAttributes, TMeta, TRelationships, TLinks> where TAttributes : IIdentified<Guid>
     {
-        private readonly string _parentEntityName;
-        private readonly string _entityName;
+        private readonly string[] _entityNames;
 
-        public ResourceWithParentClient(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix, string parentEntityName, string entityName) :
+        public ResourceWithParentClient(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix, string[] entityNames) :
             base(apiClient, accessTokenProvider, urlPrefix)
         {
-            if (string.IsNullOrWhiteSpace(parentEntityName))
-                throw new ArgumentException($"'{nameof(parentEntityName)}' cannot be null or whitespace.", nameof(parentEntityName));
-
-            if (string.IsNullOrWhiteSpace(entityName))
-                throw new ArgumentException($"'{nameof(entityName)}' cannot be null or whitespace.", nameof(entityName));
-
-            _parentEntityName = parentEntityName;
-            _entityName = entityName;
+            _entityNames = entityNames ?? throw new ArgumentNullException(nameof(entityNames));
         }
 
-        protected Task<PaginatedCollection<TAttributes>> InternalList(Token token, Guid parentId, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken) =>
-            InternalList(token, $"{_urlPrefix}/{_parentEntityName}/{parentId}/{_entityName}", filters, pageSize, cancellationToken);
+        protected Task<PaginatedCollection<TAttributes>> InternalList(Token token, Guid[] parentIds, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken) =>
+            InternalList(token, GetPath(parentIds), filters, pageSize, cancellationToken);
 
-        protected Task<TAttributes> InternalGet(Token token, Guid parentId, Guid id, CancellationToken? cancellationToken) =>
-            InternalGet(token, $"{_urlPrefix}/{_parentEntityName}/{parentId}/{_entityName}", id, cancellationToken);
+        protected Task<TAttributes> InternalGet(Token token, Guid[] parentIds, Guid id, CancellationToken? cancellationToken) =>
+            InternalGet(token, GetPath(parentIds), id, cancellationToken);
 
-        protected Task InternalDelete(Token token, Guid parentId, Guid id, CancellationToken? cancellationToken) =>
-            InternalDelete(token, $"{_urlPrefix}/{_parentEntityName}/{parentId}/{_entityName}", id, cancellationToken);
+        protected Task InternalDelete(Token token, Guid[] parentIds, Guid id, CancellationToken? cancellationToken) =>
+            InternalDelete(token, GetPath(parentIds), id, cancellationToken);
 
-        protected Task<TAttributes> InternalCreate<T>(Token token, Guid parentId, T payload, CancellationToken? cancellationToken) =>
-            InternalCreate(token, $"{_urlPrefix}/{_parentEntityName}/{parentId}/{_entityName}", payload, cancellationToken);
+        protected Task<TAttributes> InternalCreate<T>(Token token, Guid[] parentIds, T payload, CancellationToken? cancellationToken) =>
+            InternalCreate(token, GetPath(parentIds), payload, cancellationToken);
+
+        private string GetPath(Guid[] ids)
+        {
+            if (ids is null)
+                throw new ArgumentNullException(nameof(ids));
+
+            if (ids.Length != _entityNames.Length - 1)
+                throw new ArgumentException($"Expected {_entityNames.Length - 1} IDs but got {ids.Length}", nameof(ids));
+
+            return
+                _urlPrefix + "/" +
+                string.Join(string.Empty, _entityNames.Take(_entityNames.Length - 1).Zip(ids, (e, i) => $"{e}/{i}/")) +
+                _entityNames.Last();
+        }
     }
 }

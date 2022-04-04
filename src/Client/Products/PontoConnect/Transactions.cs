@@ -14,13 +14,13 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         private const string EntityName = "transactions";
 
         public Transactions(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix) :
-            base(apiClient, accessTokenProvider, urlPrefix, ParentEntityName, EntityName)
+            base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName })
         { }
 
         public Task<PaginatedCollection<Transaction>> List(Token token, Guid accountId, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken) =>
             InternalList(
                 token ?? throw new ArgumentNullException(nameof(token)),
-                accountId,
+                new[] { accountId },
                 filters,
                 pageSize,
                 cancellationToken);
@@ -32,7 +32,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 cancellationToken);
 
         public Task<Transaction> Get(Token token, Guid accountId, Guid id, CancellationToken? cancellationToken) =>
-            InternalGet(token, accountId, id, cancellationToken);
+            InternalGet(token, new[] { accountId }, id, cancellationToken);
 
         protected override Transaction Map(Data<Transaction, object, TransactionRelationships, object> data)
         {

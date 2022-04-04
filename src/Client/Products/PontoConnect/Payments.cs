@@ -13,7 +13,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         private const string EntityName = "payments";
 
         public Payments(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix) :
-            base(apiClient, accessTokenProvider, urlPrefix, ParentEntityName, EntityName)
+            base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName })
         { }
 
         public Task<PaymentResponse> Create(Token token, Guid accountId, PaymentRequest payment, CancellationToken? cancellationToken)
@@ -28,14 +28,14 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             payload.Type = "payment";
             payload.Attributes = payment;
 
-            return InternalCreate(token, accountId, payload, cancellationToken);
+            return InternalCreate(token, new[] { accountId }, payload, cancellationToken);
         }
 
         public Task<PaymentResponse> Get(Token token, Guid accountId, Guid id, CancellationToken? cancellationToken) =>
-            InternalGet(token, accountId, id, cancellationToken);
+            InternalGet(token, new[] { accountId }, id, cancellationToken);
 
         public Task Delete(Token token, Guid accountId, Guid id, CancellationToken? cancellationToken) =>
-            InternalDelete(token, accountId, id, cancellationToken);
+            InternalDelete(token, new[] { accountId }, id, cancellationToken);
 
         protected override PaymentResponse Map(Data<PaymentResponse, object, object, PaymentLinks> data)
         {

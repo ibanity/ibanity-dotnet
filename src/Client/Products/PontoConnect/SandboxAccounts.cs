@@ -14,13 +14,13 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         private const string EntityName = "financial-institution-accounts";
 
         public SandboxAccounts(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix) :
-            base(apiClient, accessTokenProvider, urlPrefix, ParentEntityName, EntityName)
+            base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName })
         { }
 
         public Task<PaginatedCollection<SandboxAccount>> List(Token token, Guid financialInstitutionId, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken) =>
             InternalList(
                 token ?? throw new ArgumentNullException(nameof(token)),
-                financialInstitutionId,
+                new[] { financialInstitutionId },
                 filters,
                 pageSize,
                 cancellationToken);
@@ -32,7 +32,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 cancellationToken);
 
         public Task<SandboxAccount> Get(Token token, Guid financialInstitutionId, Guid id, CancellationToken? cancellationToken) =>
-            InternalGet(token, financialInstitutionId, id, cancellationToken);
+            InternalGet(token, new[] { financialInstitutionId }, id, cancellationToken);
     }
 
     public interface ISandboxAccounts
