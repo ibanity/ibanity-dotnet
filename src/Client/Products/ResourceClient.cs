@@ -148,6 +148,9 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
             if (entityNames.Any(string.IsNullOrWhiteSpace))
                 throw new ArgumentException("Empty entity name", nameof(entityNames));
+
+            if (entityNames.Length < 2)
+                throw new ArgumentException($"Too few entity names (expected at least 2 but got {entityNames.Length})", nameof(entityNames));
         }
 
         protected Task<PaginatedCollection<TAttributes>> InternalList(Token token, Guid[] parentIds, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken) =>
