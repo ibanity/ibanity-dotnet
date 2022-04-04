@@ -18,6 +18,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             Synchronizations = new Synchronizations(apiClient, tokenService, UrlPrefix);
             Sandbox = new Sandbox(apiClient, tokenService, UrlPrefix);
             OnboardingDetails = new OnboardingDetails(apiClient, tokenService, UrlPrefix);
+            UserInfo = new UserInfo(apiClient, tokenService, UrlPrefix);
         }
 
         public IFinancialInstitutions FinancialInstitutions { get; }
@@ -29,6 +30,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         public ISynchronizations Synchronizations { get; }
         public ISandbox Sandbox { get; }
         public IOnboardingDetails OnboardingDetails { get; }
+        public IUserInfo UserInfo { get; }
     }
 
     public interface IPontoConnectClient : IProductClient
@@ -42,5 +44,6 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         ISynchronizations Synchronizations { get; }
         ISandbox Sandbox { get; }
         IOnboardingDetails OnboardingDetails { get; }
+        IUserInfo UserInfo { get; }
     }
 }
