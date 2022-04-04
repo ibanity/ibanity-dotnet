@@ -16,7 +16,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName })
         { }
 
-        public Task<ReauthorizationRequest> Create(Token token, Guid accountId, Uri redirect, CancellationToken? cancellationToken)
+        public Task<ReauthorizationRequest> Create(Token token, Guid accountId, Uri redirect, Guid? idempotencyKey, CancellationToken? cancellationToken)
         {
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
@@ -28,10 +28,10 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             payload.Type = "reauthorizationRequest";
             payload.Attributes.Redirect = redirect;
 
-            return InternalCreate(token, new[] { accountId }, payload, cancellationToken);
+            return InternalCreate(token, new[] { accountId }, payload, idempotencyKey, cancellationToken);
         }
 
-        public Task<ReauthorizationRequest> Create(Token token, Guid accountId, string redirectUri, CancellationToken? cancellationToken)
+        public Task<ReauthorizationRequest> Create(Token token, Guid accountId, string redirectUri, Guid? idempotencyKey, CancellationToken? cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(redirectUri))
                 throw new ArgumentException($"'{nameof(redirectUri)}' cannot be null or whitespace.", nameof(redirectUri));
@@ -40,6 +40,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 token,
                 accountId,
                 new Uri(redirectUri),
+                idempotencyKey,
                 cancellationToken);
         }
 
@@ -55,7 +56,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
     public interface IReauthorizationRequests
     {
-        Task<ReauthorizationRequest> Create(Token token, Guid accountId, Uri redirect, CancellationToken? cancellationToken = null);
-        Task<ReauthorizationRequest> Create(Token token, Guid accountId, string redirectUri, CancellationToken? cancellationToken = null);
+        Task<ReauthorizationRequest> Create(Token token, Guid accountId, Uri redirect, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+        Task<ReauthorizationRequest> Create(Token token, Guid accountId, string redirectUri, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }

@@ -16,7 +16,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName })
         { }
 
-        public Task<PaymentResponse> Create(Token token, Guid accountId, PaymentRequest payment, CancellationToken? cancellationToken)
+        public Task<PaymentResponse> Create(Token token, Guid accountId, PaymentRequest payment, Guid? idempotencyKey, CancellationToken? cancellationToken)
         {
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
@@ -28,7 +28,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             payload.Type = "payment";
             payload.Attributes = payment;
 
-            return InternalCreate(token, new[] { accountId }, payload, cancellationToken);
+            return InternalCreate(token, new[] { accountId }, payload, idempotencyKey, cancellationToken);
         }
 
         public Task<PaymentResponse> Get(Token token, Guid accountId, Guid id, CancellationToken? cancellationToken) =>
@@ -49,7 +49,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
     public interface IPayments
     {
-        Task<PaymentResponse> Create(Token token, Guid accountId, PaymentRequest payment, CancellationToken? cancellationToken = null);
+        Task<PaymentResponse> Create(Token token, Guid accountId, PaymentRequest payment, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
         Task<PaymentResponse> Get(Token token, Guid accountId, Guid id, CancellationToken? cancellationToken = null);
         Task Delete(Token token, Guid accountId, Guid id, CancellationToken? cancellationToken = null);
     }

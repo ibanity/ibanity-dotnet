@@ -45,7 +45,7 @@ namespace Ibanity.Apis.Client.Http
             if (path is null)
                 throw new ArgumentNullException(nameof(path));
 
-            var headers = GetCommonHeaders(method, bearerToken, path);
+            var headers = GetCommonHeaders(method, bearerToken, path, null);
 
             _logger.Debug($"Sending request: {method.ToString().ToUpper()} {path}");
 
@@ -68,18 +68,18 @@ namespace Ibanity.Apis.Client.Http
         public Task Delete(string path, string bearerToken, CancellationToken cancellationToken) =>
             Delete<object>(path, bearerToken, cancellationToken);
 
-        public Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, CancellationToken cancellationToken) =>
-            SendWithPayload<TRequest, TResponse>(HttpMethod.Post, path, bearerToken, payload, cancellationToken);
+        public Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken) =>
+            SendWithPayload<TRequest, TResponse>(HttpMethod.Post, path, bearerToken, payload, idempotencyKey, cancellationToken);
 
-        public Task<TResponse> Patch<TRequest, TResponse>(string path, string bearerToken, TRequest payload, CancellationToken cancellationToken) =>
-            SendWithPayload<TRequest, TResponse>(new HttpMethod("PATCH"), path, bearerToken, payload, cancellationToken);
+        public Task<TResponse> Patch<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken) =>
+            SendWithPayload<TRequest, TResponse>(new HttpMethod("PATCH"), path, bearerToken, payload, idempotencyKey, cancellationToken);
 
-        private async Task<TResponse> SendWithPayload<TRequest, TResponse>(HttpMethod method, string path, string bearerToken, TRequest payload, CancellationToken cancellationToken)
+        private async Task<TResponse> SendWithPayload<TRequest, TResponse>(HttpMethod method, string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken)
         {
             if (path is null)
                 throw new ArgumentNullException(nameof(path));
 
-            var headers = GetCommonHeaders(method, bearerToken, path);
+            var headers = GetCommonHeaders(method, bearerToken, path, idempotencyKey);
 
             _logger.Debug($"Sending request: {method.ToString().ToUpper()} {path}");
 
@@ -99,7 +99,7 @@ namespace Ibanity.Apis.Client.Http
             }
         }
 
-        private Dictionary<string, string> GetCommonHeaders(HttpMethod method, string bearerToken, string path)
+        private Dictionary<string, string> GetCommonHeaders(HttpMethod method, string bearerToken, string path, Guid? idempotencyKey)
         {
             var headers = new Dictionary<string, string>
             {
@@ -108,6 +108,9 @@ namespace Ibanity.Apis.Client.Http
 
             if (!string.IsNullOrWhiteSpace(bearerToken))
                 headers["Authorization"] = $"Bearer {bearerToken}";
+
+            if (idempotencyKey.HasValue)
+                headers["Ibanity-Idempotency-Key"] = idempotencyKey.Value.ToString();
 
             var signatureHeaders = _signatureService.GetHttpSignatureHeaders(
                 method.Method.ToUpper(),
@@ -127,7 +130,7 @@ namespace Ibanity.Apis.Client.Http
         Task<T> Get<T>(string path, string bearerToken, CancellationToken cancellationToken);
         Task<T> Delete<T>(string path, string bearerToken, CancellationToken cancellationToken);
         Task Delete(string path, string bearerToken, CancellationToken cancellationToken);
-        Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, CancellationToken cancellationToken);
-        Task<TResponse> Patch<TRequest, TResponse>(string path, string bearerToken, TRequest payload, CancellationToken cancellationToken);
+        Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken);
+        Task<TResponse> Patch<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken);
     }
 }

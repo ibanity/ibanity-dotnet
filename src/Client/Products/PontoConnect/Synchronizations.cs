@@ -14,7 +14,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             base(apiClient, accessTokenProvider, urlPrefix, EntityName)
         { }
 
-        public Task<Synchronization> Create(Token token, SynchronizationRequest synchronization, CancellationToken? cancellationToken)
+        public Task<Synchronization> Create(Token token, SynchronizationRequest synchronization, Guid? idempotencyKey, CancellationToken? cancellationToken)
         {
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
@@ -26,7 +26,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             payload.Type = "synchronization";
             payload.Attributes = synchronization;
 
-            return InternalCreate(token, payload, cancellationToken);
+            return InternalCreate(token, payload, idempotencyKey, cancellationToken);
         }
 
         public Task<Synchronization> Get(Token token, Guid id, CancellationToken? cancellationToken) =>
@@ -35,7 +35,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
     public interface ISynchronizations
     {
-        Task<Synchronization> Create(Token token, SynchronizationRequest synchronization, CancellationToken? cancellationToken = null);
+        Task<Synchronization> Create(Token token, SynchronizationRequest synchronization, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
         Task<Synchronization> Get(Token token, Guid id, CancellationToken? cancellationToken = null);
     }
 }

@@ -77,18 +77,20 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 await GetAccessToken(token),
                 cancellationToken ?? CancellationToken.None);
 
-        protected async Task<TAttributes> InternalCreate<T>(Token token, string path, T payload, CancellationToken? cancellationToken) =>
+        protected async Task<TAttributes> InternalCreate<T>(Token token, string path, T payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             Map((await _apiClient.Post<T, JsonApi.Resource<TAttributes, TMeta, TRelationships, TLinks>>(
                 $"{path}",
                 await GetAccessToken(token),
                 payload,
+                idempotencyKey ?? Guid.NewGuid(),
                 cancellationToken ?? CancellationToken.None)).Data);
 
-        protected async Task<TAttributes> InternalUpdate<T>(Token token, string path, T payload, CancellationToken? cancellationToken) =>
+        protected async Task<TAttributes> InternalUpdate<T>(Token token, string path, T payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             Map((await _apiClient.Patch<T, JsonApi.Resource<TAttributes, TMeta, TRelationships, TLinks>>(
                 $"{path}",
                 await GetAccessToken(token),
                 payload,
+                idempotencyKey ?? Guid.NewGuid(),
                 cancellationToken ?? CancellationToken.None)).Data);
 
         protected virtual TAttributes Map(JsonApi.Data<TAttributes, TMeta, TRelationships, TLinks> data)
@@ -129,8 +131,8 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         protected Task InternalDelete(Token token, Guid id, CancellationToken? cancellationToken) =>
             InternalDelete(token, GetPath(), id, cancellationToken);
 
-        protected Task<TAttributes> InternalCreate<T>(Token token, T payload, CancellationToken? cancellationToken) =>
-            InternalCreate(token, GetPath(), payload, cancellationToken);
+        protected Task<TAttributes> InternalCreate<T>(Token token, T payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+            InternalCreate(token, GetPath(), payload, idempotencyKey, cancellationToken);
 
         private string GetPath() =>
             $"{_urlPrefix}/{_entityName}";
@@ -162,11 +164,11 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         protected Task InternalDelete(Token token, Guid[] parentIds, Guid id, CancellationToken? cancellationToken) =>
             InternalDelete(token, GetPath(parentIds), id, cancellationToken);
 
-        protected Task<TAttributes> InternalCreate<T>(Token token, Guid[] parentIds, T payload, CancellationToken? cancellationToken) =>
-            InternalCreate(token, GetPath(parentIds), payload, cancellationToken);
+        protected Task<TAttributes> InternalCreate<T>(Token token, Guid[] parentIds, T payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+            InternalCreate(token, GetPath(parentIds), payload, idempotencyKey, cancellationToken);
 
-        protected Task<TAttributes> InternalUpdate<T>(Token token, Guid[] parentIds, T payload, CancellationToken? cancellationToken) =>
-            InternalUpdate(token, GetPath(parentIds), payload, cancellationToken);
+        protected Task<TAttributes> InternalUpdate<T>(Token token, Guid[] parentIds, T payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+            InternalUpdate(token, GetPath(parentIds), payload, idempotencyKey, cancellationToken);
 
         private string GetPath(Guid[] ids)
         {

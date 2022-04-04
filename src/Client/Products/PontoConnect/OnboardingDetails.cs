@@ -14,7 +14,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             base(apiClient, accessTokenProvider, urlPrefix, EntityName)
         { }
 
-        public Task<OnboardingDetailsResponse> Create(Token token, Models.OnboardingDetails onboardingDetails, CancellationToken? cancellationToken)
+        public Task<OnboardingDetailsResponse> Create(Token token, Models.OnboardingDetails onboardingDetails, Guid? idempotencyKey, CancellationToken? cancellationToken)
         {
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
@@ -26,12 +26,12 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             payload.Type = "onboardingDetails";
             payload.Attributes = onboardingDetails;
 
-            return InternalCreate(token, payload, cancellationToken);
+            return InternalCreate(token, payload, idempotencyKey, cancellationToken);
         }
     }
 
     public interface IOnboardingDetails
     {
-        Task<OnboardingDetailsResponse> Create(Token token, Models.OnboardingDetails onboardingDetails, CancellationToken? cancellationToken = null);
+        Task<OnboardingDetailsResponse> Create(Token token, Models.OnboardingDetails onboardingDetails, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }

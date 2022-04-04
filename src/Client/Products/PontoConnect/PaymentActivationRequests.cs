@@ -15,7 +15,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             base(apiClient, accessTokenProvider, urlPrefix, EntityName)
         { }
 
-        public Task<PaymentActivationRequest> Request(Token token, Uri redirect, CancellationToken? cancellationToken)
+        public Task<PaymentActivationRequest> Request(Token token, Uri redirect, Guid? idempotencyKey, CancellationToken? cancellationToken)
         {
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
@@ -27,10 +27,10 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             payload.Type = "paymentActivationRequest";
             payload.Attributes.Redirect = redirect;
 
-            return InternalCreate(token, payload, cancellationToken);
+            return InternalCreate(token, payload, idempotencyKey, cancellationToken);
         }
 
-        public Task<PaymentActivationRequest> Request(Token token, string redirectUri, CancellationToken? cancellationToken)
+        public Task<PaymentActivationRequest> Request(Token token, string redirectUri, Guid? idempotencyKey, CancellationToken? cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(redirectUri))
                 throw new ArgumentException($"'{nameof(redirectUri)}' cannot be null or whitespace.", nameof(redirectUri));
@@ -38,6 +38,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             return Request(
                 token,
                 new Uri(redirectUri),
+                idempotencyKey,
                 cancellationToken);
         }
 
@@ -53,7 +54,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
     public interface IPaymentActivationRequest
     {
-        Task<PaymentActivationRequest> Request(Token token, Uri redirect, CancellationToken? cancellationToken = null);
-        Task<PaymentActivationRequest> Request(Token token, string redirectUri, CancellationToken? cancellationToken = null);
+        Task<PaymentActivationRequest> Request(Token token, Uri redirect, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+        Task<PaymentActivationRequest> Request(Token token, string redirectUri, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }

@@ -36,7 +36,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         public Task<SandboxTransaction> Get(Token token, Guid financialInstitutionId, Guid accountId, Guid id, CancellationToken? cancellationToken) =>
             InternalGet(token, new[] { financialInstitutionId, accountId }, id, cancellationToken);
 
-        public Task<SandboxTransaction> Create(Token token, Guid financialInstitutionId, Guid accountId, Transaction transaction, CancellationToken? cancellationToken)
+        public Task<SandboxTransaction> Create(Token token, Guid financialInstitutionId, Guid accountId, Transaction transaction, Guid? idempotencyKey, CancellationToken? cancellationToken)
         {
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
@@ -48,10 +48,10 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             payload.Type = "financialInstitutionTransaction";
             payload.Attributes = transaction;
 
-            return InternalCreate(token, new[] { financialInstitutionId, accountId }, payload, cancellationToken);
+            return InternalCreate(token, new[] { financialInstitutionId, accountId }, payload, idempotencyKey, cancellationToken);
         }
 
-        public Task<SandboxTransaction> Update(Token token, Guid financialInstitutionId, Guid accountId, Transaction transaction, CancellationToken? cancellationToken)
+        public Task<SandboxTransaction> Update(Token token, Guid financialInstitutionId, Guid accountId, Transaction transaction, Guid? idempotencyKey, CancellationToken? cancellationToken)
         {
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
@@ -63,7 +63,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             payload.Type = "financialInstitutionTransaction";
             payload.Attributes = transaction;
 
-            return InternalUpdate(token, new[] { financialInstitutionId, accountId }, payload, cancellationToken);
+            return InternalUpdate(token, new[] { financialInstitutionId, accountId }, payload, idempotencyKey, cancellationToken);
         }
     }
 
@@ -72,7 +72,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         Task<PaginatedCollection<SandboxTransaction>> List(Token token, Guid financialInstitutionId, Guid accountId, IEnumerable<Filter> filters = null, int? pageSize = null, CancellationToken? cancellationToken = null);
         Task<PaginatedCollection<SandboxTransaction>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
         Task<SandboxTransaction> Get(Token token, Guid financialInstitutionId, Guid accountId, Guid id, CancellationToken? cancellationToken = null);
-        Task<SandboxTransaction> Create(Token token, Guid financialInstitutionId, Guid accountId, Transaction transaction, CancellationToken? cancellationToken = null);
-        Task<SandboxTransaction> Update(Token token, Guid financialInstitutionId, Guid accountId, Transaction transaction, CancellationToken? cancellationToken = null);
+        Task<SandboxTransaction> Create(Token token, Guid financialInstitutionId, Guid accountId, Transaction transaction, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+        Task<SandboxTransaction> Update(Token token, Guid financialInstitutionId, Guid accountId, Transaction transaction, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }
