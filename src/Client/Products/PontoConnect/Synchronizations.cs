@@ -28,10 +28,14 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
             return InternalCreate(token, payload, cancellationToken);
         }
+
+        public Task<Synchronization> Get(Token token, Guid id, CancellationToken? cancellationToken) =>
+            InternalGet(token, id, cancellationToken);
     }
 
     public interface ISynchronizations
     {
         Task<Synchronization> Create(Token token, SynchronizationRequest synchronization, CancellationToken? cancellationToken = null);
+        Task<Synchronization> Get(Token token, Guid id, CancellationToken? cancellationToken = null);
     }
 }
