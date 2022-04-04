@@ -142,6 +142,9 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             base(apiClient, accessTokenProvider, urlPrefix)
         {
             _entityNames = entityNames ?? throw new ArgumentNullException(nameof(entityNames));
+
+            if (entityNames.Any(string.IsNullOrWhiteSpace))
+                throw new ArgumentException("Empty entity name", nameof(entityNames));
         }
 
         protected Task<PaginatedCollection<TAttributes>> InternalList(Token token, Guid[] parentIds, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken) =>
