@@ -79,16 +79,22 @@ namespace Ibanity.Apis.Client.Http
             }
         }
 
-        public async Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, CancellationToken cancellationToken)
+        public Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, CancellationToken cancellationToken) =>
+            SendWithPayload<TRequest, TResponse>(HttpMethod.Post, path, bearerToken, payload, cancellationToken);
+
+        public Task<TResponse> Patch<TRequest, TResponse>(string path, string bearerToken, TRequest payload, CancellationToken cancellationToken) =>
+            SendWithPayload<TRequest, TResponse>(new HttpMethod("PATCH"), path, bearerToken, payload, cancellationToken);
+
+        private async Task<TResponse> SendWithPayload<TRequest, TResponse>(HttpMethod method, string path, string bearerToken, TRequest payload, CancellationToken cancellationToken)
         {
             if (path is null)
                 throw new ArgumentNullException(nameof(path));
 
-            var headers = GetCommonHeaders(HttpMethod.Post, bearerToken, path);
+            var headers = GetCommonHeaders(method, bearerToken, path);
 
-            _logger.Debug("Sending request: POST " + path);
+            _logger.Debug($"Sending request: {method.ToString().ToUpper()} {path}");
 
-            using (var request = new HttpRequestMessage(HttpMethod.Post, path))
+            using (var request = new HttpRequestMessage(method, path))
             {
                 foreach (var header in headers)
                     request.Headers.Add(header.Key, header.Value);
@@ -132,5 +138,6 @@ namespace Ibanity.Apis.Client.Http
         Task<T> Get<T>(string path, string bearerToken, CancellationToken cancellationToken);
         Task Delete(string path, string bearerToken, CancellationToken cancellationToken);
         Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, CancellationToken cancellationToken);
+        Task<TResponse> Patch<TRequest, TResponse>(string path, string bearerToken, TRequest payload, CancellationToken cancellationToken);
     }
 }
