@@ -264,7 +264,7 @@ namespace Ibanity.Apis.Client
         IIbanityServiceOptionalPropertiesBuilder AddLogging(ILogger logger);
         IIbanityServiceOptionalPropertiesBuilder AddLogging(ILoggerFactory loggerFactory);
         IIbanityServiceOptionalPropertiesBuilder SetTimeout(TimeSpan timeout);
-        IIbanityServiceOptionalPropertiesBuilder CustomizeHttpClient(Action<HttpClient> customizeClient, Action<HttpClientHandler> customizeHandler, Action<HttpRequestMessage> customizeRequest);
+        IIbanityServiceOptionalPropertiesBuilder CustomizeHttpClient(Action<HttpClient> customizeClient = null, Action<HttpClientHandler> customizeHandler = null, Action<HttpRequestMessage> customizeRequest = null);
         IIbanityServiceOptionalPropertiesBuilder EnableRetries(int count = 5, TimeSpan? baseDelay = null);
 
         IIbanityService Build();
