@@ -28,6 +28,8 @@ namespace Ibanity.Apis.Client
         private Action<HttpClient> _customizeClient;
         private Action<HttpClientHandler> _customizeHandler;
         private Action<HttpRequestMessage> _customizeRequest;
+        private int? _retryCount;
+        private TimeSpan? _retryBaseDelay;
 
         public IIbanityServiceMutualTlsBuilder SetEndpoint(Uri endpoint)
         {
@@ -146,6 +148,14 @@ namespace Ibanity.Apis.Client
             return this;
         }
 
+        IIbanityServiceOptionalPropertiesBuilder IIbanityServiceOptionalPropertiesBuilder.EnableRetries(int count, TimeSpan? baseDelay)
+        {
+            _retryCount = count;
+            _retryBaseDelay = baseDelay;
+
+            return this;
+        }
+
         IIbanityService IIbanityServiceOptionalPropertiesBuilder.Build()
         {
             var handler = new HttpClientHandler
@@ -184,13 +194,20 @@ namespace Ibanity.Apis.Client
                 ? (ILoggerFactory)new SimpleLoggerFactory(NullLogger.Instance)
                 : new LoggerFactoryNotNullDecorator(_loggerFactory);
 
-            var v1ApiClient = new ApiClient(
+            IApiClient v1ApiClient = new ApiClient(
                 loggerFactory,
                 httpClient,
                 serializer,
                 signatureService,
                 "1",
                 _customizeRequest ?? (_ => { }));
+
+            if (_retryCount.HasValue)
+                v1ApiClient = new ApiClientRetryDecorator(
+                    loggerFactory,
+                    v1ApiClient,
+                    _retryCount.Value,
+                    _retryBaseDelay ?? TimeSpan.FromSeconds(1d));
 
             var pontoConnectClient = new PontoConnectClient(
                 v1ApiClient,
@@ -248,6 +265,7 @@ namespace Ibanity.Apis.Client
         IIbanityServiceOptionalPropertiesBuilder AddLogging(ILoggerFactory loggerFactory);
         IIbanityServiceOptionalPropertiesBuilder SetTimeout(TimeSpan timeout);
         IIbanityServiceOptionalPropertiesBuilder CustomizeHttpClient(Action<HttpClient> customizeClient, Action<HttpClientHandler> customizeHandler, Action<HttpRequestMessage> customizeRequest);
+        IIbanityServiceOptionalPropertiesBuilder EnableRetries(int count = 5, TimeSpan? baseDelay = null);
 
         IIbanityService Build();
     }
