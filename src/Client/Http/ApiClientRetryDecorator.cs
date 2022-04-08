@@ -30,6 +30,10 @@ namespace Ibanity.Apis.Client.Http
                 {
                     return await action();
                 }
+                catch (IbanityClientException)
+                {
+                    throw; // no need to retry a faulty request
+                }
                 catch (Exception e) when (i < _count)
                 {
                     var delay = TimeSpan.FromSeconds(Math.Pow(_baseDelay.TotalSeconds, i + 1));
