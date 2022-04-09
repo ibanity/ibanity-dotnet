@@ -81,6 +81,13 @@ namespace Ibanity.Apis.Client.Http.OAuth2
                 response.RefreshToken);
         }
 
+        public Task<Token> GetToken(string authorizationCode, string codeVerifier, string redirectUri, CancellationToken? cancellationToken) =>
+            GetToken(
+                authorizationCode,
+                codeVerifier,
+                new Uri(redirectUri ?? throw new ArgumentException($"'{nameof(redirectUri)}' cannot be null or whitespace.", nameof(redirectUri))),
+                cancellationToken);
+
         public async Task<Token> GetToken(string refreshToken, CancellationToken? cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(refreshToken))

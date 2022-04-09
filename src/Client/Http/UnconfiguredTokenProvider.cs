@@ -18,6 +18,9 @@ namespace Ibanity.Apis.Client.Http
         public Task<Token> GetToken(string authorizationCode, string codeVerifier, Uri redirectUri, CancellationToken? cancellationToken = null) =>
             throw new IbanityConfigurationException(Message);
 
+        public Task<Token> GetToken(string authorizationCode, string codeVerifier, string redirectUri, CancellationToken? cancellationToken = null) =>
+            throw new IbanityConfigurationException(Message);
+
         public Task<Token> GetToken(string refreshToken, CancellationToken? cancellationToken = null) =>
             throw new IbanityConfigurationException(Message);
 
