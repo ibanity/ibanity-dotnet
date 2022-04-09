@@ -29,6 +29,29 @@ var financialInstitutions = await ibanityService.PontoConnect.FinancialInstituti
 
 All services are thread safe and can be configured as singleton if you want to leverage frameworks like _IServiceProvider_ or _Castle Windsor_. To avoid exhausting client ports, you should use a single `IIbanityService` instance across your application.
 
+### Use token to authenticate requests
+
+A token is required to access most resource types.
+
+```csharp
+var ibanityService = new IbanityServiceBuilder().
+    SetEndpoint("https://api.ibanity.com").
+    AddClientCertificate(
+        certificatePath,
+        certificatePassword).
+    AddPontoConnectOAuth2Authentication(
+        pontoConnectClientId,
+        pontoConnectClientSecret).
+    Build();
+
+var token = await ibanityService.PontoConnect.TokenService.GetToken(refreshToken);
+var accounts = await ibanityService.PontoConnect.Accounts.List(token);
+
+// Once done, you have to save the refresh token somewhere, so you can use it later to get another token.
+// Refresh token value contained within the token instance is automatically updated from time to time.
+SaveToken(token.RefreshToken);
+```
+
 ### Perform custom requests to Ibanity
 
 You can perform custom HTTP calls to Ibanity using the `IApiClient`.
