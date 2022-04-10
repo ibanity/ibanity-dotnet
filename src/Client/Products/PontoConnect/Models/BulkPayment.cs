@@ -6,7 +6,7 @@ using Ibanity.Apis.Client.Utils;
 namespace Ibanity.Apis.Client.Products.PontoConnect.Models
 {
     [DataContract]
-    public class BulkPayment
+    public abstract class BulkPayment
     {
         /// <summary>
         /// Your identifier for the bulk payment, displayed to the user in the Ponto dashboard
@@ -30,7 +30,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public bool BatchBookingPreferred { get; set; }
     }
 
-    public abstract class BulkPaymentRequest
+    public class BulkPaymentRequest : BulkPayment
     {
         /// <summary>
         /// URI that your user will be redirected to at the end of the authorization flow.&lt;/a&gt;
