@@ -11,9 +11,9 @@ namespace Ibanity.Apis.Sample.CLI
             _pontoConnectClientSample = new PontoConnectClientSample(configuration, ibanityService);
         }
 
-        public async Task Run()
+        public async Task Run(CancellationToken cancellationToken)
         {
-            await _pontoConnectClientSample.Run();
+            await _pontoConnectClientSample.Run(cancellationToken);
         }
     }
 }

@@ -23,6 +23,14 @@ var ibanityService = new IbanityServiceBuilder().
     AddLogging(new ConsoleLogger()).
     Build();
 
+var cancellationTokenSource = new CancellationTokenSource();
+Console.CancelKeyPress += (s, e) =>
+{
+    Console.WriteLine("Canceling...");
+    cancellationTokenSource.Cancel();
+    e.Cancel = true;
+};
+
 Console.WriteLine("Running client sample...");
 var clientSample = new ClientSample(configuration, ibanityService);
-await clientSample.Run();
+await clientSample.Run(cancellationTokenSource.Token);

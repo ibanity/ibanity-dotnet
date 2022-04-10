@@ -13,7 +13,7 @@ namespace Ibanity.Apis.Sample.CLI
             _ibanityService = ibanityService;
         }
 
-        public async Task Run()
+        public async Task Run(CancellationToken cancellationToken)
         {
             Console.WriteLine("Running Ponto Connect client sample...");
 
@@ -21,9 +21,11 @@ namespace Ibanity.Apis.Sample.CLI
                 ? await _ibanityService.PontoConnect.TokenService.GetToken(
                     _configuration.PontoConnectAuthorizationCode ?? throw new ApplicationException("Either authorization code or refresh token must be set"),
                     _configuration.PontoConnectCodeVerifier,
-                    _configuration.PontoConnectRedirectUri)
+                    _configuration.PontoConnectRedirectUri,
+                    cancellationToken)
                 : await _ibanityService.PontoConnect.TokenService.GetToken(
-                    _configuration.PontoConnectRefreshToken);
+                    _configuration.PontoConnectRefreshToken,
+                    cancellationToken);
         }
     }
 }
