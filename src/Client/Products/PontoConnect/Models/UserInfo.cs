@@ -40,5 +40,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// <value>Name of the organization</value>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
+
+        public override string ToString() => $"{Name} ({Sub})";
     }
 }

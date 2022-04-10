@@ -40,6 +40,9 @@ namespace Ibanity.Apis.Sample.CLI
                     Console.WriteLine("Financial institution: " + financialInstitution);
             }
 
+            var userInfo = await pontoConnectService.UserInfo.Get(token, cancellationToken);
+            Console.WriteLine("User information: " + userInfo);
+
             Console.Error.WriteLine(token.RefreshToken);
         }
     }
