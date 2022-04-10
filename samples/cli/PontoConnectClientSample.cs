@@ -69,9 +69,11 @@ namespace Ibanity.Apis.Sample.CLI
                 ResourceId = accountId
             }, cancellationToken: cancellationToken);
 
+            Console.WriteLine("Synchronization created: " + synchronization);
+
             synchronization = await pontoConnectService.Synchronizations.Get(token, synchronization.Id, cancellationToken);
 
-            Console.WriteLine($"Synchronization: " + synchronization);
+            Console.WriteLine("Synchronization: " + synchronization);
 
             var transactions = await pontoConnectService.Transactions.List(token, accountId, cancellationToken: cancellationToken);
             foreach (var tr in transactions)
