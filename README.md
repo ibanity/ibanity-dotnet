@@ -29,6 +29,8 @@ var financialInstitutions = await ibanityService.PontoConnect.FinancialInstituti
 
 All services are thread safe and can be configured as singleton if you want to leverage frameworks like _IServiceProvider_ or _Castle Windsor_. To avoid exhausting client ports, you should use a single `IIbanityService` instance across your application.
 
+See `ClientSample` class for extended examples.
+
 ### Use token to authenticate requests
 
 A token is required to access most resource types.
