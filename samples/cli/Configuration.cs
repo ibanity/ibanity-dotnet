@@ -11,9 +11,10 @@ namespace Ibanity.Apis.Sample.CLI
             string signatureCertificatePassword,
             string pontoConnectClientId,
             string pontoConnectClientSecret,
-            string pontoConnectAuthorizationCode,
+            string? pontoConnectAuthorizationCode,
             string pontoConnectCodeVerifier,
-            string pontoConnectRedirectUri)
+            string pontoConnectRedirectUri,
+            string? pontoConnectRefreshToken)
         {
             Endpoint = endpoint;
             MtlsCertificatePath = mtlsCertificatePath;
@@ -26,6 +27,7 @@ namespace Ibanity.Apis.Sample.CLI
             PontoConnectAuthorizationCode = pontoConnectAuthorizationCode;
             PontoConnectCodeVerifier = pontoConnectCodeVerifier;
             PontoConnectRedirectUri = pontoConnectRedirectUri;
+            PontoConnectRefreshToken = pontoConnectRefreshToken;
         }
 
         public string Endpoint { get; }
@@ -36,9 +38,10 @@ namespace Ibanity.Apis.Sample.CLI
         public string SignatureCertificatePassword { get; }
         public string PontoConnectClientId { get; }
         public string PontoConnectClientSecret { get; }
-        public string PontoConnectAuthorizationCode { get; }
+        public string? PontoConnectAuthorizationCode { get; }
         public string PontoConnectCodeVerifier { get; }
         public string PontoConnectRedirectUri { get; }
+        public string? PontoConnectRefreshToken { get; }
 
         public static IConfiguration BuildFromEnvironment()
         {
@@ -51,9 +54,10 @@ namespace Ibanity.Apis.Sample.CLI
                 GetMandatoryEnvironmentVariable("SIGNATURE_CERTIFICATE_PASSWORD"),
                 GetMandatoryEnvironmentVariable("PONTO_CONNECT_CLIENT_ID"),
                 GetMandatoryEnvironmentVariable("PONTO_CONNECT_CLIENT_SECRET"),
-                GetMandatoryEnvironmentVariable("PONTO_CONNECT_AUTHORIZATION_CODE"),
+                Environment.GetEnvironmentVariable("PONTO_CONNECT_AUTHORIZATION_CODE"),
                 GetMandatoryEnvironmentVariable("PONTO_CONNECT_CODE_VERIFIER"),
-                GetMandatoryEnvironmentVariable("PONTO_CONNECT_REDIRECT_URI")
+                GetMandatoryEnvironmentVariable("PONTO_CONNECT_REDIRECT_URI"),
+                Environment.GetEnvironmentVariable("PONTO_CONNECT_REFRESH_TOKEN")
             );
         }
 
@@ -78,8 +82,9 @@ namespace Ibanity.Apis.Sample.CLI
         public string SignatureCertificatePassword { get; }
         public string PontoConnectClientId { get; }
         public string PontoConnectClientSecret { get; }
-        public string PontoConnectAuthorizationCode { get; }
+        public string? PontoConnectAuthorizationCode { get; }
         public string PontoConnectCodeVerifier { get; }
         public string PontoConnectRedirectUri { get; }
+        public string? PontoConnectRefreshToken { get; }
     }
 }
