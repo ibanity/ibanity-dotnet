@@ -103,6 +103,38 @@ namespace Ibanity.Apis.Sample.CLI
             Console.WriteLine("Payment: " + payment);
 
             await pontoConnectService.Payments.Delete(token, accountId, payment.Id, cancellationToken);
+
+            Console.WriteLine($"Payment {payment.Id} deleted");
+
+            var bulkPayment = await pontoConnectService.BulkPayments.Create(token, accountId, new BulkPaymentRequest
+            {
+                BatchBookingPreferred = true,
+                Reference = "myReference",
+                RequestedExecutionDate = DateTimeOffset.Now.AddDays(1d),
+                RedirectUri = "",
+                Payments = new List<Payment> { new Payment
+                {
+                    RemittanceInformation = "payment",
+                    RemittanceInformationType = "unstructured",
+                    Currency = "EUR",
+                    Amount = 59m,
+                    CreditorName = "Alex Creditor",
+                    CreditorAccountReference = "BE55732022998044",
+                    CreditorAccountReferenceType = "IBAN",
+                    CreditorAgent = "NBBEBEBB203",
+                    CreditorAgentType = "BIC"
+                } }
+            }, cancellationToken: cancellationToken);
+
+            Console.WriteLine("Bulk payment created: " + bulkPayment);
+
+            bulkPayment = await pontoConnectService.BulkPayments.Get(token, accountId, bulkPayment.Id, cancellationToken);
+
+            Console.WriteLine("Bulk payment: " + bulkPayment);
+
+            await pontoConnectService.BulkPayments.Delete(token, accountId, bulkPayment.Id, cancellationToken);
+
+            Console.WriteLine($"Bulk payment {bulkPayment.Id} deleted");
         }
     }
 }

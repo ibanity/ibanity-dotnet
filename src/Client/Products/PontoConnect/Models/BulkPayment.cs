@@ -38,6 +38,8 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// <value>&lt;p&gt;Indicates whether the bulk payment transactions should be grouped into one booking entry by the financial institution instead of individual transactions.&lt;/p&gt;&lt;p&gt;This is a preference that may or may not be taken into account by the financial institution based on availability and the customer&#39;s bulk payment contract.&lt;/p&gt;&lt;p&gt;Defaults to &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;</value>
         [DataMember(Name = "batchBookingPreferred", EmitDefaultValue = true)]
         public bool BatchBookingPreferred { get; set; }
+
+        public override string ToString() => Reference;
     }
 
     public class BulkPaymentRequest : BulkPayment
