@@ -30,6 +30,8 @@ namespace Ibanity.Apis.Sample.CLI
                     _configuration.PontoConnectRefreshToken,
                     cancellationToken);
 
+            Console.Error.WriteLine(token.RefreshToken);
+
             var financialInstitutions = await pontoConnectService.FinancialInstitutions.ListForOrganization(token, cancellationToken: cancellationToken);
             foreach (var financialInstitution in financialInstitutions)
                 Console.WriteLine("Financial institution: " + financialInstitution);
@@ -68,8 +70,6 @@ namespace Ibanity.Apis.Sample.CLI
             synchronization = await pontoConnectService.Synchronizations.Get(token, synchronization.Id, cancellationToken);
 
             Console.WriteLine($"Synchronization: " + synchronization);
-
-            Console.Error.WriteLine(token.RefreshToken);
         }
     }
 }
