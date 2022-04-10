@@ -51,7 +51,7 @@ namespace Ibanity.Apis.Sample.CLI
 
             var sandboxTransactions = await sanboxService.Transactions.List(token, financialInstitutions.First().Id, sandboxAccounts.First().Id, cancellationToken: cancellationToken);
             foreach (var sandboxTransaction in sandboxTransactions)
-                Console.WriteLine("Sandbox sandbox transaction: " + sandboxTransaction);
+                Console.WriteLine("Sandbox transaction: " + sandboxTransaction);
 
             Console.Error.WriteLine(token.RefreshToken);
         }
