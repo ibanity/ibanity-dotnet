@@ -43,18 +43,18 @@ namespace Ibanity.Apis.Client.Http
         }
 
         public Task<T> Delete<T>(string path, string bearerToken, CancellationToken cancellationToken) =>
-            Execute<T>("Delete", async () => await Delete<T>(path, bearerToken, cancellationToken), cancellationToken);
+            Execute<T>("Delete", async () => await _underlyingInstance.Delete<T>(path, bearerToken, cancellationToken), cancellationToken);
 
         public Task Delete(string path, string bearerToken, CancellationToken cancellationToken) =>
             Delete<object>(path, bearerToken, cancellationToken);
 
         public Task<T> Get<T>(string path, string bearerToken, CancellationToken cancellationToken) =>
-            Execute<T>("Get", async () => await Get<T>(path, bearerToken, cancellationToken), cancellationToken);
+            Execute<T>("Get", async () => await _underlyingInstance.Get<T>(path, bearerToken, cancellationToken), cancellationToken);
 
         public Task<TResponse> Patch<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken) =>
-            Execute<TResponse>("Patch", async () => await Patch<TRequest, TResponse>(path, bearerToken, payload, idempotencyKey, cancellationToken), cancellationToken);
+            Execute<TResponse>("Patch", async () => await _underlyingInstance.Patch<TRequest, TResponse>(path, bearerToken, payload, idempotencyKey, cancellationToken), cancellationToken);
 
         public Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken) =>
-            Execute<TResponse>("Post", async () => await Post<TRequest, TResponse>(path, bearerToken, payload, idempotencyKey, cancellationToken), cancellationToken);
+            Execute<TResponse>("Post", async () => await _underlyingInstance.Post<TRequest, TResponse>(path, bearerToken, payload, idempotencyKey, cancellationToken), cancellationToken);
     }
 }
