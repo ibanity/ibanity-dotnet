@@ -41,7 +41,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         {
             var result = base.Map(data);
 
-            result.RedirectUri = data.Links.RedirectString;
+            result.RedirectUri = data.Links?.RedirectString;
 
             return result;
         }
