@@ -17,13 +17,15 @@ namespace Ibanity.Apis.Sample.CLI
         {
             Console.WriteLine("Running Ponto Connect client sample...");
 
+            var pontoConnectService = _ibanityService.PontoConnect;
+
             var token = string.IsNullOrWhiteSpace(_configuration.PontoConnectRefreshToken)
-                ? await _ibanityService.PontoConnect.TokenService.GetToken(
+                ? await pontoConnectService.TokenService.GetToken(
                     _configuration.PontoConnectAuthorizationCode ?? throw new ApplicationException("Either authorization code or refresh token must be set"),
                     _configuration.PontoConnectCodeVerifier,
                     _configuration.PontoConnectRedirectUri,
                     cancellationToken)
-                : await _ibanityService.PontoConnect.TokenService.GetToken(
+                : await pontoConnectService.TokenService.GetToken(
                     _configuration.PontoConnectRefreshToken,
                     cancellationToken);
 
