@@ -52,7 +52,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             return InternalCreate(token, new[] { financialInstitutionId, accountId }, payload, idempotencyKey, cancellationToken);
         }
 
-        public Task<SandboxTransaction> Update(Token token, Guid financialInstitutionId, Guid accountId, Transaction transaction, Guid? idempotencyKey, CancellationToken? cancellationToken)
+        public Task<SandboxTransaction> Update(Token token, Guid financialInstitutionId, Guid accountId, Guid id, Transaction transaction, Guid? idempotencyKey, CancellationToken? cancellationToken)
         {
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
@@ -64,7 +64,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             payload.Type = "financialInstitutionTransaction";
             payload.Attributes = transaction;
 
-            return InternalUpdate(token, new[] { financialInstitutionId, accountId }, payload, idempotencyKey, cancellationToken);
+            return InternalUpdate(token, new[] { financialInstitutionId, accountId }, id, payload, idempotencyKey, cancellationToken);
         }
     }
 
@@ -74,6 +74,6 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         Task<PaginatedCollection<SandboxTransaction>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
         Task<SandboxTransaction> Get(Token token, Guid financialInstitutionId, Guid accountId, Guid id, CancellationToken? cancellationToken = null);
         Task<SandboxTransaction> Create(Token token, Guid financialInstitutionId, Guid accountId, Transaction transaction, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
-        Task<SandboxTransaction> Update(Token token, Guid financialInstitutionId, Guid accountId, Transaction transaction, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+        Task<SandboxTransaction> Update(Token token, Guid financialInstitutionId, Guid accountId, Guid id, Transaction transaction, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }

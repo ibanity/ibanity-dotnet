@@ -85,9 +85,9 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 idempotencyKey ?? Guid.NewGuid(),
                 cancellationToken ?? CancellationToken.None)).Data);
 
-        protected async Task<TAttributes> InternalUpdate<T>(Token token, string path, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+        protected async Task<TAttributes> InternalUpdate<T>(Token token, string path, Guid id, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             Map((await _apiClient.Patch<JsonApi.Resource<T, object, object, object>, JsonApi.Resource<TAttributes, TMeta, TRelationships, TLinks>>(
-                $"{path}",
+                $"{path}/{id}",
                 await GetAccessToken(token),
                 new JsonApi.Resource<T, object, object, object> { Data = payload },
                 idempotencyKey ?? Guid.NewGuid(),
@@ -167,8 +167,8 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         protected Task<TAttributes> InternalCreate<T>(Token token, Guid[] parentIds, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             InternalCreate(token, GetPath(parentIds), payload, idempotencyKey, cancellationToken);
 
-        protected Task<TAttributes> InternalUpdate<T>(Token token, Guid[] parentIds, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
-            InternalUpdate(token, GetPath(parentIds), payload, idempotencyKey, cancellationToken);
+        protected Task<TAttributes> InternalUpdate<T>(Token token, Guid[] parentIds, Guid id, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+            InternalUpdate(token, GetPath(parentIds), id, payload, idempotencyKey, cancellationToken);
 
         private string GetPath(Guid[] ids)
         {
