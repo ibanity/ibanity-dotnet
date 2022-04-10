@@ -43,6 +43,12 @@ namespace Ibanity.Apis.Sample.CLI
             var userInfo = await pontoConnectService.UserInfo.Get(token, cancellationToken);
             Console.WriteLine("User information: " + userInfo);
 
+            var sanboxService = pontoConnectService.Sandbox;
+
+            var sandboxAccounts = await sanboxService.Accounts.List(token, financialInstitutions.First().Id, cancellationToken: cancellationToken);
+            foreach (var sandboxAccount in sandboxAccounts)
+                Console.WriteLine("Sandbox account: " + sandboxAccount);
+
             Console.Error.WriteLine(token.RefreshToken);
         }
     }

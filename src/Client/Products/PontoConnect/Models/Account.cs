@@ -98,6 +98,8 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// <value>Amount of financial institution account funds that can be accessed immediately</value>
         [DataMember(Name = "availableBalance", EmitDefaultValue = false)]
         public decimal AvailableBalance { get; set; }
+
+        public override string ToString() => $"{Reference} ({CurrentBalance} {Currency})";
     }
 
     public class AccountResponse : Account, IIdentified<Guid>
