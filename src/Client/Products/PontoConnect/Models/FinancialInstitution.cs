@@ -147,5 +147,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// <value>Identifier for the financial institution, in &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_9362&#39;&gt;ISO9362&lt;/a&gt; format.</value>
         [DataMember(Name = "bic", EmitDefaultValue = false)]
         public string Bic { get; set; }
+
+        public override string ToString() => $"{Name} ({Id})";
     }
 }

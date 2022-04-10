@@ -29,6 +29,17 @@ namespace Ibanity.Apis.Sample.CLI
                     _configuration.PontoConnectRefreshToken,
                     cancellationToken);
 
+            var financialInstitutions = await pontoConnectService.FinancialInstitutions.ListForOrganization(token, cancellationToken: cancellationToken);
+            foreach (var financialInstitution in financialInstitutions)
+                Console.WriteLine("Financial institution: " + financialInstitution);
+
+            while (financialInstitutions.ContinuationToken != null)
+            {
+                financialInstitutions = await pontoConnectService.FinancialInstitutions.ListForOrganization(token, financialInstitutions.ContinuationToken, cancellationToken);
+                foreach (var financialInstitution in financialInstitutions)
+                    Console.WriteLine("Financial institution: " + financialInstitution);
+            }
+
             Console.Error.WriteLine(token.RefreshToken);
         }
     }
