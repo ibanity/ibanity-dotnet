@@ -52,9 +52,44 @@ namespace Ibanity.Apis.Sample.CLI
             foreach (var sandboxAccount in sandboxAccounts)
                 Console.WriteLine("Sandbox account: " + sandboxAccount);
 
+            var sandboxTransaction = await sanboxService.Transactions.Create(token, financialInstitutions.First().Id, sandboxAccounts.First().Id, new Transaction
+            {
+                RemittanceInformationType = "unstructured",
+                RemittanceInformation = "NEW SHOES",
+                Description = "Small Cotton Shoes",
+                Currency = "EUR",
+                CounterpartName = "Otro Bank",
+                PurposeCode = "DEBIT",
+                CounterpartReference = "BE9786154282554",
+                Amount = 84.42m,
+                ValueDate = DateTimeOffset.Parse("2020-05-22T00:00:00Z"),
+                ExecutionDate = DateTimeOffset.Parse("2020-05-25T00:00:00Z")
+            }, cancellationToken: cancellationToken);
+
+            Console.WriteLine("Sandbox transaction created: " + sandboxTransaction);
+
+            sandboxTransaction = await sanboxService.Transactions.Update(token, financialInstitutions.First().Id, sandboxAccounts.First().Id, sandboxTransaction.Id, new Transaction
+            {
+                RemittanceInformation = "NEW SHOES",
+                Description = "Hole foods",
+                BankTransactionCode = "PMNT-IRCT-ESCT",
+                ProprietaryBankTransactionCode = "12267",
+                AdditionalInformation = "Online payment on fake-tpp.com",
+                CreditorId = "123498765421",
+                MandateId = "234",
+                PurposeCode = "CASH",
+                EndToEndId = "ref.243435343"
+            }, cancellationToken: cancellationToken);
+
+            Console.WriteLine("Sandbox transaction updated: " + sandboxTransaction);
+
+            sandboxTransaction = await sanboxService.Transactions.Get(token, financialInstitutions.First().Id, sandboxAccounts.First().Id, sandboxTransaction.Id, cancellationToken);
+
+            Console.WriteLine("Sandbox transaction: " + sandboxTransaction);
+
             var sandboxTransactions = await sanboxService.Transactions.List(token, financialInstitutions.First().Id, sandboxAccounts.First().Id, cancellationToken: cancellationToken);
-            foreach (var sandboxTransaction in sandboxTransactions)
-                Console.WriteLine("Sandbox transaction: " + sandboxTransaction);
+            foreach (var tr in sandboxTransactions)
+                Console.WriteLine("Sandbox transaction: " + tr);
 
             var accounts = await pontoConnectService.Accounts.List(token, cancellationToken: cancellationToken);
             foreach (var account in accounts)
