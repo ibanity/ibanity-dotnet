@@ -81,6 +81,28 @@ namespace Ibanity.Apis.Sample.CLI
 
             var transaction = await pontoConnectService.Transactions.Get(token, accountId, transactions.First().Id, cancellationToken);
             Console.WriteLine("Transaction: " + transaction);
+
+            var payment = await pontoConnectService.Payments.Create(token, accountId, new PaymentRequest
+            {
+                RemittanceInformation = "payment",
+                RemittanceInformationType = "unstructured",
+                RequestedExecutionDate = DateTimeOffset.Now.AddDays(1d),
+                Currency = "EUR",
+                Amount = 59m,
+                CreditorName = "Alex Creditor",
+                CreditorAccountReference = "BE55732022998044",
+                CreditorAccountReferenceType = "IBAN",
+                CreditorAgent = "NBBEBEBB203",
+                CreditorAgentType = "BIC"
+            }, cancellationToken: cancellationToken);
+
+            Console.WriteLine("Payment created: " + payment);
+
+            payment = await pontoConnectService.Payments.Get(token, accountId, payment.Id, cancellationToken);
+
+            Console.WriteLine("Payment: " + payment);
+
+            await pontoConnectService.Payments.Delete(token, accountId, payment.Id, cancellationToken);
         }
     }
 }

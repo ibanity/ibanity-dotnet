@@ -86,6 +86,8 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// <value>Amount of the payment.</value>
         [DataMember(Name = "amount", IsRequired = true, EmitDefaultValue = false)]
         public decimal Amount { get; set; }
+
+        public override string ToString() => $"To {CreditorName} ({Amount} {Currency})";
     }
 
     public class PaymentRequest : Payment
