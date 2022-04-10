@@ -59,7 +59,7 @@ namespace Ibanity.Apis.Client.Http.OAuth2
                 { "grant_type", "authorization_code" },
                 { "code", authorizationCode },
                 { "client_id", _clientId },
-                { "redirect_uri", redirectUri.ToString() },
+                { "redirect_uri", redirectUri.OriginalString },
                 { "code_verifier", codeVerifier }
             };
 
