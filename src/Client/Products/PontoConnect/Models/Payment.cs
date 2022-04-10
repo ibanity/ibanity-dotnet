@@ -12,6 +12,16 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// </summary>
         /// <value>A date in the future when the payment is requested to be executed. The availability of this feature depends on each financial institution. See &lt;a href&#x3D;&#39;https://documentation.ibanity.com/ponto-connect/api#financial-institution-attributes&#39;&gt;financial institution attributes&lt;/a&gt;</value>
         [DataMember(Name = "requestedExecutionDate", EmitDefaultValue = false)]
+        public string RequestedExecutionDateString
+        {
+            get => RequestedExecutionDate.ToString("yyyy-MM-dd");
+            set => RequestedExecutionDate = DateTimeOffset.Parse(value);
+        }
+
+        /// <summary>
+        /// A date in the future when the payment is requested to be executed. The availability of this feature depends on each financial institution. See &lt;a href&#x3D;&#39;https://documentation.ibanity.com/ponto-connect/api#financial-institution-attributes&#39;&gt;financial institution attributes&lt;/a&gt;
+        /// </summary>
+        /// <value>A date in the future when the payment is requested to be executed. The availability of this feature depends on each financial institution. See &lt;a href&#x3D;&#39;https://documentation.ibanity.com/ponto-connect/api#financial-institution-attributes&#39;&gt;financial institution attributes&lt;/a&gt;</value>
         public DateTimeOffset RequestedExecutionDate { get; set; }
 
         /// <summary>
