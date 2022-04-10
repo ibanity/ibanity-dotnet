@@ -26,6 +26,8 @@ namespace Ibanity.Apis.Sample.CLI
                 : await _ibanityService.PontoConnect.TokenService.GetToken(
                     _configuration.PontoConnectRefreshToken,
                     cancellationToken);
+
+            Console.Error.WriteLine(token.RefreshToken);
         }
     }
 }
