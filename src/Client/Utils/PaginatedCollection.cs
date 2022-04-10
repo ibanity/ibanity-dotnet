@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Ibanity.Apis.Client.Products.PontoConnect
+namespace Ibanity.Apis.Client.Utils
 {
     public class PaginatedCollection<T> : List<T>
     {
