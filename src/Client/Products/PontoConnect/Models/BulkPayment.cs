@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Ibanity.Apis.Client.Utils;
 
-namespace Ibanity.Apis.Client.Models
+namespace Ibanity.Apis.Client.Products.PontoConnect.Models
 {
     [DataContract]
     public class BulkPayment
