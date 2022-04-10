@@ -60,16 +60,25 @@ namespace Ibanity.Apis.Sample.CLI
             foreach (var account in accounts)
                 Console.WriteLine("Account: " + account);
 
+            var accountId = accounts.First().Id;
+
             var synchronization = await pontoConnectService.Synchronizations.Create(token, new SynchronizationRequest
             {
                 ResourceType = "account",
                 Subtype = "accountDetails",
-                ResourceId = accounts.First().Id
+                ResourceId = accountId
             }, cancellationToken: cancellationToken);
 
             synchronization = await pontoConnectService.Synchronizations.Get(token, synchronization.Id, cancellationToken);
 
             Console.WriteLine($"Synchronization: " + synchronization);
+
+            var transactions = await pontoConnectService.Transactions.List(token, accountId, cancellationToken: cancellationToken);
+            foreach (var tr in transactions)
+                Console.WriteLine("Transaction: " + tr);
+
+            var transaction = await pontoConnectService.Transactions.Get(token, accountId, transactions.First().Id, cancellationToken);
+            Console.WriteLine("Transaction: " + transaction);
         }
     }
 }
