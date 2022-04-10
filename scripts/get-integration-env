@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+grep -Ev "^$|^#" "$(dirname "$BASH_SOURCE")/../.env"
+
+code_verifier=$(openssl rand -hex 32)
+
+echo PONTO_CONNECT_CODE_VERIFIER=$code_verifier
+echo PONTO_CONNECT_REDIRECT_URI=http://localhost:8080
+
+grep -Eq '^PONTO_CONNECT_REFRESH_TOKEN=.+$' "$(dirname "$BASH_SOURCE")/../.env" || echo PONTO_CONNECT_AUTHORIZATION_CODE="$($(dirname "$BASH_SOURCE")/get-auth-code \
+    --endpoint 'https://sandbox-authorization.myponto.com/oauth2/auth' \
+    --clientid "$(awk -F= '{if ($1 == "PONTO_CONNECT_CLIENT_ID") print $2 }' $(dirname "$BASH_SOURCE")/../.env)" \
+    --scope 'offline_access ai pi name' \
+    --codeverifier $code_verifier)"

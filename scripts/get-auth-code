@@ -1,0 +1,69 @@
+#!/usr/bin/env python3
+
+from argparse import ArgumentParser
+import random
+import string
+from base64 import b64encode
+from hashlib import sha256
+from os import system
+from urllib.parse import quote, urlparse, parse_qs
+from http.server import BaseHTTPRequestHandler, HTTPServer
+
+parser = ArgumentParser()
+parser.add_argument("--endpoint")
+parser.add_argument("--clientid")
+parser.add_argument("--scope")
+parser.add_argument("--codeverifier")
+args = parser.parse_args()
+
+statechars = string.digits + string.ascii_letters
+state = ''.join(random.choice(statechars) for _ in range(64))
+
+codechallengehash = sha256(args.codeverifier.encode()).digest()
+codechallenge = b64encode(codechallengehash, b'-_').decode('UTF-8').rstrip('=')
+challengemethod = "S256"
+
+redirect = ("localhost", 8080)
+
+authuri = "%s?client_id=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s&code_challenge=%s&code_challenge_method=%s" \
+    % (args.endpoint, args.clientid, quote("http://%s:%d" % redirect), quote(args.scope), state, codechallenge, challengemethod)
+
+system(f"which open >/dev/null && open '{authuri}' || echo '{authuri}' 1>&2")
+
+
+class CallbackServer(BaseHTTPRequestHandler):
+    def do_GET(self):
+        query_components = parse_qs(urlparse(self.path).query)
+
+        if "error" in query_components:
+            errormessage = query_components["error"][0]
+            self.send_response(400)
+            self.send_header("Content-type", "text/plain")
+            self.end_headers()
+            self.wfile.write(bytes("Failure: " + errormessage, "utf-8"))
+
+            raise Exception(errormessage)
+
+        receivedstate = query_components["state"][0]
+        if receivedstate != state:
+            self.send_response(400)
+            self.send_header("Content-type", "text/plain")
+            self.end_headers()
+            self.wfile.write(bytes("Failure: invalid state", "utf-8"))
+
+            raise Exception("Invalid state received")
+
+        authorizationcode = query_components["code"][0]
+        print(authorizationcode)
+
+        self.send_response(200)
+        self.send_header("Content-type", "text/plain")
+        self.end_headers()
+        self.wfile.write(bytes("You can go back to shell", "utf-8"))
+
+    def log_message(self, format, *args):
+        pass
+
+
+webServer = HTTPServer(redirect, CallbackServer)
+webServer.handle_request()
