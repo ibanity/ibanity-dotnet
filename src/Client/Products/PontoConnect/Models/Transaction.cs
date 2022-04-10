@@ -125,6 +125,8 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// <value>Additional transaction-related information provided from the financial institution to the customer</value>
         [DataMember(Name = "additionalInformation", EmitDefaultValue = false)]
         public string AdditionalInformation { get; set; }
+
+        public override string ToString() => $"{BankTransactionCode} ({Amount} {Currency})";
     }
 
     [DataContract]
