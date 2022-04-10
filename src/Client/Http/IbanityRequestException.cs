@@ -7,7 +7,7 @@ namespace Ibanity.Apis.Client.Http
     public abstract class IbanityRequestException : IbanityException
     {
         public IbanityRequestException(string requestId, HttpStatusCode statusCode, JsonApi.Error error) :
-            base($"Request '{requestId}' failed ({statusCode:D} {statusCode:G}): " + Format(error))
+            base($"Request {requestId} failed ({statusCode:D} {statusCode:G}): " + Format(error))
         {
             RequestId = requestId;
             StatusCode = statusCode;
