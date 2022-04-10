@@ -38,6 +38,8 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public DateTimeOffset CreatedAt { get; set; }
 
         public Guid Id { get; set; }
+
+        public override string ToString() => $"{Status} from {CreatedAt:o} ({Id})";
     }
 
     [DataContract]

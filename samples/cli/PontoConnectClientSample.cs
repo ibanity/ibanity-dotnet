@@ -1,4 +1,5 @@
 using Ibanity.Apis.Client;
+using Ibanity.Apis.Client.Products.PontoConnect.Models;
 
 namespace Ibanity.Apis.Sample.CLI
 {
@@ -52,6 +53,21 @@ namespace Ibanity.Apis.Sample.CLI
             var sandboxTransactions = await sanboxService.Transactions.List(token, financialInstitutions.First().Id, sandboxAccounts.First().Id, cancellationToken: cancellationToken);
             foreach (var sandboxTransaction in sandboxTransactions)
                 Console.WriteLine("Sandbox transaction: " + sandboxTransaction);
+
+            var accounts = await pontoConnectService.Accounts.List(token, cancellationToken: cancellationToken);
+            foreach (var account in accounts)
+                Console.WriteLine("Account: " + account);
+
+            var synchronization = await pontoConnectService.Synchronizations.Create(token, new SynchronizationRequest
+            {
+                ResourceType = "account",
+                Subtype = "accountDetails",
+                ResourceId = accounts.First().Id
+            }, cancellationToken: cancellationToken);
+
+            synchronization = await pontoConnectService.Synchronizations.Get(token, synchronization.Id, cancellationToken);
+
+            Console.WriteLine($"Synchronization: " + synchronization);
 
             Console.Error.WriteLine(token.RefreshToken);
         }
