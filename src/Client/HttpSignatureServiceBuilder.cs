@@ -16,8 +16,6 @@ namespace Ibanity.Apis.Client
         private X509Certificate2 _certificate;
         private ILoggerFactory _loggerFactory;
 
-        public HttpSignatureServiceBuilder() { }
-
         internal HttpSignatureServiceBuilder(IClock clock) =>
             _clock = clock;
 
