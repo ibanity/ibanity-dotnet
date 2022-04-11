@@ -7,6 +7,9 @@ using Ibanity.Apis.Client.Utils.Logging;
 
 namespace Ibanity.Apis.Client
 {
+    /// <summary>
+    /// Builds an <see cref="IHttpSignatureService" /> instance.
+    /// </summary>
     public class HttpSignatureServiceBuilder : IHttpSignatureServiceEndpointBuilder, IHttpSignatureServiceCertificateBuilder, IHttpSignatureServiceOptionalPropertiesBuilder
     {
         private readonly IClock _clock;
@@ -19,12 +22,14 @@ namespace Ibanity.Apis.Client
         internal HttpSignatureServiceBuilder(IClock clock) =>
             _clock = clock;
 
+        /// <inheritdoc />
         public IHttpSignatureServiceCertificateBuilder SetEndpoint(Uri endpoint)
         {
             _endpoint = endpoint ?? throw new ArgumentNullException(nameof(endpoint));
             return this;
         }
 
+        /// <inheritdoc />
         public IHttpSignatureServiceCertificateBuilder SetEndpoint(string endpoint)
         {
             if (string.IsNullOrWhiteSpace(endpoint))
@@ -83,23 +88,73 @@ namespace Ibanity.Apis.Client
         }
     }
 
+    /// <summary>
+    /// Mandatory endpoint builder.
+    /// </summary>
     public interface IHttpSignatureServiceEndpointBuilder
     {
+        /// <summary>
+        /// Define Ibanity API base URI.
+        /// </summary>
+        /// <param name="endpoint">Ibanity API base URI</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
         IHttpSignatureServiceCertificateBuilder SetEndpoint(Uri endpoint);
+
+        /// <summary>
+        /// Define Ibanity API base URI.
+        /// </summary>
+        /// <param name="endpoint">Ibanity API base URI</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
         IHttpSignatureServiceCertificateBuilder SetEndpoint(string endpoint);
     }
 
+    /// <summary>
+    /// Mandatory certificate builder.
+    /// </summary>
     public interface IHttpSignatureServiceCertificateBuilder
     {
+        /// <summary>
+        /// Define signature certificate.
+        /// </summary>
+        /// <param name="id">Certificat ID from the Developper Portal</param>
+        /// <param name="certificate">Signature certificate</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
+        ///
         IHttpSignatureServiceOptionalPropertiesBuilder AddCertificate(string id, X509Certificate2 certificate);
+
+        /// <summary>
+        /// Define signature certificate.
+        /// </summary>
+        /// <param name="id">Certificat ID from the Developper Portal</param>
+        /// <param name="path">Signature certificate path</param>
+        /// <param name="password">Signature certificate passphrase</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
         IHttpSignatureServiceOptionalPropertiesBuilder AddCertificate(string id, string path, string password);
     }
 
+    /// <summary>
+    /// Optional configuration builder.
+    /// </summary>
     public interface IHttpSignatureServiceOptionalPropertiesBuilder
     {
+        /// <summary>
+        /// Configure logger.
+        /// </summary>
+        /// <param name="logger">Logger instance that will be used within the whole library</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
         IHttpSignatureServiceOptionalPropertiesBuilder AddLogging(ILogger logger);
+
+        /// <summary>
+        /// Configure logger factory.
+        /// </summary>
+        /// <param name="loggerFactory">Logger factory will be called in all library-created instances to get named loggers</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
         IHttpSignatureServiceOptionalPropertiesBuilder AddLogging(ILoggerFactory loggerFactory);
 
+        /// <summary>
+        /// Create the signature service instance.
+        /// </summary>
+        /// <returns>A ready-to-use service</returns>
         IHttpSignatureService Build();
     }
 }

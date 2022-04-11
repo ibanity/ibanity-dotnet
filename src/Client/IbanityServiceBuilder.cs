@@ -10,6 +10,9 @@ using Ibanity.Apis.Client.Utils.Logging;
 
 namespace Ibanity.Apis.Client
 {
+    /// <summary>
+    /// Builds an <see cref="IIbanityService" /> instance.
+    /// </summary>
     public class IbanityServiceBuilder :
         IIbanityServiceEndpointBuilder,
         IIbanityServiceMutualTlsBuilder,
@@ -31,12 +34,14 @@ namespace Ibanity.Apis.Client
         private int? _retryCount;
         private TimeSpan? _retryBaseDelay;
 
+        /// <inheritdoc />
         public IIbanityServiceMutualTlsBuilder SetEndpoint(Uri endpoint)
         {
             _endpoint = endpoint ?? throw new ArgumentNullException(nameof(endpoint));
             return this;
         }
 
+        /// <inheritdoc />
         public IIbanityServiceMutualTlsBuilder SetEndpoint(string endpoint)
         {
             if (string.IsNullOrWhiteSpace(endpoint))
@@ -236,37 +241,154 @@ namespace Ibanity.Apis.Client
         }
     }
 
+    /// <summary>
+    /// Mandatory endpoint builder.
+    /// </summary>
     public interface IIbanityServiceEndpointBuilder
     {
+        /// <summary>
+        /// Define Ibanity API base URI.
+        /// </summary>
+        /// <param name="endpoint">Ibanity API base URI</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
         IIbanityServiceMutualTlsBuilder SetEndpoint(Uri endpoint);
+
+        /// <summary>
+        /// Define Ibanity API base URI.
+        /// </summary>
+        /// <param name="endpoint">Ibanity API base URI</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
         IIbanityServiceMutualTlsBuilder SetEndpoint(string endpoint);
     }
 
+    /// <summary>
+    /// Mandatory mutual TLS builder.
+    /// </summary>
     public interface IIbanityServiceMutualTlsBuilder
     {
+        /// <summary>
+        /// Disable client certificate.
+        /// </summary>
+        /// <returns>The builder to be used to pursue configuration</returns>
+        /// <remarks>You will have to manage client certificate within your proxy server.</remarks>
         IIbanityServiceProxyBuilder DisableMutualTls();
+
+        /// <summary>
+        /// Define client certificate you generated for your application in our Developer Portal.
+        /// </summary>
+        /// <param name="certificate">Client certificate</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
         IIbanityServiceOptionalPropertiesBuilder AddClientCertificate(X509Certificate2 certificate);
+
+        /// <summary>
+        /// Define client certificate you generated for your application in our Developer Portal.
+        /// </summary>
+        /// <param name="path">Client certificate path</param>
+        /// <param name="password">Client certificate passphrase</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
         IIbanityServiceOptionalPropertiesBuilder AddClientCertificate(string path, string password);
     }
 
+    /// <summary>
+    /// Mandatory proxy builder.
+    /// </summary>
     public interface IIbanityServiceProxyBuilder
     {
+        /// <summary>
+        /// Configure proxy server.
+        /// </summary>
+        /// <param name="proxy">Proxy instance in which you can configure address, credentials, ...</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
         IIbanityServiceOptionalPropertiesBuilder AddProxy(IWebProxy proxy);
+
+        /// <summary>
+        /// Configure proxy server.
+        /// </summary>
+        /// <param name="endpoint">Proxy server address</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
         IIbanityServiceOptionalPropertiesBuilder AddProxy(Uri endpoint);
+
+        /// <summary>
+        /// Configure proxy server.
+        /// </summary>
+        /// <param name="endpoint">Proxy server address</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
         IIbanityServiceOptionalPropertiesBuilder AddProxy(string endpoint);
     }
 
+    /// <summary>
+    /// Optional configuration builder.
+    /// </summary>
     public interface IIbanityServiceOptionalPropertiesBuilder : IIbanityServiceProxyBuilder
     {
+        /// <summary>
+        /// Define signature certificate.
+        /// </summary>
+        /// <param name="id">Certificat ID from the Developper Portal</param>
+        /// <param name="certificate">Signature certificate</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
         IIbanityServiceOptionalPropertiesBuilder AddSignatureCertificate(string id, X509Certificate2 certificate);
+
+        /// <summary>
+        /// Define signature certificate.
+        /// </summary>
+        /// <param name="id">Certificat ID from the Developper Portal</param>
+        /// <param name="path">Signature certificate path</param>
+        /// <param name="password">Signature certificate passphrase</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
         IIbanityServiceOptionalPropertiesBuilder AddSignatureCertificate(string id, string path, string password);
+
+        /// <summary>
+        /// Dfine Ponto Connect OAuth2 credentials.
+        /// </summary>
+        /// <param name="clientId">Valid OAuth2 client identifier for your application</param>
+        /// <param name="clientSecret">OAuth2 client secret</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
         IIbanityServiceOptionalPropertiesBuilder AddPontoConnectOAuth2Authentication(string clientId, string clientSecret);
+
+        /// <summary>
+        /// Configure logger.
+        /// </summary>
+        /// <param name="logger">Logger instance that will be used across the whole library</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
         IIbanityServiceOptionalPropertiesBuilder AddLogging(ILogger logger);
+
+        /// <summary>
+        /// Configure logger factory.
+        /// </summary>
+        /// <param name="loggerFactory">Logger factory will be called in all library-created instances to get named loggers</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
         IIbanityServiceOptionalPropertiesBuilder AddLogging(ILoggerFactory loggerFactory);
+
+        /// <summary>
+        /// Configure HTTP client timeout.
+        /// </summary>
+        /// <param name="timeout">Delay before giving up a request</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
         IIbanityServiceOptionalPropertiesBuilder SetTimeout(TimeSpan timeout);
+
+        /// <summary>
+        /// Low-level HTTP client customizations.
+        /// </summary>
+        /// <param name="customizeClient">Callback in which <see cref="HttpClient" /> can be customized</param>
+        /// <param name="customizeHandler">Callback in which <see cref="HttpClientHandler" /> can be customized</param>
+        /// <param name="customizeRequest">Callback in which <see cref="HttpRequestMessage" /> can be customized</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
         IIbanityServiceOptionalPropertiesBuilder CustomizeHttpClient(Action<HttpClient> customizeClient = null, Action<HttpClientHandler> customizeHandler = null, Action<HttpRequestMessage> customizeRequest = null);
+
+        /// <summary>
+        /// Allow to retry failed requests.
+        /// </summary>
+        /// <param name="count">Number of retries after failed operations</param>
+        /// <param name="baseDelay">Delay before a retry with exponential backoff</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
+        /// <remarks>Delay is increased by a 2-factor after each failure: 1 second, then 2 seconds, then 4 seconds, ...</remarks>
         IIbanityServiceOptionalPropertiesBuilder EnableRetries(int count = 5, TimeSpan? baseDelay = null);
 
+        /// <summary>
+        /// Create the signature service instance.
+        /// </summary>
+        /// <returns>A ready-to-use service</returns>
         IIbanityService Build();
     }
 }
