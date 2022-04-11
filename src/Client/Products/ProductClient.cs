@@ -2,7 +2,7 @@ using Ibanity.Apis.Client.Http;
 
 namespace Ibanity.Apis.Client.Products
 {
-    public class ProductClient : IProductClient
+    public abstract class ProductClient : IProductClient
     {
         public ProductClient(IApiClient apiClient, ITokenProvider tokenService, IClientAccessTokenProvider clientAccessTokenService)
         {
