@@ -6,6 +6,7 @@ using Ibanity.Apis.Client.Utils.Logging;
 
 namespace Ibanity.Apis.Client.Http
 {
+    /// <inheritdoc />
     public class HttpSignatureService : IHttpSignatureService
     {
         private const string SignatureHeaderAlgorithm = "hs2019";
@@ -17,6 +18,15 @@ namespace Ibanity.Apis.Client.Http
         private readonly IHttpSignatureString _signatureString;
         private readonly string _certificateId;
 
+        /// <summary>
+        /// Build a new instance.
+        /// </summary>
+        /// <param name="loggerFactory">Allow to build the logger used within this instance</param>
+        /// <param name="digest">Used to compute signature string hash</param>
+        /// <param name="signature">Signature algorithm</param>
+        /// <param name="clock">Returns current date and time</param>
+        /// <param name="signatureString">Used to build signature string from payload</param>
+        /// <param name="certificateId">Identifier for the application's signature certificate, obtained from the Developer Portal</param>
         public HttpSignatureService(ILoggerFactory loggerFactory, IDigest digest, ISignature signature, IClock clock, IHttpSignatureString signatureString, string certificateId)
         {
             if (loggerFactory is null)
@@ -33,6 +43,7 @@ namespace Ibanity.Apis.Client.Http
             _certificateId = certificateId;
         }
 
+        /// <inheritdoc />
         public IDictionary<string, string> GetHttpSignatureHeaders(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, string payload)
         {
             if (string.IsNullOrWhiteSpace(httpMethod))
@@ -77,18 +88,37 @@ namespace Ibanity.Apis.Client.Http
         }
     }
 
+    /// <summary>
+    /// Null signature service, used when the signature certificate isn't configured.
+    /// </summary>
     public class NullHttpSignatureService : IHttpSignatureService
     {
+        /// <summary>
+        /// Singleton instance.
+        /// </summary>
         public static readonly IHttpSignatureService Instance = new NullHttpSignatureService();
 
         private NullHttpSignatureService() { }
 
+        /// <inheritdoc />
+        /// <remarks>Returns an empty dictionary.</remarks>
         public IDictionary<string, string> GetHttpSignatureHeaders(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, string payload) =>
             new Dictionary<string, string>();
     }
 
+    /// <summary>
+    /// Allow to compute the signature headers for a given request.
+    /// </summary>
     public interface IHttpSignatureService
     {
+        /// <summary>
+        /// Compute the signature headers.
+        /// </summary>
+        /// <param name="httpMethod">HTTP method (GET, POST, ...)</param>
+        /// <param name="url">URI where to request is going to be sent</param>
+        /// <param name="requestHeaders">Existing request headers</param>
+        /// <param name="payload">Request payload</param>
+        /// <returns>Headers names and values</returns>
         IDictionary<string, string> GetHttpSignatureHeaders(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, string payload);
     }
 }

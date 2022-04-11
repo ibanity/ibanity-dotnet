@@ -8,6 +8,7 @@ using Ibanity.Apis.Client.Utils.Logging;
 
 namespace Ibanity.Apis.Client.Http.OAuth2
 {
+    /// <inheritdoc />
     public class OAuth2TokenProvider : ITokenProvider
     {
         private static readonly TimeSpan ValidityThreshold = TimeSpan.FromMinutes(1d);
@@ -20,6 +21,16 @@ namespace Ibanity.Apis.Client.Http.OAuth2
         private readonly string _clientId;
         private readonly string _clientSecret;
 
+        /// <summary>
+        /// Build a new instance.
+        /// </summary>
+        /// <param name="loggerFactory">Allow to build the logger used within this instance</param>
+        /// <param name="httpClient">Low-level HTTP client</param>
+        /// <param name="clock">Returns current date and time</param>
+        /// <param name="serializer">To-string serializer</param>
+        /// <param name="urlPrefix">Product endpoint</param>
+        /// <param name="clientId">OAuth2 client ID</param>
+        /// <param name="clientSecret">OAuth2 client secret</param>
         public OAuth2TokenProvider(ILoggerFactory loggerFactory, HttpClient httpClient, IClock clock, ISerializer<string> serializer, string urlPrefix, string clientId, string clientSecret)
         {
             if (loggerFactory is null)
@@ -43,6 +54,7 @@ namespace Ibanity.Apis.Client.Http.OAuth2
             _clientSecret = clientSecret;
         }
 
+        /// <inheritdoc />
         public async Task<Token> GetToken(string authorizationCode, string codeVerifier, Uri redirectUri, CancellationToken? cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(authorizationCode))
@@ -81,6 +93,7 @@ namespace Ibanity.Apis.Client.Http.OAuth2
                 response.RefreshToken);
         }
 
+        /// <inheritdoc />
         public Task<Token> GetToken(string authorizationCode, string codeVerifier, string redirectUri, CancellationToken? cancellationToken) =>
             GetToken(
                 authorizationCode,
@@ -88,6 +101,7 @@ namespace Ibanity.Apis.Client.Http.OAuth2
                 new Uri(redirectUri ?? throw new ArgumentException($"'{nameof(redirectUri)}' cannot be null or whitespace.", nameof(redirectUri))),
                 cancellationToken);
 
+        /// <inheritdoc />
         public async Task<Token> GetToken(string refreshToken, CancellationToken? cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(refreshToken))
@@ -101,6 +115,7 @@ namespace Ibanity.Apis.Client.Http.OAuth2
             return await RefreshToken(token, cancellationToken);
         }
 
+        /// <inheritdoc />
         public async Task<Token> RefreshToken(Token token, CancellationToken? cancellationToken)
         {
             if (token is null)
@@ -135,6 +150,7 @@ namespace Ibanity.Apis.Client.Http.OAuth2
             return token;
         }
 
+        /// <inheritdoc />
         public async Task RevokeToken(Token token, CancellationToken? cancellationToken)
         {
             if (token is null)

@@ -10,6 +10,7 @@ using Ibanity.Apis.Client.Utils.Logging;
 
 namespace Ibanity.Apis.Client.Http
 {
+    /// <inheritdoc />
     public class ApiClient : IApiClient
     {
         private static readonly Encoding Encoding = Encoding.UTF8;
@@ -21,6 +22,15 @@ namespace Ibanity.Apis.Client.Http
         private readonly string _apiVersion;
         private readonly Action<HttpRequestMessage> _customizeRequest;
 
+        /// <summary>
+        /// Build a new instance.
+        /// </summary>
+        /// <param name="loggerFactory">Allow to build the logger used within this instance</param>
+        /// <param name="httpClient">Low-level HTTP client</param>
+        /// <param name="serializer">To-string serializer</param>
+        /// <param name="signatureService">HTTP request signature service</param>
+        /// <param name="apiVersion">Used in accept header</param>
+        /// <param name="customizeRequest">Allow to modify requests before sending them</param>
         public ApiClient(ILoggerFactory loggerFactory, HttpClient httpClient, ISerializer<string> serializer, IHttpSignatureService signatureService, string apiVersion, Action<HttpRequestMessage> customizeRequest)
         {
             if (loggerFactory is null)
@@ -37,6 +47,7 @@ namespace Ibanity.Apis.Client.Http
             _customizeRequest = customizeRequest ?? throw new ArgumentNullException(nameof(customizeRequest));
         }
 
+        /// <inheritdoc />
         public Task<T> Get<T>(string path, string bearerToken, CancellationToken cancellationToken) =>
             SendWithoutPayload<T>(HttpMethod.Get, path, bearerToken, cancellationToken);
 
@@ -62,15 +73,19 @@ namespace Ibanity.Apis.Client.Http
             }
         }
 
+        /// <inheritdoc />
         public Task<T> Delete<T>(string path, string bearerToken, CancellationToken cancellationToken) =>
             SendWithoutPayload<T>(HttpMethod.Delete, path, bearerToken, cancellationToken);
 
+        /// <inheritdoc />
         public Task Delete(string path, string bearerToken, CancellationToken cancellationToken) =>
             Delete<object>(path, bearerToken, cancellationToken);
 
+        /// <inheritdoc />
         public Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken) =>
             SendWithPayload<TRequest, TResponse>(HttpMethod.Post, path, bearerToken, payload, idempotencyKey, cancellationToken);
 
+        /// <inheritdoc />
         public Task<TResponse> Patch<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken) =>
             SendWithPayload<TRequest, TResponse>(new HttpMethod("PATCH"), path, bearerToken, payload, idempotencyKey, cancellationToken);
 
@@ -125,12 +140,64 @@ namespace Ibanity.Apis.Client.Http
         }
     }
 
+    /// <summary>
+    /// Low-level HTTP client
+    /// </summary>
     public interface IApiClient
     {
+        /// <summary>
+        /// Send a GET request.
+        /// </summary>
+        /// <typeparam name="T">Type of the received payload</typeparam>
+        /// <param name="path">Query string, absolute, or relative to product root</param>
+        /// <param name="bearerToken">Token added to Authorization header</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns></returns>
         Task<T> Get<T>(string path, string bearerToken, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Send a DELETE request with a returned payload.
+        /// </summary>
+        /// <typeparam name="T">Type of the received payload</typeparam>
+        /// <param name="path">Query string, absolute, or relative to product root</param>
+        /// <param name="bearerToken">Token added to Authorization header</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns></returns>
         Task<T> Delete<T>(string path, string bearerToken, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Send a DELETE request without a returned payload.
+        /// </summary>
+        /// <param name="path">Query string, absolute, or relative to product root</param>
+        /// <param name="bearerToken">Token added to Authorization header</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns></returns>
         Task Delete(string path, string bearerToken, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Send a POST request.
+        /// </summary>
+        /// <typeparam name="TRequest">Type of the payload to be sent</typeparam>
+        /// <typeparam name="TResponse">Type of the received payload</typeparam>
+        /// <param name="path">Query string, absolute, or relative to product root</param>
+        /// <param name="bearerToken">Token added to Authorization header</param>
+        /// <param name="payload">Data to be sent</param>
+        /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns></returns>
         Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Send a PATCH request.
+        /// </summary>
+        /// <typeparam name="TRequest">Type of the payload to be sent</typeparam>
+        /// <typeparam name="TResponse">Type of the received payload</typeparam>
+        /// <param name="path">Query string, absolute, or relative to product root</param>
+        /// <param name="bearerToken">Token added to Authorization header</param>
+        /// <param name="payload">Data to be sent</param>
+        /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns></returns>
         Task<TResponse> Patch<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken);
     }
 }

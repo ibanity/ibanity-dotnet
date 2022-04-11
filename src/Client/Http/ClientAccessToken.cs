@@ -2,6 +2,9 @@ using System;
 
 namespace Ibanity.Apis.Client.Http
 {
+    /// <summary>
+    /// Client access token, generated from a client ID and client secret.
+    /// </summary>
     public class ClientAccessToken
     {
         internal ClientAccessToken(string accessToken, DateTimeOffset validUntil)
@@ -10,7 +13,14 @@ namespace Ibanity.Apis.Client.Http
             ValidUntil = validUntil;
         }
 
+        /// <summary>
+        /// Bearer token.
+        /// </summary>
         public string AccessToken { get; internal set; }
+
+        /// <summary>
+        /// Validaty limit.
+        /// </summary>
         public DateTimeOffset ValidUntil { get; internal set; }
     }
 }

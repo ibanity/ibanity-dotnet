@@ -5,6 +5,9 @@ using Ibanity.Apis.Client.Utils.Logging;
 
 namespace Ibanity.Apis.Client.Http
 {
+    /// <summary>
+    /// Wrapper around the actual client, allowing to retry failed requests.
+    /// </summary>
     public class ApiClientRetryDecorator : IApiClient
     {
         private readonly ILogger _logger;
@@ -12,6 +15,14 @@ namespace Ibanity.Apis.Client.Http
         private readonly int _count;
         private readonly TimeSpan _baseDelay;
 
+        /// <summary>
+        /// Build a new instance.
+        /// </summary>
+        /// <param name="loggerFactory">Allow to build the logger used within this instance</param>
+        /// <param name="underlyingInstance">Actual client</param>
+        /// <param name="count">Number of retries after failed operations</param>
+        /// <param name="baseDelay">Delay before a retry with exponential backoff</param>
+        /// <remarks>Delay is increased by a 2-factor after each failure: 1 second, then 2 seconds, then 4 seconds, ...</remarks>
         public ApiClientRetryDecorator(ILoggerFactory loggerFactory, IApiClient underlyingInstance, int count, TimeSpan baseDelay)
         {
             if (loggerFactory is null)
@@ -42,18 +53,23 @@ namespace Ibanity.Apis.Client.Http
                 }
         }
 
+        /// <inheritdoc />
         public Task<T> Delete<T>(string path, string bearerToken, CancellationToken cancellationToken) =>
             Execute<T>("Delete", async () => await _underlyingInstance.Delete<T>(path, bearerToken, cancellationToken), cancellationToken);
 
+        /// <inheritdoc />
         public Task Delete(string path, string bearerToken, CancellationToken cancellationToken) =>
             Delete<object>(path, bearerToken, cancellationToken);
 
+        /// <inheritdoc />
         public Task<T> Get<T>(string path, string bearerToken, CancellationToken cancellationToken) =>
             Execute<T>("Get", async () => await _underlyingInstance.Get<T>(path, bearerToken, cancellationToken), cancellationToken);
 
+        /// <inheritdoc />
         public Task<TResponse> Patch<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken) =>
             Execute<TResponse>("Patch", async () => await _underlyingInstance.Patch<TRequest, TResponse>(path, bearerToken, payload, idempotencyKey, cancellationToken), cancellationToken);
 
+        /// <inheritdoc />
         public Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken) =>
             Execute<TResponse>("Post", async () => await _underlyingInstance.Post<TRequest, TResponse>(path, bearerToken, payload, idempotencyKey, cancellationToken), cancellationToken);
     }

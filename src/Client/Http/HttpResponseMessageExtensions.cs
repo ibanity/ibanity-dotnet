@@ -6,10 +6,20 @@ using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Http
 {
+    /// <summary>
+    /// Add a few methods to <see cref="HttpResponseMessage" />.
+    /// </summary>
     public static class HttpResponseMessageExtensions
     {
         private const string RequestIdHeader = "ibanity-request-id";
 
+        /// <summary>
+        /// <para>Checks status code and throws an exception if an error occured.</para>
+        /// <para>The error payload will be contained inside the exception.</para>
+        /// </summary>
+        /// <param name="this"><see cref="HttpResponseMessage" /> instance</param>
+        /// <param name="serializer">To-string serializer</param>
+        /// <returns>The instance received in argument</returns>
         public static async Task<HttpResponseMessage> ThrowOnFailure(this HttpResponseMessage @this, ISerializer<string> serializer)
         {
             if (@this is null)

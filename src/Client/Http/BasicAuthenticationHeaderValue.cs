@@ -4,10 +4,18 @@ using System.Text;
 
 namespace Ibanity.Apis.Client.Http
 {
+    /// <summary>
+    /// Authentication header with user and password as base64 string.
+    /// </summary>
     public class BasicAuthenticationHeaderValue : AuthenticationHeaderValue
     {
         private static readonly Encoding Encoding = Encoding.ASCII;
 
+        /// <summary>
+        /// Build a new instance.
+        /// </summary>
+        /// <param name="username">Username to encode</param>
+        /// <param name="password">Password to encode</param>
         public BasicAuthenticationHeaderValue(string username, string password)
             : base("Basic", Convert.ToBase64String(Encoding.GetBytes($"{username}:{password}")))
         {

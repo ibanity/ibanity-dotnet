@@ -8,6 +8,7 @@ using Ibanity.Apis.Client.Utils.Logging;
 
 namespace Ibanity.Apis.Client.Http.OAuth2
 {
+    /// <inheritdoc />
     public class OAuth2ClientAccessTokenProvider : IClientAccessTokenProvider
     {
         private static readonly TimeSpan ValidityThreshold = TimeSpan.FromMinutes(1d);
@@ -20,6 +21,16 @@ namespace Ibanity.Apis.Client.Http.OAuth2
         private readonly string _clientId;
         private readonly string _clientSecret;
 
+        /// <summary>
+        /// Build a new instance.
+        /// </summary>
+        /// <param name="loggerFactory">Allow to build the logger used within this instance</param>
+        /// <param name="httpClient">Low-level HTTP client</param>
+        /// <param name="clock">Returns current date and time</param>
+        /// <param name="serializer">To-string serializer</param>
+        /// <param name="urlPrefix">Product endpoint</param>
+        /// <param name="clientId">OAuth2 client ID</param>
+        /// <param name="clientSecret">OAuth2 client secret</param>
         public OAuth2ClientAccessTokenProvider(ILoggerFactory loggerFactory, HttpClient httpClient, IClock clock, ISerializer<string> serializer, string urlPrefix, string clientId, string clientSecret)
         {
             if (loggerFactory is null)
@@ -43,6 +54,7 @@ namespace Ibanity.Apis.Client.Http.OAuth2
             _clientSecret = clientSecret;
         }
 
+        /// <inheritdoc />
         public async Task<ClientAccessToken> GetToken(CancellationToken? cancellationToken)
         {
             var token = new ClientAccessToken(
@@ -52,6 +64,7 @@ namespace Ibanity.Apis.Client.Http.OAuth2
             return await RefreshToken(token, cancellationToken);
         }
 
+        /// <inheritdoc />
         public async Task<ClientAccessToken> RefreshToken(ClientAccessToken token, CancellationToken? cancellationToken)
         {
             if (token is null)
