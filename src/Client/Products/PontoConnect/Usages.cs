@@ -7,6 +7,7 @@ using Ibanity.Apis.Client.Products.PontoConnect.Models;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect
 {
+    /// <inheritdoc />
     public class Usages : IUsages
     {
         private static readonly Regex MonthPattern = new Regex(
@@ -18,6 +19,12 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         private readonly IClientAccessTokenProvider _accessTokenProvider;
         private readonly string _urlPrefix;
 
+        /// <summary>
+        /// Build a new instance.
+        /// </summary>
+        /// <param name="apiClient">Generic API client</param>
+        /// <param name="accessTokenProvider">Service to refresh access tokens</param>
+        /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
         public Usages(IApiClient apiClient, IClientAccessTokenProvider accessTokenProvider, string urlPrefix)
         {
             _apiClient = apiClient;
@@ -25,6 +32,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             _urlPrefix = urlPrefix;
         }
 
+        /// <inheritdoc />
         public async Task<Usage> Get(ClientAccessToken token, Guid organizationId, int year, int month, CancellationToken? cancellationToken) =>
             Map(await _apiClient.Get<JsonApi.Data<Usage, object, UsageRelationships, object>>(
                 $"{_urlPrefix}/organizations/{organizationId}/usage/{year}-{month}",
@@ -61,8 +69,20 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         }
     }
 
+    /// <summary>
+    /// This endpoint provides the usage of your integration by the provided organization during a given month. In order to continue to allow access to this information if an integration is revoked, you must use a client access token for this endpoint.
+    /// </summary>
     public interface IUsages
     {
+        /// <summary>
+        /// Get Organization Usage
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="organizationId">Corresponding organization ID</param>
+        /// <param name="year">Year to get usage for</param>
+        /// <param name="month">Month to get usage for</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The account and payment usage of the organization's integration for the provided month</returns>
         Task<Usage> Get(ClientAccessToken token, Guid organizationId, int year, int month, CancellationToken? cancellationToken = null);
     }
 }
