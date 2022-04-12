@@ -4,6 +4,10 @@ using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect.Models
 {
+    /// <summary>
+    /// <para>This is an object representing the onboarding details of the user who will undergo the linking process. It allows you to prefill the sign in or sign up forms with the user's details to streamline their Ponto onboarding process.</para>
+    /// <para>For security purposes, the onboarding details object will only be available to be linked to a new Ponto user for five minutes following its creation. You should include the id in the access authorization url as an additional query parameter.</para>
+    /// </summary>
     [DataContract]
     public class OnboardingDetails
     {
@@ -85,9 +89,11 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public string AddressCity { get; set; }
     }
 
+    /// <inheritdoc />
     [DataContract]
     public class OnboardingDetailsResponse : OnboardingDetails, IIdentified<Guid>
     {
+        /// <inheritdoc />
         public Guid Id { get; set; }
     }
 }

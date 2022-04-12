@@ -4,6 +4,10 @@ using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect.Models
 {
+    /// <summary>
+    /// <para>This is an object representing an account transaction. This object will give you the details of the financial transaction, including its amount and description.</para>
+    /// <para>From this object, you can link back to its account.</para>
+    /// </summary>
     [DataContract]
     public class Transaction
     {
@@ -126,14 +130,23 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         [DataMember(Name = "additionalInformation", EmitDefaultValue = false)]
         public string AdditionalInformation { get; set; }
 
+        /// <summary>
+        /// Short string representation.
+        /// </summary>
+        /// <returns>Short string representation</returns>
         public override string ToString() => $"{BankTransactionCode} ({Amount} {Currency})";
     }
 
+    /// <inheritdoc />
     [DataContract]
     public class TransactionResponse : Transaction, IIdentified<Guid>
     {
+        /// <inheritdoc />
         public Guid Id { get; set; }
 
+        /// <summary>
+        /// ID of the account that this transaction belongs to.
+        /// </summary>
         public Guid AccountId { get; set; }
 
         /// <summary>
@@ -144,9 +157,15 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public DateTimeOffset UpdatedAt { get; set; }
     }
 
+    /// <summary>
+    /// Link to the account that this transaction belongs to.
+    /// </summary>
     [DataContract]
     public class TransactionRelationships
     {
+        /// <summary>
+        /// Link to the account that this transaction belongs to.
+        /// </summary>
         [DataMember(Name = "account", EmitDefaultValue = false)]
         public JsonApi.Relationship Account { get; set; }
     }

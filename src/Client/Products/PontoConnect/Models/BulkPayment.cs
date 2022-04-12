@@ -5,6 +5,12 @@ using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect.Models
 {
+    /// <summary>
+    /// <para>This is an object representing a bulk payment. When you want to initiate a bulk payment from one of your user's accounts, you have to create one to start the authorization flow.</para>
+    /// <para>If you provide a redirect URI when creating the bulk payment, you will receive a redirect link to send your customer to to start the authorization flow. Note that for live bulk payments, your user must have already requested and been granted payment service for their organization to use this flow.</para>
+    /// <para>Otherwise, the user can sign the bulk payment in the Ponto Dashboard.</para>
+    /// <para>When authorizing bulk payment initiation in the sandbox, you should use the pre-filled credentials and 123456 as the digipass response.</para>
+    /// </summary>
     [DataContract]
     public abstract class BulkPayment
     {
@@ -39,9 +45,14 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         [DataMember(Name = "batchBookingPreferred", EmitDefaultValue = true)]
         public bool BatchBookingPreferred { get; set; }
 
+        /// <summary>
+        /// Short string representation.
+        /// </summary>
+        /// <returns>Short string representation</returns>
         public override string ToString() => Reference;
     }
 
+    /// <inheritdoc />
     public class BulkPaymentRequest : BulkPayment
     {
         /// <summary>
@@ -59,6 +70,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public List<Payment> Payments { get; set; }
     }
 
+    /// <inheritdoc />
     public class BulkPaymentResponse : BulkPayment, IIdentified<Guid>
     {
         /// <summary>
@@ -83,6 +95,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
             ? null
             : new Uri(RedirectUri);
 
+        /// <inheritdoc />
         public Guid Id { get; set; }
     }
 }

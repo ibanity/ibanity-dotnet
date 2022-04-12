@@ -6,6 +6,7 @@ using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect.Models
 {
+    /// <inheritdoc />
     [DataContract]
     public class Synchronization : SynchronizationRequest, IIdentified<Guid>
     {
@@ -37,11 +38,19 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         [DataMember(Name = "createdAt", EmitDefaultValue = false)]
         public DateTimeOffset CreatedAt { get; set; }
 
+        /// <inheritdoc />
         public Guid Id { get; set; }
 
+        /// <summary>
+        /// Short string representation.
+        /// </summary>
+        /// <returns>Short string representation</returns>
         public override string ToString() => $"{Status} from {CreatedAt:o} ({Id})";
     }
 
+    /// <summary>
+    /// This is an object representing a resource synchronization. This object will give you the details of the synchronization, including its resource, type, and status.
+    /// </summary>
     [DataContract]
     public class SynchronizationRequest
     {

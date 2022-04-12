@@ -3,6 +3,9 @@ using System.Runtime.Serialization;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect.Models
 {
+    /// <summary>
+    /// This endpoint provides the usage of your integration by the provided organization during a given month. In order to continue to allow access to this information if an integration is revoked, you must use a client access token for this endpoint.
+    /// </summary>
     [DataContract]
     public class Usage
     {
@@ -34,14 +37,31 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         [DataMember(Name = "accountCount", EmitDefaultValue = true)]
         public decimal AccountCount { get; set; }
 
+        /// <summary>
+        /// Year of the usage.
+        /// </summary>
         public int Year { get; set; }
+
+        /// <summary>
+        /// Month of the usage.
+        /// </summary>
         public int Month { get; set; }
+
+        /// <summary>
+        /// ID of the corresponding organization
+        /// </summary>
         public Guid OrganizationId { get; set; }
     }
 
+    /// <summary>
+    /// Details about the corresponding organization
+    /// </summary>
     [DataContract]
     public class UsageRelationships
     {
+        /// <summary>
+        /// Details about the corresponding organization
+        /// </summary>
         [DataMember(Name = "organization", EmitDefaultValue = false)]
         public JsonApi.Relationship Organization { get; set; }
     }

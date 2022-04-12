@@ -3,6 +3,10 @@ using System.Runtime.Serialization;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect.Models
 {
+    /// <summary>
+    /// <para>This endpoint provides information about the subject (organization) of an access token. Minimally, it provides the organization's id as the token's sub. If additional organization information was requested in the scope of the authorization, it will be provided here.</para>
+    /// <para>The organization's id can be used to request its usage. Keep in mind that if the access token is revoked, this endpoint will no longer be available, so you may want to store the organization's id in your system.</para>
+    /// </summary>
     [DataContract]
     public class UserInfo
     {
@@ -41,6 +45,10 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
 
+        /// <summary>
+        /// Short string representation.
+        /// </summary>
+        /// <returns>Short string representation</returns>
         public override string ToString() => $"{Name} ({Sub})";
     }
 }

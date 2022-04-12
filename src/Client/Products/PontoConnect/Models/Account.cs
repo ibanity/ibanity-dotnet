@@ -5,6 +5,11 @@ using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect.Models
 {
+    /// <summary>
+    /// <para>This is an object representing a user's account. This object will provide details about the account, including the balance and the currency.</para>
+    /// <para>An account has related transactions and belongs to a financial institution.</para>
+    /// <para>An account may be revoked from an integration using the revoke account endpoint. To recover access, the user must add the account back to the integration in their Ponto Dashboard or in a new authorization flow.</para>
+    /// </summary>
     [DataContract]
     public class Account
     {
@@ -99,26 +104,60 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         [DataMember(Name = "availableBalance", EmitDefaultValue = false)]
         public decimal AvailableBalance { get; set; }
 
+        /// <summary>
+        /// Short string representation.
+        /// </summary>
+        /// <returns>Short string representation</returns>
         public override string ToString() => $"{Reference} ({CurrentBalance} {Currency})";
     }
 
+    /// <inheritdoc />
     public class AccountResponse : Account, IIdentified<Guid>
     {
+        /// <inheritdoc />
         public Guid Id { get; set; }
+
+        /// <summary>
+        /// When this account was last synchronized.
+        /// </summary>
         public DateTimeOffset SynchronizedAt { get; set; }
+
+        /// <summary>
+        /// Details of the most recently completed (with success or error) synchronization of the account
+        /// </summary>
         public Synchronization LatestSynchronization { get; set; }
+
+        /// <summary>
+        /// <para>Indicates the availability of the account. The possible values are:</para>
+        /// <para>available (default)</para>
+        /// <para>readonly if the financial institution is undertaking maintenance and cannot be reached. Existing data is available but you cannot, for example, synchronize the account until the maintenance is complete</para>
+        /// </summary>
         public string Availability { get; set; }
     }
 
+    /// <summary>
+    ///
+    /// </summary>
     [DataContract]
     public class AccountMeta
     {
+        /// <summary>
+        /// When this account was last synchronized.
+        /// </summary>
         [DataMember(Name = "synchronizedAt", EmitDefaultValue = false)]
         public DateTimeOffset SynchronizedAt { get; set; }
 
+        /// <summary>
+        /// Details of the most recently completed (with success or error) synchronization of the account
+        /// </summary>
         [DataMember(Name = "latestSynchronization", EmitDefaultValue = false)]
         public Data<Synchronization, object, object, object> LatestSynchronization { get; set; }
 
+        /// <summary>
+        /// <para>Indicates the availability of the account. The possible values are:</para>
+        /// <para>available (default)</para>
+        /// <para>readonly if the financial institution is undertaking maintenance and cannot be reached. Existing data is available but you cannot, for example, synchronize the account until the maintenance is complete</para>
+        /// </summary>
         [DataMember(Name = "availability", EmitDefaultValue = false)]
         public string Availability { get; set; }
     }

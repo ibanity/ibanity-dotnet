@@ -5,6 +5,9 @@ using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect.Models
 {
+    /// <summary>
+    /// This is an object representing a financial institution, providing its basic details - ID and name. Only the financial institutions corresponding to authorized accounts will be available on the API.
+    /// </summary>
     [DataContract]
     public class FinancialInstitution : Identified<Guid>
     {
@@ -148,6 +151,10 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         [DataMember(Name = "bic", EmitDefaultValue = false)]
         public string Bic { get; set; }
 
+        /// <summary>
+        /// Short string representation.
+        /// </summary>
+        /// <returns>Short string representation</returns>
         public override string ToString() => $"{Name} ({Id})";
     }
 }

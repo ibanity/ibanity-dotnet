@@ -4,6 +4,12 @@ using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect.Models
 {
+    /// <summary>
+    /// <para>This is an object representing a payment. When you want to initiate payment from one of your user's accounts, you have to create one to start the authorization flow.</para>
+    /// <para>If you provide a redirect URI when creating the payment, you will receive a redirect link to send your customer to to start the authorization flow. Note that for live payments, your user must have already requested and been granted payment service for their organization to use this flow.</para>
+    /// <para>Otherwise, the user can sign the payment in the Ponto Dashboard.</para>
+    /// <para>When authorizing payment initiation in the sandbox, you should use the pre-filled credentials and 123456 as the digipass response.</para>
+    /// </summary>
     [DataContract]
     public class Payment
     {
@@ -87,9 +93,14 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         [DataMember(Name = "amount", IsRequired = true, EmitDefaultValue = false)]
         public decimal Amount { get; set; }
 
+        /// <summary>
+        /// Short string representation.
+        /// </summary>
+        /// <returns>Short string representation</returns>
         public override string ToString() => $"To {CreditorName} ({Amount} {Currency})";
     }
 
+    /// <inheritdoc />
     public class PaymentRequest : Payment
     {
         /// <summary>
@@ -100,6 +111,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public string RedirectUri { get; set; }
     }
 
+    /// <inheritdoc />
     public class PaymentResponse : Payment, IIdentified<Guid>
     {
         /// <summary>
@@ -124,15 +136,25 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
             ? null
             : new Uri(RedirectUri);
 
+        /// <inheritdoc />
         public Guid Id { get; set; }
     }
 
+    /// <summary>
+    /// URI to redirect to from your customer frontend to conduct the authorization flow.
+    /// </summary>
     [DataContract]
     public abstract class PaymentLinks
     {
+        /// <summary>
+        /// URI to redirect to from your customer frontend to conduct the authorization flow.
+        /// </summary>
         [DataMember(Name = "redirect", EmitDefaultValue = false)]
         public string RedirectString { get; set; }
 
+        /// <summary>
+        /// URI to redirect to from your customer frontend to conduct the authorization flow.
+        /// </summary>
         public Uri Redirect => string.IsNullOrWhiteSpace(RedirectString)
             ? null
             : new Uri(RedirectString);
