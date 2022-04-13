@@ -25,6 +25,6 @@ namespace Ibanity.Apis.Sample.CLI
             Console.WriteLine($"{DateTimeOffset.UtcNow:r} [{level.ToUpper()}] {message}");
 
         private void Log(string level, string message, Exception exception) =>
-            Log(level, $"{DateTimeOffset.UtcNow:r} [{level}] {message} - {exception.Message}{Environment.NewLine}{exception.StackTrace}");
+            Log(level, $"{message} - {exception.Message}{Environment.NewLine}{exception.StackTrace}");
     }
 }
