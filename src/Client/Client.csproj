@@ -7,6 +7,28 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackageId>Ibanity</PackageId>
+    <Title>Ibanity .NET client library</Title>
+    <Description>Ibanity .NET client library</Description>
+    <Version>0.1.0</Version>
+    <Authors>Isabel NV</Authors>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://ibanity.com/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ibanity/ibanity-dotnet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Copyright (c) 2022 Isabel NV</Copyright>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../assets/icon.png" Pack="true" Visible="false" PackagePath="" />
+    <None Include="../../README.md" Pack="true" Visible="false" PackagePath="" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="[9.0.1,14.0)" />
   </ItemGroup>
