@@ -79,7 +79,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="payment">An object representing a bulk payment</param>
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns></returns>
+        /// <returns>The created bulk payment resource</returns>
         Task<BulkPaymentResponse> Create(Token token, Guid accountId, BulkPaymentRequest payment, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="accountId">Account ID</param>
         /// <param name="id">Bulk payment ID</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns></returns>
+        /// <returns>The specified bulk payment resource</returns>
         Task<BulkPaymentResponse> Get(Token token, Guid accountId, Guid id, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -99,7 +99,6 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="accountId">Account ID</param>
         /// <param name="id">Bulk payment ID</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns></returns>
         Task Delete(Token token, Guid accountId, Guid id, CancellationToken? cancellationToken = null);
     }
 }

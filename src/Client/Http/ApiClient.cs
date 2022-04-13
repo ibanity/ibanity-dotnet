@@ -151,7 +151,7 @@ namespace Ibanity.Apis.Client.Http
         /// <param name="path">Query string, absolute, or relative to product root</param>
         /// <param name="bearerToken">Token added to Authorization header</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns></returns>
+        /// <returns>The specified resource</returns>
         Task<T> Get<T>(string path, string bearerToken, CancellationToken cancellationToken);
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Ibanity.Apis.Client.Http
         /// <param name="path">Query string, absolute, or relative to product root</param>
         /// <param name="bearerToken">Token added to Authorization header</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns></returns>
+        /// <returns>The deleted resource</returns>
         Task<T> Delete<T>(string path, string bearerToken, CancellationToken cancellationToken);
 
         /// <summary>
@@ -170,7 +170,6 @@ namespace Ibanity.Apis.Client.Http
         /// <param name="path">Query string, absolute, or relative to product root</param>
         /// <param name="bearerToken">Token added to Authorization header</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns></returns>
         Task Delete(string path, string bearerToken, CancellationToken cancellationToken);
 
         /// <summary>
@@ -183,7 +182,7 @@ namespace Ibanity.Apis.Client.Http
         /// <param name="payload">Data to be sent</param>
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns></returns>
+        /// <returns>The created resource</returns>
         Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken);
 
         /// <summary>
@@ -196,7 +195,7 @@ namespace Ibanity.Apis.Client.Http
         /// <param name="payload">Data to be sent</param>
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns></returns>
+        /// <returns>The updated resource</returns>
         Task<TResponse> Patch<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken);
     }
 }

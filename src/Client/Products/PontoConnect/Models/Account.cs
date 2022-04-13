@@ -136,7 +136,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
     }
 
     /// <summary>
-    ///
+    /// Account metadata
     /// </summary>
     [DataContract]
     public class AccountMeta

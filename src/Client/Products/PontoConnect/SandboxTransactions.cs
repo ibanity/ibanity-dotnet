@@ -98,7 +98,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="filters">Attributes to be filtered from the results</param>
         /// <param name="pageSize">Number of items by page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>Returns a list of financial institution transaction resources</returns>
+        /// <returns>A list of financial institution transaction resources</returns>
         Task<PaginatedCollection<SandboxTransaction>> List(Token token, Guid financialInstitutionId, Guid accountId, IEnumerable<Filter> filters = null, int? pageSize = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="token">Authentication token</param>
         /// <param name="continuationToken">Token referencing the page to request</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>Returns a list of financial institution transaction resources</returns>
+        /// <returns>A list of financial institution transaction resources</returns>
         Task<PaginatedCollection<SandboxTransaction>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="accountId">Account ID</param>
         /// <param name="id">Financial institution transaction ID</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>Returns the specified financial institution transaction resource</returns>
+        /// <returns>The specified financial institution transaction resource</returns>
         Task<SandboxTransaction> Get(Token token, Guid financialInstitutionId, Guid accountId, Guid id, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="transaction">An object representing a financial institution transaction</param>
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>Returns the created financial institution transaction resource</returns>
+        /// <returns>The created financial institution transaction resource</returns>
         Task<SandboxTransaction> Create(Token token, Guid financialInstitutionId, Guid accountId, Transaction transaction, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="transaction">An object representing a financial institution transaction</param>
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>Returns the updated financial institution transaction resource</returns>
+        /// <returns>The updated financial institution transaction resource</returns>
         Task<SandboxTransaction> Update(Token token, Guid financialInstitutionId, Guid accountId, Guid id, Transaction transaction, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }

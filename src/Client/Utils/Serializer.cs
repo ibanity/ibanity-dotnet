@@ -38,7 +38,7 @@ namespace Ibanity.Apis.Client.Utils
         /// </summary>
         /// <typeparam name="T">Object type</typeparam>
         /// <param name="value">Object to transform</param>
-        /// <returns></returns>
+        /// <returns>Object in transferable format</returns>
         U Serialize<T>(T value);
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Ibanity.Apis.Client.Utils
         /// </summary>
         /// <typeparam name="T">Object type</typeparam>
         /// <param name="value">Transferable representation of an object</param>
-        /// <returns></returns>
+        /// <returns>Deserialized object</returns>
         T Deserialize<T>(U value);
     }
 }

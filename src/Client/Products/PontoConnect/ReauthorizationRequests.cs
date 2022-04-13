@@ -81,7 +81,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="redirect">URI that your user will be redirected to at the end of the authorization flow</param>
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns></returns>
+        /// <returns>The created reauthorization request resource</returns>
         Task<ReauthorizationRequest> Create(Token token, Guid accountId, Uri redirect, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="redirectUri">URI that your user will be redirected to at the end of the authorization flow</param>
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns></returns>
+        /// <returns>The created reauthorization request resource</returns>
         Task<ReauthorizationRequest> Create(Token token, Guid accountId, string redirectUri, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }

@@ -73,7 +73,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="filters">Attributes to be filtered from the results</param>
         /// <param name="pageSize">Number of items by page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>Returns a list of financial institution resources</returns>
+        /// <returns>A list of financial institution resources</returns>
         Task<PaginatedCollection<FinancialInstitution>> ListForOrganization(Token token, IEnumerable<Filter> filters = null, int? pageSize = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -82,33 +82,33 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="token">Authentication token</param>
         /// <param name="continuationToken">Token referencing the page to request</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>Returns a list of financial institution resources</returns>
+        /// <returns>A list of financial institution resources</returns>
         Task<PaginatedCollection<FinancialInstitution>> ListForOrganization(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
 
         /// <summary>
-        ///
+        /// Get Organization Financial Institution
         /// </summary>
         /// <param name="token">Authentication token</param>
         /// <param name="id">Financial institution ID</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>Returns a financial institution resource</returns>
+        /// <returns>A financial institution resource</returns>
         Task<FinancialInstitution> GetForOrganization(Token token, Guid id, CancellationToken? cancellationToken = null);
 
         /// <summary>
-        ///
+        /// List Financial Institutions
         /// </summary>
         /// <param name="filters">Attributes to be filtered from the results</param>
         /// <param name="pageSize">Number of items by page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>Returns a list of financial institution resources</returns>
+        /// <returns>A list of financial institution resources</returns>
         Task<PaginatedCollection<FinancialInstitution>> List(IEnumerable<Filter> filters = null, int? pageSize = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
-        ///
+        /// List Financial Institutions
         /// </summary>
         /// <param name="continuationToken">Token referencing the page to request</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>Returns a list of financial institution resources</returns>
+        /// <returns>A list of financial institution resources</returns>
         Task<PaginatedCollection<FinancialInstitution>> List(ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// </summary>
         /// <param name="id">Financial institution ID</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>Returns a financial institution resource</returns>
+        /// <returns>A financial institution resource</returns>
         Task<FinancialInstitution> Get(Guid id, CancellationToken? cancellationToken = null);
     }
 }

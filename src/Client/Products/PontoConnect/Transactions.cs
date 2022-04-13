@@ -74,7 +74,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="filters">Attributes to be filtered from the results</param>
         /// <param name="pageSize">Number of items by page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns></returns>
+        /// <returns>A list of transaction resources</returns>
         Task<PaginatedCollection<TransactionResponse>> List(Token token, Guid accountId, IEnumerable<Filter> filters = null, int? pageSize = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="token">Authentication token</param>
         /// <param name="continuationToken">Token referencing the page to request</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns></returns>
+        /// <returns>A list of transaction resources</returns>
         Task<PaginatedCollection<TransactionResponse>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="accountId">Bank account ID</param>
         /// <param name="id">Transaction ID</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns></returns>
+        /// <returns>The specified transaction resource</returns>
         Task<TransactionResponse> Get(Token token, Guid accountId, Guid id, CancellationToken? cancellationToken = null);
     }
 }

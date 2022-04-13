@@ -79,7 +79,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="payment">An object representing a payment</param>
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns></returns>
+        /// <returns>The created payment resource</returns>
         Task<PaymentResponse> Create(Token token, Guid accountId, PaymentRequest payment, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="accountId">Account ID</param>
         /// <param name="id">Payment ID</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns></returns>
+        /// <returns>The specified payment resource</returns>
         Task<PaymentResponse> Get(Token token, Guid accountId, Guid id, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -99,7 +99,6 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="accountId">Account ID</param>
         /// <param name="id">Payment ID</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns></returns>
         Task Delete(Token token, Guid accountId, Guid id, CancellationToken? cancellationToken = null);
     }
 }

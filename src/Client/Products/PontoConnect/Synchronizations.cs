@@ -56,7 +56,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="synchronization">Details of the synchronization, including its resource, type, and status</param>
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>Returns a synchronization resource</returns>
+        /// <returns>A synchronization resource</returns>
         Task<Synchronization> Create(Token token, SynchronizationRequest synchronization, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="token">Authentication token</param>
         /// <param name="id">ID of the synchronization</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>Returns a synchronization resource</returns>
+        /// <returns>A synchronization resource</returns>
         Task<Synchronization> Get(Token token, Guid id, CancellationToken? cancellationToken = null);
     }
 }

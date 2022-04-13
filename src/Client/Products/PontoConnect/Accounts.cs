@@ -81,7 +81,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="filters">Attributes to be filtered from the results</param>
         /// <param name="pageSize">Number of items by page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>Returns a list of account resources</returns>
+        /// <returns>A list of account resources</returns>
         Task<PaginatedCollection<AccountResponse>> List(Token token, IEnumerable<Filter> filters = null, int? pageSize = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="token">Authentication token</param>
         /// <param name="continuationToken">Token referencing the page to request</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>Returns a list of account resources</returns>
+        /// <returns>A list of account resources</returns>
         Task<PaginatedCollection<AccountResponse>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="token">Authentication token</param>
         /// <param name="id">Account ID</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>Returns the specified account resource</returns>
+        /// <returns>The specified account resource</returns>
         Task<AccountResponse> Get(Token token, Guid id, CancellationToken? cancellationToken = null);
 
         /// <summary>
