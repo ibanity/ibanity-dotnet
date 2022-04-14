@@ -5,3 +5,16 @@
 }
 
 <h1>@ViewData["Title"]</h1>
+
+<h2>Accounts</h2>
+
+@await foreach (var account in Model.GetAccounts())
+{
+    <div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <h5 class="card-title">@account.Reference</h5>
+        <h6 class="card-subtitle mb-2 text-muted">@account.HolderName</h6>
+        <p class="card-text">@account.AvailableBalance @account.Currency</p>
+    </div>
+</div>
+}
