@@ -187,13 +187,22 @@ namespace Ibanity.Apis.Client
             var serializer = new JsonSerializer();
             var clock = new Clock();
 
-            var signatureService = _signatureCertificate == null
-                ? NullHttpSignatureService.Instance
-                : new HttpSignatureServiceBuilder(clock).
+            IHttpSignatureService signatureService;
+            if (_signatureCertificate == null)
+            {
+                signatureService = NullHttpSignatureService.Instance;
+            }
+            else
+            {
+                var builder = new HttpSignatureServiceBuilder(clock).
                     SetEndpoint(_endpoint).
-                    AddCertificate(_signatureCertificateId, _signatureCertificate).
-                    AddLogging(_loggerFactory).
-                    Build();
+                    AddCertificate(_signatureCertificateId, _signatureCertificate);
+
+                if (_loggerFactory != null)
+                    builder = builder.AddLogging(_loggerFactory);
+
+                signatureService = builder.Build();
+            }
 
             var loggerFactory = _loggerFactory == null
                 ? (ILoggerFactory)new SimpleLoggerFactory(NullLogger.Instance)
