@@ -27,6 +27,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Products">Products</a>
                         </li>
+                        @if (Context.Session.Keys.Contains("PontoConnectToken"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/PontoConnect">Ponto Connect</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
