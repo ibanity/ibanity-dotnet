@@ -35,6 +35,12 @@
                         }
                     </ul>
                 </div>
+                @if (Context.Session.Keys.Contains("PontoConnectOrganization"))
+                {
+                    <div class="float-right">
+                        🏦 @Context.Session.GetString("PontoConnectOrganization")
+                    </div>
+                }
             </div>
         </nav>
     </header>

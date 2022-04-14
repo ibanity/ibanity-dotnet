@@ -74,6 +74,9 @@ public class CallbackModel : PageModel
 
         HttpContext.Session.SetString("PontoConnectToken", JsonSerializer.Serialize(token));
 
+        var userInformation = await _ibanityService.PontoConnect.UserInfo.Get(token, cancellationToken);
+        HttpContext.Session.SetString("PontoConnectOrganization", userInformation.Name);
+
         return Redirect("Products");
     }
 
