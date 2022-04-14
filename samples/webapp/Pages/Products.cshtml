@@ -1,9 +1,19 @@
 ﻿@page
 @model ProductsModel
 @{
-
     ViewData["Title"] = "Products";
 }
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to connect to your Ibanity accounts.</p>
+
+<h2>Ponto Connect</h2>
+
+@if (HttpContext.Session.Keys.Contains("PontoConnectToken"))
+{
+    <div class="alert alert-primary" role="alert">Connected</div>
+}
+else
+{
+    <a href="@Model.PontoConnectAuthorizationUri" class="btn btn-primary">Connect</a>
+}

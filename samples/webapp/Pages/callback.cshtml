@@ -1,0 +1,11 @@
+﻿@page
+@model CallbackModel
+@{
+    ViewData["Title"] = "OAuth callback";
+}
+<h1>@ViewData["Title"]</h1>
+
+@if (!string.IsNullOrWhiteSpace(Model.Error))
+{
+    <div class="alert alert-danger" role="alert">@Model.Error</div>
+}

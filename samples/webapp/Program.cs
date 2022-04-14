@@ -21,6 +21,7 @@ var ibanityService = new IbanityServiceBuilder().
 // Add services to the container.
 builder.Services.
     AddSingleton<IIbanityService>(ibanityService).
+    AddSession().
     AddRazorPages();
 
 var app = builder.Build();
@@ -31,6 +32,8 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
 }
 app.UseStaticFiles();
+
+app.UseSession();
 
 app.UseRouting();
 
