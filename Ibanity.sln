@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{3C49
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientSample", "samples\cli\ClientSample.csproj", "{8ADC64AE-6746-49EB-A41C-373C62FECBFE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "webapp", "samples\webapp\webapp.csproj", "{4559E573-4396-415C-BB8D-D36EF96FCB5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,9 +36,14 @@ Global
 		{8ADC64AE-6746-49EB-A41C-373C62FECBFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ADC64AE-6746-49EB-A41C-373C62FECBFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8ADC64AE-6746-49EB-A41C-373C62FECBFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4559E573-4396-415C-BB8D-D36EF96FCB5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4559E573-4396-415C-BB8D-D36EF96FCB5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4559E573-4396-415C-BB8D-D36EF96FCB5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4559E573-4396-415C-BB8D-D36EF96FCB5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1FABC5EC-1E9C-4CC0-A382-AE3CF6B9438A} = {604E94DD-E50A-479B-B112-0A7C1E6EB7D7}
 		{8ADC64AE-6746-49EB-A41C-373C62FECBFE} = {3C49FD96-DA1E-467C-B965-A64101BBF0FD}
+		{4559E573-4396-415C-BB8D-D36EF96FCB5E} = {3C49FD96-DA1E-467C-B965-A64101BBF0FD}
 	EndGlobalSection
 EndGlobal
