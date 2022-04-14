@@ -1,7 +1,27 @@
+using Ibanity.Apis.Client;
+
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
+
+var ibanityService = new IbanityServiceBuilder().
+    SetEndpoint(configuration["Ibanity:Endpoint"]).
+    AddClientCertificate(
+        configuration["Ibanity:Certificates:Client:Path"],
+        configuration["Ibanity:Certificates:Client:Passphrase"]).
+    AddSignatureCertificate(
+        configuration["Ibanity:Certificates:Signature:Id"],
+        configuration["Ibanity:Certificates:Signature:Path"],
+        configuration["Ibanity:Certificates:Signature:Passphrase"]).
+    AddPontoConnectOAuth2Authentication(
+        configuration["Ibanity:PontoConnect:ClientId"],
+        configuration["Ibanity:PontoConnect:ClientSecret"]).
+    EnableRetries().
+    Build();
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.
+    AddSingleton<IIbanityService>(ibanityService).
+    AddRazorPages();
 
 var app = builder.Build();
 
