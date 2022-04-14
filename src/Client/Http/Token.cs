@@ -25,7 +25,7 @@ namespace Ibanity.Apis.Client.Http
         public string AccessToken { get; internal set; }
 
         /// <summary>
-        /// Validaty limit.
+        /// Validity limit.
         /// </summary>
         public DateTimeOffset ValidUntil { get; internal set; }
 
