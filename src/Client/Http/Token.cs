@@ -9,7 +9,19 @@ namespace Ibanity.Apis.Client.Http
     {
         private string _refreshToken;
 
-        internal Token(string accessToken, DateTimeOffset validUntil, string refreshToken)
+        /// <summary>
+        /// Build a new instance.
+        /// </summary>
+        public Token() { }
+
+        /// <summary>
+        /// Build a new instance.
+        /// </summary>
+        /// <param name="accessToken">Bearer token</param>
+        /// <param name="validUntil">Validity limit</param>
+        /// <param name="refreshToken">Token used to get a new bearer token</param>
+        /// <exception cref="ArgumentException"></exception>
+        public Token(string accessToken, DateTimeOffset validUntil, string refreshToken)
         {
             if (string.IsNullOrWhiteSpace(refreshToken))
                 throw new ArgumentException($"'{nameof(refreshToken)}' cannot be null or whitespace.", nameof(refreshToken));
@@ -22,12 +34,12 @@ namespace Ibanity.Apis.Client.Http
         /// <summary>
         /// Bearer token.
         /// </summary>
-        public string AccessToken { get; internal set; }
+        public string AccessToken { get; set; }
 
         /// <summary>
         /// Validity limit.
         /// </summary>
-        public DateTimeOffset ValidUntil { get; internal set; }
+        public DateTimeOffset ValidUntil { get; set; }
 
         /// <summary>
         /// Token used to get a new bearer token.
@@ -36,7 +48,7 @@ namespace Ibanity.Apis.Client.Http
         public string RefreshToken
         {
             get => _refreshToken;
-            internal set
+            set
             {
                 var previousValue = _refreshToken;
                 _refreshToken = value;

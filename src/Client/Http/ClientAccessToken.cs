@@ -7,7 +7,17 @@ namespace Ibanity.Apis.Client.Http
     /// </summary>
     public class ClientAccessToken
     {
-        internal ClientAccessToken(string accessToken, DateTimeOffset validUntil)
+        /// <summary>
+        /// Build a new instance.
+        /// </summary>
+        public ClientAccessToken() { }
+
+        /// <summary>
+        /// Build a new instance.
+        /// </summary>
+        /// <param name="accessToken">Bearer token</param>
+        /// <param name="validUntil">Validity limit</param>
+        public ClientAccessToken(string accessToken, DateTimeOffset validUntil)
         {
             AccessToken = accessToken;
             ValidUntil = validUntil;
@@ -16,11 +26,11 @@ namespace Ibanity.Apis.Client.Http
         /// <summary>
         /// Bearer token.
         /// </summary>
-        public string AccessToken { get; internal set; }
+        public string AccessToken { get; set; }
 
         /// <summary>
         /// Validity limit.
         /// </summary>
-        public DateTimeOffset ValidUntil { get; internal set; }
+        public DateTimeOffset ValidUntil { get; set; }
     }
 }
