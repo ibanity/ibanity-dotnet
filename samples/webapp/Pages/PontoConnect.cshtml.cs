@@ -13,8 +13,6 @@ public class PontoConnectModel : PageModel
     private readonly ILogger<PontoConnectModel> _logger;
     private readonly IIbanityService _ibanityService;
 
-    private Token? _token;
-
     public PontoConnectModel(ILogger<PontoConnectModel> logger, IIbanityService ibanityService)
     {
         _logger = logger;
@@ -26,31 +24,31 @@ public class PontoConnectModel : PageModel
         if (!HttpContext.Session.Keys.Contains("PontoConnectToken"))
             return Redirect("/Products");
 
-        var tokenJson = HttpContext.Session.GetString("PontoConnectToken");
-        if (string.IsNullOrWhiteSpace(tokenJson))
-            throw new InvalidOperationException("Missing Ponto Connect token");
-
-        _token = JsonSerializer.Deserialize<Token>(tokenJson);
-
-        if (_token == null)
-            throw new InvalidOperationException("Null Ponto Connect token");
-
-        _token.RefreshTokenUpdated += (_, _) =>
-            HttpContext.Session.SetString("PontoConnectToken", JsonSerializer.Serialize(_token)); ;
-
         return Page();
     }
 
     public async IAsyncEnumerable<Account> GetAccounts()
     {
-        var page = await _ibanityService.PontoConnect.Accounts.List(_token);
+        var tokenJson = HttpContext.Session.GetString("PontoConnectToken");
+        if (string.IsNullOrWhiteSpace(tokenJson))
+            throw new InvalidOperationException("Missing Ponto Connect token");
+
+        var token = JsonSerializer.Deserialize<Token>(tokenJson);
+
+        if (token == null)
+            throw new InvalidOperationException("Null Ponto Connect token");
+
+        token.RefreshTokenUpdated += (_, _) =>
+            HttpContext.Session.SetString("PontoConnectToken", JsonSerializer.Serialize(token));
+
+        var page = await _ibanityService.PontoConnect.Accounts.List(token);
 
         foreach (var account in page)
             yield return account;
 
         while (page.ContinuationToken != null)
         {
-            page = await _ibanityService.PontoConnect.Accounts.List(_token, page.ContinuationToken);
+            page = await _ibanityService.PontoConnect.Accounts.List(token, page.ContinuationToken);
 
             foreach (var account in page)
                 yield return account;
