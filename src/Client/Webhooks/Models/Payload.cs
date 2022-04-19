@@ -9,18 +9,7 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     /// <typeparam name="TAttributes">Resource attribute type</typeparam>
     /// <typeparam name="TRelationships">Resource relationships type</typeparam>
     [DataContract]
-    public abstract class Payload<TAttributes, TRelationships> : Data
+    public abstract class Payload<TAttributes, TRelationships> : Resource<TAttributes, object, TRelationships, object>
     {
-        /// <summary>
-        /// Attributes of the current resource.
-        /// </summary>
-        [DataMember(Name = "attributes", EmitDefaultValue = false)]
-        public TAttributes Attributes { get; set; }
-
-        /// <summary>
-        /// Related resource relationships.
-        /// </summary>
-        [DataMember(Name = "relationships", EmitDefaultValue = false)]
-        public TRelationships Relationships { get; set; }
     }
 }

@@ -246,7 +246,7 @@ namespace Ibanity.Apis.Client
                         _pontoConnectClientId,
                         _pontoConnectClientSecret));
 
-            var webhooksService = new WebhooksService();
+            var webhooksService = new WebhooksService(serializer);
 
             return new IbanityService(httpClient, pontoConnectClient, webhooksService);
         }
