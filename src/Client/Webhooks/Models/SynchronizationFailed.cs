@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 
 namespace Ibanity.Apis.Client.Webhooks.Models
 {
@@ -15,11 +16,13 @@ namespace Ibanity.Apis.Client.Webhooks.Models
         /// <summary>
         /// When this notification was created.
         /// </summary>
+        [DataMember(Name = "createdAt", EmitDefaultValue = false)]
         public DateTimeOffset CreatedAt { get; set; }
 
         /// <summary>
         /// Subtype of the related synchronization.
         /// </summary>
+        [DataMember(Name = "synchronizationSubtype", EmitDefaultValue = false)]
         public string SynchronizationSubtype { get; set; }
     }
 
@@ -31,11 +34,13 @@ namespace Ibanity.Apis.Client.Webhooks.Models
         /// <summary>
         /// Details about the associated account.
         /// </summary>
+        [DataMember(Name = "account", EmitDefaultValue = false)]
         public Relationship Account { get; set; }
 
         /// <summary>
         /// Details about the associated synchronization.
         /// </summary>
+        [DataMember(Name = "synchronization", EmitDefaultValue = false)]
         public Relationship Synchronization { get; set; }
     }
 }

@@ -1,3 +1,4 @@
+using System.Runtime.Serialization;
 using Ibanity.Apis.Client.JsonApi;
 
 namespace Ibanity.Apis.Client.Webhooks.Models
@@ -10,6 +11,7 @@ namespace Ibanity.Apis.Client.Webhooks.Models
         /// <summary>
         /// Relationship object.
         /// </summary>
+        [DataMember(Name = "data", EmitDefaultValue = false)]
         public Data Data { get; set; }
     }
 }
