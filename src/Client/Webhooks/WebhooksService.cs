@@ -1,7 +1,7 @@
 using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Utils;
 
-namespace Ibanity.Apis.Client
+namespace Ibanity.Apis.Client.Webhooks
 {
     /// <inheritdoc />
     public class WebhooksService : IWebhooksService

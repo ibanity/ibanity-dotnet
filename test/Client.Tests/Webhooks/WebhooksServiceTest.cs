@@ -1,4 +1,5 @@
 using Ibanity.Apis.Client.Utils;
+using Ibanity.Apis.Client.Webhooks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Ibanity.Apis.Client.Tests.Webhooks

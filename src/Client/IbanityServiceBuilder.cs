@@ -7,6 +7,7 @@ using Ibanity.Apis.Client.Http.OAuth2;
 using Ibanity.Apis.Client.Products.PontoConnect;
 using Ibanity.Apis.Client.Utils;
 using Ibanity.Apis.Client.Utils.Logging;
+using Ibanity.Apis.Client.Webhooks;
 
 namespace Ibanity.Apis.Client
 {

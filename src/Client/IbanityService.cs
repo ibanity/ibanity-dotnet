@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using Ibanity.Apis.Client.Products.PontoConnect;
+using Ibanity.Apis.Client.Webhooks;
 
 namespace Ibanity.Apis.Client
 {
