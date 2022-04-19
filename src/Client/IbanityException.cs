@@ -12,6 +12,13 @@ namespace Ibanity.Apis.Client
         /// </summary>
         /// <param name="message">Error description</param>
         public IbanityException(string message) : base(message) { }
+
+        /// <summary>
+        /// Build a new instance.
+        /// </summary>
+        /// <param name="message">Error description</param>
+        /// <param name="innerException">Original error</param>
+        public IbanityException(string message, Exception innerException) : base(message, innerException) { }
     }
 
     /// <summary>
