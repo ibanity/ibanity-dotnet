@@ -169,15 +169,12 @@ namespace Ibanity.Apis.Client
             return this;
         }
 
-        IIbanityServiceOptionalPropertiesBuilder IIbanityServiceOptionalPropertiesBuilder.AddCaCertificate(string path, string password)
+        IIbanityServiceOptionalPropertiesBuilder IIbanityServiceOptionalPropertiesBuilder.AddCaCertificate(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
                 throw new ArgumentException($"'{nameof(path)}' cannot be null or whitespace.", nameof(path));
 
-            if (string.IsNullOrWhiteSpace(password))
-                throw new ArgumentException($"'{nameof(password)}' cannot be null or whitespace.", nameof(password));
-
-            return ((IIbanityServiceOptionalPropertiesBuilder)this).AddCaCertificate(new X509Certificate2(path, password));
+            return ((IIbanityServiceOptionalPropertiesBuilder)this).AddCaCertificate(new X509Certificate2(path));
         }
 
         IIbanityService IIbanityServiceOptionalPropertiesBuilder.Build()
@@ -428,9 +425,8 @@ namespace Ibanity.Apis.Client
         /// Add certificate to validate webhook events.
         /// </summary>
         /// <param name="path">CA certificate path</param>
-        /// <param name="password">CA certificate passphrase</param>
         /// <returns>The builder to be used to pursue configuration</returns>
-        IIbanityServiceOptionalPropertiesBuilder AddCaCertificate(string path, string password);
+        IIbanityServiceOptionalPropertiesBuilder AddCaCertificate(string path);
 
         /// <summary>
         /// Create the signature service instance.
