@@ -37,6 +37,13 @@ namespace Ibanity.Apis.Client.Webhooks
         /// <inheritdoc />
         public T ValidateAndDeserialize<T>(string payload, string signature)
         {
+            EnsureSignatureAndDigestAreValid(payload, signature);
+
+            return _serializer.Deserialize<T>(payload);
+        }
+
+        private void EnsureSignatureAndDigestAreValid(string payload, string signature)
+        {
             string digest;
             try
             {
@@ -60,8 +67,6 @@ namespace Ibanity.Apis.Client.Webhooks
 
             if (!digestBytes.SequenceEqual(computedDigest))
                 throw new InvalidSignatureException("Digest mismatch");
-
-            return _serializer.Deserialize<T>(payload);
         }
     }
 
