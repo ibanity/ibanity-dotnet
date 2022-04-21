@@ -4,7 +4,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Utils;
 using Ibanity.Apis.Client.Webhooks.Models;
 using JWT.Algorithms;
