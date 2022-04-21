@@ -25,6 +25,17 @@ namespace Ibanity.Apis.Client.Utils
         /// <returns>An instance matching the JSON value</returns>
         public T Deserialize<T>(string value) =>
             JsonConvert.DeserializeObject<T>(value ?? throw new ArgumentNullException(nameof(value)));
+
+        /// <summary>
+        /// Create an object from a JSON string.
+        /// </summary>
+        /// <param name="value">JSON of an object</param>
+        /// <param name="type">Object type</param>
+        /// <returns>An instance matching the JSON value</returns>
+        public object Deserialize(string value, Type type) =>
+            JsonConvert.DeserializeObject(
+                value ?? throw new ArgumentNullException(nameof(value)),
+                type ?? throw new ArgumentNullException(nameof(type)));
     }
 
     /// <summary>
@@ -48,5 +59,13 @@ namespace Ibanity.Apis.Client.Utils
         /// <param name="value">Transferable representation of an object</param>
         /// <returns>Deserialized object</returns>
         T Deserialize<T>(U value);
+
+        /// <summary>
+        /// Create an object from a transferable format.
+        /// </summary>
+        /// <param name="value">Transferable representation of an object</param>
+        /// <param name="type">Object type</param>
+        /// <returns>Deserialized object</returns>
+        object Deserialize(string value, Type type);
     }
 }
