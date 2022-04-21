@@ -15,7 +15,7 @@
     <Authors>Isabel NV</Authors>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageProjectUrl>https://ibanity.com/</PackageProjectUrl>
+    <PackageProjectUrl>https://documentation.ibanity.com/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ibanity/ibanity-dotnet</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
