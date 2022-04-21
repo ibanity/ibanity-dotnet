@@ -6,7 +6,7 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     /// <summary>
     /// A webhook payload delivered whenever a synchronization fails.
     /// </summary>
-    public class SynchronizationFailed : Payload<SynchronizationFailedAttributes, SynchronizationFailedRelationships> { }
+    public class SynchronizationFailed : PayloadData<SynchronizationFailedAttributes, SynchronizationFailedRelationships> { }
 
     /// <summary>
     /// Payload attributes delivered whenever a synchronization fails.

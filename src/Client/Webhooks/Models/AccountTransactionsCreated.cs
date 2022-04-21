@@ -6,7 +6,7 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     /// <summary>
     /// A webhook payload delivered whenever a synchronization completes which has created transactions for an account.
     /// </summary>
-    public class AccountTransactionsCreated : Payload<AccountTransactionsCreatedAttributes, AccountTransactionsCreatedRelationships> { }
+    public class AccountTransactionsCreated : PayloadData<AccountTransactionsCreatedAttributes, AccountTransactionsCreatedRelationships> { }
 
     /// <summary>
     /// Payload attributes delivered whenever a synchronization completes which has created transactions for an account.

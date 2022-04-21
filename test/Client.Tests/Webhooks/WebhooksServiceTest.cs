@@ -30,10 +30,19 @@ namespace Ibanity.Apis.Client.Tests.Webhooks
                 Assert.Inconclusive("Missing 'CA_CERTIFICATE_PATH' environment variables");
 
             var target = new WebhooksService(new JsonSerializer(), new X509Certificate2(certificatePath));
-            var result = target.ValidateAndDeserialize<SynchronizationSucceededWithoutChange>(_payload, _signature);
+            var result = target.ValidateAndDeserialize(_payload, _signature);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual("accountDetails", result.Data.Attributes.SynchronizationSubtype);
+
+            switch (result)
+            {
+                case SynchronizationSucceededWithoutChange webhookEvent:
+                    Assert.AreEqual("accountDetails", webhookEvent.Attributes.SynchronizationSubtype);
+                    break;
+                default:
+                    Assert.Fail("Unexpected webhook event type");
+                    break;
+            }
         }
 
         [TestMethod]
@@ -46,7 +55,7 @@ namespace Ibanity.Apis.Client.Tests.Webhooks
 
             var target = new WebhooksService(new JsonSerializer(), new X509Certificate2(certificatePath));
 
-            Assert.ThrowsException<InvalidSignatureException>(() => target.ValidateAndDeserialize<SynchronizationSucceededWithoutChange>(_payload, _signature.Replace("m", "n")));
+            Assert.ThrowsException<InvalidSignatureException>(() => target.ValidateAndDeserialize(_payload, _signature.Replace("m", "n")));
         }
     }
 }

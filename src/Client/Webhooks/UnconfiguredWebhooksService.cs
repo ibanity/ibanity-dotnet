@@ -22,7 +22,7 @@ namespace Ibanity.Apis.Client.Webhooks
 
         /// <inheritdoc />
         /// <remarks>Does nothing besides throwing an exception.</remarks>
-        public T ValidateAndDeserialize<T>(string payload, string signature) =>
+        public IWebhookEvent ValidateAndDeserialize(string payload, string signature) =>
             throw new IbanityConfigurationException(Message);
     }
 }

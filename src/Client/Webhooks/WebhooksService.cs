@@ -6,6 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Utils;
+using Ibanity.Apis.Client.Webhooks.Models;
 using JWT.Algorithms;
 using JWT.Builder;
 using JWT.Exceptions;
@@ -15,6 +16,15 @@ namespace Ibanity.Apis.Client.Webhooks
     /// <inheritdoc />
     public class WebhooksService : IWebhooksService
     {
+        private static readonly IReadOnlyDictionary<string, Type> Types = new Dictionary<string, Type>
+        {
+            { "pontoConnect.synchronization.succeededWithoutChange", typeof(Payload<SynchronizationSucceededWithoutChange>) },
+            { "pontoConnect.synchronization.failed", typeof(Payload<SynchronizationFailed>) },
+            { "pontoConnect.account.detailsUpdated", typeof(Payload<AccountDetailsUpdated>) },
+            { "pontoConnect.account.transactionsCreated", typeof(Payload<AccountTransactionsCreated>) },
+            { "pontoConnect.account.transactionsUpdated", typeof(Payload<AccountTransactionsUpdated>) }
+        };
+
         private readonly ISerializer<string> _serializer;
         private readonly X509Certificate2 _certificate;
 
@@ -30,16 +40,25 @@ namespace Ibanity.Apis.Client.Webhooks
             _certificate = certificate;
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Get event type.
+        /// </summary>
+        /// <param name="payload">Webhook payload</param>
+        /// <returns></returns>
         public string GetPayloadType(string payload) =>
-            _serializer.Deserialize<Resource<object, object, object, object>>(payload)?.Data?.Type;
+            _serializer.Deserialize<Payload<PayloadData>>(payload)?.Data?.Type;
 
         /// <inheritdoc />
-        public T ValidateAndDeserialize<T>(string payload, string signature)
+        public IWebhookEvent ValidateAndDeserialize(string payload, string signature)
         {
             EnsureSignatureAndDigestAreValid(payload, signature);
 
-            return _serializer.Deserialize<T>(payload);
+            var payloadType = GetPayloadType(payload) ?? throw new IbanityException("Can't get event type");
+            if (!Types.TryGetValue(payloadType, out var type))
+                throw new IbanityException("Can't find event type: " + payloadType);
+
+            var t = _serializer.Deserialize(payload, type) as Payload;
+            return t.UntypedData;
         }
 
         private void EnsureSignatureAndDigestAreValid(string payload, string signature)
@@ -76,19 +95,11 @@ namespace Ibanity.Apis.Client.Webhooks
     public interface IWebhooksService
     {
         /// <summary>
-        /// Get event type.
-        /// </summary>
-        /// <param name="payload">Webhook payload</param>
-        /// <returns></returns>
-        string GetPayloadType(string payload);
-
-        /// <summary>
         /// Validate JWT signature and deserialize payload.
         /// </summary>
-        /// <typeparam name="T">Payload type</typeparam>
         /// <param name="payload">Webhook payload</param>
         /// <param name="signature">Signature header content (JWT token)</param>
         /// <returns>The event payload</returns>
-        T ValidateAndDeserialize<T>(string payload, string signature);
+        IWebhookEvent ValidateAndDeserialize(string payload, string signature);
     }
 }

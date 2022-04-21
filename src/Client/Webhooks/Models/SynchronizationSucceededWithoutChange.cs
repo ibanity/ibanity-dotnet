@@ -6,7 +6,7 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     /// <summary>
     /// A webhook payload delivered whenever a synchronization succeeds but does not change any account details or transactions.
     /// </summary>
-    public class SynchronizationSucceededWithoutChange : Payload<SynchronizationSucceededWithoutChangeAttributes, SynchronizationSucceededWithoutChangeRelationships> { }
+    public class SynchronizationSucceededWithoutChange : PayloadData<SynchronizationSucceededWithoutChangeAttributes, SynchronizationSucceededWithoutChangeRelationships> { }
 
     /// <summary>
     /// Payload attributes delivered whenever a synchronization succeeds but does not change any account details or transactions.
