@@ -56,8 +56,8 @@ namespace Ibanity.Apis.Client.Webhooks
             if (!Types.TryGetValue(payloadType, out var type))
                 throw new IbanityException("Can't find event type: " + payloadType);
 
-            var t = _serializer.Deserialize(payload, type) as Payload;
-            return t.UntypedData;
+            var deserializedPayload = _serializer.Deserialize(payload, type) as Payload;
+            return deserializedPayload.UntypedData;
         }
 
         private void EnsureSignatureAndDigestAreValid(string payload, string signature)
