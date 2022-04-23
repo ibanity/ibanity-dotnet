@@ -66,7 +66,7 @@ namespace Ibanity.Apis.Sample.CLI
             var value = Environment.GetEnvironmentVariable(name);
 
             if (string.IsNullOrWhiteSpace(value))
-                throw new ApplicationException($"Missing '{name}' environment variable");
+                throw new InvalidOperationException($"Missing '{name}' environment variable");
 
             return value;
         }

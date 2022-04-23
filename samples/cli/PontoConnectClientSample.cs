@@ -23,7 +23,7 @@ namespace Ibanity.Apis.Sample.CLI
 
             var token = string.IsNullOrWhiteSpace(_configuration.PontoConnectRefreshToken)
                 ? await pontoConnectService.TokenService.GetToken(
-                    _configuration.PontoConnectAuthorizationCode ?? throw new ApplicationException("Either authorization code or refresh token must be set"),
+                    _configuration.PontoConnectAuthorizationCode ?? throw new InvalidOperationException("Either authorization code or refresh token must be set"),
                     _configuration.PontoConnectCodeVerifier,
                     _configuration.PontoConnectRedirectUri,
                     cancellationToken)
