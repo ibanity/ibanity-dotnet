@@ -24,7 +24,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <summary>
         /// Beginning of URIs, composed by Ibanity API endpoint, followed by product name.
         /// </summary>
-        protected readonly string _urlPrefix;
+        protected string UrlPrefix { get; }
 
         /// <summary>
         /// Build a new instance.
@@ -39,7 +39,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
             _apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
             _accessTokenProvider = accessTokenProvider ?? throw new ArgumentNullException(nameof(accessTokenProvider));
-            _urlPrefix = urlPrefix;
+            UrlPrefix = urlPrefix;
         }
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             InternalCreate(token, GetPath(), payload, idempotencyKey, cancellationToken);
 
         private string GetPath() =>
-            $"{_urlPrefix}/{_entityName}";
+            $"{UrlPrefix}/{_entityName}";
     }
 
     /// <summary>
@@ -363,7 +363,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 throw new ArgumentException($"Expected {_entityNames.Length - 1} IDs but got {ids.Length}", nameof(ids));
 
             return
-                _urlPrefix + "/" +
+                UrlPrefix + "/" +
                 string.Join(string.Empty, _entityNames.Take(_entityNames.Length - 1).Zip(ids, (e, i) => $"{e}/{i}/")) +
                 _entityNames.Last();
         }
