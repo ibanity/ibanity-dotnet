@@ -26,7 +26,6 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// </summary>
         protected readonly string _urlPrefix;
 
-
         /// <summary>
         /// Build a new instance.
         /// </summary>
