@@ -33,7 +33,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 (await _accessTokenProvider.RefreshToken(token ?? throw new ArgumentNullException(nameof(token)))).AccessToken,
                 cancellationToken ?? CancellationToken.None));
 
-        private Integration Map(JsonApi.Data<Integration, object, IntegrationRelationships, object> data)
+        private static Integration Map(JsonApi.Data<Integration, object, IntegrationRelationships, object> data)
         {
             if (data is null)
                 throw new ArgumentNullException(nameof(data));

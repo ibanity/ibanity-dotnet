@@ -40,7 +40,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 (await _accessTokenProvider.RefreshToken(token ?? throw new ArgumentNullException(nameof(token)))).AccessToken,
                 cancellationToken ?? CancellationToken.None));
 
-        private Usage Map(JsonApi.Data<Usage, object, UsageRelationships, object> data)
+        private static Usage Map(JsonApi.Data<Usage, object, UsageRelationships, object> data)
         {
             if (data is null)
                 throw new ArgumentNullException(nameof(data));
@@ -57,7 +57,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             return result;
         }
 
-        private (int, int) ParseMonth(string month)
+        private static (int, int) ParseMonth(string month)
         {
             var match = MonthPattern.Match(month);
             if (!match.Success)
