@@ -36,9 +36,6 @@ namespace Ibanity.Apis.Client.Http
             if (loggerFactory is null)
                 throw new ArgumentNullException(nameof(loggerFactory));
 
-            if (string.IsNullOrWhiteSpace(apiVersion))
-                throw new ArgumentException($"'{nameof(apiVersion)}' cannot be null or whitespace.", nameof(apiVersion));
-
             _logger = loggerFactory.CreateLogger<ApiClient>();
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
@@ -118,7 +115,10 @@ namespace Ibanity.Apis.Client.Http
         {
             var headers = new Dictionary<string, string>
             {
-                { "Accept", "application/vnd.api+json;version=" + _apiVersion }
+                {
+                    "Accept",
+                    "application/vnd.api+json" + (string.IsNullOrWhiteSpace(_apiVersion) ? string.Empty : $";version={_apiVersion}")
+                }
             };
 
             if (!string.IsNullOrWhiteSpace(bearerToken))
