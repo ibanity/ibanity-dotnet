@@ -41,8 +41,8 @@ namespace Ibanity.Apis.Client.Utils
     /// <summary>
     /// Convert an object to and from a transferable format.
     /// </summary>
-    /// <typeparam name="U">Transferable format type</typeparam>
-    public interface ISerializer<U>
+    /// <typeparam name="TTransfer">Transferable format type</typeparam>
+    public interface ISerializer<TTransfer>
     {
         /// <summary>
         /// Convert an object to a transferable format.
@@ -50,7 +50,7 @@ namespace Ibanity.Apis.Client.Utils
         /// <typeparam name="T">Object type</typeparam>
         /// <param name="value">Object to transform</param>
         /// <returns>Object in transferable format</returns>
-        U Serialize<T>(T value);
+        TTransfer Serialize<T>(T value);
 
         /// <summary>
         /// Create an object from a transferable format.
@@ -58,7 +58,7 @@ namespace Ibanity.Apis.Client.Utils
         /// <typeparam name="T">Object type</typeparam>
         /// <param name="value">Transferable representation of an object</param>
         /// <returns>Deserialized object</returns>
-        T Deserialize<T>(U value);
+        T Deserialize<T>(TTransfer value);
 
         /// <summary>
         /// Create an object from a transferable format.
@@ -66,6 +66,6 @@ namespace Ibanity.Apis.Client.Utils
         /// <param name="value">Transferable representation of an object</param>
         /// <param name="type">Object type</param>
         /// <returns>Deserialized object</returns>
-        object Deserialize(U value, Type type);
+        object Deserialize(TTransfer value, Type type);
     }
 }
