@@ -17,11 +17,6 @@ namespace Ibanity.Apis.Client.Webhooks
 
         /// <inheritdoc />
         /// <remarks>Does nothing besides throwing an exception.</remarks>
-        public string GetPayloadType(string payload) =>
-            throw new IbanityConfigurationException(Message);
-
-        /// <inheritdoc />
-        /// <remarks>Does nothing besides throwing an exception.</remarks>
         public IWebhookEvent ValidateAndDeserialize(string payload, string signature) =>
             throw new IbanityConfigurationException(Message);
     }
