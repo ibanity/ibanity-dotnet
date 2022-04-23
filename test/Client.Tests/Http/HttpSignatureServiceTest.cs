@@ -46,7 +46,7 @@ namespace Ibanity.Apis.Client.Tests.Http
             Assert.AreEqual(ExpectedSignature, headers["Signature"]);
         }
 
-        private IDictionary<string, string> GetHeaders()
+        private static IDictionary<string, string> GetHeaders()
         {
             var loggerFactory = new Mock<ILoggerFactory>();
             loggerFactory.
