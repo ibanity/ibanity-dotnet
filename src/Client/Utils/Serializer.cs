@@ -66,6 +66,6 @@ namespace Ibanity.Apis.Client.Utils
         /// <param name="value">Transferable representation of an object</param>
         /// <param name="type">Object type</param>
         /// <returns>Deserialized object</returns>
-        object Deserialize(string value, Type type);
+        object Deserialize(U value, Type type);
     }
 }
