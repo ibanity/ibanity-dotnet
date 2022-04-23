@@ -15,7 +15,6 @@
     <PackageId>Ibanity</PackageId>
     <Title>Ibanity .NET client library</Title>
     <Description>Ibanity .NET client library</Description>
-    <Version>0.1.0</Version>
     <Authors>Isabel NV</Authors>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
