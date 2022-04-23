@@ -11,7 +11,9 @@ namespace Ibanity.Apis.Client.JsonApi
     /// <typeparam name="TRelationships">Items relationships type</typeparam>
     /// <typeparam name="TLinks">Items links type</typeparam>
     [DataContract]
+#pragma warning disable CA1711 // Keep 'Collection' name as specified in JSON:API
     public class Collection<TAttributes, TMeta, TRelationships, TLinks>
+#pragma warning restore CA1711
     {
         /// <summary>
         /// Meta.
