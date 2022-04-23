@@ -1,3 +1,4 @@
+using System.Globalization;
 using Ibanity.Apis.Client;
 using Ibanity.Apis.Client.Products.PontoConnect.Models;
 
@@ -63,8 +64,8 @@ namespace Ibanity.Apis.Sample.CLI
                 PurposeCode = "DEBIT",
                 CounterpartReference = "BE9786154282554",
                 Amount = 84.42m,
-                ValueDate = DateTimeOffset.Parse("2020-05-22T00:00:00Z"),
-                ExecutionDate = DateTimeOffset.Parse("2020-05-25T00:00:00Z")
+                ValueDate = DateTimeOffset.Parse("2020-05-22T00:00:00Z", CultureInfo.InvariantCulture),
+                ExecutionDate = DateTimeOffset.Parse("2020-05-25T00:00:00Z", CultureInfo.InvariantCulture)
             }, cancellationToken: cancellationToken);
 
             Console.WriteLine("Sandbox transaction created: " + sandboxTransaction);
