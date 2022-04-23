@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -40,13 +41,13 @@ namespace Ibanity.Apis.Client.Http
                 "\n",
                 new[]
                 {
-                    $"(request-target): {httpMethod.ToLower()} {url.PathAndQuery}",
+                    $"(request-target): {httpMethod.ToLower(CultureInfo.InvariantCulture)} {url.PathAndQuery}",
                     "host: " + _ibanityEndpoint.Host,
                     "digest: " + digest,
                     "(created): " + timestamp.ToUnixTimeSeconds()
                 }.Union(requestHeaders.
                     Where(kvp => HeaderPattern.IsMatch(kvp.Key)).
-                    Select(kvp => $"{kvp.Key.ToLower()}: {kvp.Value}")));
+                    Select(kvp => $"{kvp.Key.ToLower(CultureInfo.InvariantCulture)}: {kvp.Value}")));
         }
 
         /// <inheritdoc />
@@ -59,7 +60,7 @@ namespace Ibanity.Apis.Client.Http
 
             foreach (var key in requestHeaders.Keys)
                 if (HeaderPattern.IsMatch(key))
-                    yield return key.ToLower();
+                    yield return key.ToLower(CultureInfo.InvariantCulture);
         }
     }
 

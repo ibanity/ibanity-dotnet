@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Ibanity.Apis.Client.Models
 {
     /// <summary>
@@ -33,7 +35,7 @@ namespace Ibanity.Apis.Client.Models
         /// </summary>
         /// <returns>Filter to be used in query string</returns>
         public override string ToString() =>
-            $"filter[{_field}][{_operator.ToString("g").ToLower()}]={_value}";
+            $"filter[{_field}][{_operator.ToString("g").ToLower(CultureInfo.InvariantCulture)}]={_value}";
     }
 
     /// <summary>

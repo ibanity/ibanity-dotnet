@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -63,8 +64,8 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 throw new IbanityException("Invalid month: " + month);
 
             return (
-                int.Parse(match.Groups["year"].Value),
-                int.Parse(match.Groups["month"].Value)
+                int.Parse(match.Groups["year"].Value, CultureInfo.InvariantCulture),
+                int.Parse(match.Groups["month"].Value, CultureInfo.InvariantCulture)
             );
         }
     }

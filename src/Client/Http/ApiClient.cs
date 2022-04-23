@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -57,7 +58,7 @@ namespace Ibanity.Apis.Client.Http
 
             var headers = GetCommonHeaders(method, bearerToken, path, null);
 
-            _logger.Debug($"Sending request: {method.ToString().ToUpper()} {path}");
+            _logger.Debug($"Sending request: {method.ToString().ToUpper(CultureInfo.InvariantCulture)} {path}");
 
             using (var request = new HttpRequestMessage(method, path))
             {
@@ -95,7 +96,7 @@ namespace Ibanity.Apis.Client.Http
 
             var headers = GetCommonHeaders(method, bearerToken, path, idempotencyKey);
 
-            _logger.Debug($"Sending request: {method.ToString().ToUpper()} {path}");
+            _logger.Debug($"Sending request: {method.ToString().ToUpper(CultureInfo.InvariantCulture)} {path}");
 
             using (var request = new HttpRequestMessage(method, path))
             {
@@ -127,7 +128,7 @@ namespace Ibanity.Apis.Client.Http
                 headers["Ibanity-Idempotency-Key"] = idempotencyKey.Value.ToString();
 
             var signatureHeaders = _signatureService.GetHttpSignatureHeaders(
-                method.Method.ToUpper(),
+                method.Method.ToUpper(CultureInfo.InvariantCulture),
                 new Uri(_httpClient.BaseAddress + path),
                 headers,
                 null);

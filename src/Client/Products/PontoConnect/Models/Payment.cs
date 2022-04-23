@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Runtime.Serialization;
 using Ibanity.Apis.Client.Utils;
 
@@ -20,8 +21,8 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         [DataMember(Name = "requestedExecutionDate", EmitDefaultValue = false)]
         public string RequestedExecutionDateString
         {
-            get => RequestedExecutionDate.ToString("yyyy-MM-dd");
-            set => RequestedExecutionDate = DateTimeOffset.Parse(value);
+            get => RequestedExecutionDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            set => RequestedExecutionDate = DateTimeOffset.Parse(value, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
