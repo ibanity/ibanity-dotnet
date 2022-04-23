@@ -22,10 +22,10 @@ namespace Ibanity.Apis.Sample.CLI
         public void Warn(string message) => Log("Warn", message);
         public void Warn(string message, Exception exception) => Log("Warn", message, exception);
 
-        private void Log(string level, string message) =>
+        private static void Log(string level, string message) =>
             Console.WriteLine($"{DateTimeOffset.UtcNow:r} [{level.ToUpper(CultureInfo.InvariantCulture)}] {message}");
 
-        private void Log(string level, string message, Exception exception) =>
+        private static void Log(string level, string message, Exception exception) =>
             Log(level, $"{message} - {exception.Message}{Environment.NewLine}{exception.StackTrace}");
     }
 }
