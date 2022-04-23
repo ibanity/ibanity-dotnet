@@ -13,11 +13,9 @@ namespace Ibanity.Apis.Client.Webhooks
 
         private UnconfiguredWebhooksService() { }
 
-        private const string Message = "Missing CA certificate";
-
         /// <inheritdoc />
         /// <remarks>Does nothing besides throwing an exception.</remarks>
         public IWebhookEvent ValidateAndDeserialize(string payload, string signature) =>
-            throw new IbanityConfigurationException(Message);
+            throw new IbanityConfigurationException("Missing CA certificate");
     }
 }
