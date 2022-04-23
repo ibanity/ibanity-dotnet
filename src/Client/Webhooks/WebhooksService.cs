@@ -83,7 +83,6 @@ namespace Ibanity.Apis.Client.Webhooks
                     var token = new JWT.Builder.JwtBuilder().
                         WithAlgorithm(new JWT.Algorithms.RS256Algorithm(keys[i])).
                         //MustVerifySignature(). // I can't get it working :'(
-                        WithValidator(new JWT.JwtValidator(new JWT.Serializers.JsonNetSerializer(), new JWT.UtcDateTimeProvider(), 3600)).
                         Decode<IDictionary<string, object>>(signature);
 
                     return (string)token["digest"];
