@@ -1,5 +1,7 @@
 # Ibanity .NET client library
 
+[![Build status](https://github.com/ibanity/ibanity-dotnet/actions/workflows/ci.yaml/badge.svg)](https://github.com/ibanity/ibanity-dotnet/actions/workflows/ci.yaml)
+
 This .NET Client library offers various services you can use in order to submit requests towards the Ibanity Platform.
 
 ## Quick start
