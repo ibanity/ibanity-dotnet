@@ -2,13 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Ibanity.Apis.Client.Utils;
 using Ibanity.Apis.Client.Webhooks.Models;
-using JWT.Algorithms;
-using JWT.Builder;
-using JWT.Exceptions;
 
 namespace Ibanity.Apis.Client.Webhooks
 {
@@ -25,18 +23,18 @@ namespace Ibanity.Apis.Client.Webhooks
         };
 
         private readonly ISerializer<string> _serializer;
-        private readonly X509Certificate2 _certificate;
+        private readonly IJwksService _jwksService;
 
         /// <summary>
         /// Build a new instance.
         /// </summary>
         /// <param name="serializer">To-string serializer</param>
-        /// <param name="certificate">CA certificate</param>
+        /// <param name="jwksService">JSON Web Key Set client</param>
         /// <exception cref="System.ArgumentNullException"></exception>
-        public WebhooksService(ISerializer<string> serializer, X509Certificate2 certificate)
+        public WebhooksService(ISerializer<string> serializer, IJwksService jwksService)
         {
             _serializer = serializer ?? throw new System.ArgumentNullException(nameof(serializer));
-            _certificate = certificate;
+            _jwksService = jwksService ?? throw new ArgumentNullException(nameof(jwksService));
         }
 
         /// <summary>
@@ -48,9 +46,9 @@ namespace Ibanity.Apis.Client.Webhooks
             _serializer.Deserialize<Payload<PayloadData>>(payload)?.Data?.Type;
 
         /// <inheritdoc />
-        public IWebhookEvent ValidateAndDeserialize(string payload, string signature)
+        public async Task<IWebhookEvent> VerifyAndDeserialize(string payload, string signature, CancellationToken? cancellationToken)
         {
-            EnsureSignatureAndDigestAreValid(payload, signature);
+            await EnsureSignatureAndDigestAreValid(payload, signature, cancellationToken);
 
             var payloadType = GetPayloadType(payload) ?? throw new IbanityException("Can't get event type");
             if (!Types.TryGetValue(payloadType, out var type))
@@ -60,22 +58,9 @@ namespace Ibanity.Apis.Client.Webhooks
             return deserializedPayload.UntypedData;
         }
 
-        private void EnsureSignatureAndDigestAreValid(string payload, string signature)
+        private async Task EnsureSignatureAndDigestAreValid(string payload, string signature, CancellationToken? cancellationToken)
         {
-            string digest;
-            try
-            {
-                var token = new JwtBuilder().
-                    WithAlgorithm(new RS256Algorithm(_certificate)).
-                    //MustVerifySignature().
-                    Decode<IDictionary<string, object>>(signature);
-
-                digest = (string)token["digest"];
-            }
-            catch (SignatureVerificationException exception)
-            {
-                throw new InvalidSignatureException(exception);
-            }
+            var digest = await VerifyAndGetDigest(signature, cancellationToken);
 
             byte[] computedDigest;
             using (var algorithm = new SHA512Managed())
@@ -86,19 +71,45 @@ namespace Ibanity.Apis.Client.Webhooks
             if (!digestBytes.SequenceEqual(computedDigest))
                 throw new InvalidSignatureException("Digest mismatch");
         }
+
+        private async Task<string> VerifyAndGetDigest(string signature, CancellationToken? cancellationToken)
+        {
+            var keys = await _jwksService.GetKeys(cancellationToken);
+
+            for (var i = 0; i < keys.Length; i++)
+                try
+                {
+                    // we should run in two passes to get the proper key
+                    var token = new JWT.Builder.JwtBuilder().
+                        WithAlgorithm(new JWT.Algorithms.RS256Algorithm(keys[i])).
+                        //MustVerifySignature(). // I can't get it working :'(
+                        WithValidator(new JWT.JwtValidator(new JWT.Serializers.JsonNetSerializer(), new JWT.UtcDateTimeProvider(), 3600)).
+                        Decode<IDictionary<string, object>>(signature);
+
+                    return (string)token["digest"];
+                }
+                catch (JWT.Exceptions.SignatureVerificationException exception)
+                {
+                    if (i == keys.Length - 1)
+                        throw new InvalidSignatureException(exception);
+                }
+
+            throw new InvalidSignatureException("Can't get any key from JWKS authorization server");
+        }
     }
 
     /// <summary>
-    /// Allows to validate and deserialize webhook payloads.
+    /// Allows to verify and deserialize webhook payloads.
     /// </summary>
     public interface IWebhooksService
     {
         /// <summary>
-        /// Validate JWT signature and deserialize payload.
+        /// Verify JWT signature and deserialize payload.
         /// </summary>
         /// <param name="payload">Webhook payload</param>
         /// <param name="signature">Signature header content (JWT token)</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The event payload</returns>
-        IWebhookEvent ValidateAndDeserialize(string payload, string signature);
+        Task<IWebhookEvent> VerifyAndDeserialize(string payload, string signature, CancellationToken? cancellationToken = null);
     }
 }

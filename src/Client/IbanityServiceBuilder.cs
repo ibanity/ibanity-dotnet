@@ -34,7 +34,6 @@ namespace Ibanity.Apis.Client
         private Action<HttpRequestMessage> _customizeRequest;
         private int? _retryCount;
         private TimeSpan? _retryBaseDelay;
-        private X509Certificate2 _caCertificate;
 
         /// <inheritdoc />
         public IIbanityServiceMutualTlsBuilder SetEndpoint(Uri endpoint)
@@ -163,20 +162,6 @@ namespace Ibanity.Apis.Client
             return this;
         }
 
-        IIbanityServiceOptionalPropertiesBuilder IIbanityServiceOptionalPropertiesBuilder.AddCaCertificate(X509Certificate2 certificate)
-        {
-            _caCertificate = certificate;
-            return this;
-        }
-
-        IIbanityServiceOptionalPropertiesBuilder IIbanityServiceOptionalPropertiesBuilder.AddCaCertificate(string path)
-        {
-            if (string.IsNullOrWhiteSpace(path))
-                throw new ArgumentException($"'{nameof(path)}' cannot be null or whitespace.", nameof(path));
-
-            return ((IIbanityServiceOptionalPropertiesBuilder)this).AddCaCertificate(new X509Certificate2(path));
-        }
-
         IIbanityService IIbanityServiceOptionalPropertiesBuilder.Build()
         {
             var handler = new HttpClientHandler
@@ -224,20 +209,8 @@ namespace Ibanity.Apis.Client
                 ? (ILoggerFactory)new SimpleLoggerFactory(NullLogger.Instance)
                 : new LoggerFactoryNotNullDecorator(_loggerFactory);
 
-            IApiClient v1ApiClient = new ApiClient(
-                loggerFactory,
-                httpClient,
-                serializer,
-                signatureService,
-                "1",
-                _customizeRequest ?? (_ => { }));
-
-            if (_retryCount.HasValue)
-                v1ApiClient = new ApiClientRetryDecorator(
-                    loggerFactory,
-                    v1ApiClient,
-                    _retryCount.Value,
-                    _retryBaseDelay ?? TimeSpan.FromSeconds(1d));
+            var v1ApiClient = BuildApiClient(httpClient, serializer, signatureService, loggerFactory, "1");
+            var versionLessApiClient = BuildApiClient(httpClient, serializer, signatureService, loggerFactory, null);
 
             var pontoConnectClient = new PontoConnectClient(
                 v1ApiClient,
@@ -262,11 +235,31 @@ namespace Ibanity.Apis.Client
                         _pontoConnectClientId,
                         _pontoConnectClientSecret));
 
-            var webhooksService = _caCertificate == null
-                ? UnconfiguredWebhooksService.Instance
-                : new WebhooksService(serializer, _caCertificate);
+            var webhooksService = new WebhooksService(
+                serializer,
+                new JwksService(versionLessApiClient));
 
             return new IbanityService(httpClient, pontoConnectClient, webhooksService);
+        }
+
+        private IApiClient BuildApiClient(HttpClient httpClient, JsonSerializer serializer, IHttpSignatureService signatureService, ILoggerFactory loggerFactory, string version)
+        {
+            var apiClient = new ApiClient(
+                loggerFactory,
+                httpClient,
+                serializer,
+                signatureService,
+                version,
+                _customizeRequest ?? (_ => { }));
+
+            if (!_retryCount.HasValue)
+                return apiClient;
+
+            return new ApiClientRetryDecorator(
+                loggerFactory,
+                apiClient,
+                _retryCount.Value,
+                _retryBaseDelay ?? TimeSpan.FromSeconds(1d));
         }
     }
 
@@ -413,20 +406,6 @@ namespace Ibanity.Apis.Client
         /// <returns>The builder to be used to pursue configuration</returns>
         /// <remarks>Delay is increased by a 2-factor after each failure: 1 second, then 2 seconds, then 4 seconds, ...</remarks>
         IIbanityServiceOptionalPropertiesBuilder EnableRetries(int count = 5, TimeSpan? baseDelay = null);
-
-        /// <summary>
-        /// Add certificate to validate webhook events.
-        /// </summary>
-        /// <param name="certificate">CA certificate</param>
-        /// <returns>The builder to be used to pursue configuration</returns>
-        IIbanityServiceOptionalPropertiesBuilder AddCaCertificate(X509Certificate2 certificate);
-
-        /// <summary>
-        /// Add certificate to validate webhook events.
-        /// </summary>
-        /// <param name="path">CA certificate path</param>
-        /// <returns>The builder to be used to pursue configuration</returns>
-        IIbanityServiceOptionalPropertiesBuilder AddCaCertificate(string path);
 
         /// <summary>
         /// Create the signature service instance.
