@@ -5,6 +5,8 @@
     <RootNamespace>Ibanity.Apis.Client</RootNamespace>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>7.3</LangVersion>
+    <AnalysisMode>Recommended</AnalysisMode>
+    <CodeAnalysisRuleSet>../../Analyzers.ruleset</CodeAnalysisRuleSet>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
