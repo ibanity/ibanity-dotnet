@@ -1,9 +1,7 @@
 name: Publish release to nuget.org repository
-
 on:
   release:
     types: [published]
-
 jobs:
   publish:
     name: Build and publish NuGet package
