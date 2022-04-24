@@ -1,4 +1,4 @@
-name: Publish release to nuget.org repository
+name: Publish
 on:
   release:
     types: [published]
