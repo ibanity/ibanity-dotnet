@@ -10,17 +10,23 @@ namespace Ibanity.Apis.Client.Http
     /// <remarks>Used when client ID and client secret aren't configured.</remarks>
     public class UnconfiguredTokenProvider : ITokenProvider, IClientAccessTokenProvider
     {
-        private static readonly UnconfiguredTokenProvider _instance = new UnconfiguredTokenProvider();
-
         /// <summary>
         /// Singleton instance
         /// </summary>
-        public static readonly ITokenProvider Instance = _instance;
+        public static readonly ITokenProvider Instance;
 
         /// <summary>
         /// Singleton instance for client access token
         /// </summary>
-        public static readonly IClientAccessTokenProvider ClientAccessInstance = _instance;
+        public static readonly IClientAccessTokenProvider ClientAccessInstance;
+
+        static UnconfiguredTokenProvider()
+        {
+            var instance = new UnconfiguredTokenProvider();
+
+            Instance = instance;
+            ClientAccessInstance = instance;
+        }
 
         private UnconfiguredTokenProvider() { }
 
