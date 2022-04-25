@@ -20,24 +20,25 @@ namespace Ibanity.Apis.Client.Webhooks
             _apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
 
         /// <inheritdoc />
-        public async Task<RSA[]> GetKeys(CancellationToken? cancellationToken)
+        public async Task<RSA> GetPublicKey(string keyId, CancellationToken? cancellationToken)
         {
             var response = await _apiClient.Get<JsonWebKeySet>("webhooks/keys", null, cancellationToken ?? CancellationToken.None);
 
-            return response.Keys.
-                Where(k => k.Usage == "sig" && k.Status == "ACTIVE").
-                Select(k =>
-                {
-                    var key = RSA.Create();
-                    key.ImportParameters(new RSAParameters
-                    {
-                        Modulus = GetBytes(k.Modulus),
-                        Exponent = GetBytes(k.Exponent)
-                    });
+            var jwk = response.Keys.
+                Where(k =>
+                    k.Usage == "sig" &&
+                    k.Status == "ACTIVE" &&
+                    k.Id == keyId).
+                Single();
 
-                    return key;
-                }).
-                ToArray();
+            var key = RSA.Create();
+            key.ImportParameters(new RSAParameters
+            {
+                Modulus = GetBytes(jwk.Modulus),
+                Exponent = GetBytes(jwk.Exponent)
+            });
+
+            return key;
         }
 
         private static byte[] GetBytes(string base64) =>
@@ -53,6 +54,6 @@ namespace Ibanity.Apis.Client.Webhooks
         /// Get public keys from authorization server.
         /// </summary>
         /// <returns>RSA keys collection</returns>
-        Task<RSA[]> GetKeys(CancellationToken? cancellationToken = null);
+        Task<RSA> GetPublicKey(string keyId, CancellationToken? cancellationToken = null);
     }
 }

@@ -33,7 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JWT" Version="[7.1,9)" />
     <PackageReference Include="Newtonsoft.Json" Version="[10.0.3,14)" />
   </ItemGroup>
 

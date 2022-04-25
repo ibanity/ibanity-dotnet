@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Utils;
 using Ibanity.Apis.Client.Webhooks;
+using Ibanity.Apis.Client.Webhooks.Jwt;
 using Ibanity.Apis.Client.Webhooks.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -68,10 +69,15 @@ namespace Ibanity.Apis.Client.Tests.Webhooks
         {
             var jwksService = new Mock<IJwksService>();
             jwksService.
-                Setup(s => s.GetKeys(It.IsAny<CancellationToken>())).
-                Returns(Task.FromResult(new[] { _publicKey }));
+                Setup(s => s.GetPublicKey(It.IsAny<string>(), It.IsAny<CancellationToken>())).
+                Returns(Task.FromResult(_publicKey));
 
-            return new WebhooksService(new JsonSerializer(), jwksService.Object);
+            var serializer = new JsonSerializer();
+            return new WebhooksService(
+                serializer,
+                new Rs512Verifier(
+                    new Parser(serializer),
+                    jwksService.Object));
         }
     }
 }

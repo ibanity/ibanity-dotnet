@@ -23,18 +23,18 @@ namespace Ibanity.Apis.Client.Webhooks
         };
 
         private readonly ISerializer<string> _serializer;
-        private readonly IJwksService _jwksService;
+        private readonly Jwt.IVerifier _jwtVerifier;
 
         /// <summary>
         /// Build a new instance.
         /// </summary>
         /// <param name="serializer">To-string serializer</param>
-        /// <param name="jwksService">JSON Web Key Set client</param>
+        /// <param name="jwtVerifier">JSON Web Token verifier</param>
         /// <exception cref="System.ArgumentNullException"></exception>
-        public WebhooksService(ISerializer<string> serializer, IJwksService jwksService)
+        public WebhooksService(ISerializer<string> serializer, Jwt.IVerifier jwtVerifier)
         {
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
-            _jwksService = jwksService ?? throw new ArgumentNullException(nameof(jwksService));
+            _jwtVerifier = jwtVerifier ?? throw new ArgumentNullException(nameof(jwtVerifier));
         }
 
         /// <summary>
@@ -74,26 +74,8 @@ namespace Ibanity.Apis.Client.Webhooks
 
         private async Task<string> VerifyAndGetDigest(string signature, CancellationToken? cancellationToken)
         {
-            var keys = await _jwksService.GetKeys(cancellationToken);
-
-            for (var i = 0; i < keys.Length; i++)
-                try
-                {
-                    // we should run in two passes to get the proper key
-                    var token = new JWT.Builder.JwtBuilder().
-                        WithAlgorithm(new JWT.Algorithms.RS256Algorithm(keys[i])).
-                        //MustVerifySignature(). // I can't get it working :'(
-                        Decode<IDictionary<string, object>>(signature);
-
-                    return (string)token["digest"];
-                }
-                catch (JWT.Exceptions.SignatureVerificationException exception)
-                {
-                    if (i == keys.Length - 1)
-                        throw new InvalidSignatureException(exception);
-                }
-
-            throw new InvalidSignatureException("Can't get any key from JWKS authorization server");
+            var token = await _jwtVerifier.Verify(signature, cancellationToken);
+            return token.Payload.Digest;
         }
     }
 

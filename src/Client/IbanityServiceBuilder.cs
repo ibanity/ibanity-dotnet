@@ -8,6 +8,7 @@ using Ibanity.Apis.Client.Products.PontoConnect;
 using Ibanity.Apis.Client.Utils;
 using Ibanity.Apis.Client.Utils.Logging;
 using Ibanity.Apis.Client.Webhooks;
+using Ibanity.Apis.Client.Webhooks.Jwt;
 
 namespace Ibanity.Apis.Client
 {
@@ -236,7 +237,9 @@ namespace Ibanity.Apis.Client
 
             var webhooksService = new WebhooksService(
                 serializer,
-                new JwksService(versionLessApiClient));
+                new Rs512Verifier(
+                    new Parser(serializer),
+                    new JwksService(versionLessApiClient)));
 
             return new IbanityService(httpClient, pontoConnectClient, webhooksService);
         }
