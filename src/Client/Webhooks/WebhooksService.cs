@@ -33,7 +33,7 @@ namespace Ibanity.Apis.Client.Webhooks
         /// <exception cref="System.ArgumentNullException"></exception>
         public WebhooksService(ISerializer<string> serializer, IJwksService jwksService)
         {
-            _serializer = serializer ?? throw new System.ArgumentNullException(nameof(serializer));
+            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _jwksService = jwksService ?? throw new ArgumentNullException(nameof(jwksService));
         }
 
