@@ -33,9 +33,11 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             if (onboardingDetails is null)
                 throw new ArgumentNullException(nameof(onboardingDetails));
 
-            var payload = new JsonApi.Data<Models.OnboardingDetails, object, object, object>();
-            payload.Type = "onboardingDetails";
-            payload.Attributes = onboardingDetails;
+            var payload = new JsonApi.Data<Models.OnboardingDetails, object, object, object>
+            {
+                Type = "onboardingDetails",
+                Attributes = onboardingDetails
+            };
 
             return InternalCreate(token, payload, idempotencyKey, cancellationToken);
         }

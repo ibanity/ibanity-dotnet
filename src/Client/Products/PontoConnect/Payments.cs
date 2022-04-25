@@ -36,9 +36,11 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             if (payment is null)
                 throw new ArgumentNullException(nameof(payment));
 
-            var payload = new JsonApi.Data<PaymentRequest, object, object, object>();
-            payload.Type = "payment";
-            payload.Attributes = payment;
+            var payload = new JsonApi.Data<PaymentRequest, object, object, object>
+            {
+                Type = "payment",
+                Attributes = payment
+            };
 
             return InternalCreate(token, new[] { accountId }, payload, idempotencyKey, cancellationToken);
         }

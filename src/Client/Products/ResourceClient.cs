@@ -96,11 +96,12 @@ namespace Ibanity.Apis.Client.Products
                 await GetAccessToken(token),
                 cancellationToken ?? CancellationToken.None);
 
-            var result = new PaginatedCollection<TAttributes>(page.Data.Select(Map));
-
-            result.ContinuationToken = page.Links.Next == null
-                ? null
-                : new ContinuationToken(page.Links.Next);
+            var result = new PaginatedCollection<TAttributes>(page.Data.Select(Map))
+            {
+                ContinuationToken = page.Links.Next == null
+                    ? null
+                    : new ContinuationToken(page.Links.Next)
+            };
 
             return result;
         }

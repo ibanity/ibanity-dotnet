@@ -32,9 +32,11 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             if (synchronization is null)
                 throw new ArgumentNullException(nameof(synchronization));
 
-            var payload = new JsonApi.Data<SynchronizationRequest, object, object, object>();
-            payload.Type = "synchronization";
-            payload.Attributes = synchronization;
+            var payload = new JsonApi.Data<SynchronizationRequest, object, object, object>
+            {
+                Type = "synchronization",
+                Attributes = synchronization
+            };
 
             return InternalCreate(token, payload, idempotencyKey, cancellationToken);
         }

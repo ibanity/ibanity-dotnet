@@ -34,8 +34,11 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             if (redirect is null)
                 throw new ArgumentNullException(nameof(redirect));
 
-            var payload = new JsonApi.Data<ReauthorizationRequest, object, object, object>();
-            payload.Type = "reauthorizationRequest";
+            var payload = new JsonApi.Data<ReauthorizationRequest, object, object, object>
+            {
+                Type = "reauthorizationRequest"
+            };
+
             payload.Attributes.Redirect = redirect;
 
             return InternalCreate(token, new[] { accountId }, payload, idempotencyKey, cancellationToken);

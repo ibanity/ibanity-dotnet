@@ -59,9 +59,11 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             if (transaction is null)
                 throw new ArgumentNullException(nameof(transaction));
 
-            var payload = new JsonApi.Data<Transaction, object, object, object>();
-            payload.Type = "financialInstitutionTransaction";
-            payload.Attributes = transaction;
+            var payload = new JsonApi.Data<Transaction, object, object, object>
+            {
+                Type = "financialInstitutionTransaction",
+                Attributes = transaction
+            };
 
             return InternalCreate(token, new[] { financialInstitutionId, accountId }, payload, idempotencyKey, cancellationToken);
         }
@@ -75,9 +77,11 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             if (transaction is null)
                 throw new ArgumentNullException(nameof(transaction));
 
-            var payload = new JsonApi.Data<Transaction, object, object, object>();
-            payload.Type = "financialInstitutionTransaction";
-            payload.Attributes = transaction;
+            var payload = new JsonApi.Data<Transaction, object, object, object>
+            {
+                Type = "financialInstitutionTransaction",
+                Attributes = transaction
+            };
 
             return InternalUpdate(token, new[] { financialInstitutionId, accountId }, id, payload, idempotencyKey, cancellationToken);
         }
