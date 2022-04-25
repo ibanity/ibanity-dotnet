@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
 
-namespace Ibanity.Apis.Client.Webhooks
+namespace Ibanity.Apis.Client.Webhooks.Jwt
 {
     /// <inheritdoc />
     public class JwksService : IJwksService

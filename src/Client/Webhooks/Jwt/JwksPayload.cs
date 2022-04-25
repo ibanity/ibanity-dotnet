@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace Ibanity.Apis.Client.Webhooks
+namespace Ibanity.Apis.Client.Webhooks.Jwt
 {
     /// <summary>
     /// A set of JWKs.
