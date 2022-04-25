@@ -9,7 +9,7 @@ namespace Ibanity.Apis.Client
     public class IbanityService : IIbanityService
     {
         private readonly HttpClient _httpClient;
-        private bool disposedValue;
+        private bool _disposedValue;
 
         /// <summary>
         /// Build a new instance.
@@ -36,13 +36,13 @@ namespace Ibanity.Apis.Client
         /// <param name="disposing">Dispose managed resources</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (disposedValue)
+            if (_disposedValue)
                 return;
 
             if (disposing)
                 _httpClient.Dispose();
 
-            disposedValue = true;
+            _disposedValue = true;
         }
 
         /// <summary>
