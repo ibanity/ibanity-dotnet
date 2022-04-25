@@ -55,7 +55,7 @@ namespace Ibanity.Apis.Client.Http
 
         /// <inheritdoc />
         public Task<T> Delete<T>(string path, string bearerToken, CancellationToken cancellationToken) =>
-            Execute<T>("Delete", async () => await _underlyingInstance.Delete<T>(path, bearerToken, cancellationToken), cancellationToken);
+            Execute("Delete", async () => await _underlyingInstance.Delete<T>(path, bearerToken, cancellationToken), cancellationToken);
 
         /// <inheritdoc />
         public Task Delete(string path, string bearerToken, CancellationToken cancellationToken) =>
@@ -63,14 +63,14 @@ namespace Ibanity.Apis.Client.Http
 
         /// <inheritdoc />
         public Task<T> Get<T>(string path, string bearerToken, CancellationToken cancellationToken) =>
-            Execute<T>("Get", async () => await _underlyingInstance.Get<T>(path, bearerToken, cancellationToken), cancellationToken);
+            Execute("Get", async () => await _underlyingInstance.Get<T>(path, bearerToken, cancellationToken), cancellationToken);
 
         /// <inheritdoc />
         public Task<TResponse> Patch<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken) =>
-            Execute<TResponse>("Patch", async () => await _underlyingInstance.Patch<TRequest, TResponse>(path, bearerToken, payload, idempotencyKey, cancellationToken), cancellationToken);
+            Execute("Patch", async () => await _underlyingInstance.Patch<TRequest, TResponse>(path, bearerToken, payload, idempotencyKey, cancellationToken), cancellationToken);
 
         /// <inheritdoc />
         public Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken) =>
-            Execute<TResponse>("Post", async () => await _underlyingInstance.Post<TRequest, TResponse>(path, bearerToken, payload, idempotencyKey, cancellationToken), cancellationToken);
+            Execute("Post", async () => await _underlyingInstance.Post<TRequest, TResponse>(path, bearerToken, payload, idempotencyKey, cancellationToken), cancellationToken);
     }
 }
