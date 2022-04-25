@@ -33,7 +33,9 @@ namespace Ibanity.Apis.Client.Http
 
             string body;
             using (var content = @this.Content)
-                body = await content?.ReadAsStringAsync();
+                body = content == null
+                    ? null
+                    : await content.ReadAsStringAsync();
 
             var requestId = @this.Headers.TryGetValues(RequestIdHeader, out var values) ? values.SingleOrDefault() : null;
             var statusCode = @this.StatusCode;
@@ -41,7 +43,9 @@ namespace Ibanity.Apis.Client.Http
             JsonApi.Error errors;
             try
             {
-                errors = serializer.Deserialize<JsonApi.Error>(body);
+                errors = string.IsNullOrWhiteSpace(body)
+                    ? null
+                    : serializer.Deserialize<JsonApi.Error>(body);
             }
             catch
             {

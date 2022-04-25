@@ -33,13 +33,18 @@ namespace Ibanity.Apis.Client.Http.OAuth2
 
             string body;
             using (var content = @this.Content)
-                body = await content?.ReadAsStringAsync();
+                body = content == null
+                    ? null
+                    : await content.ReadAsStringAsync();
 
             var requestId = @this.Headers.GetValues(RequestIdHeader).SingleOrDefault();
             var statusCode = @this.StatusCode;
-            var errors = serializer.Deserialize<OAuth2Error>(body);
 
-            throw new IbanityOAuth2Exception(requestId, statusCode, errors.ToJsonApi());
+            var errors = string.IsNullOrWhiteSpace(body)
+                ? null
+                : serializer.Deserialize<OAuth2Error>(body);
+
+            throw new IbanityOAuth2Exception(requestId, statusCode, errors?.ToJsonApi());
         }
     }
 }
