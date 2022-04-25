@@ -17,7 +17,6 @@ namespace Ibanity.Apis.Client
     public class IbanityServiceBuilder :
         IIbanityServiceEndpointBuilder,
         IIbanityServiceMutualTlsBuilder,
-        IIbanityServiceProxyBuilder,
         IIbanityServiceOptionalPropertiesBuilder
     {
         private Uri _endpoint;
