@@ -7,7 +7,7 @@ using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Models;
 using Ibanity.Apis.Client.Utils;
 
-namespace Ibanity.Apis.Client.Products.PontoConnect
+namespace Ibanity.Apis.Client.Products
 {
     /// <summary>
     /// Base class to manage an API resource.

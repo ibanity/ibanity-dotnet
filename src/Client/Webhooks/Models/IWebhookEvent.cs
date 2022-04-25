@@ -1,4 +1,4 @@
-namespace Ibanity.Apis.Client.Webhooks
+namespace Ibanity.Apis.Client.Webhooks.Models
 {
     /// <summary>
     /// Webhook event payload.
