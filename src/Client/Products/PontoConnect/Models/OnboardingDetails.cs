@@ -89,7 +89,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public string AddressCity { get; set; }
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="OnboardingDetails" />
     [DataContract]
     public class OnboardingDetailsResponse : OnboardingDetails, IIdentified<Guid>
     {
