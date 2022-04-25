@@ -251,6 +251,7 @@ namespace Ibanity.Apis.Client
 
             var webhooksService = new WebhooksService(
                 serializer,
+                jwksService,
                 new Rs512Verifier(
                     new Parser(serializer),
                     jwksService));

@@ -75,6 +75,7 @@ namespace Ibanity.Apis.Client.Tests.Webhooks
             var serializer = new JsonSerializer();
             return new WebhooksService(
                 serializer,
+                jwksService.Object,
                 new Rs512Verifier(
                     new Parser(serializer),
                     jwksService.Object));

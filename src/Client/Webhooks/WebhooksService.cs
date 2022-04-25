@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Utils;
+using Ibanity.Apis.Client.Webhooks.Jwt;
 using Ibanity.Apis.Client.Webhooks.Models;
 
 namespace Ibanity.Apis.Client.Webhooks
@@ -29,13 +30,17 @@ namespace Ibanity.Apis.Client.Webhooks
         /// Build a new instance.
         /// </summary>
         /// <param name="serializer">To-string serializer</param>
+        /// <param name="jwksService"></param>
         /// <param name="jwtVerifier">JSON Web Token verifier</param>
-        /// <exception cref="System.ArgumentNullException"></exception>
-        public WebhooksService(ISerializer<string> serializer, Jwt.IVerifier jwtVerifier)
+        public WebhooksService(ISerializer<string> serializer, IJwksService jwksService, Jwt.IVerifier jwtVerifier)
         {
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            JwksService = jwksService ?? throw new ArgumentNullException(nameof(jwksService));
             _jwtVerifier = jwtVerifier ?? throw new ArgumentNullException(nameof(jwtVerifier));
         }
+
+        /// <inheritdoc />
+        public IJwksService JwksService { get; }
 
         /// <summary>
         /// Get event type.
@@ -54,7 +59,7 @@ namespace Ibanity.Apis.Client.Webhooks
             if (!Types.TryGetValue(payloadType, out var type))
                 throw new IbanityException("Can't find event type: " + payloadType);
 
-            var deserializedPayload = (Payload)_serializer.Deserialize(payload, type);
+            var deserializedPayload = (Webhooks.Models.Payload)_serializer.Deserialize(payload, type);
             return deserializedPayload.UntypedData;
         }
 
@@ -92,5 +97,10 @@ namespace Ibanity.Apis.Client.Webhooks
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The event payload</returns>
         Task<IWebhookEvent> VerifyAndDeserialize(string payload, string signature, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Get public key from JSON Web Key Set endpoint.
+        /// </summary>
+        IJwksService JwksService { get; }
     }
 }
