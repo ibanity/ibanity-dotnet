@@ -4,7 +4,7 @@ using System.Net;
 namespace Ibanity.Apis.Client.Http
 {
     /// <summary>
-    /// Exception occuring when a request is sent to Ibanity.
+    /// Exception occurring when a request is sent to Ibanity.
     /// </summary>
     public abstract class IbanityRequestException : IbanityException
     {
@@ -58,7 +58,7 @@ namespace Ibanity.Apis.Client.Http
     }
 
     /// <inheritdoc />
-    /// <remarks>Related to a 5xx HTTP error that occured server-side</remarks>
+    /// <remarks>Related to a 5xx HTTP error that occurred server-side</remarks>
     public class IbanityServerException : IbanityRequestException
     {
         /// <inheritdoc />

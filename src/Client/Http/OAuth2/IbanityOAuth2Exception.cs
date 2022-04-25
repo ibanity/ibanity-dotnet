@@ -3,7 +3,7 @@ using System.Net;
 namespace Ibanity.Apis.Client.Http.OAuth2
 {
     /// <summary>
-    /// Exception occuring when authenticating to Ibanity.
+    /// Exception occurring when authenticating to Ibanity.
     /// </summary>
     public class IbanityOAuth2Exception : IbanityRequestException
     {

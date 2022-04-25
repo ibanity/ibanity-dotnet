@@ -56,7 +56,7 @@ namespace Ibanity.Apis.Client.Utils.Logging
         /// Write WARN message.
         /// </summary>
         /// <param name="message">Message to write</param>
-        /// <param name="exception">Exception that occured</param>
+        /// <param name="exception">Exception that occurred</param>
         void Warn(string message, Exception exception);
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Ibanity.Apis.Client.Utils.Logging
         /// Write ERROR message.
         /// </summary>
         /// <param name="message">Message to write</param>
-        /// <param name="exception">Exception that occured</param>
+        /// <param name="exception">Exception that occurred</param>
         void Error(string message, Exception exception);
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Ibanity.Apis.Client.Utils.Logging
         /// Write FATAL message.
         /// </summary>
         /// <param name="message">Message to write</param>
-        /// <param name="exception">Exception that occured</param>
+        /// <param name="exception">Exception that occurred</param>
         void Fatal(string message, Exception exception);
     }
 }

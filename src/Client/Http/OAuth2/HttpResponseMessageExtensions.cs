@@ -14,7 +14,7 @@ namespace Ibanity.Apis.Client.Http.OAuth2
         private const string RequestIdHeader = "ibanity-request-id";
 
         /// <summary>
-        /// <para>Checks status code and throws an exception if an error occured.</para>
+        /// <para>Checks status code and throws an exception if an error occurred.</para>
         /// <para>The error payload will be contained inside the exception.</para>
         /// </summary>
         /// <param name="this"><see cref="HttpResponseMessage" /> instance</param>
