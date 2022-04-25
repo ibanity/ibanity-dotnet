@@ -14,7 +14,7 @@ namespace Ibanity.Apis.Client.Http
         /// <param name="requestId">Ibanity API Request ID</param>
         /// <param name="statusCode">Received HTTP status code</param>
         /// <param name="error">Error details</param>
-        public IbanityRequestException(string requestId, HttpStatusCode statusCode, JsonApi.Error error) :
+        protected IbanityRequestException(string requestId, HttpStatusCode statusCode, JsonApi.Error error) :
             base($"Request {requestId} failed ({statusCode:D} {statusCode:G}): " + Format(error))
         {
             RequestId = requestId;

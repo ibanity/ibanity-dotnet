@@ -13,7 +13,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="apiClient">Generic API client</param>
         /// <param name="tokenService">Service to generate and refresh access tokens</param>
         /// <param name="clientAccessTokenService">Service to generate and refresh client access tokens.</param>
-        public ProductClient(IApiClient apiClient, ITokenProvider tokenService, IClientAccessTokenProvider clientAccessTokenService)
+        protected ProductClient(IApiClient apiClient, ITokenProvider tokenService, IClientAccessTokenProvider clientAccessTokenService)
         {
             ApiClient = apiClient ?? throw new System.ArgumentNullException(nameof(apiClient));
             TokenService = tokenService ?? throw new System.ArgumentNullException(nameof(tokenService));
