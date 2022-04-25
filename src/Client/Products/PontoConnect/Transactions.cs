@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
-using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Models;
 using Ibanity.Apis.Client.Products.PontoConnect.Models;
 using Ibanity.Apis.Client.Utils;
@@ -50,7 +49,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             InternalGet(token, new[] { accountId }, id, cancellationToken);
 
         /// <inheritdoc />
-        protected override TransactionResponse Map(Data<TransactionResponse, object, TransactionRelationships, object> data)
+        protected override TransactionResponse Map(JsonApi.Data<TransactionResponse, object, TransactionRelationships, object> data)
         {
             var result = base.Map(data);
 

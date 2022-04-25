@@ -2,7 +2,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
-using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Products.PontoConnect.Models;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect
@@ -57,7 +56,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         }
 
         /// <inheritdoc />
-        protected override ReauthorizationRequest Map(Data<ReauthorizationRequest, object, object, ReauthorizationRequestLinks> data)
+        protected override ReauthorizationRequest Map(JsonApi.Data<ReauthorizationRequest, object, object, ReauthorizationRequestLinks> data)
         {
             var result = base.Map(data);
 

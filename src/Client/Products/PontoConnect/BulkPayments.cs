@@ -2,7 +2,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
-using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Products.PontoConnect.Models;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect
@@ -53,7 +52,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             InternalDelete(token, new[] { accountId }, id, cancellationToken);
 
         /// <inheritdoc />
-        protected override BulkPaymentResponse Map(Data<BulkPaymentResponse, object, object, PaymentLinks> data)
+        protected override BulkPaymentResponse Map(JsonApi.Data<BulkPaymentResponse, object, object, PaymentLinks> data)
         {
             var result = base.Map(data);
 

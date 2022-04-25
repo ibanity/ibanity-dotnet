@@ -1,6 +1,5 @@
 using System.Linq;
 using System.Net;
-using Ibanity.Apis.Client.JsonApi;
 
 namespace Ibanity.Apis.Client.Http
 {
@@ -23,7 +22,7 @@ namespace Ibanity.Apis.Client.Http
             Error = error;
         }
 
-        private static string Format(Error error)
+        private static string Format(JsonApi.Error error)
         {
             if (error?.Errors?.Any() ?? false)
                 return string.Join(" - ", error.Errors.Select(e => $"{e.Code} ({e.Detail})"));
@@ -45,7 +44,7 @@ namespace Ibanity.Apis.Client.Http
         /// <summary>
         /// Error details
         /// </summary>
-        public Error Error { get; }
+        public JsonApi.Error Error { get; }
     }
 
     /// <inheritdoc />

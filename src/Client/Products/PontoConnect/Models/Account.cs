@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.Serialization;
-using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect.Models
@@ -151,7 +150,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// Details of the most recently completed (with success or error) synchronization of the account
         /// </summary>
         [DataMember(Name = "latestSynchronization", EmitDefaultValue = false)]
-        public Data<Synchronization, object, object, object> LatestSynchronization { get; set; }
+        public JsonApi.Data<Synchronization, object, object, object> LatestSynchronization { get; set; }
 
         /// <summary>
         /// <para>Indicates the availability of the account. The possible values are:</para>

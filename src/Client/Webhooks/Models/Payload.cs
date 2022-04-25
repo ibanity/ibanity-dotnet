@@ -1,5 +1,4 @@
 using System.Runtime.Serialization;
-using Ibanity.Apis.Client.JsonApi;
 
 namespace Ibanity.Apis.Client.Webhooks.Models
 {
@@ -32,7 +31,7 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     /// Actual payload without attributes and relationships.
     /// </summary>
     [DataContract]
-    public class PayloadData : Data, IWebhookEvent { }
+    public class PayloadData : JsonApi.Data, IWebhookEvent { }
 
     /// <summary>
     /// Actual payload with attributes and relationships.

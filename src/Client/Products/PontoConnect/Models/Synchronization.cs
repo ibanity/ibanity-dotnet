@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect.Models
@@ -29,7 +28,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// </summary>
         /// <value>Details of any errors that have occurred during synchronization, due to invalid authorization or technical failure. &lt;a href&#x3D;&#39;https://documentation.ibanity.com//api#sync&#39;&gt;See possible errors&lt;/a&gt;</value>
         [DataMember(Name = "errors", EmitDefaultValue = false)]
-        public List<ErrorItem> Errors { get; set; }
+        public List<JsonApi.ErrorItem> Errors { get; set; }
 
         /// <summary>
         /// When this synchronization was created. Formatted according to &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_8601&#39;&gt;ISO8601&lt;/a&gt; spec
