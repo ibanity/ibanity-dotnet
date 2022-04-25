@@ -34,6 +34,7 @@ namespace Ibanity.Apis.Client
         private Action<HttpRequestMessage> _customizeRequest;
         private int? _retryCount;
         private TimeSpan? _retryBaseDelay;
+        private TimeSpan? _webhooksJwksCachingDuration;
 
         /// <inheritdoc />
         public IIbanityServiceMutualTlsBuilder SetEndpoint(Uri endpoint)
@@ -162,6 +163,13 @@ namespace Ibanity.Apis.Client
             return this;
         }
 
+        IIbanityServiceOptionalPropertiesBuilder IIbanityServiceOptionalPropertiesBuilder.SetWebhooksJwksCachingDuration(TimeSpan timeToLive)
+        {
+            _webhooksJwksCachingDuration = timeToLive;
+
+            return this;
+        }
+
         IIbanityService IIbanityServiceOptionalPropertiesBuilder.Build()
         {
             var handler = new HttpClientHandler
@@ -235,11 +243,17 @@ namespace Ibanity.Apis.Client
                         _pontoConnectClientId,
                         _pontoConnectClientSecret));
 
+            IJwksService jwksService = new JwksService(versionLessApiClient);
+            jwksService = new JwksServiceCachingDecorator(
+                jwksService,
+                clock,
+                _webhooksJwksCachingDuration ?? TimeSpan.FromSeconds(30d));
+
             var webhooksService = new WebhooksService(
                 serializer,
                 new Rs512Verifier(
                     new Parser(serializer),
-                    new JwksService(versionLessApiClient)));
+                    jwksService));
 
             return new IbanityService(httpClient, pontoConnectClient, webhooksService);
         }
@@ -408,6 +422,14 @@ namespace Ibanity.Apis.Client
         /// <returns>The builder to be used to pursue configuration</returns>
         /// <remarks>Delay is increased by a 2-factor after each failure: 1 second, then 2 seconds, then 4 seconds, ...</remarks>
         IIbanityServiceOptionalPropertiesBuilder EnableRetries(int count = 5, TimeSpan? baseDelay = null);
+
+        /// <summary>
+        /// Define webhooks JWKS caching duration.
+        /// </summary>
+        /// <param name="timeToLive">Delay before a retry with exponential backoff</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
+        /// <remarks>Default is 30 seconds.</remarks>
+        IIbanityServiceOptionalPropertiesBuilder SetWebhooksJwksCachingDuration(TimeSpan timeToLive);
 
         /// <summary>
         /// Create the signature service instance.
