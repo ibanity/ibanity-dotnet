@@ -5,7 +5,7 @@ using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect.Models
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="SynchronizationRequest" />
     [DataContract]
     public class Synchronization : SynchronizationRequest, IIdentified<Guid>
     {

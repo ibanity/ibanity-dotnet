@@ -112,7 +112,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public string RedirectUri { get; set; }
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="Payment" />
     public class PaymentResponse : Payment, IIdentified<Guid>
     {
         /// <summary>

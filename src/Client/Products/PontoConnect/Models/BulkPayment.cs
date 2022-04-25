@@ -71,7 +71,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public List<Payment> Payments { get; set; }
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="BulkPayment" />
     public class BulkPaymentResponse : BulkPayment, IIdentified<Guid>
     {
         /// <summary>

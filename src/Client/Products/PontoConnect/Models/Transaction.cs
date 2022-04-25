@@ -137,7 +137,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public override string ToString() => $"{BankTransactionCode} ({Amount} {Currency})";
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="Transaction" />
     [DataContract]
     public class TransactionResponse : Transaction, IIdentified<Guid>
     {

@@ -110,7 +110,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public override string ToString() => $"{Reference} ({CurrentBalance} {Currency})";
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="Account" />
     public class AccountResponse : Account, IIdentified<Guid>
     {
         /// <inheritdoc />
