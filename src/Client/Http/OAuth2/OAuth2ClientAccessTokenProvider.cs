@@ -13,7 +13,7 @@ namespace Ibanity.Apis.Client.Http.OAuth2
     {
         private static readonly TimeSpan ValidityThreshold = TimeSpan.FromMinutes(1d);
 
-        private ILogger _logger;
+        private readonly ILogger _logger;
         private readonly HttpClient _httpClient;
         private readonly IClock _clock;
         private readonly ISerializer<string> _serializer;
