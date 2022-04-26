@@ -66,11 +66,13 @@ namespace Ibanity.Apis.Client.Webhooks.Jwt
         {
             var now = _clock.Now;
 
-            if (payload.IssuedAt > now + _allowedClockSkew)
-                throw new InvalidSignatureException($"Token issued in the future ({payload.IssuedAt:O} is after {now + _allowedClockSkew:O})");
+            var notAfter = now + _allowedClockSkew;
+            if (payload.IssuedAt > notAfter)
+                throw new InvalidSignatureException($"Token issued in the future ({payload.IssuedAt:O} is after {notAfter:O})");
 
-            if (payload.Expiration < now - _allowedClockSkew)
-                throw new InvalidSignatureException($"Expired token ({payload.Expiration:O} is before {now + _allowedClockSkew:O})");
+            var notBefore = now - _allowedClockSkew;
+            if (payload.Expiration < notBefore)
+                throw new InvalidSignatureException($"Expired token ({payload.Expiration:O} is before {notBefore:O})");
         }
     }
 
