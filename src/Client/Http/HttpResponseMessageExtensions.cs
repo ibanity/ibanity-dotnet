@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Utils;
+using Ibanity.Apis.Client.Utils.Logging;
 
 namespace Ibanity.Apis.Client.Http
 {
@@ -19,8 +20,9 @@ namespace Ibanity.Apis.Client.Http
         /// </summary>
         /// <param name="this"><see cref="HttpResponseMessage" /> instance</param>
         /// <param name="serializer">To-string serializer</param>
+        /// <param name="logger">Logger used to log error</param>
         /// <returns>The instance received in argument</returns>
-        public static async Task<HttpResponseMessage> ThrowOnFailure(this HttpResponseMessage @this, ISerializer<string> serializer)
+        public static async Task<HttpResponseMessage> ThrowOnFailure(this HttpResponseMessage @this, ISerializer<string> serializer, ILogger logger)
         {
             if (@this is null)
                 throw new ArgumentNullException(nameof(@this));
@@ -52,10 +54,12 @@ namespace Ibanity.Apis.Client.Http
                 errors = null;
             }
 
-            if ((int)@this.StatusCode < 500)
-                throw new IbanityClientException(requestId, statusCode, errors);
-            else
-                throw new IbanityServerException(requestId, statusCode, errors);
+            var exception = (int)@this.StatusCode < 500
+                ? (IbanityRequestException)(new IbanityClientException(requestId, statusCode, errors))
+                : new IbanityServerException(requestId, statusCode, errors);
+
+            logger.Error(exception.Message, exception);
+            throw exception;
         }
     }
 }

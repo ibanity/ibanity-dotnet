@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Utils;
+using Ibanity.Apis.Client.Utils.Logging;
 
 namespace Ibanity.Apis.Client.Http.OAuth2
 {
@@ -19,8 +20,9 @@ namespace Ibanity.Apis.Client.Http.OAuth2
         /// </summary>
         /// <param name="this"><see cref="HttpResponseMessage" /> instance</param>
         /// <param name="serializer">To-string serializer</param>
+        /// <param name="logger">Logger used to log error</param>
         /// <returns>The instance received in argument</returns>
-        public static async Task<HttpResponseMessage> ThrowOnOAuth2Failure(this HttpResponseMessage @this, ISerializer<string> serializer)
+        public static async Task<HttpResponseMessage> ThrowOnOAuth2Failure(this HttpResponseMessage @this, ISerializer<string> serializer, ILogger logger)
         {
             if (@this is null)
                 throw new ArgumentNullException(nameof(@this));
@@ -44,7 +46,10 @@ namespace Ibanity.Apis.Client.Http.OAuth2
                 ? null
                 : serializer.Deserialize<OAuth2Error>(body);
 
-            throw new IbanityOAuth2Exception(requestId, statusCode, errors?.ToJsonApi());
+            var exception = new IbanityOAuth2Exception(requestId, statusCode, errors?.ToJsonApi());
+
+            logger.Error(exception.Message, exception);
+            throw exception;
         }
     }
 }

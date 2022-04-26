@@ -64,7 +64,7 @@ namespace Ibanity.Apis.Client.Http
 
                 _customizeRequest(request);
 
-                var response = await (await _httpClient.SendAsync(request, cancellationToken)).ThrowOnFailure(_serializer);
+                var response = await (await _httpClient.SendAsync(request, cancellationToken)).ThrowOnFailure(_serializer, _logger);
                 var body = await response.Content.ReadAsStringAsync();
                 return _serializer.Deserialize<T>(body);
             }
@@ -105,7 +105,7 @@ namespace Ibanity.Apis.Client.Http
 
                 _customizeRequest(request);
 
-                var response = await (await _httpClient.SendAsync(request, cancellationToken)).ThrowOnFailure(_serializer);
+                var response = await (await _httpClient.SendAsync(request, cancellationToken)).ThrowOnFailure(_serializer, _logger);
                 var body = await response.Content.ReadAsStringAsync();
                 return _serializer.Deserialize<TResponse>(body);
             }
