@@ -244,10 +244,13 @@ namespace Ibanity.Apis.Client
                         _pontoConnectClientSecret));
 
             IJwksService jwksService = new JwksService(versionLessApiClient);
-            jwksService = new JwksServiceCachingDecorator(
-                jwksService,
-                clock,
-                _webhooksJwksCachingDuration ?? TimeSpan.FromSeconds(30d));
+
+            var webhooksJwksCachingDuration = _webhooksJwksCachingDuration ?? TimeSpan.FromSeconds(30d);
+            if (webhooksJwksCachingDuration != TimeSpan.Zero)
+                jwksService = new JwksServiceCachingDecorator(
+                    jwksService,
+                    clock,
+                    webhooksJwksCachingDuration);
 
             var webhooksService = new WebhooksService(
                 serializer,
