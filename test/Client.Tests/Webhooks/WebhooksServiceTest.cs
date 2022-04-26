@@ -27,11 +27,16 @@ namespace Ibanity.Apis.Client.Tests.Webhooks
         static WebhooksServiceTest()
         {
             var (n, e) = _publicKeyNE;
-            var nBytes = Convert.FromBase64String(n.Replace('-', '+').Replace('_', '/'));
-            var eBytes = Convert.FromBase64String(e.Replace('-', '+').Replace('_', '/'));
+
+            byte[] GetBytes(string base64) =>
+                Convert.FromBase64String(base64.Replace('-', '+').Replace('_', '/'));
 
             _publicKey = RSA.Create();
-            _publicKey.ImportParameters(new RSAParameters { Modulus = nBytes, Exponent = eBytes });
+            _publicKey.ImportParameters(new RSAParameters
+            {
+                Modulus = GetBytes(n),
+                Exponent = GetBytes(e)
+            });
         }
 
         [TestMethod]
