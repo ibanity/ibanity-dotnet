@@ -3,6 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Ibanity.Apis.Client.Utils;
 using Ibanity.Apis.Client.Webhooks.Jwt.Models;
 
 namespace Ibanity.Apis.Client.Webhooks.Jwt
@@ -12,16 +13,22 @@ namespace Ibanity.Apis.Client.Webhooks.Jwt
     {
         private readonly IParser _parser;
         private readonly IJwksService _jwksService;
+        private readonly IClock _clock;
+        private readonly TimeSpan _allowedClockSkew;
 
         /// <summary>
         /// Build a new instance.
         /// </summary>
         /// <param name="parser">JWT parser</param>
         /// <param name="jwksService">JWKS client</param>
-        public Rs512Verifier(IParser parser, IJwksService jwksService)
+        /// <param name="clock">Returns current date and time</param>
+        /// <param name="allowedClockSkew">Leniency in date comparisons</param>
+        public Rs512Verifier(IParser parser, IJwksService jwksService, IClock clock, TimeSpan allowedClockSkew)
         {
             _parser = parser ?? throw new ArgumentNullException(nameof(parser));
             _jwksService = jwksService ?? throw new ArgumentNullException(nameof(jwksService));
+            _clock = clock ?? throw new ArgumentNullException(nameof(clock));
+            _allowedClockSkew = allowedClockSkew;
         }
 
         /// <inheritdoc />
@@ -44,11 +51,26 @@ namespace Ibanity.Apis.Client.Webhooks.Jwt
             if (!rsaDeformatter.VerifySignature(hash, _parser.GetSignature(token)))
                 throw new InvalidSignatureException("Can't verify signature");
 
+            var payload = _parser.GetPayload<IbanityPayload>(token);
+
+            EnsureClaimsAreValid(payload);
+
             return new Token
             {
                 Header = header,
-                Payload = _parser.GetPayload<IbanityPayload>(token)
+                Payload = payload
             };
+        }
+
+        private void EnsureClaimsAreValid(IbanityPayload payload)
+        {
+            var now = _clock.Now;
+
+            if (payload.IssuedAt > now + _allowedClockSkew)
+                throw new InvalidSignatureException($"Token issued in the future ({payload.IssuedAt:O} is after {now + _allowedClockSkew:O})");
+
+            if (payload.Expiration < now - _allowedClockSkew)
+                throw new InvalidSignatureException($"Expired token ({payload.Expiration:O} is before {now + _allowedClockSkew:O})");
         }
     }
 

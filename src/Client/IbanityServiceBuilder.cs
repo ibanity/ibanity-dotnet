@@ -35,6 +35,7 @@ namespace Ibanity.Apis.Client
         private int? _retryCount;
         private TimeSpan? _retryBaseDelay;
         private TimeSpan? _webhooksJwksCachingDuration;
+        private TimeSpan? _webhooksAllowedClockSkew;
 
         /// <inheritdoc />
         public IIbanityServiceMutualTlsBuilder SetEndpoint(Uri endpoint)
@@ -170,6 +171,13 @@ namespace Ibanity.Apis.Client
             return this;
         }
 
+        IIbanityServiceOptionalPropertiesBuilder IIbanityServiceOptionalPropertiesBuilder.SetWebhooksAllowedClockSkew(TimeSpan allowedClockSkew)
+        {
+            _webhooksAllowedClockSkew = allowedClockSkew;
+
+            return this;
+        }
+
         IIbanityService IIbanityServiceOptionalPropertiesBuilder.Build()
         {
             var handler = new HttpClientHandler
@@ -257,7 +265,9 @@ namespace Ibanity.Apis.Client
                 jwksService,
                 new Rs512Verifier(
                     new Parser(serializer),
-                    jwksService));
+                    jwksService,
+                    clock,
+                    _webhooksAllowedClockSkew ?? TimeSpan.FromSeconds(30d)));
 
             return new IbanityService(httpClient, pontoConnectClient, webhooksService);
         }
@@ -434,6 +444,14 @@ namespace Ibanity.Apis.Client
         /// <returns>The builder to be used to pursue configuration</returns>
         /// <remarks>Default is 30 seconds.</remarks>
         IIbanityServiceOptionalPropertiesBuilder SetWebhooksJwksCachingDuration(TimeSpan timeToLive);
+
+        /// <summary>
+        /// Set the amount of clock skew to allow for when validate the expiration time and issued at time claims.
+        /// </summary>
+        /// <param name="allowedClockSkew">Leniency in date comparisons</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
+        /// <remarks>Default is 30 seconds.</remarks>
+        IIbanityServiceOptionalPropertiesBuilder SetWebhooksAllowedClockSkew(TimeSpan allowedClockSkew);
 
         /// <summary>
         /// Create the signature service instance.
