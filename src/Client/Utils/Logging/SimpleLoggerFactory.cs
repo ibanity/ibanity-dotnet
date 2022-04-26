@@ -1,3 +1,5 @@
+using System;
+
 namespace Ibanity.Apis.Client.Utils.Logging
 {
     /// <inheritdoc />
@@ -11,7 +13,7 @@ namespace Ibanity.Apis.Client.Utils.Logging
         /// </summary>
         /// <param name="logger">Logger to be returned</param>
         public SimpleLoggerFactory(ILogger logger) =>
-            _logger = logger ?? throw new System.ArgumentNullException(nameof(logger));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         /// <inheritdoc />
         public ILogger CreateLogger<T>() => _logger;

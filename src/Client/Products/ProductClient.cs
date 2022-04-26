@@ -1,3 +1,4 @@
+using System;
 using Ibanity.Apis.Client.Http;
 
 namespace Ibanity.Apis.Client.Products
@@ -15,9 +16,9 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="clientAccessTokenService">Service to generate and refresh client access tokens.</param>
         protected ProductClient(IApiClient apiClient, ITokenProvider tokenService, IClientAccessTokenProvider clientAccessTokenService)
         {
-            ApiClient = apiClient ?? throw new System.ArgumentNullException(nameof(apiClient));
-            TokenService = tokenService ?? throw new System.ArgumentNullException(nameof(tokenService));
-            ClientTokenService = clientAccessTokenService ?? throw new System.ArgumentNullException(nameof(clientAccessTokenService));
+            ApiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
+            TokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
+            ClientTokenService = clientAccessTokenService ?? throw new ArgumentNullException(nameof(clientAccessTokenService));
         }
 
         /// <inheritdoc />

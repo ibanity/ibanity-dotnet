@@ -1,3 +1,5 @@
+using System;
+
 namespace Ibanity.Apis.Client.Utils.Logging
 {
     /// <inheritdoc />
@@ -11,7 +13,7 @@ namespace Ibanity.Apis.Client.Utils.Logging
         /// </summary>
         /// <param name="underlyingInstance">Actual logger factory</param>
         public LoggerFactoryNotNullDecorator(ILoggerFactory underlyingInstance) =>
-            _underlyingInstance = underlyingInstance ?? throw new System.ArgumentNullException(nameof(underlyingInstance));
+            _underlyingInstance = underlyingInstance ?? throw new ArgumentNullException(nameof(underlyingInstance));
 
         /// <inheritdoc />
         public ILogger CreateLogger<T>()

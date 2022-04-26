@@ -1,3 +1,4 @@
+using System;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -18,8 +19,8 @@ namespace Ibanity.Apis.Client.Webhooks.Jwt
         /// <param name="jwksService">JWKS client</param>
         public Rs512Verifier(IParser parser, IJwksService jwksService)
         {
-            _parser = parser ?? throw new System.ArgumentNullException(nameof(parser));
-            _jwksService = jwksService ?? throw new System.ArgumentNullException(nameof(jwksService));
+            _parser = parser ?? throw new ArgumentNullException(nameof(parser));
+            _jwksService = jwksService ?? throw new ArgumentNullException(nameof(jwksService));
         }
 
         /// <inheritdoc />

@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 
 namespace Ibanity.Apis.Client.Models
@@ -20,10 +21,10 @@ namespace Ibanity.Apis.Client.Models
         public Filter(string field, FilterOperator @operator, string value)
         {
             if (string.IsNullOrWhiteSpace(field))
-                throw new System.ArgumentException($"'{nameof(field)}' cannot be null or whitespace.", nameof(field));
+                throw new ArgumentException($"'{nameof(field)}' cannot be null or whitespace.", nameof(field));
 
             if (string.IsNullOrWhiteSpace(value))
-                throw new System.ArgumentException($"'{nameof(value)}' cannot be null or whitespace.", nameof(value));
+                throw new ArgumentException($"'{nameof(value)}' cannot be null or whitespace.", nameof(value));
 
             _field = field;
             _operator = @operator;
