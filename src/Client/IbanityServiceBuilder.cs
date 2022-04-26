@@ -430,7 +430,7 @@ namespace Ibanity.Apis.Client
         /// <summary>
         /// Define webhooks JWKS caching duration.
         /// </summary>
-        /// <param name="timeToLive">Delay before a retry with exponential backoff</param>
+        /// <param name="timeToLive">Delay before a key is reloaded from server</param>
         /// <returns>The builder to be used to pursue configuration</returns>
         /// <remarks>Default is 30 seconds.</remarks>
         IIbanityServiceOptionalPropertiesBuilder SetWebhooksJwksCachingDuration(TimeSpan timeToLive);
