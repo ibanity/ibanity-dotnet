@@ -120,6 +120,22 @@ var ibanityService = new IbanityServiceBuilder().
     Build();
 ```
 
+### Verify and parse webhook events
+
+```csharp
+var webhookEvent = ibanityService.Webhooks.VerifyAndDeserialize(
+    payload, // webhook body
+    signature); // webhook 'Signature' header
+
+switch (webhookEvent)
+{
+    case SynchronizationSucceededWithoutChange synchronizationEvent:
+        Console.WriteLine(synchronizationEvent.Attributes.SynchronizationSubtype);
+        break;
+    ...
+}
+```
+
 ## Creating PFX certificate file
 
 You may need to convert your certificate from _.pem_ files to a _.pfx_ file (also known as PKCS#12 format). You can use an _OpenSSL_ command to do so:
