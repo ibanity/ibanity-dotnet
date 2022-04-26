@@ -42,7 +42,7 @@ namespace Ibanity.Apis.Client.Webhooks.Jwt
             rsaDeformatter.SetHashAlgorithm("SHA512");
 
             if (!rsaDeformatter.VerifySignature(hash, _parser.GetSignature(token)))
-                throw new InvalidSignatureException("Hash did not match expected value");
+                throw new InvalidSignatureException("Can't verify signature");
 
             return new Token
             {
