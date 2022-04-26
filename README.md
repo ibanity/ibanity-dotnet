@@ -123,7 +123,7 @@ var ibanityService = new IbanityServiceBuilder().
 ### Verify and parse webhook events
 
 ```csharp
-var webhookEvent = ibanityService.Webhooks.VerifyAndDeserialize(
+var webhookEvent = await ibanityService.Webhooks.VerifyAndDeserialize(
     payload, // webhook body
     signature); // webhook 'Signature' header
 
