@@ -3,6 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Ibanity.Apis.Client.Webhooks.Jwt.Models;
 
 namespace Ibanity.Apis.Client.Webhooks.Jwt
 {

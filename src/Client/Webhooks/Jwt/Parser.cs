@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using Ibanity.Apis.Client.Utils;
+using Ibanity.Apis.Client.Webhooks.Jwt.Models;
 
 namespace Ibanity.Apis.Client.Webhooks.Jwt
 {
