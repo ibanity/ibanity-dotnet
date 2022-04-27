@@ -335,9 +335,10 @@ namespace Ibanity.Apis.Client
         /// <summary>
         /// Define client certificate you generated for your application in our Developer Portal.
         /// </summary>
-        /// <param name="path">Client certificate path</param>
+        /// <param name="path">Client certificate (PFX file) path</param>
         /// <param name="password">Client certificate passphrase</param>
         /// <returns>The builder to be used to pursue configuration</returns>
+        /// <remarks>The file is probably named <c>certificate.pfx</c>. Do not use <c>signature_certificate.pfx</c> here.</remarks>
         IIbanityServiceOptionalPropertiesBuilder AddClientCertificate(string path, string password);
     }
 
@@ -385,9 +386,10 @@ namespace Ibanity.Apis.Client
         /// Define signature certificate.
         /// </summary>
         /// <param name="id">Certificat ID from the Developer Portal</param>
-        /// <param name="path">Signature certificate path</param>
+        /// <param name="path">Signature certificate (PFX file) path</param>
         /// <param name="password">Signature certificate passphrase</param>
         /// <returns>The builder to be used to pursue configuration</returns>
+        /// <remarks>The file is probably named <c>signature_certificate.pfx</c>. Do not use <c>certificate.pfx</c> here.</remarks>
         IIbanityServiceOptionalPropertiesBuilder AddSignatureCertificate(string id, string path, string password);
 
         /// <summary>
