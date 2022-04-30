@@ -29,7 +29,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             BulkPayments = new BulkPayments(apiClient, tokenService, UrlPrefix);
             Synchronizations = new Synchronizations(apiClient, tokenService, UrlPrefix);
             Sandbox = new Sandbox(apiClient, tokenService, UrlPrefix);
-            OnboardingDetails = new OnboardingDetails(apiClient, tokenService, UrlPrefix);
+            OnboardingDetails = new OnboardingDetails(apiClient, clientAccessTokenService, UrlPrefix);
             UserInfo = new UserInfo(apiClient, tokenService, UrlPrefix);
             PaymentActivationRequests = new PaymentActivationRequests(apiClient, tokenService, UrlPrefix);
             Usages = new Usages(apiClient, clientAccessTokenService, UrlPrefix);
