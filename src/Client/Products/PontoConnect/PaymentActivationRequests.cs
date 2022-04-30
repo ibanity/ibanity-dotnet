@@ -36,10 +36,9 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
             var payload = new JsonApi.Data<PaymentActivationRequest, object, object, object>
             {
-                Type = "paymentActivationRequest"
+                Type = "paymentActivationRequest",
+                Attributes = new PaymentActivationRequest { Redirect = redirect }
             };
-
-            payload.Attributes.Redirect = redirect;
 
             return InternalCreate(token, payload, idempotencyKey, cancellationToken);
         }
@@ -60,9 +59,12 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <inheritdoc />
         protected override PaymentActivationRequest Map(JsonApi.Data<PaymentActivationRequest, object, object, PaymentActivationRequestLinks> data)
         {
+            if (data.Attributes == null)
+                data.Attributes = new PaymentActivationRequest();
+
             var result = base.Map(data);
 
-            result.Redirect = data.Links.Redirect;
+            result.Redirect = data.Links?.Redirect;
 
             return result;
         }
