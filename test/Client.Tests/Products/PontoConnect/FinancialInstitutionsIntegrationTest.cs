@@ -55,6 +55,9 @@ namespace Ibanity.Apis.Client.Tests.Http
             var filters = new[] { new Filter("name", FilterOperator.Like, "gring") };
             var financialInstitutions = await ibanityService.PontoConnect.FinancialInstitutions.List(filters);
             Assert.IsNotNull(financialInstitutions);
+
+            var clientAccessToken = await ibanityService.PontoConnect.ClientTokenService.GetToken();
+            var usage = await ibanityService.PontoConnect.Usages.Get(clientAccessToken, Guid.Parse("a86f1396-013b-4258-857b-a8a212c540e8"), 2020, 7);
         }
     }
 }
