@@ -13,7 +13,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     public class ReauthorizationRequests : ResourceWithParentClient<ReauthorizationRequest, object, object, ReauthorizationRequestLinks>, IReauthorizationRequests
     {
         private const string ParentEntityName = "accounts";
-        private const string EntityName = "transactions";
+        private const string EntityName = "reauthorization-requests";
 
         /// <summary>
         /// Build a new instance.
