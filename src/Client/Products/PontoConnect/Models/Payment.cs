@@ -145,7 +145,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
     /// URI to redirect to from your customer frontend to conduct the authorization flow.
     /// </summary>
     [DataContract]
-    public abstract class PaymentLinks
+    public class PaymentLinks
     {
         /// <summary>
         /// URI to redirect to from your customer frontend to conduct the authorization flow.
