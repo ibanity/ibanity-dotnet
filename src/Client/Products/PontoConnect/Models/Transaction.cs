@@ -131,6 +131,27 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public string AdditionalInformation { get; set; }
 
         /// <summary>
+        /// Reference for card related to the transaction (if any). For example the last 4 digits of the card number.
+        /// </summary>
+        /// <value>Reference for card related to the transaction (if any). For example the last 4 digits of the card number.</value>
+        [DataMember(Name = "cardReference", EmitDefaultValue = false)]
+        public string CardReference { get; set; }
+
+        /// <summary>
+        /// Type of card reference (can be PAN or MASKEDPAN).
+        /// </summary>
+        /// <value>Type of card reference (can be PAN or MASKEDPAN).</value>
+        [DataMember(Name = "cardReferenceType", EmitDefaultValue = false)]
+        public string CardReferenceType { get; set; }
+
+        /// <summary>
+        /// A fee that was withheld from this transaction at the financial institution.
+        /// </summary>
+        /// <value>A fee that was withheld from this transaction at the financial institution.</value>
+        [DataMember(Name = "fee", EmitDefaultValue = false)]
+        public decimal? Fee { get; set; }
+
+        /// <summary>
         /// Short string representation.
         /// </summary>
         /// <returns>Short string representation</returns>
