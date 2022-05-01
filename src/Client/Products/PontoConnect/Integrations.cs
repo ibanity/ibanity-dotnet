@@ -38,7 +38,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             if (data is null)
                 throw new ArgumentNullException(nameof(data));
 
-            var result = data.Attributes;
+            var result = data.Attributes ?? new Integration();
 
             result.Id = Guid.Parse(data.Id);
             result.OrganizationId = Guid.Parse(data.Relationships.Organization.Data.Id);
