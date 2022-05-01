@@ -28,10 +28,10 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
         /// <inheritdoc />
         public async Task<Integration> Delete(ClientAccessToken token, Guid organizationId, CancellationToken? cancellationToken) =>
-            Map(await _apiClient.Delete<JsonApi.Data<Integration, object, IntegrationRelationships, object>>(
+            Map((await _apiClient.Delete<JsonApi.Resource<Integration, object, IntegrationRelationships, object>>(
                 $"{_urlPrefix}/organizations/{organizationId}/integration",
                 (await _accessTokenProvider.RefreshToken(token ?? throw new ArgumentNullException(nameof(token)))).AccessToken,
-                cancellationToken ?? CancellationToken.None));
+                cancellationToken ?? CancellationToken.None)).Data);
 
         private static Integration Map(JsonApi.Data<Integration, object, IntegrationRelationships, object> data)
         {
