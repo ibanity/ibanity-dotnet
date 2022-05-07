@@ -30,7 +30,7 @@ namespace Ibanity.Apis.Client.Webhooks
         /// Build a new instance.
         /// </summary>
         /// <param name="serializer">To-string serializer</param>
-        /// <param name="jwksService"></param>
+        /// <param name="jwksService">Get public keys from authorization server</param>
         /// <param name="jwtVerifier">JSON Web Token verifier</param>
         public WebhooksService(ISerializer<string> serializer, IJwksService jwksService, Jwt.IVerifier jwtVerifier)
         {
