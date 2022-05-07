@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.Serialization;
 
 namespace Ibanity.Apis.Client.Webhooks.Models
@@ -31,7 +32,14 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     /// Actual payload without attributes and relationships.
     /// </summary>
     [DataContract]
-    public class PayloadData : JsonApi.Data, IWebhookEvent { }
+    public class PayloadData : JsonApi.Data
+    {
+        /// <summary>
+        /// Move nested object values at top level.
+        /// </summary>
+        /// <returns>An object without nested properties</returns>
+        public virtual IWebhookEvent Flatten() { throw new NotImplementedException(); }
+    }
 
     /// <summary>
     /// Actual payload with attributes and relationships.
@@ -39,7 +47,7 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     /// <typeparam name="TAttributes">Resource attribute type</typeparam>
     /// <typeparam name="TRelationships">Resource relationships type</typeparam>
     [DataContract]
-    public class PayloadData<TAttributes, TRelationships> : PayloadData
+    public abstract class PayloadData<TAttributes, TRelationships> : PayloadData
     {
         /// <summary>
         /// Resource actual content.

@@ -6,7 +6,50 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     /// <summary>
     /// A webhook payload delivered whenever a synchronization succeeds but does not change any account details or transactions.
     /// </summary>
-    public class SynchronizationSucceededWithoutChange : PayloadData<SynchronizationSucceededWithoutChangeAttributes, SynchronizationSucceededWithoutChangeRelationships> { }
+    public class SynchronizationSucceededWithoutChange : JsonApi.Data, IWebhookEvent
+    {
+        /// <summary>
+        /// Unique identifier of the associated account.
+        /// </summary>
+        [DataMember(Name = "accountId", EmitDefaultValue = false)]
+        public Guid AccountId { get; set; }
+
+        /// <summary>
+        /// Unique identifier of the associated synchronization.
+        /// </summary>
+        [DataMember(Name = "synchronizationId", EmitDefaultValue = false)]
+        public Guid SynchronizationId { get; set; }
+
+        /// <summary>
+        /// Subtype of the related synchronization.
+        /// </summary>
+        [DataMember(Name = "synchronizationSubtype", EmitDefaultValue = false)]
+        public string SynchronizationSubtype { get; set; }
+
+        /// <summary>
+        /// When this notification was created.
+        /// </summary>
+        [DataMember(Name = "createdAt", EmitDefaultValue = false)]
+        public DateTimeOffset CreatedAt { get; set; }
+    }
+
+    /// <summary>
+    /// A webhook payload delivered whenever a synchronization succeeds but does not change any account details or transactions.
+    /// </summary>
+    public class NestedSynchronizationSucceededWithoutChange : PayloadData<SynchronizationSucceededWithoutChangeAttributes, SynchronizationSucceededWithoutChangeRelationships>
+    {
+        /// <inheritdoc />
+        public override IWebhookEvent Flatten() =>
+            new SynchronizationSucceededWithoutChange
+            {
+                Id = Id,
+                Type = Type,
+                AccountId = Guid.Parse(Relationships.Account.Data.Id),
+                SynchronizationId = Guid.Parse(Relationships.Synchronization.Data.Id),
+                SynchronizationSubtype = Attributes.SynchronizationSubtype,
+                CreatedAt = Attributes.CreatedAt
+            };
+    }
 
     /// <summary>
     /// Payload attributes delivered whenever a synchronization succeeds but does not change any account details or transactions.

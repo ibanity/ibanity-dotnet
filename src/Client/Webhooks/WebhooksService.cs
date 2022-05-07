@@ -16,11 +16,11 @@ namespace Ibanity.Apis.Client.Webhooks
     {
         private static readonly IReadOnlyDictionary<string, Type> Types = new Dictionary<string, Type>
         {
-            { "pontoConnect.synchronization.succeededWithoutChange", typeof(Payload<SynchronizationSucceededWithoutChange>) },
-            { "pontoConnect.synchronization.failed", typeof(Payload<SynchronizationFailed>) },
-            { "pontoConnect.account.detailsUpdated", typeof(Payload<AccountDetailsUpdated>) },
-            { "pontoConnect.account.transactionsCreated", typeof(Payload<AccountTransactionsCreated>) },
-            { "pontoConnect.account.transactionsUpdated", typeof(Payload<AccountTransactionsUpdated>) }
+            { "pontoConnect.synchronization.succeededWithoutChange", typeof(Payload<NestedSynchronizationSucceededWithoutChange>) },
+            { "pontoConnect.synchronization.failed", typeof(Payload<NestedSynchronizationFailed>) },
+            { "pontoConnect.account.detailsUpdated", typeof(Payload<NestedAccountDetailsUpdated>) },
+            { "pontoConnect.account.transactionsCreated", typeof(Payload<NestedAccountTransactionsCreated>) },
+            { "pontoConnect.account.transactionsUpdated", typeof(Payload<NestedAccountTransactionsUpdated>) }
         };
 
         private readonly ISerializer<string> _serializer;
@@ -60,7 +60,7 @@ namespace Ibanity.Apis.Client.Webhooks
                 throw new IbanityException("Can't find event type: " + payloadType);
 
             var deserializedPayload = (Webhooks.Models.Payload)_serializer.Deserialize(payload, type);
-            return deserializedPayload.UntypedData;
+            return deserializedPayload.UntypedData.Flatten();
         }
 
         private async Task EnsureSignatureAndDigestAreValid(string payload, string signature, CancellationToken? cancellationToken)

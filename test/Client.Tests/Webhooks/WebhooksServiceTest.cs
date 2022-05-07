@@ -58,7 +58,7 @@ namespace Ibanity.Apis.Client.Tests.Webhooks
             switch (result)
             {
                 case SynchronizationSucceededWithoutChange webhookEvent:
-                    Assert.AreEqual("accountDetails", webhookEvent.Attributes.SynchronizationSubtype);
+                    Assert.AreEqual("accountDetails", webhookEvent.SynchronizationSubtype);
                     break;
                 default:
                     Assert.Fail("Unexpected webhook event type");

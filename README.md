@@ -130,7 +130,7 @@ var webhookEvent = await ibanityService.Webhooks.VerifyAndDeserialize(
 switch (webhookEvent)
 {
     case SynchronizationSucceededWithoutChange synchronizationEvent:
-        Console.WriteLine(synchronizationEvent.Attributes.SynchronizationSubtype);
+        Console.WriteLine(synchronizationEvent.SynchronizationSubtype);
         break;
     ...
 }
