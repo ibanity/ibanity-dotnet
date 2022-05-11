@@ -29,15 +29,19 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         [DataMember(Name = "requestedExecutionDate", EmitDefaultValue = false)]
         public string RequestedExecutionDateString
         {
-            get => RequestedExecutionDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-            set => RequestedExecutionDate = DateTimeOffset.Parse(value, CultureInfo.InvariantCulture);
+            get => RequestedExecutionDate.HasValue
+                ? RequestedExecutionDate.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
+                : null;
+            set => RequestedExecutionDate = !string.IsNullOrWhiteSpace(value)
+                ? (DateTimeOffset?)DateTimeOffset.Parse(value, CultureInfo.InvariantCulture)
+                : null;
         }
 
         /// <summary>
         /// A date in the future when the payment is requested to be executed. The availability of this feature depends on each financial institution. See &lt;a href&#x3D;&#39;https://documentation.ibanity.com/ponto-connect/api#financial-institution-attributes&#39;&gt;financial institution attributes&lt;/a&gt;
         /// </summary>
         /// <value>A date in the future when the payment is requested to be executed. The availability of this feature depends on each financial institution. See &lt;a href&#x3D;&#39;https://documentation.ibanity.com/ponto-connect/api#financial-institution-attributes&#39;&gt;financial institution attributes&lt;/a&gt;</value>
-        public DateTimeOffset RequestedExecutionDate { get; set; }
+        public DateTimeOffset? RequestedExecutionDate { get; set; }
 
         /// <summary>
         /// &lt;p&gt;Indicates whether the bulk payment transactions should be grouped into one booking entry by the financial institution instead of individual transactions.&lt;/p&gt;&lt;p&gt;This is a preference that may or may not be taken into account by the financial institution based on availability and the customer&#39;s bulk payment contract.&lt;/p&gt;&lt;p&gt;Defaults to &lt;code&gt;false&lt;/code&gt;&lt;/p&gt;

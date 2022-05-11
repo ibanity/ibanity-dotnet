@@ -21,15 +21,19 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         [DataMember(Name = "requestedExecutionDate", EmitDefaultValue = false)]
         public string RequestedExecutionDateString
         {
-            get => RequestedExecutionDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-            set => RequestedExecutionDate = DateTimeOffset.Parse(value, CultureInfo.InvariantCulture);
+            get => RequestedExecutionDate.HasValue
+                ? RequestedExecutionDate.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
+                : null;
+            set => RequestedExecutionDate = !string.IsNullOrWhiteSpace(value)
+                ? (DateTimeOffset?)DateTimeOffset.Parse(value, CultureInfo.InvariantCulture)
+                : null;
         }
 
         /// <summary>
         /// A date in the future when the payment is requested to be executed. The availability of this feature depends on each financial institution. See &lt;a href&#x3D;&#39;https://documentation.ibanity.com/ponto-connect/api#financial-institution-attributes&#39;&gt;financial institution attributes&lt;/a&gt;
         /// </summary>
         /// <value>A date in the future when the payment is requested to be executed. The availability of this feature depends on each financial institution. See &lt;a href&#x3D;&#39;https://documentation.ibanity.com/ponto-connect/api#financial-institution-attributes&#39;&gt;financial institution attributes&lt;/a&gt;</value>
-        public DateTimeOffset RequestedExecutionDate { get; set; }
+        public DateTimeOffset? RequestedExecutionDate { get; set; }
 
         /// <summary>
         /// Type of remittance information, can be &lt;code&gt;structured&lt;/code&gt; or &lt;code&gt;unstructured&lt;/code&gt;
