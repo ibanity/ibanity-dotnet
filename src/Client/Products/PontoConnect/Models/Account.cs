@@ -66,7 +66,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// </summary>
         /// <value>When the current balance was changed for the last time. Formatted according to &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_8601&#39;&gt;ISO8601&lt;/a&gt; spec</value>
         [DataMember(Name = "currentBalanceChangedAt", EmitDefaultValue = false)]
-        public DateTimeOffset CurrentBalanceChangedAt { get; set; }
+        public DateTimeOffset? CurrentBalanceChangedAt { get; set; }
 
         /// <summary>
         /// Total funds currently in the financial institution account
@@ -87,14 +87,14 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// </summary>
         /// <value>Reference date of the available balance. Formatted according to &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_8601&#39;&gt;ISO8601&lt;/a&gt; spec</value>
         [DataMember(Name = "availableBalanceReferenceDate", EmitDefaultValue = false)]
-        public DateTimeOffset AvailableBalanceReferenceDate { get; set; }
+        public DateTimeOffset? AvailableBalanceReferenceDate { get; set; }
 
         /// <summary>
         /// When the available balance was changed for the last time. Formatted according to &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_8601&#39;&gt;ISO8601&lt;/a&gt; spec
         /// </summary>
         /// <value>When the available balance was changed for the last time. Formatted according to &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_8601&#39;&gt;ISO8601&lt;/a&gt; spec</value>
         [DataMember(Name = "availableBalanceChangedAt", EmitDefaultValue = false)]
-        public DateTimeOffset AvailableBalanceChangedAt { get; set; }
+        public DateTimeOffset? AvailableBalanceChangedAt { get; set; }
 
         /// <summary>
         /// Amount of financial institution account funds that can be accessed immediately
