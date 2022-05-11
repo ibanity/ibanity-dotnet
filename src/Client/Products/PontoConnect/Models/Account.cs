@@ -59,7 +59,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// </summary>
         /// <value>Reference date of the current balance. Formatted according to &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_8601&#39;&gt;ISO8601&lt;/a&gt; spec</value>
         [DataMember(Name = "currentBalanceReferenceDate", EmitDefaultValue = false)]
-        public DateTimeOffset CurrentBalanceReferenceDate { get; set; }
+        public DateTimeOffset? CurrentBalanceReferenceDate { get; set; }
 
         /// <summary>
         /// When the current balance was changed for the last time. Formatted according to &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_8601&#39;&gt;ISO8601&lt;/a&gt; spec
