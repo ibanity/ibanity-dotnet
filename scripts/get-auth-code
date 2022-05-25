@@ -28,7 +28,7 @@ redirect = ("localhost", 8080)
 authuri = "%s?client_id=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s&code_challenge=%s&code_challenge_method=%s" \
     % (args.endpoint, args.clientid, quote("http://%s:%d" % redirect), quote(args.scope), state, codechallenge, challengemethod)
 
-system(f"which open >/dev/null && open '{authuri}' || echo '{authuri}' 1>&2")
+system(f"if command -v xdg-open &> /dev/null; then xdg-open '{authuri}'; elif command -v cygstart &> /dev/null; then cygstart '{authuri}'; elif command -v open &> /dev/null; then open '{authuri}'; else echo '{authuri}' 1>&2; fi")
 
 
 class CallbackServer(BaseHTTPRequestHandler):
