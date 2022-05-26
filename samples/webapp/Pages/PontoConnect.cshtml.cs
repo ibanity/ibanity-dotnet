@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Ibanity.Apis.Client;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Products.PontoConnect.Models;
@@ -43,14 +42,14 @@ public class PontoConnectModel : PageModel
 
         var page = await _ibanityService.PontoConnect.Accounts.List(token);
 
-        foreach (var account in page)
+        foreach (var account in page.Items)
             yield return account;
 
         while (page.ContinuationToken != null)
         {
             page = await _ibanityService.PontoConnect.Accounts.List(token, page.ContinuationToken);
 
-            foreach (var account in page)
+            foreach (var account in page.Items)
                 yield return account;
         }
     }

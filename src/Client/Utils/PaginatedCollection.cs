@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Ibanity.Apis.Client.Utils
@@ -8,20 +7,19 @@ namespace Ibanity.Apis.Client.Utils
     /// <para>Contains a token to get the next page.</para>
     /// </summary>
     /// <typeparam name="T">Resource type.</typeparam>
-    public class PaginatedCollection<T> : List<T>
+#pragma warning disable CA1711 // Keep 'Collection' name
+    public class PaginatedCollection<T>
+#pragma warning restore CA1711
     {
-        /// <summary>
-        /// Build a new instance.
-        /// </summary>
-        /// <param name="collection">Contained resources.</param>
-        public PaginatedCollection(IEnumerable<T> collection) :
-            base(collection ?? throw new ArgumentNullException(nameof(collection)))
-        { }
-
         /// <summary>
         /// Token allowing to fetch the next page.
         /// </summary>
         public ContinuationToken ContinuationToken { get; set; }
+
+        /// <summary>
+        /// Actual list.
+        /// </summary>
+        public List<T> Items { get; set; }
     }
 
     /// <summary>

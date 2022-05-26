@@ -35,13 +35,13 @@ namespace Ibanity.Apis.Sample.CLI
             token.RefreshTokenUpdated += (_, e) => Console.Error.WriteLine("Refresh token updated: " + e.NewToken);
 
             var financialInstitutions = await pontoConnectService.FinancialInstitutions.ListForOrganization(token, cancellationToken: cancellationToken);
-            foreach (var financialInstitution in financialInstitutions)
+            foreach (var financialInstitution in financialInstitutions.Items)
                 Console.WriteLine("Financial institution: " + financialInstitution);
 
             while (financialInstitutions.ContinuationToken != null)
             {
                 financialInstitutions = await pontoConnectService.FinancialInstitutions.ListForOrganization(token, financialInstitutions.ContinuationToken, cancellationToken);
-                foreach (var financialInstitution in financialInstitutions)
+                foreach (var financialInstitution in financialInstitutions.Items)
                     Console.WriteLine("Financial institution: " + financialInstitution);
             }
 
@@ -50,11 +50,11 @@ namespace Ibanity.Apis.Sample.CLI
 
             var sanboxService = pontoConnectService.Sandbox;
 
-            var sandboxAccounts = await sanboxService.Accounts.List(token, financialInstitutions.First().Id, cancellationToken: cancellationToken);
-            foreach (var sandboxAccount in sandboxAccounts)
+            var sandboxAccounts = await sanboxService.Accounts.List(token, financialInstitutions.Items.First().Id, cancellationToken: cancellationToken);
+            foreach (var sandboxAccount in sandboxAccounts.Items)
                 Console.WriteLine("Sandbox account: " + sandboxAccount);
 
-            var sandboxTransaction = await sanboxService.Transactions.Create(token, financialInstitutions.First().Id, sandboxAccounts.First().Id, new Transaction
+            var sandboxTransaction = await sanboxService.Transactions.Create(token, financialInstitutions.Items.First().Id, sandboxAccounts.Items.First().Id, new Transaction
             {
                 RemittanceInformationType = "unstructured",
                 RemittanceInformation = "NEW SHOES",
@@ -70,7 +70,7 @@ namespace Ibanity.Apis.Sample.CLI
 
             Console.WriteLine("Sandbox transaction created: " + sandboxTransaction);
 
-            sandboxTransaction = await sanboxService.Transactions.Update(token, financialInstitutions.First().Id, sandboxAccounts.First().Id, sandboxTransaction.Id, new Transaction
+            sandboxTransaction = await sanboxService.Transactions.Update(token, financialInstitutions.Items.First().Id, sandboxAccounts.Items.First().Id, sandboxTransaction.Id, new Transaction
             {
                 RemittanceInformation = "NEW SHOES",
                 Description = "Hole foods",
@@ -85,19 +85,19 @@ namespace Ibanity.Apis.Sample.CLI
 
             Console.WriteLine("Sandbox transaction updated: " + sandboxTransaction);
 
-            sandboxTransaction = await sanboxService.Transactions.Get(token, financialInstitutions.First().Id, sandboxAccounts.First().Id, sandboxTransaction.Id, cancellationToken);
+            sandboxTransaction = await sanboxService.Transactions.Get(token, financialInstitutions.Items.First().Id, sandboxAccounts.Items.First().Id, sandboxTransaction.Id, cancellationToken);
 
             Console.WriteLine("Sandbox transaction: " + sandboxTransaction);
 
-            var sandboxTransactions = await sanboxService.Transactions.List(token, financialInstitutions.First().Id, sandboxAccounts.First().Id, cancellationToken: cancellationToken);
-            foreach (var tr in sandboxTransactions)
+            var sandboxTransactions = await sanboxService.Transactions.List(token, financialInstitutions.Items.First().Id, sandboxAccounts.Items.First().Id, cancellationToken: cancellationToken);
+            foreach (var tr in sandboxTransactions.Items)
                 Console.WriteLine("Sandbox transaction: " + tr);
 
             var accounts = await pontoConnectService.Accounts.List(token, cancellationToken: cancellationToken);
-            foreach (var account in accounts)
+            foreach (var account in accounts.Items)
                 Console.WriteLine("Account: " + account);
 
-            var accountId = accounts.First().Id;
+            var accountId = accounts.Items.First().Id;
 
             var synchronization = await pontoConnectService.Synchronizations.Create(token, new SynchronizationRequest
             {
@@ -113,10 +113,10 @@ namespace Ibanity.Apis.Sample.CLI
             Console.WriteLine("Synchronization: " + synchronization);
 
             var transactions = await pontoConnectService.Transactions.List(token, accountId, cancellationToken: cancellationToken);
-            foreach (var tr in transactions)
+            foreach (var tr in transactions.Items)
                 Console.WriteLine("Transaction: " + tr);
 
-            var transaction = await pontoConnectService.Transactions.Get(token, accountId, transactions.First().Id, cancellationToken);
+            var transaction = await pontoConnectService.Transactions.Get(token, accountId, transactions.Items.First().Id, cancellationToken);
             Console.WriteLine("Transaction: " + transaction);
 
             var payment = await pontoConnectService.Payments.Create(token, accountId, new PaymentRequest
