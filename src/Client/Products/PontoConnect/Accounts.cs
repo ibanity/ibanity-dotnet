@@ -29,10 +29,10 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         { }
 
         /// <inheritdoc />
-        public Task<PaginatedCollection<AccountResponse>> List(Token token, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken) =>
+        public Task<PaginatedCollection<AccountResponse>> List(Token token, int? pageSize, CancellationToken? cancellationToken) =>
             InternalList(
                 token ?? throw new ArgumentNullException(nameof(token)),
-                filters,
+                null,
                 pageSize,
                 cancellationToken);
 
@@ -77,11 +77,10 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// List Accounts
         /// </summary>
         /// <param name="token">Authentication token</param>
-        /// <param name="filters">Attributes to be filtered from the results</param>
         /// <param name="pageSize">Number of items by page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of account resources</returns>
-        Task<PaginatedCollection<AccountResponse>> List(Token token, IEnumerable<Filter> filters = null, int? pageSize = null, CancellationToken? cancellationToken = null);
+        Task<PaginatedCollection<AccountResponse>> List(Token token, int? pageSize = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// List Accounts

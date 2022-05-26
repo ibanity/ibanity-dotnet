@@ -30,11 +30,11 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         { }
 
         /// <inheritdoc />
-        public Task<PaginatedCollection<SandboxAccount>> List(Token token, Guid financialInstitutionId, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken) =>
+        public Task<PaginatedCollection<SandboxAccount>> List(Token token, Guid financialInstitutionId, int? pageSize, CancellationToken? cancellationToken) =>
             InternalList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 new[] { financialInstitutionId },
-                filters,
+                null,
                 pageSize,
                 cancellationToken);
 
@@ -62,11 +62,10 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// </summary>
         /// <param name="token">Authentication token</param>
         /// <param name="financialInstitutionId">Financial institution ID</param>
-        /// <param name="filters">Attributes to be filtered from the results</param>
         /// <param name="pageSize">Number of items by page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of financial institution account resources</returns>
-        Task<PaginatedCollection<SandboxAccount>> List(Token token, Guid financialInstitutionId, IEnumerable<Filter> filters = null, int? pageSize = null, CancellationToken? cancellationToken = null);
+        Task<PaginatedCollection<SandboxAccount>> List(Token token, Guid financialInstitutionId, int? pageSize = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// List Financial Institution Accounts
