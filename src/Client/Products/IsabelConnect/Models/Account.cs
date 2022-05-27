@@ -10,7 +10,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect.Models
     /// <p>The account API endpoints are customer specific and therefore can only be accessed by providing the corresponding access token.</p>
     /// </summary>
     [DataContract]
-    public class Account : Identified<Guid>
+    public class Account : Identified<string>
     {
         /// <summary>
         /// Country of the account, same as the country of the financial institution where the account is held
@@ -74,5 +74,8 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect.Models
         /// <value>Type of financial institution reference (either &lt;code&gt;IBAN&lt;/code&gt; or &lt;code&gt;unknown&lt;/code&gt;)</value>
         [DataMember(Name = "referenceType", EmitDefaultValue = false)]
         public string ReferenceType { get; set; }
+
+        /// <inheritdoc />
+        public override string ToString() => $"Account {Id}";
     }
 }

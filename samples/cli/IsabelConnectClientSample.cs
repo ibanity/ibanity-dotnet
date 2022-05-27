@@ -31,6 +31,18 @@ namespace Ibanity.Apis.Sample.CLI
 
             Console.Error.WriteLine("Isabel Connect refresh token: " + token.RefreshToken);
             token.RefreshTokenUpdated += (_, e) => Console.Error.WriteLine("Isabel Connect refresh token updated: " + e.NewToken);
+
+            var accounts = await isabelConnectService.Accounts.List(token, cancellationToken: cancellationToken);
+
+            foreach (var account in accounts.Items)
+                Console.WriteLine("Account: " + account);
+
+            while (accounts.ContinuationToken != null)
+            {
+                accounts = await isabelConnectService.Accounts.List(token, accounts.ContinuationToken, cancellationToken);
+                foreach (var account in accounts.Items)
+                    Console.WriteLine("Account: " + account);
+            }
         }
     }
 }

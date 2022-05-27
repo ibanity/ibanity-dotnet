@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
+using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Products.IsabelConnect.Models;
 using Ibanity.Apis.Client.Utils;
 
@@ -12,7 +13,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
     /// <para>An account has related transactions and balances.</para>
     /// <para>The account API endpoints are customer specific and therefore can only be accessed by providing the corresponding access token.</para>
     /// </summary>
-    public class Accounts : ResourceClient<Account, object, object, object>, IAccounts
+    public class Accounts : ResourceClient<Account, object, object, object, string>, IAccounts
     {
         private const string EntityName = "accounts";
 
@@ -25,6 +26,35 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         public Accounts(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix) :
             base(apiClient, accessTokenProvider, urlPrefix, EntityName)
         { }
+
+        /// <inheritdoc />
+        protected override string ParseId(string id) => id;
+
+        /// <inheritdoc />
+        protected override Account Map(Data<Account, object, object, object> data)
+        {
+            if (data.Attributes == null)
+                data.Attributes = new Account();
+
+            return base.Map(data);
+        }
+
+        /// <inheritdoc />
+        public Task<IsabelCollection<Account>> List(Token token, long? pageOffset, int? pageSize, CancellationToken? cancellationToken) =>
+            InternalOffsetBasedList(
+                token ?? throw new ArgumentNullException(nameof(token)),
+                null,
+                pageOffset,
+                pageSize,
+                cancellationToken);
+
+        /// <inheritdoc />
+        public Task<IsabelCollection<Account>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
+            InternalOffsetBasedList(
+                token ?? throw new ArgumentNullException(nameof(token)),
+                continuationToken ?? throw new ArgumentNullException(nameof(continuationToken)),
+                cancellationToken);
+        }
     }
 
     /// <summary>
@@ -34,5 +64,23 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
     /// </summary>
     public interface IAccounts
     {
+        /// <summary>
+        /// List Accounts
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="pageOffset">Defines the start position of the results by giving the number of records to be skipped</param>
+        /// <param name="pageSize">Number of items by page</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>A list of account resources</returns>
+        Task<IsabelCollection<Account>> List(Token token, long? pageOffset = null, int? pageSize = null, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// List Accounts
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="continuationToken">Token referencing the page to request</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>A list of account resources</returns>
+        Task<IsabelCollection<Account>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
     }
 }

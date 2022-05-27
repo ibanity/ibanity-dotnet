@@ -27,4 +27,23 @@ namespace Ibanity.Apis.Client.JsonApi
         [DataMember(Name = "after", EmitDefaultValue = false)]
         public Guid? After { get; set; }
     }
+
+    /// <summary>
+    /// Offset-based paging.
+    /// </summary>
+    [DataContract]
+    public class OffsetBasedPaging
+    {
+        /// <summary>
+        /// Start position of the results by giving the number of records to be skipped.
+        /// </summary>
+        [DataMember(Name = "offset", EmitDefaultValue = false)]
+        public long? Offset { get; set; }
+
+        /// <summary>
+        /// Number of total resources in the requested scope.
+        /// </summary>
+        [DataMember(Name = "total", EmitDefaultValue = false)]
+        public long? Total { get; set; }
+    }
 }

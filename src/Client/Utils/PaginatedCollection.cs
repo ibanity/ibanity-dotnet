@@ -72,6 +72,15 @@ namespace Ibanity.Apis.Client.Utils
     public class IsabelCollection<T> : PaginatedCollection<T>
 #pragma warning restore CA1711
     {
+        /// <summary>
+        /// Start position of the results by giving the number of records to be skipped.
+        /// </summary>
+        public long? Offset { get; set; }
+
+        /// <summary>
+        /// Number of total resources in the requested scope.
+        /// </summary>
+        public long? Total { get; set; }
     }
 
     /// <summary>
@@ -79,9 +88,10 @@ namespace Ibanity.Apis.Client.Utils
     /// </summary>
     public class ContinuationToken
     {
-        internal ContinuationToken(string nextUrl) =>
-            NextUrl = nextUrl;
+        internal ContinuationToken() { }
 
-        internal string NextUrl { get; }
+        internal string NextUrl { get; set; }
+        internal long? PageOffset { get; set; }
+        internal int? PageSize { get; set; }
     }
 }
