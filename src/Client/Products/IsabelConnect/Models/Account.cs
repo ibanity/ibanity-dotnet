@@ -1,4 +1,6 @@
+using System;
 using System.Runtime.Serialization;
+using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.IsabelConnect.Models
 {
@@ -8,7 +10,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect.Models
     /// <p>The account API endpoints are customer specific and therefore can only be accessed by providing the corresponding access token.</p>
     /// </summary>
     [DataContract]
-    public class Account
+    public class Account : Identified<Guid>
     {
         /// <summary>
         /// Country of the account, same as the country of the financial institution where the account is held

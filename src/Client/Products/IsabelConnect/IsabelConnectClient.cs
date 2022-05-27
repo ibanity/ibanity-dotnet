@@ -21,7 +21,11 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         public IsabelConnectClient(IApiClient apiClient, ITokenProvider tokenService, IClientAccessTokenProvider clientAccessTokenService)
             : base(apiClient, tokenService, clientAccessTokenService)
         {
+            Accounts = new Accounts(apiClient, tokenService, UrlPrefix);
         }
+
+        /// <inheritdoc />
+        public IAccounts Accounts { get; }
     }
 
     /// <summary>
@@ -29,5 +33,11 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
     /// </summary>
     public interface IIsabelConnectClient : IProductClient
     {
+        /// <summary>
+        /// <para>This is an object representing a customer account. This object will provide details about the account, including the reference and the currency.</para>
+        /// <para>An account has related transactions and balances.</para>
+        /// <para>The account API endpoints are customer specific and therefore can only be accessed by providing the corresponding access token.</para>
+        /// </summary>
+        IAccounts Accounts { get; }
     }
 }
