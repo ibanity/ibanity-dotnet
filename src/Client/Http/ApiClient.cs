@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -13,6 +14,7 @@ namespace Ibanity.Apis.Client.Http
     /// <inheritdoc />
     public class ApiClient : IApiClient
     {
+        private const string RequestIdHeader = "ibanity-request-id";
         private static readonly Encoding Encoding = Encoding.UTF8;
 
         private readonly ILogger _logger;
@@ -55,7 +57,7 @@ namespace Ibanity.Apis.Client.Http
 
             var headers = GetCommonHeaders(method, bearerToken, path, null);
 
-            _logger.Debug($"Sending request: {method.ToString().ToUpper(CultureInfo.InvariantCulture)} {path}");
+            _logger.Trace($"Sending request: {method.ToString().ToUpper(CultureInfo.InvariantCulture)} {path}");
 
             using (var request = new HttpRequestMessage(method, path))
             {
@@ -65,6 +67,10 @@ namespace Ibanity.Apis.Client.Http
                 _customizeRequest(request);
 
                 var response = await (await _httpClient.SendAsync(request, cancellationToken)).ThrowOnFailure(_serializer, _logger);
+
+                var requestId = response.Headers.TryGetValues(RequestIdHeader, out var values) ? values.SingleOrDefault() : null;
+                _logger.Debug($"Response received ({response.StatusCode:D} {response.StatusCode:G}): {method.ToString().ToUpper(CultureInfo.InvariantCulture)} {path} (request ID: {requestId})");
+
                 var body = await response.Content.ReadAsStringAsync();
                 return _serializer.Deserialize<T>(body);
             }
@@ -93,7 +99,7 @@ namespace Ibanity.Apis.Client.Http
 
             var headers = GetCommonHeaders(method, bearerToken, path, idempotencyKey);
 
-            _logger.Debug($"Sending request: {method.ToString().ToUpper(CultureInfo.InvariantCulture)} {path}");
+            _logger.Trace($"Sending request: {method.ToString().ToUpper(CultureInfo.InvariantCulture)} {path}");
 
             using (var request = new HttpRequestMessage(method, path))
             {
@@ -106,6 +112,10 @@ namespace Ibanity.Apis.Client.Http
                 _customizeRequest(request);
 
                 var response = await (await _httpClient.SendAsync(request, cancellationToken)).ThrowOnFailure(_serializer, _logger);
+
+                var requestId = response.Headers.TryGetValues(RequestIdHeader, out var values) ? values.SingleOrDefault() : null;
+                _logger.Debug($"Response received ({response.StatusCode:D} {response.StatusCode:G}): {method.ToString().ToUpper(CultureInfo.InvariantCulture)} {path} (request ID: {requestId})");
+
                 var body = await response.Content.ReadAsStringAsync();
                 return _serializer.Deserialize<TResponse>(body);
             }
