@@ -10,16 +10,17 @@ namespace Ibanity.Apis.Client.JsonApi
     /// <typeparam name="TMeta">Items meta type</typeparam>
     /// <typeparam name="TRelationships">Items relationships type</typeparam>
     /// <typeparam name="TLinks">Items links type</typeparam>
+    /// <typeparam name="TPaging">Paging type</typeparam>
     [DataContract]
 #pragma warning disable CA1711 // Keep 'Collection' name as specified in JSON:API
-    public class Collection<TAttributes, TMeta, TRelationships, TLinks>
+    public class Collection<TAttributes, TMeta, TRelationships, TLinks, TPaging>
 #pragma warning restore CA1711
     {
         /// <summary>
         /// Meta.
         /// </summary>
         [DataMember(Name = "meta", EmitDefaultValue = false)]
-        public CollectionMeta Meta { get; set; }
+        public CollectionMeta<TPaging> Meta { get; set; }
 
         /// <summary>
         /// Links.

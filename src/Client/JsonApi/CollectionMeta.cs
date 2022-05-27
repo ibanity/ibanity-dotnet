@@ -6,12 +6,12 @@ namespace Ibanity.Apis.Client.JsonApi
     /// Collection meta.
     /// </summary>
     [DataContract]
-    public class CollectionMeta
+    public class CollectionMeta<TPaging>
     {
         /// <summary>
         /// Paging information.
         /// </summary>
         [DataMember(Name = "paging", EmitDefaultValue = false)]
-        public Paging Paging { get; set; }
+        public TPaging Paging { get; set; }
     }
 }

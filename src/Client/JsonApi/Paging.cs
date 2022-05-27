@@ -4,10 +4,10 @@ using System.Runtime.Serialization;
 namespace Ibanity.Apis.Client.JsonApi
 {
     /// <summary>
-    /// Paging.
+    /// Cursor-based paging.
     /// </summary>
     [DataContract]
-    public class Paging
+    public class CursorBasedPaging
     {
         /// <summary>
         /// Page size.

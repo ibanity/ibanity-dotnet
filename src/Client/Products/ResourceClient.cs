@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
+using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Models;
 using Ibanity.Apis.Client.Utils;
 
@@ -99,7 +100,7 @@ namespace Ibanity.Apis.Client.Products
         /// <returns>First page of items</returns>
         protected async Task<IbanityCollection<TAttributes>> InternalList(Token token, string path, CancellationToken? cancellationToken)
         {
-            var page = await _apiClient.Get<JsonApi.Collection<TAttributes, TMeta, TRelationships, TLinks>>(
+            var page = await _apiClient.Get<JsonApi.Collection<TAttributes, TMeta, TRelationships, TLinks, CursorBasedPaging>>(
                 path,
                 await GetAccessToken(token),
                 cancellationToken ?? CancellationToken.None);
