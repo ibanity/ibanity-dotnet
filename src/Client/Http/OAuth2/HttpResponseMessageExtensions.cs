@@ -46,7 +46,11 @@ namespace Ibanity.Apis.Client.Http.OAuth2
                 ? null
                 : serializer.Deserialize<OAuth2Error>(body);
 
-            var exception = new IbanityOAuth2Exception(requestId, statusCode, errors?.ToJsonApi());
+            var jsonApiError = errors != null && errors.Error == null
+                ? serializer.Deserialize<JsonApi.Error>(body)
+                : errors?.ToJsonApi();
+
+            var exception = new IbanityOAuth2Exception(requestId, statusCode, jsonApiError);
 
             logger.Error(exception.Message, exception);
             throw exception;
