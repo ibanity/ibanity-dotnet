@@ -27,7 +27,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         { }
 
         /// <inheritdoc />
-        public Task<PaginatedCollection<FinancialInstitution>> ListForOrganization(Token token, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
+        public Task<IbanityCollection<FinancialInstitution>> ListForOrganization(Token token, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
             InternalList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 filters,
@@ -37,21 +37,21 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 cancellationToken);
 
         /// <inheritdoc />
-        public Task<PaginatedCollection<FinancialInstitution>> ListForOrganization(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
+        public Task<IbanityCollection<FinancialInstitution>> ListForOrganization(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
             InternalList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 continuationToken ?? throw new ArgumentNullException(nameof(continuationToken)),
                 cancellationToken);
 
         /// <inheritdoc />
-        public Task<PaginatedCollection<FinancialInstitution>> List(ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
+        public Task<IbanityCollection<FinancialInstitution>> List(ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
             InternalList(
                 null,
                 continuationToken ?? throw new ArgumentNullException(nameof(continuationToken)),
                 cancellationToken);
 
         /// <inheritdoc />
-        public Task<PaginatedCollection<FinancialInstitution>> List(IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
+        public Task<IbanityCollection<FinancialInstitution>> List(IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
             InternalList(
                 null,
                 filters,
@@ -84,7 +84,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of financial institution resources</returns>
-        Task<PaginatedCollection<FinancialInstitution>> ListForOrganization(Token token, IEnumerable<Filter> filters = null, int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
+        Task<IbanityCollection<FinancialInstitution>> ListForOrganization(Token token, IEnumerable<Filter> filters = null, int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// List Organization Financial Institutions
@@ -93,7 +93,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="continuationToken">Token referencing the page to request</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of financial institution resources</returns>
-        Task<PaginatedCollection<FinancialInstitution>> ListForOrganization(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
+        Task<IbanityCollection<FinancialInstitution>> ListForOrganization(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Get Organization Financial Institution
@@ -113,7 +113,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of financial institution resources</returns>
-        Task<PaginatedCollection<FinancialInstitution>> List(IEnumerable<Filter> filters = null, int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
+        Task<IbanityCollection<FinancialInstitution>> List(IEnumerable<Filter> filters = null, int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// List Financial Institutions
@@ -121,7 +121,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="continuationToken">Token referencing the page to request</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of financial institution resources</returns>
-        Task<PaginatedCollection<FinancialInstitution>> List(ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
+        Task<IbanityCollection<FinancialInstitution>> List(ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Get Financial Institution

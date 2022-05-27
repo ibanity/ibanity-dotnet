@@ -29,7 +29,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         { }
 
         /// <inheritdoc />
-        public Task<PaginatedCollection<AccountResponse>> List(Token token, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
+        public Task<IbanityCollection<AccountResponse>> List(Token token, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
             InternalList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 null,
@@ -39,7 +39,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 cancellationToken);
 
         /// <inheritdoc />
-        public Task<PaginatedCollection<AccountResponse>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
+        public Task<IbanityCollection<AccountResponse>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
             InternalList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 continuationToken ?? throw new ArgumentNullException(nameof(continuationToken)),
@@ -84,7 +84,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of account resources</returns>
-        Task<PaginatedCollection<AccountResponse>> List(Token token, int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
+        Task<IbanityCollection<AccountResponse>> List(Token token, int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// List Accounts
@@ -93,7 +93,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="continuationToken">Token referencing the page to request</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of account resources</returns>
-        Task<PaginatedCollection<AccountResponse>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
+        Task<IbanityCollection<AccountResponse>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Get Account

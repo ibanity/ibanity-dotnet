@@ -9,7 +9,7 @@ namespace Ibanity.Apis.Client.Utils
     /// </summary>
     /// <typeparam name="T">Resource type.</typeparam>
 #pragma warning disable CA1711 // Keep 'Collection' name
-    public class PaginatedCollection<T>
+    public class IbanityCollection<T>
 #pragma warning restore CA1711
     {
         /// <summary>
@@ -54,7 +54,7 @@ namespace Ibanity.Apis.Client.Utils
     }
 
     /// <summary>
-    /// Token allowing to fetch the next page of a <see cref="PaginatedCollection&lt;T&gt;" />.
+    /// Token allowing to fetch the next page of a <see cref="IbanityCollection&lt;T&gt;" />.
     /// </summary>
     public class ContinuationToken
     {
