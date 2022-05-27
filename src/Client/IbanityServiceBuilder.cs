@@ -393,7 +393,7 @@ namespace Ibanity.Apis.Client
         IIbanityServiceOptionalPropertiesBuilder AddSignatureCertificate(string id, string path, string password);
 
         /// <summary>
-        /// Dfine Ponto Connect OAuth2 credentials.
+        /// Define Ponto Connect OAuth2 credentials.
         /// </summary>
         /// <param name="clientId">Valid OAuth2 client identifier for your application</param>
         /// <param name="clientSecret">OAuth2 client secret</param>
