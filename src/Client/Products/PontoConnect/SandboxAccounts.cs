@@ -30,12 +30,14 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         { }
 
         /// <inheritdoc />
-        public Task<PaginatedCollection<SandboxAccount>> List(Token token, Guid financialInstitutionId, int? pageSize, CancellationToken? cancellationToken) =>
+        public Task<PaginatedCollection<SandboxAccount>> List(Token token, Guid financialInstitutionId, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
             InternalList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 new[] { financialInstitutionId },
                 null,
                 pageSize,
+                pageBefore,
+                pageAfter,
                 cancellationToken);
 
         /// <inheritdoc />
@@ -63,9 +65,11 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="token">Authentication token</param>
         /// <param name="financialInstitutionId">Financial institution ID</param>
         /// <param name="pageSize">Number of items by page</param>
+        /// <param name="pageBefore">Cursor that specifies the first resource of the next page</param>
+        /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of financial institution account resources</returns>
-        Task<PaginatedCollection<SandboxAccount>> List(Token token, Guid financialInstitutionId, int? pageSize = null, CancellationToken? cancellationToken = null);
+        Task<PaginatedCollection<SandboxAccount>> List(Token token, Guid financialInstitutionId, int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// List Financial Institution Accounts

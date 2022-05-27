@@ -49,14 +49,22 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="path">Resource collection path</param>
         /// <param name="filters">Attributes to be filtered from the results</param>
         /// <param name="pageSize">Number of items by page</param>
+        /// <param name="pageBefore">Cursor that specifies the first resource of the next page</param>
+        /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected Task<PaginatedCollection<TAttributes>> InternalList(Token token, string path, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken)
+        protected Task<PaginatedCollection<TAttributes>> InternalList(Token token, string path, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken)
         {
             var parameters = (filters ?? Enumerable.Empty<Filter>()).Select(f => f.ToString()).ToList();
 
             if (pageSize.HasValue)
                 parameters.Add($"page[limit]={pageSize.Value}");
+
+            if (pageBefore.HasValue)
+                parameters.Add($"page[before]={pageBefore.Value:D}");
+
+            if (pageAfter.HasValue)
+                parameters.Add($"page[after]={pageAfter.Value:D}");
 
             // we need a proper builder here
             var queryParameters = parameters.Any()
@@ -234,10 +242,12 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="token">Authentication token</param>
         /// <param name="filters">Attributes to be filtered from the results</param>
         /// <param name="pageSize">Number of items by page</param>
+        /// <param name="pageBefore">Cursor that specifies the first resource of the next page</param>
+        /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected Task<PaginatedCollection<TAttributes>> InternalList(Token token, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken) =>
-            InternalList(token, GetPath(), filters, pageSize, cancellationToken);
+        protected Task<PaginatedCollection<TAttributes>> InternalList(Token token, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
+            InternalList(token, GetPath(), filters, pageSize, pageBefore, pageAfter, cancellationToken);
 
         /// <summary>
         /// Get a single resource.
@@ -311,10 +321,12 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="parentIds">IDs of parent resources</param>
         /// <param name="filters">Attributes to be filtered from the results</param>
         /// <param name="pageSize">Number of items by page</param>
+        /// <param name="pageBefore">Cursor that specifies the first resource of the next page</param>
+        /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected Task<PaginatedCollection<TAttributes>> InternalList(Token token, Guid[] parentIds, IEnumerable<Filter> filters, int? pageSize, CancellationToken? cancellationToken) =>
-            InternalList(token, GetPath(parentIds), filters, pageSize, cancellationToken);
+        protected Task<PaginatedCollection<TAttributes>> InternalList(Token token, Guid[] parentIds, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
+            InternalList(token, GetPath(parentIds), filters, pageSize, pageBefore, pageAfter, cancellationToken);
 
         /// <summary>
         /// Get a single resource.
