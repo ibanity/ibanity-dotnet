@@ -98,6 +98,12 @@ namespace Ibanity.Apis.Client.Products
 
             var result = new PaginatedCollection<TAttributes>()
             {
+                PageLimit = page.Meta?.Paging?.Limit,
+                BeforeCursor = page.Meta?.Paging?.Before,
+                AfterCursor = page.Meta?.Paging?.After,
+                FirstLink = page.Links?.First,
+                PreviousLink = page.Links?.Previous,
+                NextLink = page.Links?.Next,
                 Items = page.Data.Select(Map).ToList(),
                 ContinuationToken = page.Links.Next == null
                     ? null

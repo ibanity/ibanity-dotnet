@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Ibanity.Apis.Client.Utils
@@ -11,6 +12,36 @@ namespace Ibanity.Apis.Client.Utils
     public class PaginatedCollection<T>
 #pragma warning restore CA1711
     {
+        /// <summary>
+        /// Maximum number (1-100) of resources that might be returned. It is possible that the response contains fewer elements. Defaults to 10.
+        /// </summary>
+        public long? PageLimit { get; set; }
+
+        /// <summary>
+        /// Cursor that specifies the first resource of the next page.
+        /// </summary>
+        public Guid? BeforeCursor { get; set; }
+
+        /// <summary>
+        /// Cursor that specifies the last resource of the previous page.
+        /// </summary>
+        public Guid? AfterCursor { get; set; }
+
+        /// <summary>
+        /// Link to the first page.
+        /// </summary>
+        public string FirstLink { get; set; }
+
+        /// <summary>
+        /// Link to the previous page.
+        /// </summary>
+        public string PreviousLink { get; set; }
+
+        /// <summary>
+        /// Link to the next page.
+        /// </summary>
+        public string NextLink { get; set; }
+
         /// <summary>
         /// Token allowing to fetch the next page.
         /// </summary>
