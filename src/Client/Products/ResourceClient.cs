@@ -54,7 +54,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected Task<IbanityCollection<TAttributes>> InternalList(Token token, string path, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken)
+        protected Task<IbanityCollection<TAttributes>> InternalCursorBasedList(Token token, string path, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken)
         {
             var parameters = (filters ?? Enumerable.Empty<Filter>()).Select(f => f.ToString()).ToList();
 
@@ -72,7 +72,7 @@ namespace Ibanity.Apis.Client.Products
                 ? "?" + string.Join("&", parameters)
                 : string.Empty;
 
-            return InternalList(
+            return InternalCursorBasedList(
                 token,
                 $"{path}{queryParameters}",
                 cancellationToken);
@@ -85,8 +85,8 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="continuationToken">Token referencing the page to request</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>Requested page of items</returns>
-        protected Task<IbanityCollection<TAttributes>> InternalList(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
-            InternalList(
+        protected Task<IbanityCollection<TAttributes>> InternalCursorBasedList(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
+            InternalCursorBasedList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 (continuationToken ?? throw new ArgumentNullException(nameof(continuationToken))).NextUrl,
                 cancellationToken);
@@ -98,7 +98,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="path">Resource collection path</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected async Task<IbanityCollection<TAttributes>> InternalList(Token token, string path, CancellationToken? cancellationToken)
+        protected async Task<IbanityCollection<TAttributes>> InternalCursorBasedList(Token token, string path, CancellationToken? cancellationToken)
         {
             var page = await _apiClient.Get<JsonApi.Collection<TAttributes, TMeta, TRelationships, TLinks, CursorBasedPaging>>(
                 path,
@@ -247,8 +247,8 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected Task<IbanityCollection<TAttributes>> InternalList(Token token, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
-            InternalList(token, GetPath(), filters, pageSize, pageBefore, pageAfter, cancellationToken);
+        protected Task<IbanityCollection<TAttributes>> InternalCursorBasedList(Token token, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
+            InternalCursorBasedList(token, GetPath(), filters, pageSize, pageBefore, pageAfter, cancellationToken);
 
         /// <summary>
         /// Get a single resource.
@@ -326,8 +326,8 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected Task<IbanityCollection<TAttributes>> InternalList(Token token, Guid[] parentIds, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
-            InternalList(token, GetPath(parentIds), filters, pageSize, pageBefore, pageAfter, cancellationToken);
+        protected Task<IbanityCollection<TAttributes>> InternalCursorBasedList(Token token, Guid[] parentIds, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
+            InternalCursorBasedList(token, GetPath(parentIds), filters, pageSize, pageBefore, pageAfter, cancellationToken);
 
         /// <summary>
         /// Get a single resource.

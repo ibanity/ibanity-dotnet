@@ -30,7 +30,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
         /// <inheritdoc />
         public Task<IbanityCollection<TransactionResponse>> List(Token token, Guid accountId, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
-            InternalList(
+            InternalCursorBasedList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 new[] { accountId },
                 null,
@@ -41,7 +41,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
         /// <inheritdoc />
         public Task<IbanityCollection<TransactionResponse>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
-            InternalList(
+            InternalCursorBasedList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 continuationToken ?? throw new ArgumentNullException(nameof(continuationToken)),
                 cancellationToken);

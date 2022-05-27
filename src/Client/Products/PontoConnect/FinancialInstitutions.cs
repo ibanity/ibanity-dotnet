@@ -28,7 +28,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
         /// <inheritdoc />
         public Task<IbanityCollection<FinancialInstitution>> ListForOrganization(Token token, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
-            InternalList(
+            InternalCursorBasedList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 filters,
                 pageSize,
@@ -38,21 +38,21 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
         /// <inheritdoc />
         public Task<IbanityCollection<FinancialInstitution>> ListForOrganization(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
-            InternalList(
+            InternalCursorBasedList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 continuationToken ?? throw new ArgumentNullException(nameof(continuationToken)),
                 cancellationToken);
 
         /// <inheritdoc />
         public Task<IbanityCollection<FinancialInstitution>> List(ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
-            InternalList(
+            InternalCursorBasedList(
                 null,
                 continuationToken ?? throw new ArgumentNullException(nameof(continuationToken)),
                 cancellationToken);
 
         /// <inheritdoc />
         public Task<IbanityCollection<FinancialInstitution>> List(IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
-            InternalList(
+            InternalCursorBasedList(
                 null,
                 filters,
                 pageSize,
