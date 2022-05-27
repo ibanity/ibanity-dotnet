@@ -31,8 +31,8 @@ namespace Ibanity.Apis.Sample.CLI
                     _configuration.PontoConnectRefreshToken,
                     cancellationToken);
 
-            Console.Error.WriteLine("Refresh token: " + token.RefreshToken);
-            token.RefreshTokenUpdated += (_, e) => Console.Error.WriteLine("Refresh token updated: " + e.NewToken);
+            Console.Error.WriteLine("Ponto Connect refresh token: " + token.RefreshToken);
+            token.RefreshTokenUpdated += (_, e) => Console.Error.WriteLine("Ponto Connect refresh token updated: " + e.NewToken);
 
             var financialInstitutions = await pontoConnectService.FinancialInstitutions.ListForOrganization(token, cancellationToken: cancellationToken);
             foreach (var financialInstitution in financialInstitutions.Items)

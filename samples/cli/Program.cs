@@ -19,6 +19,9 @@ var ibanityService = new IbanityServiceBuilder().
     AddPontoConnectOAuth2Authentication(
         configuration.PontoConnectClientId,
         configuration.PontoConnectClientSecret).
+    AddIsabelConnectOAuth2Authentication(
+        configuration.IsabelConnectClientId,
+        configuration.IsabelConnectClientSecret).
     EnableRetries().
     AddLogging(new ConsoleLogger()).
     Build();
