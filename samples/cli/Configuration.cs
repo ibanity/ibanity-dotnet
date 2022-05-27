@@ -19,8 +19,7 @@ namespace Ibanity.Apis.Sample.CLI
             string isabelConnectClientSecret,
             string? isabelConnectAuthorizationCode,
             string isabelConnectCodeVerifier,
-            string isabelConnectRedirectUri,
-            string? isabelConnectRefreshToken)
+            string isabelConnectRedirectUri)
         {
             Endpoint = endpoint;
             MtlsCertificatePath = mtlsCertificatePath;
@@ -39,7 +38,6 @@ namespace Ibanity.Apis.Sample.CLI
             IsabelConnectAuthorizationCode = isabelConnectAuthorizationCode;
             IsabelConnectCodeVerifier = isabelConnectCodeVerifier;
             IsabelConnectRedirectUri = isabelConnectRedirectUri;
-            IsabelConnectRefreshToken = isabelConnectRefreshToken;
         }
 
         public string Endpoint { get; }
@@ -59,7 +57,6 @@ namespace Ibanity.Apis.Sample.CLI
         public string? IsabelConnectAuthorizationCode { get; }
         public string IsabelConnectCodeVerifier { get; }
         public string IsabelConnectRedirectUri { get; }
-        public string? IsabelConnectRefreshToken { get; }
 
         public static IConfiguration BuildFromEnvironment()
         {
@@ -80,8 +77,7 @@ namespace Ibanity.Apis.Sample.CLI
                 GetMandatoryEnvironmentVariable("ISABEL_CONNECT_CLIENT_SECRET"),
                 Environment.GetEnvironmentVariable("ISABEL_CONNECT_AUTHORIZATION_CODE"),
                 GetMandatoryEnvironmentVariable("ISABEL_CONNECT_CODE_VERIFIER"),
-                GetMandatoryEnvironmentVariable("ISABEL_CONNECT_REDIRECT_URI"),
-                Environment.GetEnvironmentVariable("ISABEL_CONNECT_REFRESH_TOKEN")
+                GetMandatoryEnvironmentVariable("ISABEL_CONNECT_REDIRECT_URI")
             );
         }
 
@@ -115,6 +111,5 @@ namespace Ibanity.Apis.Sample.CLI
         public string? IsabelConnectAuthorizationCode { get; }
         public string IsabelConnectCodeVerifier { get; }
         public string IsabelConnectRedirectUri { get; }
-        public string? IsabelConnectRefreshToken { get; }
     }
 }

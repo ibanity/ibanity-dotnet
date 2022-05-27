@@ -19,15 +19,15 @@ namespace Ibanity.Apis.Sample.CLI
 
             var isabelConnectService = _ibanityService.IsabelConnect;
 
-            var token = string.IsNullOrWhiteSpace(_configuration.IsabelConnectRefreshToken)
-                ? await isabelConnectService.TokenService.GetToken(
-                    _configuration.IsabelConnectAuthorizationCode ?? throw new InvalidOperationException("Either authorization code or refresh token must be set"),
-                    _configuration.IsabelConnectCodeVerifier,
-                    _configuration.IsabelConnectRedirectUri,
-                    cancellationToken)
-                : await isabelConnectService.TokenService.GetToken(
-                    _configuration.IsabelConnectRefreshToken,
-                    cancellationToken);
+            var token = await isabelConnectService.TokenService.GetToken(
+                _configuration.IsabelConnectAuthorizationCode ?? throw new InvalidOperationException("Authorization code must be set"),
+                _configuration.IsabelConnectCodeVerifier,
+                _configuration.IsabelConnectRedirectUri,
+                cancellationToken);
+
+            Console.Error.WriteLine("Isabel Connect refresh token: " + token.RefreshToken);
+
+            token = await isabelConnectService.TokenService.GetToken(token.RefreshToken, cancellationToken);
 
             Console.Error.WriteLine("Isabel Connect refresh token: " + token.RefreshToken);
             token.RefreshTokenUpdated += (_, e) => Console.Error.WriteLine("Isabel Connect refresh token updated: " + e.NewToken);
