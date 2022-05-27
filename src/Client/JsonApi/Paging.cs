@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.Serialization;
 
 namespace Ibanity.Apis.Client.JsonApi
@@ -12,18 +13,18 @@ namespace Ibanity.Apis.Client.JsonApi
         /// Page size.
         /// </summary>
         [DataMember(Name = "limit", EmitDefaultValue = false)]
-        public long Limit { get; set; }
+        public long? Limit { get; set; }
 
         /// <summary>
         /// Previous item.
         /// </summary>
         [DataMember(Name = "before", EmitDefaultValue = false)]
-        public string Before { get; set; }
+        public Guid? Before { get; set; }
 
         /// <summary>
         /// Next item.
         /// </summary>
         [DataMember(Name = "after", EmitDefaultValue = false)]
-        public string After { get; set; }
+        public Guid? After { get; set; }
     }
 }

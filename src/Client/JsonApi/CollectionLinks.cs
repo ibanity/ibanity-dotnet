@@ -9,7 +9,19 @@ namespace Ibanity.Apis.Client.JsonApi
     public class CollectionLinks
     {
         /// <summary>
-        /// Next page.
+        /// Link to the first page.
+        /// </summary>
+        [DataMember(Name = "first", EmitDefaultValue = false)]
+        public string First { get; set; }
+
+        /// <summary>
+        /// Link to the previous page.
+        /// </summary>
+        [DataMember(Name = "prev", EmitDefaultValue = false)]
+        public string Previous { get; set; }
+
+        /// <summary>
+        /// Link to the next page.
         /// </summary>
         [DataMember(Name = "next", EmitDefaultValue = false)]
         public string Next { get; set; }
