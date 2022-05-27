@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Http.OAuth2;
+using Ibanity.Apis.Client.Products.IsabelConnect;
 using Ibanity.Apis.Client.Products.PontoConnect;
 using Ibanity.Apis.Client.Utils;
 using Ibanity.Apis.Client.Utils.Logging;
@@ -27,6 +28,8 @@ namespace Ibanity.Apis.Client
         private X509Certificate2 _signatureCertificate;
         private string _pontoConnectClientId;
         private string _pontoConnectClientSecret;
+        private string _isabelConnectClientId;
+        private string _isabelConnectClientSecret;
         private ILoggerFactory _loggerFactory;
         private TimeSpan? _timeout;
         private Action<HttpClient> _customizeClient;
@@ -128,6 +131,20 @@ namespace Ibanity.Apis.Client
 
             _pontoConnectClientId = clientId;
             _pontoConnectClientSecret = clientSecret;
+
+            return this;
+        }
+
+        IIbanityServiceOptionalPropertiesBuilder IIbanityServiceOptionalPropertiesBuilder.AddIsabelConnectOAuth2Authentication(string clientId, string clientSecret)
+        {
+            if (string.IsNullOrWhiteSpace(clientId))
+                throw new ArgumentException($"'{nameof(clientId)}' cannot be null or whitespace.", nameof(clientId));
+
+            if (string.IsNullOrWhiteSpace(clientSecret))
+                throw new ArgumentException($"'{nameof(clientSecret)}' cannot be null or whitespace.", nameof(clientSecret));
+
+            _isabelConnectClientId = clientId;
+            _isabelConnectClientSecret = clientSecret;
 
             return this;
         }
@@ -251,6 +268,30 @@ namespace Ibanity.Apis.Client
                         _pontoConnectClientId,
                         _pontoConnectClientSecret));
 
+
+            var isabelConnectClient = new IsabelConnectClient(
+                v2ApiClient,
+                _isabelConnectClientId == null
+                    ? UnconfiguredTokenProvider.Instance
+                    : new OAuth2TokenProvider(
+                        loggerFactory,
+                        httpClient,
+                        clock,
+                        serializer,
+                        IsabelConnectClient.UrlPrefix,
+                        _isabelConnectClientId,
+                        _isabelConnectClientSecret),
+                _isabelConnectClientId == null
+                    ? UnconfiguredTokenProvider.ClientAccessInstance
+                    : new OAuth2ClientAccessTokenProvider(
+                        loggerFactory,
+                        httpClient,
+                        clock,
+                        serializer,
+                        IsabelConnectClient.UrlPrefix,
+                        _isabelConnectClientId,
+                        _isabelConnectClientSecret));
+
             IJwksService jwksService = new JwksService(versionLessApiClient);
 
             var webhooksJwksCachingDuration = _webhooksJwksCachingDuration ?? TimeSpan.FromSeconds(30d);
@@ -269,7 +310,7 @@ namespace Ibanity.Apis.Client
                     clock,
                     _webhooksAllowedClockSkew ?? TimeSpan.FromSeconds(30d)));
 
-            return new IbanityService(httpClient, pontoConnectClient, webhooksService);
+            return new IbanityService(httpClient, pontoConnectClient, isabelConnectClient, webhooksService);
         }
 
         private IApiClient BuildApiClient(HttpClient httpClient, JsonSerializer serializer, IHttpSignatureService signatureService, ILoggerFactory loggerFactory, string version)
@@ -399,6 +440,14 @@ namespace Ibanity.Apis.Client
         /// <param name="clientSecret">OAuth2 client secret</param>
         /// <returns>The builder to be used to pursue configuration</returns>
         IIbanityServiceOptionalPropertiesBuilder AddPontoConnectOAuth2Authentication(string clientId, string clientSecret);
+
+        /// <summary>
+        /// Define Isabel Connect OAuth2 credentials.
+        /// </summary>
+        /// <param name="clientId">Valid OAuth2 client identifier for your application</param>
+        /// <param name="clientSecret">OAuth2 client secret</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
+        IIbanityServiceOptionalPropertiesBuilder AddIsabelConnectOAuth2Authentication(string clientId, string clientSecret);
 
         /// <summary>
         /// Configure logger.
