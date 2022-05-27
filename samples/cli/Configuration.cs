@@ -14,7 +14,13 @@ namespace Ibanity.Apis.Sample.CLI
             string? pontoConnectAuthorizationCode,
             string pontoConnectCodeVerifier,
             string pontoConnectRedirectUri,
-            string? pontoConnectRefreshToken)
+            string? pontoConnectRefreshToken,
+            string isabelConnectClientId,
+            string isabelConnectClientSecret,
+            string? isabelConnectAuthorizationCode,
+            string isabelConnectCodeVerifier,
+            string isabelConnectRedirectUri,
+            string? isabelConnectRefreshToken)
         {
             Endpoint = endpoint;
             MtlsCertificatePath = mtlsCertificatePath;
@@ -28,6 +34,12 @@ namespace Ibanity.Apis.Sample.CLI
             PontoConnectCodeVerifier = pontoConnectCodeVerifier;
             PontoConnectRedirectUri = pontoConnectRedirectUri;
             PontoConnectRefreshToken = pontoConnectRefreshToken;
+            IsabelConnectClientId = isabelConnectClientId;
+            IsabelConnectClientSecret = isabelConnectClientSecret;
+            IsabelConnectAuthorizationCode = isabelConnectAuthorizationCode;
+            IsabelConnectCodeVerifier = isabelConnectCodeVerifier;
+            IsabelConnectRedirectUri = isabelConnectRedirectUri;
+            IsabelConnectRefreshToken = isabelConnectRefreshToken;
         }
 
         public string Endpoint { get; }
@@ -42,6 +54,12 @@ namespace Ibanity.Apis.Sample.CLI
         public string PontoConnectCodeVerifier { get; }
         public string PontoConnectRedirectUri { get; }
         public string? PontoConnectRefreshToken { get; }
+        public string IsabelConnectClientId { get; }
+        public string IsabelConnectClientSecret { get; }
+        public string? IsabelConnectAuthorizationCode { get; }
+        public string IsabelConnectCodeVerifier { get; }
+        public string IsabelConnectRedirectUri { get; }
+        public string? IsabelConnectRefreshToken { get; }
 
         public static IConfiguration BuildFromEnvironment()
         {
@@ -57,7 +75,13 @@ namespace Ibanity.Apis.Sample.CLI
                 Environment.GetEnvironmentVariable("PONTO_CONNECT_AUTHORIZATION_CODE"),
                 GetMandatoryEnvironmentVariable("PONTO_CONNECT_CODE_VERIFIER"),
                 GetMandatoryEnvironmentVariable("PONTO_CONNECT_REDIRECT_URI"),
-                Environment.GetEnvironmentVariable("PONTO_CONNECT_REFRESH_TOKEN")
+                Environment.GetEnvironmentVariable("PONTO_CONNECT_REFRESH_TOKEN"),
+                GetMandatoryEnvironmentVariable("ISABEL_CONNECT_CLIENT_ID"),
+                GetMandatoryEnvironmentVariable("ISABEL_CONNECT_CLIENT_SECRET"),
+                Environment.GetEnvironmentVariable("ISABEL_CONNECT_AUTHORIZATION_CODE"),
+                GetMandatoryEnvironmentVariable("ISABEL_CONNECT_CODE_VERIFIER"),
+                GetMandatoryEnvironmentVariable("ISABEL_CONNECT_REDIRECT_URI"),
+                Environment.GetEnvironmentVariable("ISABEL_CONNECT_REFRESH_TOKEN")
             );
         }
 
@@ -86,5 +110,11 @@ namespace Ibanity.Apis.Sample.CLI
         public string PontoConnectCodeVerifier { get; }
         public string PontoConnectRedirectUri { get; }
         public string? PontoConnectRefreshToken { get; }
+        public string IsabelConnectClientId { get; }
+        public string IsabelConnectClientSecret { get; }
+        public string? IsabelConnectAuthorizationCode { get; }
+        public string IsabelConnectCodeVerifier { get; }
+        public string IsabelConnectRedirectUri { get; }
+        public string? IsabelConnectRefreshToken { get; }
     }
 }

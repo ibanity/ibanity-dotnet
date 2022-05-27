@@ -12,3 +12,8 @@ grep -Eq '^PONTO_CONNECT_REFRESH_TOKEN=.+$' "$(dirname "$BASH_SOURCE")/../.env" 
     --clientid "$(awk -F= '{if ($1 == "PONTO_CONNECT_CLIENT_ID") print $2 }' $(dirname "$BASH_SOURCE")/../.env)" \
     --scope 'offline_access ai pi name' \
     --codeverifier $code_verifier)"
+
+code_verifier=$(openssl rand -hex 32)
+
+echo ISABEL_CONNECT_CODE_VERIFIER=$code_verifier
+echo ISABEL_CONNECT_REDIRECT_URI=http://localhost:8080
