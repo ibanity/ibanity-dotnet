@@ -54,7 +54,10 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
                 token ?? throw new ArgumentNullException(nameof(token)),
                 continuationToken ?? throw new ArgumentNullException(nameof(continuationToken)),
                 cancellationToken);
-        }
+
+        /// <inheritdoc />
+        public Task<Account> Get(Token token, string id, CancellationToken? cancellationToken = null) =>
+            InternalGet(token, id, cancellationToken);
     }
 
     /// <summary>
@@ -82,5 +85,14 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of account resources</returns>
         Task<IsabelCollection<Account>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Get Account
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="id">Account ID</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The specified account resource</returns>
+        Task<Account> Get(Token token, string id, CancellationToken? cancellationToken = null);
     }
 }

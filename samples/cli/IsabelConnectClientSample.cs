@@ -43,6 +43,8 @@ namespace Ibanity.Apis.Sample.CLI
                 foreach (var account in accounts.Items)
                     Console.WriteLine("Account: " + account);
             }
+
+            var firstAccount = await isabelConnectService.Accounts.Get(token, accounts.Items.First().Id, cancellationToken);
         }
     }
 }
