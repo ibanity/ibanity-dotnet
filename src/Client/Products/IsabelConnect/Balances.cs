@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,7 +31,15 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         /// <inheritdoc />
         public async Task<IsabelCollection<Balance>> List(Token token, string accountId, DateTimeOffset? from = null, DateTimeOffset? to = null, long? pageOffset = null, int? pageSize = null, CancellationToken? cancellationToken = null)
         {
-            var result = await InternalOffsetBasedList(token, new[] { accountId }, null, pageOffset, pageSize, cancellationToken);
+            var timespanParameters = new List<(string, string)>();
+
+            if (from.HasValue)
+                timespanParameters.Add(("from", from.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)));
+
+            if (to.HasValue)
+                timespanParameters.Add(("to", to.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)));
+
+            var result = await InternalOffsetBasedList(token, new[] { accountId }, null, timespanParameters, pageOffset, pageSize, cancellationToken);
 
             return new IsabelCollection<Balance>
             {

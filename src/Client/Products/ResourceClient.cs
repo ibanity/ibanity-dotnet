@@ -85,13 +85,17 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="token">Authentication token</param>
         /// <param name="path">Resource collection path</param>
         /// <param name="filters">Attributes to be filtered from the results</param>
+        /// <param name="customParameters">Custom parameters</param>
         /// <param name="pageOffset">Defines the start position of the results by giving the number of records to be skipped</param>
         /// <param name="pageSize">Number of items by page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(Token token, string path, IEnumerable<Filter> filters, long? pageOffset, int? pageSize, CancellationToken? cancellationToken)
+        protected Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(Token token, string path, IEnumerable<Filter> filters, IEnumerable<(string, string)> customParameters, long? pageOffset, int? pageSize, CancellationToken? cancellationToken)
         {
             var parameters = (filters ?? Enumerable.Empty<Filter>()).Select(f => f.ToString()).ToList();
+
+            if (customParameters != null)
+                parameters.AddRange(customParameters.Select(p => $"{p.Item1}={p.Item2}"));
 
             if (pageSize.HasValue)
                 parameters.Add($"size={pageSize.Value}");
@@ -331,7 +335,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
         protected Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(Token token, IEnumerable<Filter> filters, long? pageOffset, int? pageSize, CancellationToken? cancellationToken) =>
-            InternalOffsetBasedList(token, GetPath(), filters, pageOffset, pageSize, cancellationToken);
+            InternalOffsetBasedList(token, GetPath(), filters, null, pageOffset, pageSize, cancellationToken);
 
         /// <summary>
         /// Get all resources.
@@ -341,7 +345,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
         protected Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
-            InternalOffsetBasedList(token, GetPath(), null, continuationToken.PageOffset, continuationToken.PageSize, cancellationToken);
+            InternalOffsetBasedList(token, GetPath(), null, null, continuationToken.PageOffset, continuationToken.PageSize, cancellationToken);
 
         /// <summary>
         /// Get a single resource.
@@ -454,12 +458,13 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="token">Authentication token</param>
         /// <param name="parentIds">IDs of parent resources</param>
         /// <param name="filters">Attributes to be filtered from the results</param>
+        /// <param name="customParameters">Custom parameters</param>
         /// <param name="pageOffset">Defines the start position of the results by giving the number of records to be skipped</param>
         /// <param name="pageSize">Number of items by page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(Token token, TId[] parentIds, IEnumerable<Filter> filters, long? pageOffset, int? pageSize, CancellationToken? cancellationToken) =>
-            InternalOffsetBasedList(token, GetPath(parentIds), filters, pageOffset, pageSize, cancellationToken);
+        protected Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(Token token, TId[] parentIds, IEnumerable<Filter> filters, IEnumerable<(string, string)> customParameters, long? pageOffset, int? pageSize, CancellationToken? cancellationToken) =>
+            InternalOffsetBasedList(token, GetPath(parentIds), filters, customParameters, pageOffset, pageSize, cancellationToken);
 
         /// <summary>
         /// Get a single resource.
