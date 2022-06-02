@@ -409,8 +409,9 @@ namespace Ibanity.Apis.Client.Products
     /// <typeparam name="TMeta">Resource meta type</typeparam>
     /// <typeparam name="TRelationships">Resource relationships type</typeparam>
     /// <typeparam name="TLinks">Resource links type</typeparam>
-    public abstract class ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks> :
-        BaseResourceClient<TAttributes, TMeta, TRelationships, TLinks, Guid> where TAttributes : IIdentified<Guid>
+    /// <typeparam name="TId">Resource ID type</typeparam>
+    public abstract class ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks, TId> :
+        BaseResourceClient<TAttributes, TMeta, TRelationships, TLinks, TId> where TAttributes : IIdentified<TId>
     {
         private readonly string[] _entityNames;
 
@@ -444,7 +445,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected Task<IbanityCollection<TAttributes>> InternalCursorBasedList(Token token, Guid[] parentIds, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
+        protected Task<IbanityCollection<TAttributes>> InternalCursorBasedList(Token token, TId[] parentIds, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
             InternalCursorBasedList(token, GetPath(parentIds), filters, pageSize, pageBefore, pageAfter, cancellationToken);
 
         /// <summary>
@@ -455,7 +456,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="id">Unique identifier of the resource</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>Requested resource</returns>
-        protected Task<TAttributes> InternalGet(Token token, Guid[] parentIds, Guid id, CancellationToken? cancellationToken) =>
+        protected Task<TAttributes> InternalGet(Token token, TId[] parentIds, TId id, CancellationToken? cancellationToken) =>
             InternalGet(token, GetPath(parentIds), id, cancellationToken);
 
         /// <summary>
@@ -465,7 +466,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="parentIds">IDs of parent resources</param>
         /// <param name="id">Unique identifier of the resource</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        protected Task InternalDelete(Token token, Guid[] parentIds, Guid id, CancellationToken? cancellationToken) =>
+        protected Task InternalDelete(Token token, TId[] parentIds, TId id, CancellationToken? cancellationToken) =>
             InternalDelete(token, GetPath(parentIds), id, cancellationToken);
 
         /// <summary>
@@ -477,7 +478,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created resource</returns>
-        protected Task<TAttributes> InternalCreate<T>(Token token, Guid[] parentIds, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+        protected Task<TAttributes> InternalCreate<T>(Token token, TId[] parentIds, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             InternalCreate(token, GetPath(parentIds), payload, idempotencyKey, cancellationToken);
 
         /// <summary>
@@ -490,10 +491,10 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The updated resource</returns>
-        protected Task<TAttributes> InternalUpdate<T>(Token token, Guid[] parentIds, Guid id, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+        protected Task<TAttributes> InternalUpdate<T>(Token token, TId[] parentIds, TId id, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             InternalUpdate(token, GetPath(parentIds), id, payload, idempotencyKey, cancellationToken);
 
-        private string GetPath(Guid[] ids)
+        private string GetPath(TId[] ids)
         {
             if (ids is null)
                 throw new ArgumentNullException(nameof(ids));
@@ -506,6 +507,28 @@ namespace Ibanity.Apis.Client.Products
                 string.Join(string.Empty, _entityNames.Take(_entityNames.Length - 1).Zip(ids, (e, i) => $"{e}/{i}/")) +
                 _entityNames.Last();
         }
+    }
+
+    /// <summary>
+    /// Base class to manage an API resource with a multiple IDs.
+    /// </summary>
+    /// <typeparam name="TAttributes">Resource attribute type</typeparam>
+    /// <typeparam name="TMeta">Resource meta type</typeparam>
+    /// <typeparam name="TRelationships">Resource relationships type</typeparam>
+    /// <typeparam name="TLinks">Resource links type</typeparam>
+    public abstract class ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks> :
+        ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks, Guid> where TAttributes : IIdentified<Guid>
+    {
+        /// <summary>
+        /// Build a new instance.
+        /// </summary>
+        /// <param name="apiClient">Generic API client</param>
+        /// <param name="accessTokenProvider">Service to refresh access tokens</param>
+        /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
+        /// <param name="entityNames">Names of the resources hierarchy</param>
+        protected ResourceWithParentClient(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix, string[] entityNames) :
+            base(apiClient, accessTokenProvider, urlPrefix, entityNames)
+        { }
 
         /// <inheritdoc />
         protected override Guid ParseId(string id) => Guid.Parse(id);
