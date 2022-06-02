@@ -449,6 +449,19 @@ namespace Ibanity.Apis.Client.Products
             InternalCursorBasedList(token, GetPath(parentIds), filters, pageSize, pageBefore, pageAfter, cancellationToken);
 
         /// <summary>
+        /// Get all resources.
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="parentIds">IDs of parent resources</param>
+        /// <param name="filters">Attributes to be filtered from the results</param>
+        /// <param name="pageOffset">Defines the start position of the results by giving the number of records to be skipped</param>
+        /// <param name="pageSize">Number of items by page</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>First page of items</returns>
+        protected Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(Token token, TId[] parentIds, IEnumerable<Filter> filters, long? pageOffset, int? pageSize, CancellationToken? cancellationToken) =>
+            InternalOffsetBasedList(token, GetPath(parentIds), filters, pageOffset, pageSize, cancellationToken);
+
+        /// <summary>
         /// Get a single resource.
         /// </summary>
         /// <param name="token">Authentication token</param>
