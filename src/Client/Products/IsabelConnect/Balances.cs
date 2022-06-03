@@ -13,7 +13,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
     /// <summary>
     /// This is an object representing a balance related to a customer's account.
     /// </summary>
-    public class Balances : ResourceWithParentClient<BalanceWithFakeId, object, object, object, string>, IBalances
+    public class Balances : ResourceWithParentClient<BalanceWithFakeId, object, object, object, string, string>, IBalances
     {
         private const string ParentEntityName = "accounts";
         private const string EntityName = "balances";

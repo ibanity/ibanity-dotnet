@@ -413,8 +413,9 @@ namespace Ibanity.Apis.Client.Products
     /// <typeparam name="TMeta">Resource meta type</typeparam>
     /// <typeparam name="TRelationships">Resource relationships type</typeparam>
     /// <typeparam name="TLinks">Resource links type</typeparam>
+    /// <typeparam name="TParentsId">Parent resources ID type</typeparam>
     /// <typeparam name="TId">Resource ID type</typeparam>
-    public abstract class ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks, TId> :
+    public abstract class ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks, TParentsId, TId> :
         BaseResourceClient<TAttributes, TMeta, TRelationships, TLinks, TId> where TAttributes : IIdentified<TId>
     {
         private readonly string[] _entityNames;
@@ -449,7 +450,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected Task<IbanityCollection<TAttributes>> InternalCursorBasedList(Token token, TId[] parentIds, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
+        protected Task<IbanityCollection<TAttributes>> InternalCursorBasedList(Token token, TParentsId[] parentIds, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
             InternalCursorBasedList(token, GetPath(parentIds), filters, pageSize, pageBefore, pageAfter, cancellationToken);
 
         /// <summary>
@@ -463,7 +464,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="pageSize">Number of items by page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(Token token, TId[] parentIds, IEnumerable<Filter> filters, IEnumerable<(string, string)> customParameters, long? pageOffset, int? pageSize, CancellationToken? cancellationToken) =>
+        protected Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(Token token, TParentsId[] parentIds, IEnumerable<Filter> filters, IEnumerable<(string, string)> customParameters, long? pageOffset, int? pageSize, CancellationToken? cancellationToken) =>
             InternalOffsetBasedList(token, GetPath(parentIds), filters, customParameters, pageOffset, pageSize, cancellationToken);
 
         /// <summary>
@@ -474,7 +475,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="id">Unique identifier of the resource</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>Requested resource</returns>
-        protected Task<TAttributes> InternalGet(Token token, TId[] parentIds, TId id, CancellationToken? cancellationToken) =>
+        protected Task<TAttributes> InternalGet(Token token, TParentsId[] parentIds, TId id, CancellationToken? cancellationToken) =>
             InternalGet(token, GetPath(parentIds), id, cancellationToken);
 
         /// <summary>
@@ -484,7 +485,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="parentIds">IDs of parent resources</param>
         /// <param name="id">Unique identifier of the resource</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        protected Task InternalDelete(Token token, TId[] parentIds, TId id, CancellationToken? cancellationToken) =>
+        protected Task InternalDelete(Token token, TParentsId[] parentIds, TId id, CancellationToken? cancellationToken) =>
             InternalDelete(token, GetPath(parentIds), id, cancellationToken);
 
         /// <summary>
@@ -496,7 +497,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created resource</returns>
-        protected Task<TAttributes> InternalCreate<T>(Token token, TId[] parentIds, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+        protected Task<TAttributes> InternalCreate<T>(Token token, TParentsId[] parentIds, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             InternalCreate(token, GetPath(parentIds), payload, idempotencyKey, cancellationToken);
 
         /// <summary>
@@ -509,10 +510,10 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The updated resource</returns>
-        protected Task<TAttributes> InternalUpdate<T>(Token token, TId[] parentIds, TId id, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+        protected Task<TAttributes> InternalUpdate<T>(Token token, TParentsId[] parentIds, TId id, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             InternalUpdate(token, GetPath(parentIds), id, payload, idempotencyKey, cancellationToken);
 
-        private string GetPath(TId[] ids)
+        private string GetPath(TParentsId[] ids)
         {
             if (ids is null)
                 throw new ArgumentNullException(nameof(ids));
@@ -535,7 +536,7 @@ namespace Ibanity.Apis.Client.Products
     /// <typeparam name="TRelationships">Resource relationships type</typeparam>
     /// <typeparam name="TLinks">Resource links type</typeparam>
     public abstract class ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks> :
-        ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks, Guid> where TAttributes : IIdentified<Guid>
+        ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks, Guid, Guid> where TAttributes : IIdentified<Guid>
     {
         /// <summary>
         /// Build a new instance.

@@ -1,3 +1,4 @@
+using System;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Products.IsabelConnect.Models;
 
@@ -7,7 +8,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
     /// <para>This is an object representing an account transaction. This object will give you the details of the financial transaction, including its amount and execution date.</para>
     /// <para>Unlike an <see cref="IntradayTransaction" />, this is an end-of-day object which will not change.</para>
     /// </summary>
-    public class Transactions : ResourceWithParentClient<Transaction, object, object, object, string>, ITransactions
+    public class Transactions : ResourceWithParentClient<Transaction, object, object, object, string, Guid>, ITransactions
     {
         private const string ParentEntityName = "accounts";
         private const string EntityName = "transactions";
@@ -23,7 +24,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         { }
 
         /// <inheritdoc />
-        protected override string ParseId(string id) => id;
+        protected override Guid ParseId(string id) => Guid.Parse(id);
     }
 
     /// <summary>

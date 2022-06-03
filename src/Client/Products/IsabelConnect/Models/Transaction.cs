@@ -10,7 +10,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect.Models
     /// <p>Unlike an intraday transaction, this is an end-of-day object which will not change.</p>
     /// </summary>
     [DataContract]
-    public class Transaction : Identified<string>
+    public class Transaction : Identified<Guid>
     {
         /// <summary>
         /// Additional transaction-related information provided from the financial institution to the customer
