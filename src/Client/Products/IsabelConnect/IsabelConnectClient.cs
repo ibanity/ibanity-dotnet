@@ -26,6 +26,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
             Transactions = new Transactions(apiClient, tokenService, UrlPrefix);
             IntradayTransactions = new IntradayTransactions(apiClient, tokenService, UrlPrefix);
             AccountReports = new AccountReports(apiClient, tokenService, UrlPrefix);
+            BulkPaymentInitiationRequests = new BulkPaymentInitiationRequests(apiClient, tokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -39,6 +40,9 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
 
         /// <inheritdoc />
         public IAccountReports AccountReports { get; }
+
+        /// <inheritdoc />
+        public IBulkPaymentInitiationRequests BulkPaymentInitiationRequests { get; }
     }
 
     /// <summary>
@@ -71,5 +75,11 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         /// <para>Unlike other endpoints, the get endpoint will return the contents of the account report file instead of a json object. You can also find a link to the report in the account report object links.</para>
         /// </summary>
         IAccountReports AccountReports { get; }
+
+        /// <summary>
+        /// <para>This is an object representing a bulk payment initiation request. When you want to request the initiation of payments on behalf of one of your customers, you can create one to start the authorization flow.</para>
+        /// <para>When creating the request, you should provide the payment information by uploading a PAIN xml file. <see href="https://documentation.ibanity.com/isabel-connect/products#bulk-payment-initiation">Learn more about the supported formats in Isabel Connect</see>.</para>
+        /// </summary>
+        IBulkPaymentInitiationRequests BulkPaymentInitiationRequests { get; }
     }
 }
