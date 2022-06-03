@@ -25,6 +25,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
             Accounts = new Accounts(apiClient, tokenService, UrlPrefix);
             Transactions = new Transactions(apiClient, tokenService, UrlPrefix);
             IntradayTransactions = new IntradayTransactions(apiClient, tokenService, UrlPrefix);
+            AccountReports = new AccountReports(apiClient, tokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -35,6 +36,9 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
 
         /// <inheritdoc />
         public IIntradayTransactions IntradayTransactions { get; }
+
+        /// <inheritdoc />
+        public IAccountReports AccountReports { get; }
     }
 
     /// <summary>
@@ -61,5 +65,11 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         /// <para>Important: The ID of the intraday transaction will NOT be the same as the ID of the corresponding transaction.</para>
         /// </summary>
         IIntradayTransactions IntradayTransactions { get; }
+
+        /// <summary>
+        /// <para>This object provides details about an account report. From the list endpoint, you will receive a collection of the account report objects for the corresponding customer.</para>
+        /// <para>Unlike other endpoints, the get endpoint will return the contents of the account report file instead of a json object. You can also find a link to the report in the account report object links.</para>
+        /// </summary>
+        IAccountReports AccountReports { get; }
     }
 }

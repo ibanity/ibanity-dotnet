@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.IsabelConnect.Models
 {
@@ -9,7 +10,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect.Models
     /// <p>Unlike other endpoints, the get endpoint will return the contents of the account report file instead of a json object. You can also find a link to the report in the account report object links.</p>
     /// </summary>
     [DataContract]
-    public class AccountReport
+    public class AccountReport : Identified<string>
     {
         /// <summary>
         /// References of the corresponding accounts
