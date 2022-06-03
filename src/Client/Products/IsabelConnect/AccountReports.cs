@@ -25,8 +25,14 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         { }
 
         /// <inheritdoc />
-        public Task<IsabelCollection<AccountReport>> List(Token token, long? pageOffset = null, int? pageSize = null, CancellationToken? cancellationToken = null) =>
-            InternalOffsetBasedList(token, null, pageOffset, pageSize, cancellationToken);
+        public Task<IsabelCollection<AccountReport>> List(Token token, long? pageOffset = null, int? pageSize = null, string after = null, CancellationToken? cancellationToken = null) =>
+            InternalOffsetBasedList(
+                token,
+                null,
+                string.IsNullOrWhiteSpace(after) ? null : new[] { ("after", after) },
+                pageOffset,
+                pageSize,
+                cancellationToken);
 
         /// <inheritdoc />
         protected override string ParseId(string id) => id;
@@ -44,8 +50,9 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         /// <param name="token">Authentication token</param>
         /// <param name="pageOffset">Defines the start position of the results by giving the number of records to be skipped</param>
         /// <param name="pageSize">Number of items by page</param>
+        /// <param name="after">Identifier of an account report that serves as a cursor, limiting results to account reports which have been received and processed after it. In practice, you can provide your last-processed ID to retrieve only the newer account reports.</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of transaction resources</returns>
-        Task<IsabelCollection<AccountReport>> List(Token token, long? pageOffset = null, int? pageSize = null, CancellationToken? cancellationToken = null);
+        Task<IsabelCollection<AccountReport>> List(Token token, long? pageOffset = null, int? pageSize = null, string after = null, CancellationToken? cancellationToken = null);
     }
 }

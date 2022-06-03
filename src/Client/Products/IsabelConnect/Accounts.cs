@@ -44,6 +44,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
             InternalOffsetBasedList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 null,
+                null,
                 pageOffset,
                 pageSize,
                 cancellationToken);

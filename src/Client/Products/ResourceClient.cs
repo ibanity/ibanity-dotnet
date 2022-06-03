@@ -330,12 +330,13 @@ namespace Ibanity.Apis.Client.Products
         /// </summary>
         /// <param name="token">Authentication token</param>
         /// <param name="filters">Attributes to be filtered from the results</param>
+        /// <param name="customParameters">Custom parameters</param>
         /// <param name="pageOffset">Defines the start position of the results by giving the number of records to be skipped</param>
         /// <param name="pageSize">Number of items by page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(Token token, IEnumerable<Filter> filters, long? pageOffset, int? pageSize, CancellationToken? cancellationToken) =>
-            InternalOffsetBasedList(token, GetPath(), filters, null, pageOffset, pageSize, cancellationToken);
+        protected Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(Token token, IEnumerable<Filter> filters, IEnumerable<(string, string)> customParameters, long? pageOffset, int? pageSize, CancellationToken? cancellationToken) =>
+            InternalOffsetBasedList(token, GetPath(), filters, customParameters, pageOffset, pageSize, cancellationToken);
 
         /// <summary>
         /// Get all resources.
