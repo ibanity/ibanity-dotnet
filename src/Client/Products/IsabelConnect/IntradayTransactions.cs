@@ -28,6 +28,10 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         { }
 
         /// <inheritdoc />
+        public Task<IsabelCollection<IntradayTransaction>> List(Token token, string accountId, long? pageOffset = null, int? pageSize = null, CancellationToken? cancellationToken = null) =>
+            InternalOffsetBasedList(token, new[] { accountId }, null, null, pageOffset, pageSize, cancellationToken);
+
+        /// <inheritdoc />
         protected override Guid ParseId(string id) => Guid.Parse(id);
     }
 
@@ -38,5 +42,15 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
     /// </summary>
     public interface IIntradayTransactions
     {
+        /// <summary>
+        /// List intraday transactions.
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="accountId">Customer's account ID</param>
+        /// <param name="pageOffset">Defines the start position of the results by giving the number of records to be skipped</param>
+        /// <param name="pageSize">Number of items by page</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>A list of transaction resources</returns>
+        Task<IsabelCollection<IntradayTransaction>> List(Token token, string accountId, long? pageOffset = null, int? pageSize = null, CancellationToken? cancellationToken = null);
     }
 }
