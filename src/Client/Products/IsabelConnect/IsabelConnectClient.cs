@@ -1,4 +1,5 @@
 using Ibanity.Apis.Client.Http;
+using Ibanity.Apis.Client.Products.IsabelConnect.Models;
 
 namespace Ibanity.Apis.Client.Products.IsabelConnect
 {
@@ -22,10 +23,14 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
             : base(apiClient, tokenService, clientAccessTokenService)
         {
             Accounts = new Accounts(apiClient, tokenService, UrlPrefix);
+            Transactions = new Transactions(apiClient, tokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
         public IAccounts Accounts { get; }
+
+        /// <inheritdoc />
+        public ITransactions Transactions { get; }
     }
 
     /// <summary>
@@ -39,5 +44,11 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         /// <para>The account API endpoints are customer specific and therefore can only be accessed by providing the corresponding access token.</para>
         /// </summary>
         IAccounts Accounts { get; }
+
+        /// <summary>
+        /// <para>This is an object representing an account transaction. This object will give you the details of the financial transaction, including its amount and execution date.</para>
+        /// <para>Unlike an <see cref="IntradayTransaction" />, this is an end-of-day object which will not change.</para>
+        /// </summary>
+        ITransactions Transactions { get; }
     }
 }

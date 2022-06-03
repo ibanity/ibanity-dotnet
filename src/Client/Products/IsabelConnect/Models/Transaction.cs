@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.Runtime.Serialization;
+using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.IsabelConnect.Models
 {
@@ -9,7 +10,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect.Models
     /// <p>Unlike an intraday transaction, this is an end-of-day object which will not change.</p>
     /// </summary>
     [DataContract]
-    public class Transaction
+    public class Transaction : Identified<string>
     {
         /// <summary>
         /// Additional transaction-related information provided from the financial institution to the customer
