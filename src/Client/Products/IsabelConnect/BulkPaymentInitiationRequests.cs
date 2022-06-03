@@ -1,3 +1,5 @@
+using System.Threading;
+using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Products.IsabelConnect.Models;
 
@@ -22,6 +24,10 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         { }
 
         /// <inheritdoc />
+        public Task<BulkPaymentInitiationRequest> Get(Token token, string id, CancellationToken? cancellationToken = null) =>
+            InternalGet(token, id, cancellationToken);
+
+        /// <inheritdoc />
         protected override string ParseId(string id) => id;
     }
 
@@ -31,5 +37,13 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
     /// </summary>
     public interface IBulkPaymentInitiationRequests
     {
+        /// <summary>
+        /// Get Bulk Payment Initiation Request
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="id">Bulk Payment Initiation Request ID</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>Returns a bulk payment initiation request resource</returns>
+        Task<BulkPaymentInitiationRequest> Get(Token token, string id, CancellationToken? cancellationToken = null);
     }
 }
