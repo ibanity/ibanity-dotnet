@@ -24,6 +24,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         {
             Accounts = new Accounts(apiClient, tokenService, UrlPrefix);
             Transactions = new Transactions(apiClient, tokenService, UrlPrefix);
+            IntradayTransactions = new IntradayTransactions(apiClient, tokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -31,6 +32,9 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
 
         /// <inheritdoc />
         public ITransactions Transactions { get; }
+
+        /// <inheritdoc />
+        public IIntradayTransactions IntradayTransactions { get; }
     }
 
     /// <summary>
@@ -50,5 +54,12 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         /// <para>Unlike an <see cref="IntradayTransaction" />, this is an end-of-day object which will not change.</para>
         /// </summary>
         ITransactions Transactions { get; }
+
+        /// <summary>
+        /// <para>This is an object representing an intraday account transaction. This object will give you the details of the intraday transaction, including its amount and execution date.</para>
+        /// <para>At the end of the day, intraday transactions will be converted to transactions by the financial institution. The transactions will never be available as transactions and intraday transactions at the same time.</para>
+        /// <para>Important: The ID of the intraday transaction will NOT be the same as the ID of the corresponding transaction.</para>
+        /// </summary>
+        IIntradayTransactions IntradayTransactions { get; }
     }
 }

@@ -1,0 +1,42 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Ibanity.Apis.Client.Http;
+using Ibanity.Apis.Client.Products.IsabelConnect.Models;
+using Ibanity.Apis.Client.Utils;
+
+namespace Ibanity.Apis.Client.Products.IsabelConnect
+{
+    /// <summary>
+    /// <para>This is an object representing an intraday account transaction. This object will give you the details of the intraday transaction, including its amount and execution date.</para>
+    /// <para>At the end of the day, intraday transactions will be converted to transactions by the financial institution. The transactions will never be available as transactions and intraday transactions at the same time.</para>
+    /// <para>Important: The ID of the intraday transaction will NOT be the same as the ID of the corresponding transaction.</para>
+    /// </summary>
+    public class IntradayTransactions : ResourceWithParentClient<IntradayTransaction, object, object, object, string, Guid>, IIntradayTransactions
+    {
+        private const string ParentEntityName = "accounts";
+        private const string EntityName = "intraday-transactions";
+
+        /// <summary>
+        /// Build a new instance.
+        /// </summary>
+        /// <param name="apiClient">Generic API client</param>
+        /// <param name="accessTokenProvider">Service to refresh access tokens</param>
+        /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
+        public IntradayTransactions(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix) :
+            base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName })
+        { }
+
+        /// <inheritdoc />
+        protected override Guid ParseId(string id) => Guid.Parse(id);
+    }
+
+    /// <summary>
+    /// <para>This is an object representing an intraday account transaction. This object will give you the details of the intraday transaction, including its amount and execution date.</para>
+    /// <para>At the end of the day, intraday transactions will be converted to transactions by the financial institution. The transactions will never be available as transactions and intraday transactions at the same time.</para>
+    /// <para>Important: The ID of the intraday transaction will NOT be the same as the ID of the corresponding transaction.</para>
+    /// </summary>
+    public interface IIntradayTransactions
+    {
+    }
+}
