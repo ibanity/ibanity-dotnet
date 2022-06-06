@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -148,6 +149,41 @@ namespace Ibanity.Apis.Client.Http
 
             return headers;
         }
+
+        /// <inheritdoc />
+        public async Task<TResponse> PostMultipart<TResponse>(string path, string bearerToken, IDictionary<string, string> additionalHeaders, string filename, Stream payload, CancellationToken cancellationToken)
+        {
+            if (path is null)
+                throw new ArgumentNullException(nameof(path));
+
+            var headers = GetCommonHeaders(HttpMethod.Post, bearerToken, path, null);
+
+            _logger.Trace($"Sending request: {HttpMethod.Post.ToString().ToUpper(CultureInfo.InvariantCulture)} {path}");
+
+            using (var request = new HttpRequestMessage(HttpMethod.Post, path))
+            {
+                foreach (var header in headers)
+                    request.Headers.Add(header.Key, header.Value);
+
+                foreach (var header in additionalHeaders)
+                    request.Headers.Add(header.Key, header.Value);
+
+                var content = new MultipartFormDataContent();
+                content.Add(new StreamContent(payload), filename);
+
+                request.Content = content;
+
+                _customizeRequest(request);
+
+                var response = await (await _httpClient.SendAsync(request, cancellationToken)).ThrowOnFailure(_serializer, _logger);
+
+                var requestId = response.Headers.TryGetValues(RequestIdHeader, out var values) ? values.SingleOrDefault() : null;
+                _logger.Debug($"Response received ({response.StatusCode:D} {response.StatusCode:G}): {HttpMethod.Post.ToString().ToUpper(CultureInfo.InvariantCulture)} {path} (request ID: {requestId})");
+
+                var body = await response.Content.ReadAsStringAsync();
+                return _serializer.Deserialize<TResponse>(body);
+            }
+        }
     }
 
     /// <summary>
@@ -195,6 +231,19 @@ namespace Ibanity.Apis.Client.Http
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created resource</returns>
         Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Send a multi-part POST request.
+        /// </summary>
+        /// <typeparam name="TResponse">Type of the received payload</typeparam>
+        /// <param name="path">Query string, absolute, or relative to product root</param>
+        /// <param name="bearerToken">Token added to Authorization header</param>
+        /// <param name="additionalHeaders">Additional headers</param>
+        /// <param name="filename">Content disposition filename</param>
+        /// <param name="payload">Data to be sent</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The created resource</returns>
+        Task<TResponse> PostMultipart<TResponse>(string path, string bearerToken, IDictionary<string, string> additionalHeaders, string filename, Stream payload, CancellationToken cancellationToken);
 
         /// <summary>
         /// Send a PATCH request.

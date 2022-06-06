@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Utils.Logging;
@@ -72,5 +74,9 @@ namespace Ibanity.Apis.Client.Http
         /// <inheritdoc />
         public Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken) =>
             Execute("Post", async () => await _underlyingInstance.Post<TRequest, TResponse>(path, bearerToken, payload, idempotencyKey, cancellationToken), cancellationToken);
+
+        /// <inheritdoc />
+        public Task<TResponse> PostMultipart<TResponse>(string path, string bearerToken, IDictionary<string, string> additionalHeaders, string filename, Stream payload, CancellationToken cancellationToken) =>
+            Execute("Post", async () => await _underlyingInstance.PostMultipart<TResponse>(path, bearerToken, additionalHeaders, filename, payload, cancellationToken), cancellationToken);
     }
 }
