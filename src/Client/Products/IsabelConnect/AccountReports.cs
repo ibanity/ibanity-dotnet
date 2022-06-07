@@ -45,7 +45,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
     public interface IAccountReports
     {
         /// <summary>
-        /// List intraday transactions.
+        /// List Account Reports.
         /// </summary>
         /// <param name="token">Authentication token</param>
         /// <param name="pageOffset">Defines the start position of the results by giving the number of records to be skipped</param>
