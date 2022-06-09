@@ -184,6 +184,22 @@ namespace Ibanity.Apis.Client.Http
                 return _serializer.Deserialize<TResponse>(body);
             }
         }
+
+        /// <inheritdoc />
+        public async Task GetToStream(string path, string bearerToken, Stream target, CancellationToken cancellationToken)
+        {
+            if (path is null)
+                throw new ArgumentNullException(nameof(path));
+
+            if (target is null)
+                throw new ArgumentNullException(nameof(target));
+
+            var headers = GetCommonHeaders(HttpMethod.Get, bearerToken, path, null);
+
+            using (var response = await _httpClient.GetAsync(path, HttpCompletionOption.ResponseHeadersRead))
+            using (var streamToReadFrom = await response.Content.ReadAsStreamAsync())
+                await streamToReadFrom.CopyToAsync(target);
+        }
     }
 
     /// <summary>
@@ -200,6 +216,16 @@ namespace Ibanity.Apis.Client.Http
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The specified resource</returns>
         Task<T> Get<T>(string path, string bearerToken, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Send a GET request and save the result to a provided stream.
+        /// </summary>
+        /// <param name="path">Query string, absolute, or relative to product root</param>
+        /// <param name="bearerToken">Token added to Authorization header</param>
+        /// <param name="target">Destination stream where the payload will be written to</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The specified resource</returns>
+        Task GetToStream(string path, string bearerToken, Stream target, CancellationToken cancellationToken);
 
         /// <summary>
         /// Send a DELETE request with a returned payload.

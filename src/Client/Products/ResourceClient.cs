@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -252,6 +253,21 @@ namespace Ibanity.Apis.Client.Products
                 cancellationToken ?? CancellationToken.None)).Data);
 
         /// <summary>
+        /// Get payload and write it to a provided stream.
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="path">Path part preceding the ID</param>
+        /// <param name="id">Unique identifier of the resource</param>
+        /// <param name="target">Destination stream where the payload will be written to</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        protected async Task InternalGetToStream(Token token, string path, TId id, Stream target, CancellationToken? cancellationToken) =>
+            await _apiClient.GetToStream(
+                $"{path}/{id}",
+                await GetAccessToken(token),
+                target,
+                cancellationToken ?? CancellationToken.None);
+
+        /// <summary>
         /// Map received JSON:API data to a single-level object.
         /// </summary>
         /// <param name="data">Data received from the server</param>
@@ -357,6 +373,16 @@ namespace Ibanity.Apis.Client.Products
         /// <returns>Requested resource</returns>
         protected Task<TAttributes> InternalGet(Token token, TId id, CancellationToken? cancellationToken) =>
             InternalGet(token, GetPath(), id, cancellationToken);
+
+        /// <summary>
+        /// Get payload and write it to a provided stream.
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="id">Unique identifier of the resource</param>
+        /// <param name="target">Destination stream where the payload will be written to</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        protected Task InternalGetToStream(Token token, TId id, Stream target, CancellationToken? cancellationToken) =>
+            InternalGetToStream(token, GetPath(), id, target, cancellationToken);
 
         /// <summary>
         /// Delete a single resource.
