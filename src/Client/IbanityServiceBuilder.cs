@@ -225,11 +225,11 @@ namespace Ibanity.Apis.Client
                 ? (ILoggerFactory)new SimpleLoggerFactory(NullLogger.Instance)
                 : new LoggerFactoryNotNullDecorator(_loggerFactory);
 
-            var v1ApiClient = BuildApiClient(httpClient, serializer, signatureService, loggerFactory, "1");
+            var v2ApiClient = BuildApiClient(httpClient, serializer, signatureService, loggerFactory, "2");
             var versionLessApiClient = BuildApiClient(httpClient, serializer, signatureService, loggerFactory, null);
 
             var pontoConnectClient = new PontoConnectClient(
-                v1ApiClient,
+                v2ApiClient,
                 _pontoConnectClientId == null
                     ? UnconfiguredTokenProvider.Instance
                     : new OAuth2TokenProvider(
