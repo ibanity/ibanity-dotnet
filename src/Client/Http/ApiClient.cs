@@ -196,9 +196,9 @@ namespace Ibanity.Apis.Client.Http
 
             var headers = GetCommonHeaders(HttpMethod.Get, bearerToken, path, null);
 
-            using (var response = await _httpClient.GetAsync(path, HttpCompletionOption.ResponseHeadersRead))
+            using (var response = await _httpClient.GetAsync(path, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
             using (var streamToReadFrom = await response.Content.ReadAsStreamAsync())
-                await streamToReadFrom.CopyToAsync(target);
+                await streamToReadFrom.CopyToAsync(target, 81920, cancellationToken);
         }
     }
 
