@@ -73,5 +73,12 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// <value>What is being synchronized. Account information such as balance is updated using &lt;code&gt;accountDetails&lt;/code&gt;, while &lt;code&gt;accountTransactions&lt;/code&gt; is used to synchronize the transactions.</value>
         [DataMember(Name = "subtype", EmitDefaultValue = false)]
         public string Subtype { get; set; }
+
+        /// <summary>
+        /// This must contain the IP address of the customer.
+        /// </summary>
+        /// <value>This must contain the IP address of the customer.</value>
+        [DataMember(Name = "customerIpAddress", EmitDefaultValue = false)]
+        public string CustomerIpAddress { get; set; }
     }
 }
