@@ -47,6 +47,24 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 cancellationToken);
 
         /// <inheritdoc />
+        public Task<PaginatedCollection<TransactionResponse>> ListForSynchronization(Token token, Guid synchronizationId, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
+            InternalList(
+                token ?? throw new ArgumentNullException(nameof(token)),
+                $"synchronizations/{synchronizationId}/updated-transactions",
+                null,
+                pageSize,
+                pageBefore,
+                pageAfter,
+                cancellationToken);
+
+        /// <inheritdoc />
+        public Task<PaginatedCollection<TransactionResponse>> ListForSynchronization(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
+            InternalList(
+                token ?? throw new ArgumentNullException(nameof(token)),
+                continuationToken ?? throw new ArgumentNullException(nameof(continuationToken)),
+                cancellationToken);
+
+        /// <inheritdoc />
         public Task<TransactionResponse> Get(Token token, Guid accountId, Guid id, CancellationToken? cancellationToken) =>
             InternalGet(token, new[] { accountId }, id, cancellationToken);
 
@@ -87,6 +105,27 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of transaction resources</returns>
         Task<PaginatedCollection<TransactionResponse>> List(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// List Transactions updated during the synchronization
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="synchronizationId">Synchronization ID</param>
+        /// <param name="pageSize">Number of items by page</param>
+        /// <param name="pageBefore">Cursor that specifies the first resource of the next page</param>
+        /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>A list of transaction resources updated during the synchronization</returns>
+        Task<PaginatedCollection<TransactionResponse>> ListForSynchronization(Token token, Guid synchronizationId, int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// List Transactions updated during the synchronization
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="continuationToken">Token referencing the page to request</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>A list of transaction resources updated during the synchronization</returns>
+        Task<PaginatedCollection<TransactionResponse>> ListForSynchronization(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Get Transaction
