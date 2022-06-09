@@ -1,3 +1,4 @@
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
@@ -35,6 +36,10 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
                 cancellationToken);
 
         /// <inheritdoc />
+        public Task Get(Token token, string id, Stream target, CancellationToken? cancellationToken = null) =>
+            InternalGetToStream(token, id, target, cancellationToken);
+
+        /// <inheritdoc />
         protected override string ParseId(string id) => id;
     }
 
@@ -54,5 +59,15 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of transaction resources</returns>
         Task<IsabelCollection<AccountReport>> List(Token token, long? pageOffset = null, int? pageSize = null, string after = null, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Get Account Report.
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="id">Account Report ID</param>
+        /// <param name="target">Destination stream where the account report will be written</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <remarks>Result will be written to the provided stream.</remarks>
+        Task Get(Token token, string id, Stream target, CancellationToken? cancellationToken = null);
     }
 }
