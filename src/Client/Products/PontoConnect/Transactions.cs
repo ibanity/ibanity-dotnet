@@ -47,8 +47,8 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 cancellationToken);
 
         /// <inheritdoc />
-        public Task<PaginatedCollection<TransactionResponse>> ListUpdatedForSynchronization(Token token, Guid synchronizationId, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
-            InternalList(
+        public Task<IbanityCollection<TransactionResponse>> ListUpdatedForSynchronization(Token token, Guid synchronizationId, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
+            InternalCursorBasedList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 $"{UrlPrefix}/synchronizations/{synchronizationId}/updated-transactions",
                 null,
@@ -58,8 +58,8 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 cancellationToken);
 
         /// <inheritdoc />
-        public Task<PaginatedCollection<TransactionResponse>> ListUpdatedForSynchronization(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
-            InternalList(
+        public Task<IbanityCollection<TransactionResponse>> ListUpdatedForSynchronization(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
+            InternalCursorBasedList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 continuationToken ?? throw new ArgumentNullException(nameof(continuationToken)),
                 cancellationToken);
@@ -116,7 +116,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of transaction resources updated during the synchronization</returns>
-        Task<PaginatedCollection<TransactionResponse>> ListUpdatedForSynchronization(Token token, Guid synchronizationId, int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
+        Task<IbanityCollection<TransactionResponse>> ListUpdatedForSynchronization(Token token, Guid synchronizationId, int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// List Transactions updated during the synchronization
@@ -125,7 +125,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="continuationToken">Token referencing the page to request</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of transaction resources updated during the synchronization</returns>
-        Task<PaginatedCollection<TransactionResponse>> ListUpdatedForSynchronization(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
+        Task<IbanityCollection<TransactionResponse>> ListUpdatedForSynchronization(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Get Transaction
