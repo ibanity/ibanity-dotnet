@@ -50,7 +50,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         public Task<PaginatedCollection<TransactionResponse>> ListUpdatedForSynchronization(Token token, Guid synchronizationId, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
             InternalList(
                 token ?? throw new ArgumentNullException(nameof(token)),
-                $"synchronizations/{synchronizationId}/updated-transactions",
+                $"{UrlPrefix}/synchronizations/{synchronizationId}/updated-transactions",
                 null,
                 pageSize,
                 pageBefore,

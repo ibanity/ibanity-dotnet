@@ -113,6 +113,8 @@ namespace Ibanity.Apis.Sample.CLI
 
             Console.WriteLine("Synchronization: " + synchronization);
 
+            var updatedTransactions = await pontoConnectService.Transactions.ListUpdatedForSynchronization(token, synchronization.Id, cancellationToken: cancellationToken);
+
             var transactions = await pontoConnectService.Transactions.List(token, accountId, cancellationToken: cancellationToken);
             foreach (var tr in transactions.Items)
                 Console.WriteLine("Transaction: " + tr);
