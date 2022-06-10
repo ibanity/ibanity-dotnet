@@ -103,7 +103,8 @@ namespace Ibanity.Apis.Sample.CLI
             {
                 ResourceType = "account",
                 Subtype = "accountDetails",
-                ResourceId = accountId
+                ResourceId = accountId,
+                CustomerIpAddress = "123.123.123.123"
             }, cancellationToken: cancellationToken);
 
             Console.WriteLine("Synchronization created: " + synchronization);
