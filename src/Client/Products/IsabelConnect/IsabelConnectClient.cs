@@ -24,6 +24,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         {
             Accounts = new Accounts(apiClient, tokenService, UrlPrefix);
             Transactions = new Transactions(apiClient, tokenService, UrlPrefix);
+            Balances = new Balances(apiClient, tokenService, UrlPrefix);
             IntradayTransactions = new IntradayTransactions(apiClient, tokenService, UrlPrefix);
             AccountReports = new AccountReports(apiClient, tokenService, UrlPrefix);
             BulkPaymentInitiationRequests = new BulkPaymentInitiationRequests(apiClient, tokenService, UrlPrefix);
@@ -31,6 +32,9 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
 
         /// <inheritdoc />
         public IAccounts Accounts { get; }
+
+        /// <inheritdoc />
+        public IBalances Balances { get; }
 
         /// <inheritdoc />
         public ITransactions Transactions { get; }
@@ -56,6 +60,11 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         /// <para>The account API endpoints are customer specific and therefore can only be accessed by providing the corresponding access token.</para>
         /// </summary>
         IAccounts Accounts { get; }
+
+        /// <summary>
+        /// This is an object representing a balance related to a customer's account.
+        /// </summary>
+        IBalances Balances { get; }
 
         /// <summary>
         /// <para>This is an object representing an account transaction. This object will give you the details of the financial transaction, including its amount and execution date.</para>
