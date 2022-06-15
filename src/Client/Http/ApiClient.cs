@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -151,7 +152,7 @@ namespace Ibanity.Apis.Client.Http
         }
 
         /// <inheritdoc />
-        public async Task<TResponse> PostMultipart<TResponse>(string path, string bearerToken, IDictionary<string, string> additionalHeaders, string filename, Stream payload, CancellationToken cancellationToken)
+        public async Task<TResponse> PostInline<TResponse>(string path, string bearerToken, IDictionary<string, string> additionalHeaders, string filename, Stream payload, CancellationToken cancellationToken)
         {
             if (path is null)
                 throw new ArgumentNullException(nameof(path));
@@ -168,10 +169,9 @@ namespace Ibanity.Apis.Client.Http
                 foreach (var header in additionalHeaders)
                     request.Headers.Add(header.Key, header.Value);
 
-                var content = new MultipartFormDataContent();
-                content.Add(new StreamContent(payload), filename);
-
-                request.Content = content;
+                request.Content = new StreamContent(payload);
+                request.Content.Headers.ContentType = new MediaTypeWithQualityHeaderValue("application/xml");
+                request.Content.Headers.Add("Content-Disposition", $"inline; filename='{filename}'");
 
                 _customizeRequest(request);
 
@@ -196,9 +196,18 @@ namespace Ibanity.Apis.Client.Http
 
             var headers = GetCommonHeaders(HttpMethod.Get, bearerToken, path, null);
 
-            using (var response = await _httpClient.GetAsync(path, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
-            using (var streamToReadFrom = await response.Content.ReadAsStreamAsync())
-                await streamToReadFrom.CopyToAsync(target, 81920, cancellationToken);
+            using (var request = new HttpRequestMessage(HttpMethod.Get, path))
+            {
+                foreach (var header in headers)
+                    if (header.Key != "Accept")
+                        request.Headers.Add(header.Key, header.Value);
+
+                _customizeRequest(request);
+
+                using (var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
+                using (var streamToReadFrom = await response.Content.ReadAsStreamAsync())
+                    await streamToReadFrom.CopyToAsync(target, 81920, cancellationToken);
+            }
         }
     }
 
@@ -259,7 +268,7 @@ namespace Ibanity.Apis.Client.Http
         Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Send a multi-part POST request.
+        /// Send an inline payload with a POST request.
         /// </summary>
         /// <typeparam name="TResponse">Type of the received payload</typeparam>
         /// <param name="path">Query string, absolute, or relative to product root</param>
@@ -269,7 +278,7 @@ namespace Ibanity.Apis.Client.Http
         /// <param name="payload">Data to be sent</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created resource</returns>
-        Task<TResponse> PostMultipart<TResponse>(string path, string bearerToken, IDictionary<string, string> additionalHeaders, string filename, Stream payload, CancellationToken cancellationToken);
+        Task<TResponse> PostInline<TResponse>(string path, string bearerToken, IDictionary<string, string> additionalHeaders, string filename, Stream payload, CancellationToken cancellationToken);
 
         /// <summary>
         /// Send a PATCH request.

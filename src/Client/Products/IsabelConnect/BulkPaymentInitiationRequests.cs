@@ -56,13 +56,15 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
             if (hideDetails.HasValue)
                 headers.Add("Hide-Details", hideDetails.Value.ToString().ToLowerInvariant());
 
-            return await _apiClient.PostMultipart<BulkPaymentInitiationRequest>(
-                $"{_urlPrefix}/{EntityName}",
-                (await _accessTokenProvider.RefreshToken(token ?? throw new ArgumentNullException(nameof(token)))).AccessToken,
-                headers,
-                filename,
-                xmlContent,
-                cancellationToken ?? CancellationToken.None);
+            var result = await _apiClient.PostInline<JsonApi.Resource<BulkPaymentInitiationRequest, object, object, object>>(
+                            $"{_urlPrefix}/{EntityName}",
+                            (await _accessTokenProvider.RefreshToken(token ?? throw new ArgumentNullException(nameof(token)))).AccessToken,
+                            headers,
+                            filename,
+                            xmlContent,
+                            cancellationToken ?? CancellationToken.None);
+
+            return Map(result.Data);
         }
 
         /// <inheritdoc />
