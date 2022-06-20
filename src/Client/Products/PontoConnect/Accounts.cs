@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
-using Ibanity.Apis.Client.Models;
 using Ibanity.Apis.Client.Products.PontoConnect.Models;
 using Ibanity.Apis.Client.Utils;
 
