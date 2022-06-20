@@ -41,7 +41,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         /// <inheritdoc />
         public async Task<BulkPaymentInitiationRequest> Create(Token token, string filename, string path, bool? isShared = null, bool? hideDetails = null, CancellationToken? cancellationToken = null)
         {
-            using (var stream = new FileStream(path, FileMode.Open))
+            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
                 return await Create(token, filename, stream, isShared, hideDetails, cancellationToken);
         }
 
