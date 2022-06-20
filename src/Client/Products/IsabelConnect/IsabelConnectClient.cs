@@ -6,7 +6,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
     /// <summary>
     /// Contains services for all Ponto Connect-releated resources.
     /// </summary>
-    public class IsabelConnectClient : ProductClient, IIsabelConnectClient
+    public class IsabelConnectClient : ProductClient<ITokenProviderWithoutCodeVerifier>, IIsabelConnectClient
     {
         /// <summary>
         /// Product name use as prefix in Ponto Connect URIs.
@@ -19,7 +19,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         /// <param name="apiClient">Generic API client</param>
         /// <param name="tokenService">Service to generate and refresh access tokens</param>
         /// <param name="clientAccessTokenService">Service to generate and refresh client access tokens.</param>
-        public IsabelConnectClient(IApiClient apiClient, ITokenProvider tokenService, IClientAccessTokenProvider clientAccessTokenService)
+        public IsabelConnectClient(IApiClient apiClient, ITokenProviderWithoutCodeVerifier tokenService, IClientAccessTokenProvider clientAccessTokenService)
             : base(apiClient, tokenService, clientAccessTokenService)
         {
             Accounts = new Accounts(apiClient, tokenService, UrlPrefix);
@@ -52,7 +52,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
     /// <summary>
     /// Contains services for all Ponto Connect-releated resources.
     /// </summary>
-    public interface IIsabelConnectClient : IProductClient
+    public interface IIsabelConnectClient : IProductClient<ITokenProviderWithoutCodeVerifier>
     {
         /// <summary>
         /// <para>This is an object representing a customer account. This object will provide details about the account, including the reference and the currency.</para>

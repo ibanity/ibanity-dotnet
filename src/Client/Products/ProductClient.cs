@@ -6,7 +6,7 @@ namespace Ibanity.Apis.Client.Products
     /// <summary>
     /// Base product client.
     /// </summary>
-    public abstract class ProductClient : IProductClient
+    public abstract class ProductClient<T> : IProductClient<T> where T : class, ITokenProvider
     {
         /// <summary>
         /// Build a new instance.
@@ -14,7 +14,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="apiClient">Generic API client</param>
         /// <param name="tokenService">Service to generate and refresh access tokens</param>
         /// <param name="clientAccessTokenService">Service to generate and refresh client access tokens.</param>
-        protected ProductClient(IApiClient apiClient, ITokenProvider tokenService, IClientAccessTokenProvider clientAccessTokenService)
+        protected ProductClient(IApiClient apiClient, T tokenService, IClientAccessTokenProvider clientAccessTokenService)
         {
             ApiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
             TokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
@@ -25,7 +25,7 @@ namespace Ibanity.Apis.Client.Products
         public IApiClient ApiClient { get; }
 
         /// <inheritdoc />
-        public ITokenProvider TokenService { get; }
+        public T TokenService { get; }
 
         /// <inheritdoc />
         public IClientAccessTokenProvider ClientTokenService { get; }
@@ -34,7 +34,7 @@ namespace Ibanity.Apis.Client.Products
     /// <summary>
     /// Base product client interface.
     /// </summary>
-    public interface IProductClient
+    public interface IProductClient<T> where T : ITokenProvider
     {
         /// <summary>
         /// Generic API client.
@@ -44,7 +44,7 @@ namespace Ibanity.Apis.Client.Products
         /// <summary>
         /// Service to generate and refresh access tokens.
         /// </summary>
-        ITokenProvider TokenService { get; }
+        T TokenService { get; }
 
         /// <summary>
         /// Service to generate and refresh client access tokens.

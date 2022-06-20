@@ -9,7 +9,7 @@ using Ibanity.Apis.Client.Utils.Logging;
 namespace Ibanity.Apis.Client.Http.OAuth2
 {
     /// <inheritdoc />
-    public class OAuth2TokenProvider : ITokenProvider
+    public class OAuth2TokenProvider : ITokenProviderWithCodeVerifier, ITokenProviderWithoutCodeVerifier
     {
         private static readonly TimeSpan ValidityThreshold = TimeSpan.FromMinutes(1d);
 
@@ -60,9 +60,6 @@ namespace Ibanity.Apis.Client.Http.OAuth2
             if (string.IsNullOrWhiteSpace(authorizationCode))
                 throw new ArgumentException($"'{nameof(authorizationCode)}' cannot be null or whitespace.", nameof(authorizationCode));
 
-            if (string.IsNullOrWhiteSpace(codeVerifier))
-                throw new ArgumentException($"'{nameof(codeVerifier)}' cannot be null or whitespace.", nameof(codeVerifier));
-
             if (redirectUri is null)
                 throw new ArgumentNullException(nameof(redirectUri));
 
@@ -71,9 +68,11 @@ namespace Ibanity.Apis.Client.Http.OAuth2
                 { "grant_type", "authorization_code" },
                 { "code", authorizationCode },
                 { "client_id", _clientId },
-                { "redirect_uri", redirectUri.OriginalString },
-                { "code_verifier", codeVerifier }
+                { "redirect_uri", redirectUri.OriginalString }
             };
+
+            if (!string.IsNullOrWhiteSpace(codeVerifier))
+                payload.Add("code_verifier", codeVerifier);
 
             var request = new HttpRequestMessage(HttpMethod.Post, $"{_urlPrefix}/oauth2/token")
             {
@@ -100,6 +99,14 @@ namespace Ibanity.Apis.Client.Http.OAuth2
                 codeVerifier,
                 new Uri(redirectUri ?? throw new ArgumentException($"'{nameof(redirectUri)}' cannot be null or whitespace.", nameof(redirectUri))),
                 cancellationToken);
+
+        /// <inheritdoc />
+        public Task<Token> GetToken(string authorizationCode, Uri redirectUri, CancellationToken? cancellationToken) =>
+            GetToken(authorizationCode, null, redirectUri, cancellationToken);
+
+        /// <inheritdoc />
+        public Task<Token> GetToken(string authorizationCode, string redirectUri, CancellationToken? cancellationToken) =>
+            GetToken(authorizationCode, null, redirectUri, cancellationToken);
 
         /// <inheritdoc />
         public async Task<Token> GetToken(string refreshToken, CancellationToken? cancellationToken)

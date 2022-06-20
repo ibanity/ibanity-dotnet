@@ -10,6 +10,25 @@ namespace Ibanity.Apis.Client.Http
     public interface ITokenProvider : IAccessTokenProvider
     {
         /// <summary>
+        /// Create a new access token using a previously received refresh token.
+        /// </summary>
+        /// <param name="refreshToken">Refresh token received during in previous authentication</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>A new access token</returns>
+        Task<Token> GetToken(string refreshToken, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Revoke a token.
+        /// </summary>
+        /// <param name="token">Token to be revoked</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        Task RevokeToken(Token token, CancellationToken? cancellationToken = null);
+    }
+
+    /// <inheritdoc />
+    public interface ITokenProviderWithCodeVerifier : ITokenProvider
+    {
+        /// <summary>
         /// Create a new access token using code received during user linking process.
         /// </summary>
         /// <param name="authorizationCode">Authorization code provided during the user linking process</param>
@@ -28,21 +47,28 @@ namespace Ibanity.Apis.Client.Http
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A new access token</returns>
         Task<Token> GetToken(string authorizationCode, string codeVerifier, string redirectUri, CancellationToken? cancellationToken = null);
+    }
 
+    /// <inheritdoc />
+    public interface ITokenProviderWithoutCodeVerifier : ITokenProvider
+    {
         /// <summary>
-        /// Create a new access token using a previously received refresh token.
+        /// Create a new access token using code received during user linking process.
         /// </summary>
-        /// <param name="refreshToken">Refresh token received during in previous authentication</param>
+        /// <param name="authorizationCode">Authorization code provided during the user linking process</param>
+        /// <param name="redirectUri">Redirection URL authorized for your application in the Developer Portal</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A new access token</returns>
-        Task<Token> GetToken(string refreshToken, CancellationToken? cancellationToken = null);
+        Task<Token> GetToken(string authorizationCode, Uri redirectUri, CancellationToken? cancellationToken = null);
 
         /// <summary>
-        /// Revoke a token.
+        /// Create a new access token using code received during user linking process.
         /// </summary>
-        /// <param name="token">Token to be revoked</param>
+        /// <param name="authorizationCode">Authorization code provided during the user linking process</param>
+        /// <param name="redirectUri">Redirection URL authorized for your application in the Developer Portal</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        Task RevokeToken(Token token, CancellationToken? cancellationToken = null);
+        /// <returns>A new access token</returns>
+        Task<Token> GetToken(string authorizationCode, string redirectUri, CancellationToken? cancellationToken = null);
     }
 
     /// <summary>

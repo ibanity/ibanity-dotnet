@@ -5,7 +5,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     /// <summary>
     /// Contains services for all Ponto Connect-releated resources.
     /// </summary>
-    public class PontoConnectClient : ProductClient, IPontoConnectClient
+    public class PontoConnectClient : ProductClient<ITokenProviderWithCodeVerifier>, IPontoConnectClient
     {
         /// <summary>
         /// Product name use as prefix in Ponto Connect URIs.
@@ -18,7 +18,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="apiClient">Generic API client</param>
         /// <param name="tokenService">Service to generate and refresh access tokens</param>
         /// <param name="clientAccessTokenService">Service to generate and refresh client access tokens.</param>
-        public PontoConnectClient(IApiClient apiClient, ITokenProvider tokenService, IClientAccessTokenProvider clientAccessTokenService)
+        public PontoConnectClient(IApiClient apiClient, ITokenProviderWithCodeVerifier tokenService, IClientAccessTokenProvider clientAccessTokenService)
             : base(apiClient, tokenService, clientAccessTokenService)
         {
             FinancialInstitutions = new FinancialInstitutions(apiClient, tokenService, UrlPrefix);
@@ -79,7 +79,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     /// <summary>
     /// Contains services for all Ponto Connect-releated resources.
     /// </summary>
-    public interface IPontoConnectClient : IProductClient
+    public interface IPontoConnectClient : IProductClient<ITokenProviderWithCodeVerifier>
     {
         /// <summary>
         /// This is an object representing a financial institution, providing its basic details - ID and name. Only the financial institutions corresponding to authorized accounts will be available on the API.

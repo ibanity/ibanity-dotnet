@@ -18,7 +18,6 @@ namespace Ibanity.Apis.Sample.CLI
             string isabelConnectClientId,
             string isabelConnectClientSecret,
             string? isabelConnectAuthorizationCode,
-            string isabelConnectCodeVerifier,
             string isabelConnectRedirectUri)
         {
             Endpoint = endpoint;
@@ -36,7 +35,6 @@ namespace Ibanity.Apis.Sample.CLI
             IsabelConnectClientId = isabelConnectClientId;
             IsabelConnectClientSecret = isabelConnectClientSecret;
             IsabelConnectAuthorizationCode = isabelConnectAuthorizationCode;
-            IsabelConnectCodeVerifier = isabelConnectCodeVerifier;
             IsabelConnectRedirectUri = isabelConnectRedirectUri;
         }
 
@@ -55,7 +53,6 @@ namespace Ibanity.Apis.Sample.CLI
         public string IsabelConnectClientId { get; }
         public string IsabelConnectClientSecret { get; }
         public string? IsabelConnectAuthorizationCode { get; }
-        public string IsabelConnectCodeVerifier { get; }
         public string IsabelConnectRedirectUri { get; }
 
         public static IConfiguration BuildFromEnvironment()
@@ -76,7 +73,6 @@ namespace Ibanity.Apis.Sample.CLI
                 GetMandatoryEnvironmentVariable("ISABEL_CONNECT_CLIENT_ID"),
                 GetMandatoryEnvironmentVariable("ISABEL_CONNECT_CLIENT_SECRET"),
                 Environment.GetEnvironmentVariable("ISABEL_CONNECT_AUTHORIZATION_CODE"),
-                GetMandatoryEnvironmentVariable("ISABEL_CONNECT_CODE_VERIFIER"),
                 GetMandatoryEnvironmentVariable("ISABEL_CONNECT_REDIRECT_URI")
             );
         }
@@ -109,7 +105,6 @@ namespace Ibanity.Apis.Sample.CLI
         public string IsabelConnectClientId { get; }
         public string IsabelConnectClientSecret { get; }
         public string? IsabelConnectAuthorizationCode { get; }
-        public string IsabelConnectCodeVerifier { get; }
         public string IsabelConnectRedirectUri { get; }
     }
 }

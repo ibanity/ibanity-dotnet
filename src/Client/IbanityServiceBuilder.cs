@@ -248,7 +248,7 @@ namespace Ibanity.Apis.Client
             var pontoConnectClient = new PontoConnectClient(
                 v2ApiClient,
                 _pontoConnectClientId == null
-                    ? UnconfiguredTokenProvider.Instance
+                    ? UnconfiguredTokenProvider.InstanceWithCodeVerifier
                     : new OAuth2TokenProvider(
                         loggerFactory,
                         httpClient,
@@ -272,7 +272,7 @@ namespace Ibanity.Apis.Client
             var isabelConnectClient = new IsabelConnectClient(
                 v2ApiClient,
                 _isabelConnectClientId == null
-                    ? UnconfiguredTokenProvider.Instance
+                    ? UnconfiguredTokenProvider.InstanceWithoutCodeVerifier
                     : new OAuth2TokenProvider(
                         loggerFactory,
                         httpClient,

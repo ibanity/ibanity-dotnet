@@ -21,7 +21,6 @@ namespace Ibanity.Apis.Sample.CLI
 
             var token = await isabelConnectService.TokenService.GetToken(
                 _configuration.IsabelConnectAuthorizationCode ?? throw new InvalidOperationException("Authorization code must be set"),
-                _configuration.IsabelConnectCodeVerifier,
                 _configuration.IsabelConnectRedirectUri,
                 cancellationToken);
 

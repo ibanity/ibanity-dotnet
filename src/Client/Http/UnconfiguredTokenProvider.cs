@@ -8,12 +8,17 @@ namespace Ibanity.Apis.Client.Http
     /// Token provider only throwing exception.
     /// </summary>
     /// <remarks>Used when client ID and client secret aren't configured.</remarks>
-    public class UnconfiguredTokenProvider : ITokenProvider, IClientAccessTokenProvider
+    public class UnconfiguredTokenProvider : ITokenProviderWithCodeVerifier, ITokenProviderWithoutCodeVerifier, IClientAccessTokenProvider
     {
         /// <summary>
         /// Singleton instance
         /// </summary>
-        public static readonly ITokenProvider Instance;
+        public static readonly ITokenProviderWithCodeVerifier InstanceWithCodeVerifier;
+
+        /// <summary>
+        /// Singleton instance
+        /// </summary>
+        public static readonly ITokenProviderWithoutCodeVerifier InstanceWithoutCodeVerifier;
 
         /// <summary>
         /// Singleton instance for client access token
@@ -24,7 +29,8 @@ namespace Ibanity.Apis.Client.Http
         {
             var instance = new UnconfiguredTokenProvider();
 
-            Instance = instance;
+            InstanceWithCodeVerifier = instance;
+            InstanceWithoutCodeVerifier = instance;
             ClientAccessInstance = instance;
         }
 
@@ -40,6 +46,16 @@ namespace Ibanity.Apis.Client.Http
         /// <inheritdoc />
         /// <remarks>Does nothing besides throwing an exception.</remarks>
         public Task<Token> GetToken(string authorizationCode, string codeVerifier, string redirectUri, CancellationToken? cancellationToken = null) =>
+            throw new IbanityConfigurationException(Message);
+
+        /// <inheritdoc />
+        /// <remarks>Does nothing besides throwing an exception.</remarks>
+        public Task<Token> GetToken(string authorizationCode, Uri redirectUri, CancellationToken? cancellationToken = null) =>
+            throw new IbanityConfigurationException(Message);
+
+        /// <inheritdoc />
+        /// <remarks>Does nothing besides throwing an exception.</remarks>
+        public Task<Token> GetToken(string authorizationCode, string redirectUri, CancellationToken? cancellationToken = null) =>
             throw new IbanityConfigurationException(Message);
 
         /// <inheritdoc />
