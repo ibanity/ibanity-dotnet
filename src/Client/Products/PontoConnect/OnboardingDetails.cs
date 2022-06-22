@@ -2,7 +2,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
-using Ibanity.Apis.Client.Products.PontoConnect.Models;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect
 {
@@ -32,7 +31,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         }
 
         /// <inheritdoc />
-        public async Task<OnboardingDetailsResponse> Create(ClientAccessToken token, Models.OnboardingDetails onboardingDetails, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+        public async Task<Models.OnboardingDetailsResponse> Create(ClientAccessToken token, Models.OnboardingDetails onboardingDetails, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             Map((await _apiClient.Post<JsonApi.Resource<Models.OnboardingDetails, object, object, object>, JsonApi.Resource<Models.OnboardingDetailsResponse, object, object, object>>(
                 $"{_urlPrefix}/{EntityName}",
                 (await _accessTokenProvider.RefreshToken(token ?? throw new ArgumentNullException(nameof(token)))).AccessToken,
@@ -47,7 +46,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                 idempotencyKey ?? Guid.NewGuid(),
                 cancellationToken ?? CancellationToken.None)).Data);
 
-        private static OnboardingDetailsResponse Map(JsonApi.Data<Models.OnboardingDetailsResponse, object, object, object> data)
+        private static Models.OnboardingDetailsResponse Map(JsonApi.Data<Models.OnboardingDetailsResponse, object, object, object> data)
         {
             if (data is null)
                 throw new ArgumentNullException(nameof(data));
@@ -74,6 +73,6 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created onboarding details resource</returns>
-        Task<OnboardingDetailsResponse> Create(ClientAccessToken token, Models.OnboardingDetails onboardingDetails, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+        Task<Models.OnboardingDetailsResponse> Create(ClientAccessToken token, Models.OnboardingDetails onboardingDetails, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }

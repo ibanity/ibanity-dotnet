@@ -24,7 +24,7 @@ namespace Ibanity.Apis.Client.Webhooks
         };
 
         private readonly ISerializer<string> _serializer;
-        private readonly Jwt.IVerifier _jwtVerifier;
+        private readonly IVerifier _jwtVerifier;
 
         /// <summary>
         /// Build a new instance.
@@ -32,7 +32,7 @@ namespace Ibanity.Apis.Client.Webhooks
         /// <param name="serializer">To-string serializer</param>
         /// <param name="jwksService">Get public keys from authorization server</param>
         /// <param name="jwtVerifier">JSON Web Token verifier</param>
-        public WebhooksService(ISerializer<string> serializer, IJwksService jwksService, Jwt.IVerifier jwtVerifier)
+        public WebhooksService(ISerializer<string> serializer, IJwksService jwksService, IVerifier jwtVerifier)
         {
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             JwksService = jwksService ?? throw new ArgumentNullException(nameof(jwksService));
@@ -59,7 +59,7 @@ namespace Ibanity.Apis.Client.Webhooks
             if (!Types.TryGetValue(payloadType, out var type))
                 throw new IbanityException("Can't find event type: " + payloadType);
 
-            var deserializedPayload = (Webhooks.Models.Payload)_serializer.Deserialize(payload, type);
+            var deserializedPayload = (Payload)_serializer.Deserialize(payload, type);
             return deserializedPayload.UntypedData.Flatten();
         }
 

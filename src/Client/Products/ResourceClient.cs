@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
-using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Models;
 using Ibanity.Apis.Client.Utils;
 
@@ -137,7 +136,7 @@ namespace Ibanity.Apis.Client.Products
         /// <returns>First page of items</returns>
         protected async Task<IbanityCollection<TAttributes>> InternalCursorBasedList(Token token, string path, CancellationToken? cancellationToken)
         {
-            var page = await _apiClient.Get<JsonApi.Collection<TAttributes, TMeta, TRelationships, TLinks, CursorBasedPaging>>(
+            var page = await _apiClient.Get<JsonApi.Collection<TAttributes, TMeta, TRelationships, TLinks, JsonApi.CursorBasedPaging>>(
                 path,
                 await GetAccessToken(token),
                 cancellationToken ?? CancellationToken.None);
@@ -168,7 +167,7 @@ namespace Ibanity.Apis.Client.Products
         /// <returns>First page of items</returns>
         protected async Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(Token token, string path, CancellationToken? cancellationToken)
         {
-            var page = await _apiClient.Get<JsonApi.Collection<TAttributes, TMeta, TRelationships, TLinks, OffsetBasedPaging>>(
+            var page = await _apiClient.Get<JsonApi.Collection<TAttributes, TMeta, TRelationships, TLinks, JsonApi.OffsetBasedPaging>>(
                 path,
                 await GetAccessToken(token),
                 cancellationToken ?? CancellationToken.None);
