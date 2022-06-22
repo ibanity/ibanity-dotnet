@@ -150,7 +150,7 @@ namespace Ibanity.Apis.Client.Products
                 PreviousLink = page.Links?.Previous,
                 NextLink = page.Links?.Next,
                 Items = page.Data.Select(Map).ToList(),
-                ContinuationToken = page.Links.Next == null
+                ContinuationToken = page.Links?.Next == null
                     ? null
                     : new ContinuationToken { NextUrl = page.Links.Next }
             };
