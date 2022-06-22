@@ -8,7 +8,7 @@ using Ibanity.Apis.Client.Utils.Logging;
 
 namespace Ibanity.Apis.Client.Http.OAuth2
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="ITokenProviderWithCodeVerifier" />
     public class OAuth2TokenProvider : ITokenProviderWithCodeVerifier, ITokenProviderWithoutCodeVerifier
     {
         private static readonly TimeSpan ValidityThreshold = TimeSpan.FromMinutes(1d);
