@@ -21,10 +21,46 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
         public string CustomerReference { get; set; }
 
         /// <summary>
-        /// &lt;p&gt;This object contains 5 different attributes: &lt;ul&gt;&lt;li&gt;&lt;code&gt;rootNamespace&lt;/code&gt; The root namespace of the document.&lt;/li&gt;&lt;li&gt;&lt;code&gt;localName&lt;/code&gt; Type of document, Invoice or Credit Note.&lt;/li&gt;&lt;li&gt;&lt;code&gt;customizationId&lt;/code&gt; An identification of the specification containing the total set of rules regarding semantic content, cardinalities and business rules to which the data contained in the instance document conforms.&lt;/li&gt;&lt;li&gt;&lt;code&gt;ublVersionId&lt;/code&gt; Version of the UBL.&lt;/li&gt;&lt;li&gt;&lt;code&gt;profileId&lt;/code&gt; Identifies the business process context in which the transaction appears, to enable the Buyer to process the Invoice in an appropriate way.&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;
+        /// Supported document formats
         /// </summary>
-        /// <value>&lt;p&gt;This object contains 5 different attributes: &lt;ul&gt;&lt;li&gt;&lt;code&gt;rootNamespace&lt;/code&gt; The root namespace of the document.&lt;/li&gt;&lt;li&gt;&lt;code&gt;localName&lt;/code&gt; Type of document, Invoice or Credit Note.&lt;/li&gt;&lt;li&gt;&lt;code&gt;customizationId&lt;/code&gt; An identification of the specification containing the total set of rules regarding semantic content, cardinalities and business rules to which the data contained in the instance document conforms.&lt;/li&gt;&lt;li&gt;&lt;code&gt;ublVersionId&lt;/code&gt; Version of the UBL.&lt;/li&gt;&lt;li&gt;&lt;code&gt;profileId&lt;/code&gt; Identifies the business process context in which the transaction appears, to enable the Buyer to process the Invoice in an appropriate way.&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;</value>
         [DataMember(Name = "supportedDocumentFormats", EmitDefaultValue = false)]
-        public List<Object> SupportedDocumentFormats { get; set; }
+        public List<SupportedDocumentFormat> SupportedDocumentFormats { get; set; }
+    }
+
+    /// <summary>
+    /// Supported document format
+    /// </summary>
+    [DataContract]
+    public class SupportedDocumentFormat
+    {
+        /// <summary>
+        /// The root namespace of the document.
+        /// </summary>
+        [DataMember(Name = "rootNamespace", EmitDefaultValue = false)]
+        public string RootNamespace { get; set; }
+
+        /// <summary>
+        /// Type of document, Invoice or Credit Note.
+        /// </summary>
+        [DataMember(Name = "localName", EmitDefaultValue = false)]
+        public string LocalName { get; set; }
+
+        /// <summary>
+        /// An identification of the specification containing the total set of rules regarding semantic content, cardinalities and business rules to which the data contained in the instance document conforms.
+        /// </summary>
+        [DataMember(Name = "customizationId", EmitDefaultValue = false)]
+        public string CustomizationId { get; set; }
+
+        /// <summary>
+        /// Version of the UBL.
+        /// </summary>
+        [DataMember(Name = "ublVersionId", EmitDefaultValue = false)]
+        public string UblVersionId { get; set; }
+
+        /// <summary>
+        /// Identifies the business process context in which the transaction appears, to enable the Buyer to process the Invoice in an appropriate way.
+        /// </summary>
+        [DataMember(Name = "profileId", EmitDefaultValue = false)]
+        public string ProfileId { get; set; }
     }
 }
