@@ -79,7 +79,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     /// <summary>
     /// Contains services for all Ponto Connect-releated resources.
     /// </summary>
-    public interface IPontoConnectClient : IProductClient<ITokenProviderWithCodeVerifier>
+    public interface IPontoConnectClient : IProductWithRefreshTokenClient<ITokenProviderWithCodeVerifier>
     {
         /// <summary>
         /// This is an object representing a financial institution, providing its basic details - ID and name. Only the financial institutions corresponding to authorized accounts will be available on the API.

@@ -52,7 +52,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
     /// <summary>
     /// Contains services for all Ponto Connect-releated resources.
     /// </summary>
-    public interface IIsabelConnectClient : IProductClient<ITokenProviderWithoutCodeVerifier>
+    public interface IIsabelConnectClient : IProductWithRefreshTokenClient<ITokenProviderWithoutCodeVerifier>
     {
         /// <summary>
         /// <para>This is an object representing a customer account. This object will provide details about the account, including the reference and the currency.</para>

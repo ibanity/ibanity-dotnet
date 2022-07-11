@@ -6,7 +6,7 @@ namespace Ibanity.Apis.Client.Products
     /// <summary>
     /// Base product client.
     /// </summary>
-    public abstract class ProductClient<T> : IProductClient<T> where T : class, ITokenProvider
+    public abstract class ProductClient<T> : IProductWithRefreshTokenClient<T> where T : class, ITokenProvider
     {
         /// <summary>
         /// Build a new instance.
@@ -34,17 +34,23 @@ namespace Ibanity.Apis.Client.Products
     /// <summary>
     /// Base product client interface.
     /// </summary>
-    public interface IProductClient<T> where T : ITokenProvider
+    public interface IProductWithRefreshTokenClient<T> : IProductClient<T> where T : ITokenProvider
+    {
+        /// <summary>
+        /// Service to generate and refresh access tokens.
+        /// </summary>
+        T TokenService { get; }
+    }
+
+    /// <summary>
+    /// Base product client interface.
+    /// </summary>
+    public interface IProductClient<T>
     {
         /// <summary>
         /// Generic API client.
         /// </summary>
         IApiClient ApiClient { get; }
-
-        /// <summary>
-        /// Service to generate and refresh access tokens.
-        /// </summary>
-        T TokenService { get; }
 
         /// <summary>
         /// Service to generate and refresh client access tokens.
