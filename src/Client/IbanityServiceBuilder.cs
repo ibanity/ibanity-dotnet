@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Http.OAuth2;
+using Ibanity.Apis.Client.Products.eInvoicing;
 using Ibanity.Apis.Client.Products.IsabelConnect;
 using Ibanity.Apis.Client.Products.PontoConnect;
 using Ibanity.Apis.Client.Utils;
@@ -30,6 +31,8 @@ namespace Ibanity.Apis.Client
         private string _pontoConnectClientSecret;
         private string _isabelConnectClientId;
         private string _isabelConnectClientSecret;
+        private string _eInvoicingClientId;
+        private string _eInvoicingClientSecret;
         private ILoggerFactory _loggerFactory;
         private TimeSpan? _timeout;
         private Action<HttpClient> _customizeClient;
@@ -145,6 +148,20 @@ namespace Ibanity.Apis.Client
 
             _isabelConnectClientId = clientId;
             _isabelConnectClientSecret = clientSecret;
+
+            return this;
+        }
+
+        IIbanityServiceOptionalPropertiesBuilder IIbanityServiceOptionalPropertiesBuilder.AddEInvoicingOAuth2Authentication(string clientId, string clientSecret)
+        {
+            if (string.IsNullOrWhiteSpace(clientId))
+                throw new ArgumentException($"'{nameof(clientId)}' cannot be null or whitespace.", nameof(clientId));
+
+            if (string.IsNullOrWhiteSpace(clientSecret))
+                throw new ArgumentException($"'{nameof(clientSecret)}' cannot be null or whitespace.", nameof(clientSecret));
+
+            _eInvoicingClientId = clientId;
+            _eInvoicingClientSecret = clientSecret;
 
             return this;
         }
@@ -268,7 +285,6 @@ namespace Ibanity.Apis.Client
                         _pontoConnectClientId,
                         _pontoConnectClientSecret));
 
-
             var isabelConnectClient = new IsabelConnectClient(
                 v2ApiClient,
                 _isabelConnectClientId == null
@@ -292,6 +308,20 @@ namespace Ibanity.Apis.Client
                         _isabelConnectClientId,
                         _isabelConnectClientSecret));
 
+            var eInvoicingClient = new EInvoicingClient(
+                versionLessApiClient,
+                UnconfiguredTokenProvider.InstanceWithoutCodeVerifier,
+                _eInvoicingClientId == null
+                    ? UnconfiguredTokenProvider.ClientAccessInstance
+                    : new OAuth2ClientAccessTokenProvider(
+                        loggerFactory,
+                        httpClient,
+                        clock,
+                        serializer,
+                        EInvoicingClient.UrlPrefix,
+                        _eInvoicingClientId,
+                        _eInvoicingClientSecret));
+
             IJwksService jwksService = new JwksService(versionLessApiClient);
 
             var webhooksJwksCachingDuration = _webhooksJwksCachingDuration ?? TimeSpan.FromSeconds(30d);
@@ -310,7 +340,7 @@ namespace Ibanity.Apis.Client
                     clock,
                     _webhooksAllowedClockSkew ?? TimeSpan.FromSeconds(30d)));
 
-            return new IbanityService(httpClient, pontoConnectClient, isabelConnectClient, webhooksService);
+            return new IbanityService(httpClient, pontoConnectClient, isabelConnectClient, eInvoicingClient, webhooksService);
         }
 
         private IApiClient BuildApiClient(HttpClient httpClient, JsonSerializer serializer, IHttpSignatureService signatureService, ILoggerFactory loggerFactory, string version)
@@ -448,6 +478,14 @@ namespace Ibanity.Apis.Client
         /// <param name="clientSecret">OAuth2 client secret</param>
         /// <returns>The builder to be used to pursue configuration</returns>
         IIbanityServiceOptionalPropertiesBuilder AddIsabelConnectOAuth2Authentication(string clientId, string clientSecret);
+
+        /// <summary>
+        /// Define eInvoicing OAuth2 credentials.
+        /// </summary>
+        /// <param name="clientId">Valid OAuth2 client identifier for your application</param>
+        /// <param name="clientSecret">OAuth2 client secret</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
+        IIbanityServiceOptionalPropertiesBuilder AddEInvoicingOAuth2Authentication(string clientId, string clientSecret);
 
         /// <summary>
         /// Configure logger.

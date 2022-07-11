@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using Ibanity.Apis.Client.Products.eInvoicing;
 using Ibanity.Apis.Client.Products.IsabelConnect;
 using Ibanity.Apis.Client.Products.PontoConnect;
 using Ibanity.Apis.Client.Webhooks;
@@ -18,12 +19,14 @@ namespace Ibanity.Apis.Client
         /// <param name="httpClient">Low-level HTTP client</param>
         /// <param name="pontoConnectClient">Ponto Connect service</param>
         /// <param name="isabelConnectClient">Isabel Connect service</param>
+        /// <param name="eInvoicingClient">eInvoicing service</param>
         /// <param name="webhooksService">Webhooks service</param>
-        public IbanityService(HttpClient httpClient, IPontoConnectClient pontoConnectClient, IIsabelConnectClient isabelConnectClient, IWebhooksService webhooksService)
+        public IbanityService(HttpClient httpClient, IPontoConnectClient pontoConnectClient, IIsabelConnectClient isabelConnectClient, IEInvoicingClient eInvoicingClient, IWebhooksService webhooksService)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             PontoConnect = pontoConnectClient ?? throw new ArgumentNullException(nameof(pontoConnectClient));
             IsabelConnect = isabelConnectClient ?? throw new ArgumentNullException(nameof(isabelConnectClient));
+            EInvoicing = eInvoicingClient ?? throw new ArgumentNullException(nameof(eInvoicingClient));
             Webhooks = webhooksService ?? throw new ArgumentNullException(nameof(webhooksService));
         }
 
@@ -32,6 +35,9 @@ namespace Ibanity.Apis.Client
 
         /// <inheritdoc />
         public IIsabelConnectClient IsabelConnect { get; }
+
+        /// <inheritdoc />
+        public IEInvoicingClient EInvoicing { get; }
 
         /// <inheritdoc />
         public IWebhooksService Webhooks { get; }
@@ -76,6 +82,11 @@ namespace Ibanity.Apis.Client
         /// Get the Ponto Connect service.
         /// </summary>
         IIsabelConnectClient IsabelConnect { get; }
+
+        /// <summary>
+        /// Get the eInvoicing service.
+        /// </summary>
+        IEInvoicingClient EInvoicing { get; }
 
         /// <summary>
         /// Allows to validate and deserialize webhook payloads.

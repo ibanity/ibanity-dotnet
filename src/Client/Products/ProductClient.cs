@@ -34,7 +34,7 @@ namespace Ibanity.Apis.Client.Products
     /// <summary>
     /// Base product client interface.
     /// </summary>
-    public interface IProductWithRefreshTokenClient<T> : IProductClient<T> where T : ITokenProvider
+    public interface IProductWithRefreshTokenClient<T> : IProductClient where T : ITokenProvider
     {
         /// <summary>
         /// Service to generate and refresh access tokens.
@@ -45,7 +45,7 @@ namespace Ibanity.Apis.Client.Products
     /// <summary>
     /// Base product client interface.
     /// </summary>
-    public interface IProductClient<T>
+    public interface IProductClient
     {
         /// <summary>
         /// Generic API client.
