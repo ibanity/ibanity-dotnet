@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Ibanity.Apis.Client.Crypto;
 using Ibanity.Apis.Client.Utils;
 using Ibanity.Apis.Client.Utils.Logging;
@@ -44,7 +45,7 @@ namespace Ibanity.Apis.Client.Http
         }
 
         /// <inheritdoc />
-        public IDictionary<string, string> GetHttpSignatureHeaders(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, string payload)
+        public IDictionary<string, string> GetHttpSignatureHeaders(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, Stream payload)
         {
             if (string.IsNullOrWhiteSpace(httpMethod))
                 throw new ArgumentException($"'{nameof(httpMethod)}' cannot be null or whitespace.", nameof(httpMethod));
@@ -58,7 +59,7 @@ namespace Ibanity.Apis.Client.Http
             _logger.Trace("Signing request with certificate " + _certificateId);
 
             var now = _clock.Now;
-            var digest = _digest.Compute(payload ?? string.Empty);
+            var digest = _digest.Compute(payload);
 
             var signatureString = _signatureString.Compute(
                 httpMethod,
@@ -102,7 +103,7 @@ namespace Ibanity.Apis.Client.Http
 
         /// <inheritdoc />
         /// <remarks>Returns an empty dictionary.</remarks>
-        public IDictionary<string, string> GetHttpSignatureHeaders(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, string payload) =>
+        public IDictionary<string, string> GetHttpSignatureHeaders(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, Stream payload) =>
             new Dictionary<string, string>();
     }
 
@@ -119,6 +120,6 @@ namespace Ibanity.Apis.Client.Http
         /// <param name="requestHeaders">Existing request headers</param>
         /// <param name="payload">Request payload</param>
         /// <returns>Headers names and values</returns>
-        IDictionary<string, string> GetHttpSignatureHeaders(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, string payload);
+        IDictionary<string, string> GetHttpSignatureHeaders(string httpMethod, Uri url, IDictionary<string, string> requestHeaders, Stream payload);
     }
 }

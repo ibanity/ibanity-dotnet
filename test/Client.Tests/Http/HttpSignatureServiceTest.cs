@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using Ibanity.Apis.Client.Crypto;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Utils;
@@ -56,7 +57,7 @@ namespace Ibanity.Apis.Client.Tests.Http
 
             var digest = new Mock<IDigest>();
             digest.
-                Setup(d => d.Compute(It.IsAny<string>())).
+                Setup(d => d.Compute(It.IsAny<Stream>())).
                 Returns(ExpectedDigest);
 
             var signature = new Mock<ISignature>();
@@ -91,14 +92,23 @@ namespace Ibanity.Apis.Client.Tests.Http
                 signatureString.Object,
                 CertificateId);
 
-            return target.GetHttpSignatureHeaders(
-                "POST",
-                new Uri("https://myproxy.com/xs2a/customer-access-tokens?test=1&test=2"),
-                new Dictionary<string, string>
-                {
+            using (var stream = new MemoryStream())
+            using (var writer = new StreamWriter(stream))
+            {
+                writer.Write(@"{""msg"":""hello""}");
+                writer.Flush();
+
+                stream.Seek(0L, SeekOrigin.Begin);
+
+                return target.GetHttpSignatureHeaders(
+                    "POST",
+                    new Uri("https://myproxy.com/xs2a/customer-access-tokens?test=1&test=2"),
+                    new Dictionary<string, string>
+                    {
                     { "Ibanity-Idempotency-key", IdempotencyKey }
-                },
-                @"{""msg"":""hello""}");
+                    },
+                    stream);
+            }
         }
     }
 }
