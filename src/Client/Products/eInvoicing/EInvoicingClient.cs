@@ -21,7 +21,11 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         public EInvoicingClient(IApiClient apiClient, ITokenProviderWithoutCodeVerifier tokenService, IClientAccessTokenProvider clientAccessTokenService)
             : base(apiClient, tokenService, clientAccessTokenService)
         {
+            Suppliers = new Suppliers(apiClient, clientAccessTokenService, UrlPrefix);
         }
+
+        /// <inheritdoc />
+        public ISuppliers Suppliers { get; }
     }
 
     /// <summary>
@@ -29,5 +33,9 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
     /// </summary>
     public interface IEInvoicingClient : IProductClient
     {
+        /// <summary>
+        /// This resource allows a Software Partner to create a new Supplier.
+        /// </summary>
+        ISuppliers Suppliers { get; }
     }
 }

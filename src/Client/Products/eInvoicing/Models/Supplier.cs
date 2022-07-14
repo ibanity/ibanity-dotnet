@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.eInvoicing.Models
 {
@@ -8,7 +9,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
     /// This resource allows a Software Partner to create a new Supplier.
     /// </summary>
     [DataContract]
-    public class Supplier
+    public class Supplier : Identified<Guid>
     {
         /// <summary>
         /// The city where the supplier is located.
