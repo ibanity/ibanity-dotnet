@@ -17,7 +17,6 @@ namespace Ibanity.Apis.Client.Tests.Crypto
             using (var stream = new MemoryStream())
             using (var writer = new StreamWriter(stream))
             {
-
                 writer.Write(@"{""msg"":""hello""}");
                 writer.Flush();
 
