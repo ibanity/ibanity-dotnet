@@ -57,7 +57,7 @@ namespace Ibanity.Apis.Client.Http
             if (path is null)
                 throw new ArgumentNullException(nameof(path));
 
-            var headers = GetCommonHeaders(method, bearerToken, path, null);
+            var headers = GetCommonHeaders(method, bearerToken, path, null, null);
 
             _logger.Trace($"Sending request: {method.ToString().ToUpper(CultureInfo.InvariantCulture)} {path}");
 
@@ -99,7 +99,19 @@ namespace Ibanity.Apis.Client.Http
             if (path is null)
                 throw new ArgumentNullException(nameof(path));
 
-            var headers = GetCommonHeaders(method, bearerToken, path, idempotencyKey);
+            var content = _serializer.Serialize(payload);
+
+            Dictionary<string, string> headers;
+
+            using (var stream = new MemoryStream())
+            using (var writer = new StreamWriter(stream, Encoding))
+            {
+                writer.Write(payload);
+                writer.Flush();
+
+                stream.Seek(0L, SeekOrigin.Begin);
+                headers = GetCommonHeaders(method, bearerToken, path, idempotencyKey, stream);
+            }
 
             _logger.Trace($"Sending request: {method.ToString().ToUpper(CultureInfo.InvariantCulture)} {path}");
 
@@ -108,7 +120,6 @@ namespace Ibanity.Apis.Client.Http
                 foreach (var header in headers)
                     request.Headers.Add(header.Key, header.Value);
 
-                var content = _serializer.Serialize(payload);
                 request.Content = new StringContent(content, Encoding, "application/vnd.api+json");
 
                 _customizeRequest(request);
@@ -123,7 +134,7 @@ namespace Ibanity.Apis.Client.Http
             }
         }
 
-        private Dictionary<string, string> GetCommonHeaders(HttpMethod method, string bearerToken, string path, Guid? idempotencyKey)
+        private Dictionary<string, string> GetCommonHeaders(HttpMethod method, string bearerToken, string path, Guid? idempotencyKey, Stream payload)
         {
             var headers = new Dictionary<string, string>
             {
@@ -143,7 +154,7 @@ namespace Ibanity.Apis.Client.Http
                 method.Method.ToUpper(CultureInfo.InvariantCulture),
                 new Uri(_httpClient.BaseAddress + path),
                 headers,
-                null);
+                payload);
 
             foreach (var header in signatureHeaders)
                 headers.Add(header.Key, header.Value);
@@ -157,7 +168,8 @@ namespace Ibanity.Apis.Client.Http
             if (path is null)
                 throw new ArgumentNullException(nameof(path));
 
-            var headers = GetCommonHeaders(HttpMethod.Post, bearerToken, path, null);
+            var headers = GetCommonHeaders(HttpMethod.Post, bearerToken, path, null, payload);
+            payload.Seek(0L, SeekOrigin.Begin);
 
             _logger.Trace($"Sending request: {HttpMethod.Post.ToString().ToUpper(CultureInfo.InvariantCulture)} {path}");
 
@@ -194,7 +206,7 @@ namespace Ibanity.Apis.Client.Http
             if (target is null)
                 throw new ArgumentNullException(nameof(target));
 
-            var headers = GetCommonHeaders(HttpMethod.Get, bearerToken, path, null);
+            var headers = GetCommonHeaders(HttpMethod.Get, bearerToken, path, null, null);
 
             using (var request = new HttpRequestMessage(HttpMethod.Get, path))
             {
