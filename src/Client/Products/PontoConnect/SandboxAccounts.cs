@@ -12,7 +12,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     /// <para>These sandbox accounts are available only to the related organization, and can be authorized in the Ponto dashboard.</para>
     /// <para>A financial institution account belongs to a financial institution and can have many associated financial institution transactions.</para>
     /// </summary>
-    public class SandboxAccounts : ResourceWithParentClient<SandboxAccount, object, object, object>, ISandboxAccounts
+    public class SandboxAccounts : ResourceWithParentClient<SandboxAccount, object, object, object, Token>, ISandboxAccounts
     {
         private const string ParentEntityName = "sandbox/financial-institutions";
         private const string EntityName = "financial-institution-accounts";

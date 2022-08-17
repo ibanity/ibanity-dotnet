@@ -12,7 +12,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     /// <para>Otherwise, the user can sign the bulk payment in the Ponto Dashboard.</para>
     /// <para>When authorizing bulk payment initiation in the sandbox, you should use the pre-filled credentials and 123456 as the digipass response.</para>
     /// </summary>
-    public class BulkPayments : ResourceWithParentClient<BulkPaymentResponse, object, object, PaymentLinks>, IBulkPayments
+    public class BulkPayments : ResourceWithParentClient<BulkPaymentResponse, object, object, PaymentLinks, Token>, IBulkPayments
     {
         private const string ParentEntityName = "accounts";
         private const string EntityName = "bulk-payments";

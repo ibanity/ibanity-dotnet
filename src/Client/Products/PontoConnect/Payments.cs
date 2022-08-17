@@ -12,7 +12,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     /// <para>Otherwise, the user can sign the payment in the Ponto Dashboard.</para>
     /// <para>When authorizing payment initiation in the sandbox, you should use the pre-filled credentials and 123456 as the digipass response.</para>
     /// </summary>
-    public class Payments : ResourceWithParentClient<PaymentResponse, object, object, PaymentLinks>, IPayments
+    public class Payments : ResourceWithParentClient<PaymentResponse, object, object, PaymentLinks, Token>, IPayments
     {
         private const string ParentEntityName = "accounts";
         private const string EntityName = "payments";

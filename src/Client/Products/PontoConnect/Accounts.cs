@@ -12,7 +12,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     /// <para>An account has related transactions and belongs to a financial institution.</para>
     /// <para>An account may be revoked from an integration using the revoke account endpoint. To recover access, the user must add the account back to the integration in their Ponto Dashboard or in a new authorization flow.</para>
     /// </summary>
-    public class Accounts : ResourceClient<AccountResponse, AccountMeta, object, object>, IAccounts
+    public class Accounts : ResourceClient<AccountResponse, AccountMeta, object, object, Token>, IAccounts
     {
         private const string EntityName = "accounts";
 

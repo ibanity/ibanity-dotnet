@@ -12,7 +12,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
     /// <para>This is an object representing a bulk payment initiation request. When you want to request the initiation of payments on behalf of one of your customers, you can create one to start the authorization flow.</para>
     /// <para>When creating the request, you should provide the payment information by uploading a PAIN xml file. <see href="https://documentation.ibanity.com/isabel-connect/products#bulk-payment-initiation">Learn more about the supported formats in Isabel Connect</see>.</para>
     /// </summary>
-    public class BulkPaymentInitiationRequests : ResourceClient<BulkPaymentInitiationRequest, object, object, object, string>, IBulkPaymentInitiationRequests
+    public class BulkPaymentInitiationRequests : ResourceClient<BulkPaymentInitiationRequest, object, object, object, string, Token>, IBulkPaymentInitiationRequests
     {
         private const string EntityName = "bulk-payment-initiation-requests";
 

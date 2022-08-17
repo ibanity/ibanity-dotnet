@@ -9,7 +9,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     /// <summary>
     /// This is an object representing a resource synchronization. This object will give you the details of the synchronization, including its resource, type, and status.
     /// </summary>
-    public class Synchronizations : ResourceClient<Synchronization, object, object, object>, ISynchronizations
+    public class Synchronizations : ResourceClient<Synchronization, object, object, object, Token>, ISynchronizations
     {
         private const string EntityName = "synchronizations";
 

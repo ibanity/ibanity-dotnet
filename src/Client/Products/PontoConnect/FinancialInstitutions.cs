@@ -12,7 +12,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     /// <summary>
     /// This is an object representing a financial institution, providing its basic details - ID and name. Only the financial institutions corresponding to authorized accounts will be available on the API.
     /// </summary>
-    public class FinancialInstitutions : ResourceClient<FinancialInstitution, object, object, object>, IFinancialInstitutions
+    public class FinancialInstitutions : ResourceClient<FinancialInstitution, object, object, object, Token>, IFinancialInstitutions
     {
         private const string EntityName = "financial-institutions";
 

@@ -11,7 +11,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
     /// <para>This object provides details about an account report. From the list endpoint, you will receive a collection of the account report objects for the corresponding customer.</para>
     /// <para>Unlike other endpoints, the get endpoint will return the contents of the account report file instead of a json object. You can also find a link to the report in the account report object links.</para>
     /// </summary>
-    public class AccountReports : ResourceClient<AccountReport, object, object, object, string>, IAccountReports
+    public class AccountReports : ResourceClient<AccountReport, object, object, object, string, Token>, IAccountReports
     {
         private const string EntityName = "account-reports";
 

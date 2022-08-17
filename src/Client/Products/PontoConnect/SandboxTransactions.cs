@@ -11,7 +11,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     /// <para>This is an object representing a financial institution transaction, a fake transaction on a fake account you can create for test purposes.</para>
     /// <para>Once the account corresponding to the financial institution account has been synchronized, your custom financial institution transactions will be visible in the transactions list.</para>
     /// </summary>
-    public class SandboxTransactions : ResourceWithParentClient<SandboxTransaction, object, object, object>, ISandboxTransactions
+    public class SandboxTransactions : ResourceWithParentClient<SandboxTransaction, object, object, object, Token>, ISandboxTransactions
     {
         private const string TopLevelParentEntityName = "sandbox/financial-institutions";
         private const string ParentEntityName = "financial-institution-accounts";

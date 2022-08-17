@@ -11,7 +11,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     /// <para>This is an object representing an account transaction. This object will give you the details of the financial transaction, including its amount and description.</para>
     /// <para>From this object, you can link back to its account.</para>
     /// </summary>
-    public class Transactions : ResourceWithParentClient<TransactionResponse, object, TransactionRelationships, object>, ITransactions
+    public class Transactions : ResourceWithParentClient<TransactionResponse, object, TransactionRelationships, object, Token>, ITransactions
     {
         private const string ParentEntityName = "accounts";
         private const string EntityName = "transactions";

@@ -18,10 +18,11 @@ namespace Ibanity.Apis.Client.Products
     /// <typeparam name="TRelationships">Resource relationships type</typeparam>
     /// <typeparam name="TLinks">Resource links type</typeparam>
     /// <typeparam name="TId">Resource ID type</typeparam>
-    public abstract class BaseResourceClient<TAttributes, TMeta, TRelationships, TLinks, TId> where TAttributes : IIdentified<TId>
+    /// <typeparam name="TToken">Token type</typeparam>
+    public abstract class BaseResourceClient<TAttributes, TMeta, TRelationships, TLinks, TId, TToken> where TAttributes : IIdentified<TId> where TToken : BaseToken
     {
         private readonly IApiClient _apiClient;
-        private readonly IAccessTokenProvider<Token> _accessTokenProvider;
+        private readonly IAccessTokenProvider<TToken> _accessTokenProvider;
 
         /// <summary>
         /// Beginning of URIs, composed by Ibanity API endpoint, followed by product name.
@@ -34,7 +35,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="apiClient">Generic API client</param>
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
-        protected BaseResourceClient(IApiClient apiClient, IAccessTokenProvider<Token> accessTokenProvider, string urlPrefix)
+        protected BaseResourceClient(IApiClient apiClient, IAccessTokenProvider<TToken> accessTokenProvider, string urlPrefix)
         {
             if (string.IsNullOrWhiteSpace(urlPrefix))
                 throw new ArgumentException($"'{nameof(urlPrefix)}' cannot be null or whitespace.", nameof(urlPrefix));
@@ -55,7 +56,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected Task<IbanityCollection<TAttributes>> InternalCursorBasedList(Token token, string path, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken)
+        protected Task<IbanityCollection<TAttributes>> InternalCursorBasedList(TToken token, string path, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken)
         {
             var parameters = (filters ?? Enumerable.Empty<Filter>()).Select(f => f.ToString()).ToList();
 
@@ -90,7 +91,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="pageSize">Number of items by page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(Token token, string path, IEnumerable<Filter> filters, IEnumerable<(string, string)> customParameters, long? pageOffset, int? pageSize, CancellationToken? cancellationToken)
+        protected Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(TToken token, string path, IEnumerable<Filter> filters, IEnumerable<(string, string)> customParameters, long? pageOffset, int? pageSize, CancellationToken? cancellationToken)
         {
             var parameters = (filters ?? Enumerable.Empty<Filter>()).Select(f => f.ToString()).ToList();
 
@@ -121,7 +122,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="continuationToken">Token referencing the page to request</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>Requested page of items</returns>
-        protected Task<IbanityCollection<TAttributes>> InternalCursorBasedList(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
+        protected Task<IbanityCollection<TAttributes>> InternalCursorBasedList(TToken token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
             InternalCursorBasedList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 (continuationToken ?? throw new ArgumentNullException(nameof(continuationToken))).NextUrl,
@@ -134,7 +135,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="path">Resource collection path</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected async Task<IbanityCollection<TAttributes>> InternalCursorBasedList(Token token, string path, CancellationToken? cancellationToken)
+        protected async Task<IbanityCollection<TAttributes>> InternalCursorBasedList(TToken token, string path, CancellationToken? cancellationToken)
         {
             var page = await _apiClient.Get<JsonApi.Collection<TAttributes, TMeta, TRelationships, TLinks, JsonApi.CursorBasedPaging>>(
                 path,
@@ -165,7 +166,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="path">Resource collection path</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected async Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(Token token, string path, CancellationToken? cancellationToken)
+        protected async Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(TToken token, string path, CancellationToken? cancellationToken)
         {
             var page = await _apiClient.Get<JsonApi.Collection<TAttributes, TMeta, TRelationships, TLinks, JsonApi.OffsetBasedPaging>>(
                 path,
@@ -197,7 +198,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="id">Unique identifier of the resource</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>Requested resource</returns>
-        protected async Task<TAttributes> InternalGet(Token token, string path, TId id, CancellationToken? cancellationToken) =>
+        protected async Task<TAttributes> InternalGet(TToken token, string path, TId id, CancellationToken? cancellationToken) =>
             Map((await _apiClient.Get<JsonApi.Resource<TAttributes, TMeta, TRelationships, TLinks>>(
                 $"{path}/{id}",
                 await GetAccessToken(token),
@@ -210,7 +211,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="path">Path part preceding the ID</param>
         /// <param name="id">Unique identifier of the resource</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        protected async Task InternalDelete(Token token, string path, TId id, CancellationToken? cancellationToken) =>
+        protected async Task InternalDelete(TToken token, string path, TId id, CancellationToken? cancellationToken) =>
             await _apiClient.Delete(
                 $"{path}/{id}",
                 await GetAccessToken(token),
@@ -225,7 +226,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created resource</returns>
-        protected async Task<TAttributes> InternalCreate<T>(Token token, string path, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+        protected async Task<TAttributes> InternalCreate<T>(TToken token, string path, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             Map((await _apiClient.Post<JsonApi.Resource<T, object, object, object>, JsonApi.Resource<TAttributes, TMeta, TRelationships, TLinks>>(
                 $"{path}",
                 await GetAccessToken(token),
@@ -243,7 +244,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The updated resource</returns>
-        protected async Task<TAttributes> InternalUpdate<T>(Token token, string path, TId id, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+        protected async Task<TAttributes> InternalUpdate<T>(TToken token, string path, TId id, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             Map((await _apiClient.Patch<JsonApi.Resource<T, object, object, object>, JsonApi.Resource<TAttributes, TMeta, TRelationships, TLinks>>(
                 $"{path}/{id}",
                 await GetAccessToken(token),
@@ -259,7 +260,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="id">Unique identifier of the resource</param>
         /// <param name="target">Destination stream where the payload will be written to</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        protected async Task InternalGetToStream(Token token, string path, TId id, Stream target, CancellationToken? cancellationToken) =>
+        protected async Task InternalGetToStream(TToken token, string path, TId id, Stream target, CancellationToken? cancellationToken) =>
             await _apiClient.GetToStream(
                 $"{path}/{id}",
                 await GetAccessToken(token),
@@ -293,7 +294,7 @@ namespace Ibanity.Apis.Client.Products
         /// </summary>
         /// <param name="token">Authentication token</param>
         /// <returns>Bearer token</returns>
-        protected async Task<string> GetAccessToken(Token token) => token == null
+        protected async Task<string> GetAccessToken(TToken token) => token == null
             ? null
             : (await _accessTokenProvider.RefreshToken(token)).AccessToken;
     }
@@ -306,8 +307,9 @@ namespace Ibanity.Apis.Client.Products
     /// <typeparam name="TRelationships">Resource relationships type</typeparam>
     /// <typeparam name="TLinks">Resource links type</typeparam>
     /// <typeparam name="TId">Resource ID type</typeparam>
-    public abstract class ResourceClient<TAttributes, TMeta, TRelationships, TLinks, TId> :
-        BaseResourceClient<TAttributes, TMeta, TRelationships, TLinks, TId> where TAttributes : IIdentified<TId>
+    /// <typeparam name="TToken">Token type</typeparam>
+    public abstract class ResourceClient<TAttributes, TMeta, TRelationships, TLinks, TId, TToken> :
+        BaseResourceClient<TAttributes, TMeta, TRelationships, TLinks, TId, TToken> where TAttributes : IIdentified<TId> where TToken : BaseToken
     {
         private readonly string _entityName;
 
@@ -318,7 +320,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
         /// <param name="entityName">Name of the resource</param>
-        protected ResourceClient(IApiClient apiClient, IAccessTokenProvider<Token> accessTokenProvider, string urlPrefix, string entityName) :
+        protected ResourceClient(IApiClient apiClient, IAccessTokenProvider<TToken> accessTokenProvider, string urlPrefix, string entityName) :
             base(apiClient, accessTokenProvider, urlPrefix)
         {
             if (string.IsNullOrWhiteSpace(entityName))
@@ -337,7 +339,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected Task<IbanityCollection<TAttributes>> InternalCursorBasedList(Token token, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
+        protected Task<IbanityCollection<TAttributes>> InternalCursorBasedList(TToken token, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
             InternalCursorBasedList(token, GetPath(), filters, pageSize, pageBefore, pageAfter, cancellationToken);
 
         /// <summary>
@@ -350,7 +352,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="pageSize">Number of items by page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(Token token, IEnumerable<Filter> filters, IEnumerable<(string, string)> customParameters, long? pageOffset, int? pageSize, CancellationToken? cancellationToken) =>
+        protected Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(TToken token, IEnumerable<Filter> filters, IEnumerable<(string, string)> customParameters, long? pageOffset, int? pageSize, CancellationToken? cancellationToken) =>
             InternalOffsetBasedList(token, GetPath(), filters, customParameters, pageOffset, pageSize, cancellationToken);
 
         /// <summary>
@@ -360,7 +362,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="continuationToken">Token referencing the page to request</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(Token token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
+        protected Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(TToken token, ContinuationToken continuationToken, CancellationToken? cancellationToken) =>
             InternalOffsetBasedList(token, GetPath(), null, null, continuationToken.PageOffset, continuationToken.PageSize, cancellationToken);
 
         /// <summary>
@@ -370,7 +372,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="id">Unique identifier of the resource</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>Requested resource</returns>
-        protected Task<TAttributes> InternalGet(Token token, TId id, CancellationToken? cancellationToken) =>
+        protected Task<TAttributes> InternalGet(TToken token, TId id, CancellationToken? cancellationToken) =>
             InternalGet(token, GetPath(), id, cancellationToken);
 
         /// <summary>
@@ -380,7 +382,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="id">Unique identifier of the resource</param>
         /// <param name="target">Destination stream where the payload will be written to</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        protected Task InternalGetToStream(Token token, TId id, Stream target, CancellationToken? cancellationToken) =>
+        protected Task InternalGetToStream(TToken token, TId id, Stream target, CancellationToken? cancellationToken) =>
             InternalGetToStream(token, GetPath(), id, target, cancellationToken);
 
         /// <summary>
@@ -389,7 +391,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="token">Authentication token</param>
         /// <param name="id">Unique identifier of the resource</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        protected Task InternalDelete(Token token, TId id, CancellationToken? cancellationToken) =>
+        protected Task InternalDelete(TToken token, TId id, CancellationToken? cancellationToken) =>
             InternalDelete(token, GetPath(), id, cancellationToken);
 
         /// <summary>
@@ -400,7 +402,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created resource</returns>
-        protected Task<TAttributes> InternalCreate<T>(Token token, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+        protected Task<TAttributes> InternalCreate<T>(TToken token, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             InternalCreate(token, GetPath(), payload, idempotencyKey, cancellationToken);
 
         private string GetPath() =>
@@ -414,8 +416,9 @@ namespace Ibanity.Apis.Client.Products
     /// <typeparam name="TMeta">Resource meta type</typeparam>
     /// <typeparam name="TRelationships">Resource relationships type</typeparam>
     /// <typeparam name="TLinks">Resource links type</typeparam>
-    public abstract class ResourceClient<TAttributes, TMeta, TRelationships, TLinks> :
-        ResourceClient<TAttributes, TMeta, TRelationships, TLinks, Guid> where TAttributes : IIdentified<Guid>
+    /// <typeparam name="TToken">Token type</typeparam>
+    public abstract class ResourceClient<TAttributes, TMeta, TRelationships, TLinks, TToken> :
+        ResourceClient<TAttributes, TMeta, TRelationships, TLinks, Guid, TToken> where TAttributes : IIdentified<Guid> where TToken : BaseToken
     {
         /// <summary>
         /// Build a new instance.
@@ -424,7 +427,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
         /// <param name="entityName">Name of the resource</param>
-        protected ResourceClient(IApiClient apiClient, IAccessTokenProvider<Token> accessTokenProvider, string urlPrefix, string entityName) :
+        protected ResourceClient(IApiClient apiClient, IAccessTokenProvider<TToken> accessTokenProvider, string urlPrefix, string entityName) :
             base(apiClient, accessTokenProvider, urlPrefix, entityName)
         { }
 
@@ -441,8 +444,9 @@ namespace Ibanity.Apis.Client.Products
     /// <typeparam name="TLinks">Resource links type</typeparam>
     /// <typeparam name="TParentsId">Parent resources ID type</typeparam>
     /// <typeparam name="TId">Resource ID type</typeparam>
-    public abstract class ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks, TParentsId, TId> :
-        BaseResourceClient<TAttributes, TMeta, TRelationships, TLinks, TId> where TAttributes : IIdentified<TId>
+    /// <typeparam name="TToken">Token type</typeparam>
+    public abstract class ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks, TParentsId, TId, TToken> :
+        BaseResourceClient<TAttributes, TMeta, TRelationships, TLinks, TId, TToken> where TAttributes : IIdentified<TId> where TToken : BaseToken
     {
         private readonly string[] _entityNames;
 
@@ -453,7 +457,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
         /// <param name="entityNames">Names of the resources hierarchy</param>
-        protected ResourceWithParentClient(IApiClient apiClient, IAccessTokenProvider<Token> accessTokenProvider, string urlPrefix, string[] entityNames) :
+        protected ResourceWithParentClient(IApiClient apiClient, IAccessTokenProvider<TToken> accessTokenProvider, string urlPrefix, string[] entityNames) :
             base(apiClient, accessTokenProvider, urlPrefix)
         {
             _entityNames = entityNames ?? throw new ArgumentNullException(nameof(entityNames));
@@ -476,7 +480,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected Task<IbanityCollection<TAttributes>> InternalCursorBasedList(Token token, TParentsId[] parentIds, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
+        protected Task<IbanityCollection<TAttributes>> InternalCursorBasedList(TToken token, TParentsId[] parentIds, IEnumerable<Filter> filters, int? pageSize, Guid? pageBefore, Guid? pageAfter, CancellationToken? cancellationToken) =>
             InternalCursorBasedList(token, GetPath(parentIds), filters, pageSize, pageBefore, pageAfter, cancellationToken);
 
         /// <summary>
@@ -490,7 +494,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="pageSize">Number of items by page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
-        protected Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(Token token, TParentsId[] parentIds, IEnumerable<Filter> filters, IEnumerable<(string, string)> customParameters, long? pageOffset, int? pageSize, CancellationToken? cancellationToken) =>
+        protected Task<IsabelCollection<TAttributes>> InternalOffsetBasedList(TToken token, TParentsId[] parentIds, IEnumerable<Filter> filters, IEnumerable<(string, string)> customParameters, long? pageOffset, int? pageSize, CancellationToken? cancellationToken) =>
             InternalOffsetBasedList(token, GetPath(parentIds), filters, customParameters, pageOffset, pageSize, cancellationToken);
 
         /// <summary>
@@ -501,7 +505,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="id">Unique identifier of the resource</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>Requested resource</returns>
-        protected Task<TAttributes> InternalGet(Token token, TParentsId[] parentIds, TId id, CancellationToken? cancellationToken) =>
+        protected Task<TAttributes> InternalGet(TToken token, TParentsId[] parentIds, TId id, CancellationToken? cancellationToken) =>
             InternalGet(token, GetPath(parentIds), id, cancellationToken);
 
         /// <summary>
@@ -511,7 +515,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="parentIds">IDs of parent resources</param>
         /// <param name="id">Unique identifier of the resource</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        protected Task InternalDelete(Token token, TParentsId[] parentIds, TId id, CancellationToken? cancellationToken) =>
+        protected Task InternalDelete(TToken token, TParentsId[] parentIds, TId id, CancellationToken? cancellationToken) =>
             InternalDelete(token, GetPath(parentIds), id, cancellationToken);
 
         /// <summary>
@@ -523,7 +527,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created resource</returns>
-        protected Task<TAttributes> InternalCreate<T>(Token token, TParentsId[] parentIds, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+        protected Task<TAttributes> InternalCreate<T>(TToken token, TParentsId[] parentIds, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             InternalCreate(token, GetPath(parentIds), payload, idempotencyKey, cancellationToken);
 
         /// <summary>
@@ -536,7 +540,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The updated resource</returns>
-        protected Task<TAttributes> InternalUpdate<T>(Token token, TParentsId[] parentIds, TId id, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+        protected Task<TAttributes> InternalUpdate<T>(TToken token, TParentsId[] parentIds, TId id, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             InternalUpdate(token, GetPath(parentIds), id, payload, idempotencyKey, cancellationToken);
 
         private string GetPath(TParentsId[] ids)
@@ -561,8 +565,9 @@ namespace Ibanity.Apis.Client.Products
     /// <typeparam name="TMeta">Resource meta type</typeparam>
     /// <typeparam name="TRelationships">Resource relationships type</typeparam>
     /// <typeparam name="TLinks">Resource links type</typeparam>
-    public abstract class ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks> :
-        ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks, Guid, Guid> where TAttributes : IIdentified<Guid>
+    /// <typeparam name="TToken">Resource links type</typeparam>
+    public abstract class ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks, TToken> :
+        ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks, Guid, Guid, TToken> where TAttributes : IIdentified<Guid> where TToken : BaseToken
     {
         /// <summary>
         /// Build a new instance.
@@ -571,7 +576,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
         /// <param name="entityNames">Names of the resources hierarchy</param>
-        protected ResourceWithParentClient(IApiClient apiClient, IAccessTokenProvider<Token> accessTokenProvider, string urlPrefix, string[] entityNames) :
+        protected ResourceWithParentClient(IApiClient apiClient, IAccessTokenProvider<TToken> accessTokenProvider, string urlPrefix, string[] entityNames) :
             base(apiClient, accessTokenProvider, urlPrefix, entityNames)
         { }
 

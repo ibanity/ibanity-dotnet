@@ -13,7 +13,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
     /// <para>An account has related transactions and balances.</para>
     /// <para>The account API endpoints are customer specific and therefore can only be accessed by providing the corresponding access token.</para>
     /// </summary>
-    public class Accounts : ResourceClient<Account, object, object, object, string>, IAccounts
+    public class Accounts : ResourceClient<Account, object, object, object, string, Token>, IAccounts
     {
         private const string EntityName = "accounts";
 

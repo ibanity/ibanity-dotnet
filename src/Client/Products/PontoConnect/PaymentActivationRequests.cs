@@ -11,7 +11,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     /// <para>When creating the payment activation request, you will receive the redirect link in the response. Your customer should be redirected to this url to begin the process. At the end of the flow, they will be returned to the redirect uri that you defined.</para>
     /// <para>When using this endpoint in the sandbox, the redirection flow will work but the user will not be prompted to request payment activation as this is enabled by default in the sandbox.</para>
     /// </summary>
-    public class PaymentActivationRequests : ResourceClient<PaymentActivationRequest, object, object, PaymentActivationRequestLinks>, IPaymentActivationRequests
+    public class PaymentActivationRequests : ResourceClient<PaymentActivationRequest, object, object, PaymentActivationRequestLinks, Token>, IPaymentActivationRequests
     {
         private const string EntityName = "payment-activation-requests";
 

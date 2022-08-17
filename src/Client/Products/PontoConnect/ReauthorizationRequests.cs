@@ -10,7 +10,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     /// <para>This object allows you to request the reauthorization of a specific bank account.</para>
     /// <para>By providing a redirect URI, you can create a redirect link to which you can send your customer so they can directly reauthorize their account on Ponto. After reauthorizing at their bank portal, they are redirected automatically back to your application, to the redirect URI of your choosing.</para>
     /// </summary>
-    public class ReauthorizationRequests : ResourceWithParentClient<ReauthorizationRequest, object, object, ReauthorizationRequestLinks>, IReauthorizationRequests
+    public class ReauthorizationRequests : ResourceWithParentClient<ReauthorizationRequest, object, object, ReauthorizationRequestLinks, Token>, IReauthorizationRequests
     {
         private const string ParentEntityName = "accounts";
         private const string EntityName = "reauthorization-requests";
