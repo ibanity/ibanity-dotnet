@@ -5,7 +5,7 @@ namespace Ibanity.Apis.Client.Http
     /// <summary>
     /// Access token, generated from an authorization code or a refresh token.
     /// </summary>
-    public class Token
+    public class Token : BaseToken
     {
         private string _refreshToken;
 
@@ -30,11 +30,6 @@ namespace Ibanity.Apis.Client.Http
             ValidUntil = validUntil;
             RefreshToken = refreshToken;
         }
-
-        /// <summary>
-        /// Bearer token.
-        /// </summary>
-        public string AccessToken { get; set; }
 
         /// <summary>
         /// Validity limit.

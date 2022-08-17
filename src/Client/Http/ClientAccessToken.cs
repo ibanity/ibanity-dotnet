@@ -5,7 +5,7 @@ namespace Ibanity.Apis.Client.Http
     /// <summary>
     /// Client access token, generated from a client ID and client secret.
     /// </summary>
-    public class ClientAccessToken
+    public class ClientAccessToken : BaseToken
     {
         /// <summary>
         /// Build a new instance.
@@ -22,11 +22,6 @@ namespace Ibanity.Apis.Client.Http
             AccessToken = accessToken;
             ValidUntil = validUntil;
         }
-
-        /// <summary>
-        /// Bearer token.
-        /// </summary>
-        public string AccessToken { get; set; }
 
         /// <summary>
         /// Validity limit.
