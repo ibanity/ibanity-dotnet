@@ -23,6 +23,24 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <inheritdoc />
         public Task<SupplierResponse> Get(ClientAccessToken token, Guid id, CancellationToken? cancellationToken = null) =>
             InternalGet(token, id, cancellationToken);
+
+        /// <inheritdoc />
+        public Task<SupplierResponse> Create(ClientAccessToken token, NewSupplier supplier, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
+        {
+            if (token is null)
+                throw new ArgumentNullException(nameof(token));
+
+            if (supplier is null)
+                throw new ArgumentNullException(nameof(supplier));
+
+            var payload = new JsonApi.Data<NewSupplier, object, object, object>
+            {
+                Type = "supplier",
+                Attributes = supplier
+            };
+
+            return InternalCreate(token, payload, idempotencyKey, cancellationToken);
+        }
     }
 
     /// <summary>
@@ -38,5 +56,15 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>Returns a supplier resource.</returns>
         Task<SupplierResponse> Get(ClientAccessToken token, Guid id, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Create Supplier
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="supplier">An object representing a new supplier</param>
+        /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The created supplier resource</returns>
+        Task<SupplierResponse> Create(ClientAccessToken token, NewSupplier supplier, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }
