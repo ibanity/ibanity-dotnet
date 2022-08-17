@@ -59,6 +59,11 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
 
             return InternalUpdate(token, id, payload, idempotencyKey, cancellationToken);
         }
+
+        /// <inheritdoc />
+        public Task Delete(ClientAccessToken token, Guid id, CancellationToken? cancellationToken = null) =>
+            InternalDelete(token, id, cancellationToken);
+
     }
 
     /// <summary>
@@ -95,5 +100,13 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The updated supplier resource</returns>
         Task<SupplierResponse> Update(ClientAccessToken token, Guid id, Supplier supplier, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Delete Supplier
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="id">Supplier ID</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        Task Delete(ClientAccessToken token, Guid id, CancellationToken? cancellationToken = null);
     }
 }
