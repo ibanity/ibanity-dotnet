@@ -9,7 +9,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
     /// This resource allows a Software Partner to create a new Supplier.
     /// </summary>
     [DataContract]
-    public class Supplier : Identified<Guid>
+    public class Supplier
     {
         /// <summary>
         /// The city where the supplier is located.
@@ -129,6 +129,13 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
         /// <value>The zipcode of the city where the supplier is located.</value>
         [DataMember(Name = "zip", EmitDefaultValue = false)]
         public string Zip { get; set; }
+    }
+
+    /// <inheritdoc />
+    public class SupplierResponse : Supplier, IIdentified<Guid>
+    {
+        /// <inheritdoc />
+        public Guid Id { get; set; }
     }
 
     /// <summary>

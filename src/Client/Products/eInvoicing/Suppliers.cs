@@ -7,7 +7,7 @@ using Ibanity.Apis.Client.Products.eInvoicing.Models;
 namespace Ibanity.Apis.Client.Products.eInvoicing
 {
     /// <inheritdoc />
-    public class Suppliers : ResourceClient<Supplier, object, object, object, ClientAccessToken>, ISuppliers
+    public class Suppliers : ResourceClient<SupplierResponse, object, object, object, ClientAccessToken>, ISuppliers
     {
         private const string EntityName = "suppliers";
 
@@ -21,7 +21,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         { }
 
         /// <inheritdoc />
-        public Task<Supplier> Get(ClientAccessToken token, Guid id, CancellationToken? cancellationToken = null) =>
+        public Task<SupplierResponse> Get(ClientAccessToken token, Guid id, CancellationToken? cancellationToken = null) =>
             InternalGet(token, id, cancellationToken);
     }
 
@@ -37,6 +37,6 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="id">Supplier ID</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>Returns a supplier resource.</returns>
-        Task<Supplier> Get(ClientAccessToken token, Guid id, CancellationToken? cancellationToken = null);
+        Task<SupplierResponse> Get(ClientAccessToken token, Guid id, CancellationToken? cancellationToken = null);
     }
 }
