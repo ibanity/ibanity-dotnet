@@ -405,6 +405,18 @@ namespace Ibanity.Apis.Client.Products
         protected Task<TAttributes> InternalCreate<T>(TToken token, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             InternalCreate(token, GetPath(), payload, idempotencyKey, cancellationToken);
 
+        /// <summary>
+        /// Update a resource.
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="id">Unique identifier of the resource</param>
+        /// <param name="payload">Resource data</param>
+        /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>Requested resource</returns>
+        protected Task<TAttributes> InternalUpdate<T>(TToken token, TId id, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+            InternalUpdate(token, GetPath(), id, payload, idempotencyKey, cancellationToken);
+
         private string GetPath() =>
             $"{UrlPrefix}/{_entityName}";
     }
