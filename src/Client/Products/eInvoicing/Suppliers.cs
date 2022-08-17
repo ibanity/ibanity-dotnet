@@ -41,6 +41,24 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
 
             return InternalCreate(token, payload, idempotencyKey, cancellationToken);
         }
+
+        /// <inheritdoc />
+        public Task<SupplierResponse> Update(ClientAccessToken token, Guid id, Supplier supplier, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
+        {
+            if (token is null)
+                throw new ArgumentNullException(nameof(token));
+
+            if (supplier is null)
+                throw new ArgumentNullException(nameof(supplier));
+
+            var payload = new JsonApi.Data<Supplier, object, object, object>
+            {
+                Type = "supplier",
+                Attributes = supplier
+            };
+
+            return InternalUpdate(token, id, payload, idempotencyKey, cancellationToken);
+        }
     }
 
     /// <summary>
@@ -66,5 +84,16 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created supplier resource</returns>
         Task<SupplierResponse> Create(ClientAccessToken token, NewSupplier supplier, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Update Supplier
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="id">Financial institution transaction ID</param>
+        /// <param name="supplier">An object representing a supplier</param>
+        /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The updated supplier resource</returns>
+        Task<SupplierResponse> Update(ClientAccessToken token, Guid id, Supplier supplier, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }
