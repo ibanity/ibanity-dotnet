@@ -17,7 +17,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         private const string EntityName = "bulk-payment-initiation-requests";
 
         private readonly IApiClient _apiClient;
-        private readonly IAccessTokenProvider _accessTokenProvider;
+        private readonly IAccessTokenProvider<Token> _accessTokenProvider;
         private readonly string _urlPrefix;
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         /// <param name="apiClient">Generic API client</param>
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
-        public BulkPaymentInitiationRequests(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix) :
+        public BulkPaymentInitiationRequests(IApiClient apiClient, IAccessTokenProvider<Token> accessTokenProvider, string urlPrefix) :
             base(apiClient, accessTokenProvider, urlPrefix, EntityName)
         {
             _apiClient = apiClient;

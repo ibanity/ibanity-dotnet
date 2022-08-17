@@ -24,7 +24,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         /// <param name="apiClient">Generic API client</param>
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
-        public Transactions(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix) :
+        public Transactions(IApiClient apiClient, IAccessTokenProvider<Token> accessTokenProvider, string urlPrefix) :
             base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName })
         { }
 

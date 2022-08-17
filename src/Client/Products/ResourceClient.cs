@@ -21,7 +21,7 @@ namespace Ibanity.Apis.Client.Products
     public abstract class BaseResourceClient<TAttributes, TMeta, TRelationships, TLinks, TId> where TAttributes : IIdentified<TId>
     {
         private readonly IApiClient _apiClient;
-        private readonly IAccessTokenProvider _accessTokenProvider;
+        private readonly IAccessTokenProvider<Token> _accessTokenProvider;
 
         /// <summary>
         /// Beginning of URIs, composed by Ibanity API endpoint, followed by product name.
@@ -34,7 +34,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="apiClient">Generic API client</param>
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
-        protected BaseResourceClient(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix)
+        protected BaseResourceClient(IApiClient apiClient, IAccessTokenProvider<Token> accessTokenProvider, string urlPrefix)
         {
             if (string.IsNullOrWhiteSpace(urlPrefix))
                 throw new ArgumentException($"'{nameof(urlPrefix)}' cannot be null or whitespace.", nameof(urlPrefix));
@@ -318,7 +318,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
         /// <param name="entityName">Name of the resource</param>
-        protected ResourceClient(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix, string entityName) :
+        protected ResourceClient(IApiClient apiClient, IAccessTokenProvider<Token> accessTokenProvider, string urlPrefix, string entityName) :
             base(apiClient, accessTokenProvider, urlPrefix)
         {
             if (string.IsNullOrWhiteSpace(entityName))
@@ -424,7 +424,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
         /// <param name="entityName">Name of the resource</param>
-        protected ResourceClient(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix, string entityName) :
+        protected ResourceClient(IApiClient apiClient, IAccessTokenProvider<Token> accessTokenProvider, string urlPrefix, string entityName) :
             base(apiClient, accessTokenProvider, urlPrefix, entityName)
         { }
 
@@ -453,7 +453,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
         /// <param name="entityNames">Names of the resources hierarchy</param>
-        protected ResourceWithParentClient(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix, string[] entityNames) :
+        protected ResourceWithParentClient(IApiClient apiClient, IAccessTokenProvider<Token> accessTokenProvider, string urlPrefix, string[] entityNames) :
             base(apiClient, accessTokenProvider, urlPrefix)
         {
             _entityNames = entityNames ?? throw new ArgumentNullException(nameof(entityNames));
@@ -571,7 +571,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
         /// <param name="entityNames">Names of the resources hierarchy</param>
-        protected ResourceWithParentClient(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix, string[] entityNames) :
+        protected ResourceWithParentClient(IApiClient apiClient, IAccessTokenProvider<Token> accessTokenProvider, string urlPrefix, string[] entityNames) :
             base(apiClient, accessTokenProvider, urlPrefix, entityNames)
         { }
 

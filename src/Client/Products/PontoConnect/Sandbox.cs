@@ -11,7 +11,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="apiClient">Generic API client</param>
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
-        public Sandbox(IApiClient apiClient, IAccessTokenProvider accessTokenProvider, string urlPrefix)
+        public Sandbox(IApiClient apiClient, IAccessTokenProvider<Token> accessTokenProvider, string urlPrefix)
         {
             Accounts = new SandboxAccounts(apiClient, accessTokenProvider, urlPrefix);
             Transactions = new SandboxTransactions(apiClient, accessTokenProvider, urlPrefix);

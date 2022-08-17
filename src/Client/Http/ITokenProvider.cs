@@ -7,7 +7,7 @@ namespace Ibanity.Apis.Client.Http
     /// <summary>
     /// Manage access tokens.
     /// </summary>
-    public interface ITokenProvider : IAccessTokenProvider
+    public interface ITokenProvider : IAccessTokenProvider<Token>
     {
         /// <summary>
         /// Create a new access token using a previously received refresh token.
@@ -74,7 +74,8 @@ namespace Ibanity.Apis.Client.Http
     /// <summary>
     /// Allows clients to refresh (if needed) their access token.
     /// </summary>
-    public interface IAccessTokenProvider
+    /// <typeparam name="T">Token type</typeparam>
+    public interface IAccessTokenProvider<T>
     {
         /// <summary>
         /// Refresh access token if needed
@@ -82,13 +83,13 @@ namespace Ibanity.Apis.Client.Http
         /// <param name="token">Token to check</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The token given as argument, refreshed if it was near expiration</returns>
-        Task<Token> RefreshToken(Token token, CancellationToken? cancellationToken = null);
+        Task<T> RefreshToken(T token, CancellationToken? cancellationToken = null);
     }
 
     /// <summary>
     /// Manage client access tokens.
     /// </summary>
-    public interface IClientAccessTokenProvider
+    public interface IClientAccessTokenProvider : IAccessTokenProvider<ClientAccessToken>
     {
         /// <summary>
         /// Create a new client access token from the client ID and client secret.
@@ -96,13 +97,5 @@ namespace Ibanity.Apis.Client.Http
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A new client access token</returns>
         Task<ClientAccessToken> GetToken(CancellationToken? cancellationToken = null);
-
-        /// <summary>
-        /// Refresh access token if needed
-        /// </summary>
-        /// <param name="token">Token to check</param>
-        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>The token given as argument, refreshed if it was near expiration</returns>
-        Task<ClientAccessToken> RefreshToken(ClientAccessToken token, CancellationToken? cancellationToken = null);
     }
 }
