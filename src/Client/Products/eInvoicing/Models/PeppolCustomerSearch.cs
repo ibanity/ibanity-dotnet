@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.eInvoicing.Models
 {
@@ -19,12 +20,20 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
         /// <value>&lt;p&gt;Customer reference identifier of the customer.&lt;/p&gt;&lt;p&gt;The &lt;code&gt;customerReference&lt;/code&gt; should be of type Electronic Address Scheme (EAS), for more information see &lt;a href&#x3D;\&quot;http://docs.peppol.eu/poacc/billing/3.0/codelist/eas/\&quot;&gt;http://docs.peppol.eu/poacc/billing/3.0/codelist/eas/&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Belgian participants are registered with the Belgian company number, for which identifier 0208 can be used. Optionally, the customer can be registered with their VAT number, for which identifier 9925 can be used.&lt;/p&gt;</value>
         [DataMember(Name = "customerReference", EmitDefaultValue = false)]
         public string CustomerReference { get; set; }
+    }
 
+    /// <inheritdoc />
+    [DataContract]
+    public class PeppolCustomerSearchResponse : PeppolCustomerSearch, IIdentified<Guid>
+    {
         /// <summary>
         /// Supported document formats
         /// </summary>
         [DataMember(Name = "supportedDocumentFormats", EmitDefaultValue = false)]
         public List<SupportedDocumentFormat> SupportedDocumentFormats { get; set; }
+
+        /// <inheritdoc />
+        public Guid Id { get; set; }
     }
 
     /// <summary>

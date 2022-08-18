@@ -22,10 +22,14 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
             : base(apiClient, tokenService, clientAccessTokenService)
         {
             Suppliers = new Suppliers(apiClient, clientAccessTokenService, UrlPrefix);
+            PeppolCustomerSearches = new PeppolCustomerSearches(apiClient, clientAccessTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
         public ISuppliers Suppliers { get; }
+
+        /// <inheritdoc />
+        public IPeppolCustomerSearches PeppolCustomerSearches { get; }
     }
 
     /// <summary>
@@ -37,5 +41,13 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// This resource allows a Software Partner to create a new Supplier.
         /// </summary>
         ISuppliers Suppliers { get; }
+
+        /// <summary>
+        /// <p>This endpoint allows you to search for a customer on the PEPPOL network and the document types it supports. Based on the response you know:</p>
+        /// <p>- whether the customer is available on Peppol and is capable to receive documents over Peppol</p>
+        /// <p>- which UBL document types the customer is capable to receive</p>
+        /// <p>A list of test receivers can be found in <see href="https://documentation.ibanity.com/einvoicing/products#development-resources">Development Resources</see></p>
+        /// </summary>
+        IPeppolCustomerSearches PeppolCustomerSearches { get; }
     }
 }
