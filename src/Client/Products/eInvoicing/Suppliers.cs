@@ -63,7 +63,6 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <inheritdoc />
         public Task Delete(ClientAccessToken token, Guid id, CancellationToken? cancellationToken = null) =>
             InternalDelete(token, id, cancellationToken);
-
     }
 
     /// <summary>
