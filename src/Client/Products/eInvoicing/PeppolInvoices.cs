@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
@@ -12,6 +14,10 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         private const string ParentEntityName = "peppol/suppliers";
         private const string EntityName = "invoices";
 
+        private readonly IApiClient _apiClient;
+        private readonly IAccessTokenProvider<ClientAccessToken> _accessTokenProvider;
+        private readonly string _urlPrefix;
+
         /// <summary>
         /// Build a new instance.
         /// </summary>
@@ -20,11 +26,36 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
         public PeppolInvoices(IApiClient apiClient, IAccessTokenProvider<ClientAccessToken> accessTokenProvider, string urlPrefix) :
             base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName })
-        { }
+        {
+            _apiClient = apiClient;
+            _accessTokenProvider = accessTokenProvider;
+            _urlPrefix = urlPrefix;
+        }
 
         /// <inheritdoc />
         public Task<PeppolInvoice> Get(ClientAccessToken token, Guid supplierId, Guid id, CancellationToken? cancellationToken = null) =>
             InternalGet(token, new[] { supplierId }, id, cancellationToken);
+
+        /// <inheritdoc />
+        public async Task<PeppolInvoice> Create(ClientAccessToken token, Guid supplierId, string filename, string path, CancellationToken? cancellationToken = null)
+        {
+            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+                return await Create(token, supplierId, filename, stream, cancellationToken);
+        }
+
+        /// <inheritdoc />
+        public async Task<PeppolInvoice> Create(ClientAccessToken token, Guid supplierId, string filename, Stream xmlContent, CancellationToken? cancellationToken = null)
+        {
+            var result = await _apiClient.PostInline<JsonApi.Resource<PeppolInvoice, object, object, object>>(
+                $"{_urlPrefix}/{ParentEntityName}/{supplierId}/{EntityName}",
+                (await _accessTokenProvider.RefreshToken(token ?? throw new ArgumentNullException(nameof(token)))).AccessToken,
+                new Dictionary<string, string>(),
+                filename,
+                xmlContent,
+                cancellationToken ?? CancellationToken.None);
+
+            return Map(result.Data);
+        }
     }
 
     /// <summary>
@@ -42,5 +73,27 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The specified invoice resource</returns>
         Task<PeppolInvoice> Get(ClientAccessToken token, Guid supplierId, Guid id, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Create Peppol Invoice
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="supplierId">Supplier ID</param>
+        /// <param name="filename">Your filename</param>
+        /// <param name="path">Local path the the XML file to upload</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>Returns a Peppol Invoice resource</returns>
+        Task<PeppolInvoice> Create(ClientAccessToken token, Guid supplierId, string filename, string path, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Create Peppol Invoice
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="supplierId">Supplier ID</param>
+        /// <param name="filename">Your filename</param>
+        /// <param name="xmlContent">XML content to upload</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>Returns a Peppol Invoice resource</returns>
+        Task<PeppolInvoice> Create(ClientAccessToken token, Guid supplierId, string filename, Stream xmlContent, CancellationToken? cancellationToken = null);
     }
 }
