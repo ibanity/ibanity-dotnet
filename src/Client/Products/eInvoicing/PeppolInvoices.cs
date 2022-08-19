@@ -1,3 +1,6 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Products.eInvoicing.Models;
 
@@ -18,6 +21,10 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         public PeppolInvoices(IApiClient apiClient, IAccessTokenProvider<ClientAccessToken> accessTokenProvider, string urlPrefix) :
             base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName })
         { }
+
+        /// <inheritdoc />
+        public Task<PeppolInvoice> Get(ClientAccessToken token, Guid supplierId, Guid id, CancellationToken? cancellationToken = null) =>
+            InternalGet(token, new[] { supplierId }, id, cancellationToken);
     }
 
     /// <summary>
@@ -26,5 +33,14 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
     /// </summary>
     public interface IPeppolInvoices
     {
+        /// <summary>
+        /// Get Peppol Invoice
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="supplierId">Supplier ID</param>
+        /// <param name="id">Invoice ID</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The specified invoice resource</returns>
+        Task<PeppolInvoice> Get(ClientAccessToken token, Guid supplierId, Guid id, CancellationToken? cancellationToken = null);
     }
 }
