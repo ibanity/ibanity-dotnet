@@ -24,6 +24,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
             Suppliers = new Suppliers(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolCustomerSearches = new PeppolCustomerSearches(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolInvoices = new PeppolInvoices(apiClient, clientAccessTokenService, UrlPrefix);
+            PeppolCreditNotes = new PeppolCreditNotes(apiClient, clientAccessTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -34,6 +35,9 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
 
         /// <inheritdoc />
         public IPeppolInvoices PeppolInvoices { get; }
+
+        /// <inheritdoc />
+        public IPeppolCreditNotes PeppolCreditNotes { get; }
     }
 
     /// <summary>
@@ -59,5 +63,11 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <p>The maximum file size is 100MB.</p>
         /// </summary>
         IPeppolInvoices PeppolInvoices { get; }
+
+        /// <summary>
+        /// <p>This is an object representing the credit note that can be sent by a supplier. This document is always an UBL in a format supported by CodaBox.</p>
+        /// <p>The maximum file size is 100MB.</p>
+        /// </summary>
+        IPeppolCreditNotes PeppolCreditNotes { get; }
     }
 }
