@@ -23,6 +23,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         {
             Suppliers = new Suppliers(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolCustomerSearches = new PeppolCustomerSearches(apiClient, clientAccessTokenService, UrlPrefix);
+            PeppolInvoices = new PeppolInvoices(apiClient, clientAccessTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -30,6 +31,9 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
 
         /// <inheritdoc />
         public IPeppolCustomerSearches PeppolCustomerSearches { get; }
+
+        /// <inheritdoc />
+        public IPeppolInvoices PeppolInvoices { get; }
     }
 
     /// <summary>
@@ -49,5 +53,11 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <p>A list of test receivers can be found in <see href="https://documentation.ibanity.com/einvoicing/products#development-resources">Development Resources</see></p>
         /// </summary>
         IPeppolCustomerSearches PeppolCustomerSearches { get; }
+
+        /// <summary>
+        /// <p>This is an object representing the invoice that can be sent by a supplier. This document is always an UBL in a format supported by CodaBox.</p>
+        /// <p>The maximum file size is 100MB.</p>
+        /// </summary>
+        IPeppolInvoices PeppolInvoices { get; }
     }
 }
