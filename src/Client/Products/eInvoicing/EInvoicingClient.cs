@@ -25,6 +25,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
             PeppolCustomerSearches = new PeppolCustomerSearches(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolInvoices = new PeppolInvoices(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolCreditNotes = new PeppolCreditNotes(apiClient, clientAccessTokenService, UrlPrefix);
+            PeppolDocuments = new PeppolDocuments(apiClient, clientAccessTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -38,6 +39,9 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
 
         /// <inheritdoc />
         public IPeppolCreditNotes PeppolCreditNotes { get; }
+
+        /// <inheritdoc />
+        public IPeppolDocuments PeppolDocuments { get; }
     }
 
     /// <summary>
@@ -69,5 +73,10 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <p>The maximum file size is 100MB.</p>
         /// </summary>
         IPeppolCreditNotes PeppolCreditNotes { get; }
+
+        /// <summary>
+        /// Peppol document
+        /// </summary>
+        IPeppolDocuments PeppolDocuments { get; }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.Serialization;
+using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.eInvoicing.Models
 {
@@ -7,7 +8,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
     /// Peppol document
     /// </summary>
     [DataContract]
-    public class PeppolDocument
+    public class PeppolDocument : Identified<Guid>
     {
         /// <summary>
         /// When this peppol document was created. Formatted according to &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_8601&#39;&gt;ISO8601&lt;/a&gt; spec
