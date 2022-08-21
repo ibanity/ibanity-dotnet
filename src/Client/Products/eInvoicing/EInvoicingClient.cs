@@ -27,6 +27,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
             PeppolCreditNotes = new PeppolCreditNotes(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolDocuments = new PeppolDocuments(apiClient, clientAccessTokenService, UrlPrefix);
             ZoomitCustomerSearches = new ZoomitCustomerSearches(apiClient, clientAccessTokenService, UrlPrefix);
+            ZoomitInvoices = new ZoomitInvoices(apiClient, clientAccessTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -46,6 +47,9 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
 
         /// <inheritdoc />
         public IZoomitCustomerSearches ZoomitCustomerSearches { get; }
+
+        /// <inheritdoc />
+        public IZoomitInvoices ZoomitInvoices { get; }
     }
 
     /// <summary>
@@ -88,5 +92,13 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <p>A list of test receivers can be found in <see href="https://documentation.ibanity.com/einvoicing/products#development-resources">Development Resources</see></p>
         /// </summary>
         IZoomitCustomerSearches ZoomitCustomerSearches { get; }
+
+        /// <summary>
+        /// <p>This is an object representing the invoice that can be sent by a supplier. This document is always an UBL in BIS 3 format with additional validations.</p>
+        /// <p>CodaBox expects the following format for Zoomit invoices: <see href="http://docs.peppol.eu/poacc/billing/3.0/">Peppol BIS 3.0</see></p>
+        /// <p>CodaBox will verify the compliance of the UBL with XSD and schematron rules (you can find the CodaBox schematron rules <see href="https://documentation.ibanity.com/einvoicing/ZOOMIT-EN16931-UBL.sch">here</see>)</p>
+        /// <p>In order to send an invoice to Zoomit, some additional fields are required</p>
+        /// </summary>
+        IZoomitInvoices ZoomitInvoices { get; }
     }
 }
