@@ -29,6 +29,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
             ZoomitCustomerSearches = new ZoomitCustomerSearches(apiClient, clientAccessTokenService, UrlPrefix);
             ZoomitInvoices = new ZoomitInvoices(apiClient, clientAccessTokenService, UrlPrefix);
             ZoomitCreditNotes = new ZoomitCreditNotes(apiClient, clientAccessTokenService, UrlPrefix);
+            ZoomitDocuments = new ZoomitDocuments(apiClient, clientAccessTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -54,6 +55,9 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
 
         /// <inheritdoc />
         public IZoomitCreditNotes ZoomitCreditNotes { get; }
+
+        /// <inheritdoc />
+        public IZoomitDocuments ZoomitDocuments { get; }
     }
 
     /// <summary>
@@ -113,5 +117,10 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// </summary>
 
         IZoomitCreditNotes ZoomitCreditNotes { get; }
+
+        /// <summary>
+        /// Zoomit document
+        /// </summary>
+        IZoomitDocuments ZoomitDocuments { get; }
     }
 }
