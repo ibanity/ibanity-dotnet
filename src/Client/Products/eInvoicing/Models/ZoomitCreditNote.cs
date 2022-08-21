@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.Serialization;
+using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.eInvoicing.Models
 {
@@ -10,7 +11,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
     /// <p>In order to send a credit note to Zoomit, some additional fields are required</p>
     /// </summary>
     [DataContract]
-    public class ZoomitCreditNote
+    public class ZoomitCreditNote : Identified<Guid>
     {
         /// <summary>
         /// When this zoomit credit note was created. Formatted according to &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_8601&#39;&gt;ISO8601&lt;/a&gt; spec
