@@ -84,6 +84,31 @@ namespace Ibanity.Apis.Client.Utils
     }
 
     /// <summary>
+    /// <para>List of resources.</para>
+    /// <para>Contains a token to get the next page.</para>
+    /// </summary>
+    /// <typeparam name="T">Resource type.</typeparam>
+#pragma warning disable CA1711 // Keep 'Collection' name
+    public class EInvoicingCollection<T> : PaginatedCollection<T>
+#pragma warning restore CA1711
+    {
+        /// <summary>
+        /// Start position of the results by giving the page index.
+        /// </summary>
+        public long? Number { get; set; }
+
+        /// <summary>
+        /// Number (1-2000) of document resources returned.
+        /// </summary>
+        public int? Size { get; set; }
+
+        /// <summary>
+        /// Number of total resources in the requested scope.
+        /// </summary>
+        public long? Total { get; set; }
+    }
+
+    /// <summary>
     /// Token allowing to fetch the next page of a <see cref="IbanityCollection&lt;T&gt;" /> or a <see cref="IsabelCollection&lt;T&gt;" />.
     /// </summary>
     public class ContinuationToken

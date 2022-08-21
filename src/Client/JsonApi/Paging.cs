@@ -46,4 +46,29 @@ namespace Ibanity.Apis.Client.JsonApi
         [DataMember(Name = "total", EmitDefaultValue = false)]
         public long? Total { get; set; }
     }
+
+    /// <summary>
+    /// Page-based paging.
+    /// </summary>
+    [DataContract]
+    public class PageBasedPaging
+    {
+        /// <summary>
+        /// Index of the results page.
+        /// </summary>
+        [DataMember(Name = "number", EmitDefaultValue = false)]
+        public long? Number { get; set; }
+
+        /// <summary>
+        /// Number of returned resources.
+        /// </summary>
+        [DataMember(Name = "size", EmitDefaultValue = false)]
+        public int? Size { get; set; }
+
+        /// <summary>
+        /// Number of total resources in the requested scope.
+        /// </summary>
+        [DataMember(Name = "total", EmitDefaultValue = false)]
+        public long? Total { get; set; }
+    }
 }
