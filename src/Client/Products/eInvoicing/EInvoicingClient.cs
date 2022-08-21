@@ -26,6 +26,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
             PeppolInvoices = new PeppolInvoices(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolCreditNotes = new PeppolCreditNotes(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolDocuments = new PeppolDocuments(apiClient, clientAccessTokenService, UrlPrefix);
+            ZoomitCustomerSearches = new ZoomitCustomerSearches(apiClient, clientAccessTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -42,6 +43,9 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
 
         /// <inheritdoc />
         public IPeppolDocuments PeppolDocuments { get; }
+
+        /// <inheritdoc />
+        public IZoomitCustomerSearches ZoomitCustomerSearches { get; }
     }
 
     /// <summary>
@@ -78,5 +82,11 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// Peppol document
         /// </summary>
         IPeppolDocuments PeppolDocuments { get; }
+
+        /// <summary>
+        /// <p>This endpoint allows you to search for a customer on the Zoomit network. Based on the response you know whether the customer is reachable on Zoomit or not.</p>
+        /// <p>A list of test receivers can be found in <see href="https://documentation.ibanity.com/einvoicing/products#development-resources">Development Resources</see></p>
+        /// </summary>
+        IZoomitCustomerSearches ZoomitCustomerSearches { get; }
     }
 }

@@ -1,4 +1,6 @@
+using System;
 using System.Runtime.Serialization;
+using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.eInvoicing.Models
 {
@@ -22,5 +24,12 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
         /// <value>&lt;p&gt;The status of the customer.&lt;/p&gt;&lt;p&gt;Possible values&lt;/p&gt;&lt;ul&gt;&lt;li&gt;    &lt;code&gt;active&lt;/code&gt; The customer is using Zoomit and wants to receive your documents.&lt;/li&gt;&lt;li&gt;    &lt;code&gt;potential&lt;/code&gt; The customer can be reached on Zoomit, but did not yet confirm to receive your documents in Zoomit. To make sure your customer receives your documents, you should send the documents via Zoomit and an extra channel (eg email) until he accepts to receive your documents in Zoomit only.&lt;/li&gt;&lt;li&gt;    &lt;code&gt;not-reachable&lt;/code&gt; The customer is not available on Zoomit.&lt;/li&gt;&lt;/ul&gt;</value>
         [DataMember(Name = "status", EmitDefaultValue = false)]
         public string Status { get; set; }
+    }
+
+    /// <inheritdoc />
+    public class ZoomitCustomerSearchResponse : ZoomitCustomerSearch, IIdentified<Guid>
+    {
+        /// <inheritdoc />
+        public Guid Id { get; set; }
     }
 }
