@@ -53,7 +53,7 @@ namespace Ibanity.Apis.Client.Webhooks
         /// <inheritdoc />
         public async Task<IWebhookEvent> VerifyAndDeserialize(string payload, string signature, CancellationToken? cancellationToken)
         {
-            await EnsureSignatureAndDigestAreValid(payload, signature, cancellationToken);
+            await EnsureSignatureAndDigestAreValid(payload, signature, cancellationToken).ConfigureAwait(false);
 
             var payloadType = GetPayloadType(payload) ?? throw new IbanityException("Can't get event type");
             if (!Types.TryGetValue(payloadType, out var type))
@@ -65,7 +65,7 @@ namespace Ibanity.Apis.Client.Webhooks
 
         private async Task EnsureSignatureAndDigestAreValid(string payload, string signature, CancellationToken? cancellationToken)
         {
-            var digest = await VerifyAndGetDigest(signature, cancellationToken);
+            var digest = await VerifyAndGetDigest(signature, cancellationToken).ConfigureAwait(false);
 
             byte[] computedDigest;
             using (var algorithm = new SHA512Managed())
@@ -79,7 +79,7 @@ namespace Ibanity.Apis.Client.Webhooks
 
         private async Task<string> VerifyAndGetDigest(string signature, CancellationToken? cancellationToken)
         {
-            var token = await _jwtVerifier.Verify(signature, cancellationToken);
+            var token = await _jwtVerifier.Verify(signature, cancellationToken).ConfigureAwait(false);
             return token.Payload.Digest;
         }
     }

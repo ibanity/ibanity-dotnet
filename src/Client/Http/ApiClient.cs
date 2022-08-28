@@ -68,12 +68,12 @@ namespace Ibanity.Apis.Client.Http
 
                 _customizeRequest(request);
 
-                var response = await (await _httpClient.SendAsync(request, cancellationToken)).ThrowOnFailure(_serializer, _logger);
+                var response = await (await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false)).ThrowOnFailure(_serializer, _logger).ConfigureAwait(false);
 
                 var requestId = response.Headers.TryGetValues(RequestIdHeader, out var values) ? values.SingleOrDefault() : null;
                 _logger.Debug($"Response received ({response.StatusCode:D} {response.StatusCode:G}): {method.ToString().ToUpper(CultureInfo.InvariantCulture)} {path} (request ID: {requestId})");
 
-                var body = await response.Content.ReadAsStringAsync();
+                var body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return _serializer.Deserialize<T>(body);
             }
         }
@@ -124,12 +124,12 @@ namespace Ibanity.Apis.Client.Http
 
                 _customizeRequest(request);
 
-                var response = await (await _httpClient.SendAsync(request, cancellationToken)).ThrowOnFailure(_serializer, _logger);
+                var response = await (await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false)).ThrowOnFailure(_serializer, _logger).ConfigureAwait(false);
 
                 var requestId = response.Headers.TryGetValues(RequestIdHeader, out var values) ? values.SingleOrDefault() : null;
                 _logger.Debug($"Response received ({response.StatusCode:D} {response.StatusCode:G}): {method.ToString().ToUpper(CultureInfo.InvariantCulture)} {path} (request ID: {requestId})");
 
-                var body = await response.Content.ReadAsStringAsync();
+                var body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return _serializer.Deserialize<TResponse>(body);
             }
         }
@@ -187,12 +187,12 @@ namespace Ibanity.Apis.Client.Http
 
                 _customizeRequest(request);
 
-                var response = await (await _httpClient.SendAsync(request, cancellationToken)).ThrowOnFailure(_serializer, _logger);
+                var response = await (await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false)).ThrowOnFailure(_serializer, _logger).ConfigureAwait(false);
 
                 var requestId = response.Headers.TryGetValues(RequestIdHeader, out var values) ? values.SingleOrDefault() : null;
                 _logger.Debug($"Response received ({response.StatusCode:D} {response.StatusCode:G}): {HttpMethod.Post.ToString().ToUpper(CultureInfo.InvariantCulture)} {path} (request ID: {requestId})");
 
-                var body = await response.Content.ReadAsStringAsync();
+                var body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return _serializer.Deserialize<TResponse>(body);
             }
         }
@@ -216,9 +216,9 @@ namespace Ibanity.Apis.Client.Http
 
                 _customizeRequest(request);
 
-                using (var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
-                using (var streamToReadFrom = await response.Content.ReadAsStreamAsync())
-                    await streamToReadFrom.CopyToAsync(target, 81920, cancellationToken);
+                using (var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false))
+                using (var streamToReadFrom = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                    await streamToReadFrom.CopyToAsync(target, 81920, cancellationToken).ConfigureAwait(false);
             }
         }
     }

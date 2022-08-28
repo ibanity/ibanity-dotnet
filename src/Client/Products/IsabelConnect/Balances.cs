@@ -39,7 +39,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
             if (to.HasValue)
                 timespanParameters.Add(("to", to.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)));
 
-            var result = await InternalOffsetBasedList(token, new[] { accountId }, null, timespanParameters, pageOffset, pageSize, cancellationToken);
+            var result = await InternalOffsetBasedList(token, new[] { accountId }, null, timespanParameters, pageOffset, pageSize, cancellationToken).ConfigureAwait(false);
 
             return new IsabelCollection<Balance>
             {

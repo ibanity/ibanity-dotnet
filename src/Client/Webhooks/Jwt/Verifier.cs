@@ -39,7 +39,7 @@ namespace Ibanity.Apis.Client.Webhooks.Jwt
             if (header.Algorithm != "RS512")
                 throw new InvalidSignatureException("Only RS512 algorithm is supported but got " + header.Algorithm);
 
-            var publicKey = await _jwksService.GetPublicKey(header.KeyId, cancellationToken);
+            var publicKey = await _jwksService.GetPublicKey(header.KeyId, cancellationToken).ConfigureAwait(false);
 
             byte[] hash;
             using (var sha512 = SHA512.Create())

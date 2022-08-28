@@ -56,7 +56,7 @@ namespace Ibanity.Apis.Client.Webhooks.Jwt
             entry = new CacheEntry
             {
                 InsertedAt = _clock.Now,
-                Value = await _underlyingInstance.GetPublicKey(keyId, cancellationToken)
+                Value = await _underlyingInstance.GetPublicKey(keyId, cancellationToken).ConfigureAwait(false)
             };
 
             _cache[keyId] = entry;

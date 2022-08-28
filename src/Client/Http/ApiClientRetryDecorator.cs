@@ -41,7 +41,7 @@ namespace Ibanity.Apis.Client.Http
             for (var i = 0; ; i++)
                 try
                 {
-                    return await action();
+                    return await action().ConfigureAwait(false);
                 }
                 catch (IbanityClientException)
                 {
@@ -51,13 +51,13 @@ namespace Ibanity.Apis.Client.Http
                 {
                     var delay = TimeSpan.FromSeconds(Math.Pow(_baseDelay.TotalSeconds, i + 1));
                     _logger.Warn($"{operation} failed (try {i + 1} of {_count}), retrying in {delay.TotalSeconds:F2} seconds", e);
-                    await Task.Delay(delay, cancellationToken);
+                    await Task.Delay(delay, cancellationToken).ConfigureAwait(false);
                 }
         }
 
         /// <inheritdoc />
         public Task<T> Delete<T>(string path, string bearerToken, CancellationToken cancellationToken) =>
-            Execute("Delete", async () => await _underlyingInstance.Delete<T>(path, bearerToken, cancellationToken), cancellationToken);
+            Execute("Delete", async () => await _underlyingInstance.Delete<T>(path, bearerToken, cancellationToken).ConfigureAwait(false), cancellationToken);
 
         /// <inheritdoc />
         public Task Delete(string path, string bearerToken, CancellationToken cancellationToken) =>
@@ -65,22 +65,22 @@ namespace Ibanity.Apis.Client.Http
 
         /// <inheritdoc />
         public Task<T> Get<T>(string path, string bearerToken, CancellationToken cancellationToken) =>
-            Execute("Get", async () => await _underlyingInstance.Get<T>(path, bearerToken, cancellationToken), cancellationToken);
+            Execute("Get", async () => await _underlyingInstance.Get<T>(path, bearerToken, cancellationToken).ConfigureAwait(false), cancellationToken);
 
         /// <inheritdoc />
         public Task<TResponse> Patch<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid? idempotencyKey, CancellationToken cancellationToken) =>
-            Execute("Patch", async () => await _underlyingInstance.Patch<TRequest, TResponse>(path, bearerToken, payload, idempotencyKey, cancellationToken), cancellationToken);
+            Execute("Patch", async () => await _underlyingInstance.Patch<TRequest, TResponse>(path, bearerToken, payload, idempotencyKey, cancellationToken).ConfigureAwait(false), cancellationToken);
 
         /// <inheritdoc />
         public Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid? idempotencyKey, CancellationToken cancellationToken) =>
-            Execute("Post", async () => await _underlyingInstance.Post<TRequest, TResponse>(path, bearerToken, payload, idempotencyKey, cancellationToken), cancellationToken);
+            Execute("Post", async () => await _underlyingInstance.Post<TRequest, TResponse>(path, bearerToken, payload, idempotencyKey, cancellationToken).ConfigureAwait(false), cancellationToken);
 
         /// <inheritdoc />
         public Task<TResponse> PostInline<TResponse>(string path, string bearerToken, IDictionary<string, string> additionalHeaders, string filename, Stream payload, CancellationToken cancellationToken) =>
-            Execute("Post", async () => await _underlyingInstance.PostInline<TResponse>(path, bearerToken, additionalHeaders, filename, payload, cancellationToken), cancellationToken);
+            Execute("Post", async () => await _underlyingInstance.PostInline<TResponse>(path, bearerToken, additionalHeaders, filename, payload, cancellationToken).ConfigureAwait(false), cancellationToken);
 
         /// <inheritdoc />
         public Task GetToStream(string path, string bearerToken, Stream target, CancellationToken cancellationToken) =>
-            Execute<object>("Get", async () => { await _underlyingInstance.GetToStream(path, bearerToken, target, cancellationToken); return null; }, cancellationToken);
+            Execute<object>("Get", async () => { await _underlyingInstance.GetToStream(path, bearerToken, target, cancellationToken).ConfigureAwait(false); return null; }, cancellationToken);
     }
 }

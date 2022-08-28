@@ -51,7 +51,7 @@ namespace Ibanity.Apis.Client.Tests.Webhooks
         public async Task PayloadIsProperlyValidatedAndDeserialized()
         {
             var target = BuildService(_oneSecondAfterTokenCreation);
-            var result = await target.VerifyAndDeserialize(_payload, _signature, CancellationToken.None);
+            var result = await target.VerifyAndDeserialize(_payload, _signature, CancellationToken.None).ConfigureAwait(false);
 
             Assert.IsNotNull(result);
 
@@ -71,7 +71,7 @@ namespace Ibanity.Apis.Client.Tests.Webhooks
         {
             var target = BuildService(_oneSecondAfterTokenCreation);
 
-            var exception = await Assert.ThrowsExceptionAsync<InvalidSignatureException>(() => target.VerifyAndDeserialize(_payload, _signature.Replace("m", "n"), CancellationToken.None));
+            var exception = await Assert.ThrowsExceptionAsync<InvalidSignatureException>(() => target.VerifyAndDeserialize(_payload, _signature.Replace("m", "n"), CancellationToken.None)).ConfigureAwait(false);
             Assert.IsTrue(exception.Message.ToLowerInvariant().Contains("signature"));
         }
 
@@ -80,7 +80,7 @@ namespace Ibanity.Apis.Client.Tests.Webhooks
         {
             var target = BuildService(_oneSecondAfterTokenCreation - 3600);
 
-            var exception = await Assert.ThrowsExceptionAsync<InvalidSignatureException>(() => target.VerifyAndDeserialize(_payload, _signature, CancellationToken.None));
+            var exception = await Assert.ThrowsExceptionAsync<InvalidSignatureException>(() => target.VerifyAndDeserialize(_payload, _signature, CancellationToken.None)).ConfigureAwait(false);
             Assert.IsTrue(exception.Message.ToLowerInvariant().Contains("future"));
         }
 
@@ -89,7 +89,7 @@ namespace Ibanity.Apis.Client.Tests.Webhooks
         {
             var target = BuildService(_oneSecondAfterTokenCreation + 3600);
 
-            var exception = await Assert.ThrowsExceptionAsync<InvalidSignatureException>(() => target.VerifyAndDeserialize(_payload, _signature, CancellationToken.None));
+            var exception = await Assert.ThrowsExceptionAsync<InvalidSignatureException>(() => target.VerifyAndDeserialize(_payload, _signature, CancellationToken.None)).ConfigureAwait(false);
             Assert.IsTrue(exception.Message.ToLowerInvariant().Contains("expired"));
         }
 

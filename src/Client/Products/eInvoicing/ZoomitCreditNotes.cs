@@ -40,7 +40,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         public async Task<ZoomitCreditNote> Create(ClientAccessToken token, Guid supplierId, string filename, string path, CancellationToken? cancellationToken = null)
         {
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
-                return await Create(token, supplierId, filename, stream, cancellationToken);
+                return await Create(token, supplierId, filename, stream, cancellationToken).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -48,11 +48,11 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         {
             var result = await _apiClient.PostInline<JsonApi.Resource<ZoomitCreditNote, object, object, object>>(
                 $"{_urlPrefix}/{ParentEntityName}/{supplierId}/{EntityName}",
-                (await _accessTokenProvider.RefreshToken(token ?? throw new ArgumentNullException(nameof(token)))).AccessToken,
+                (await _accessTokenProvider.RefreshToken(token ?? throw new ArgumentNullException(nameof(token))).ConfigureAwait(false)).AccessToken,
                 new Dictionary<string, string>(),
                 filename,
                 xmlContent,
-                cancellationToken ?? CancellationToken.None);
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
 
             return Map(result.Data);
         }

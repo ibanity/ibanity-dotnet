@@ -34,7 +34,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         public async Task<Models.OnboardingDetailsResponse> Create(ClientAccessToken token, Models.OnboardingDetails onboardingDetails, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             Map((await _apiClient.Post<JsonApi.Resource<Models.OnboardingDetails, object, object, object>, JsonApi.Resource<Models.OnboardingDetailsResponse, object, object, object>>(
                 $"{_urlPrefix}/{EntityName}",
-                (await _accessTokenProvider.RefreshToken(token ?? throw new ArgumentNullException(nameof(token)))).AccessToken,
+                (await _accessTokenProvider.RefreshToken(token ?? throw new ArgumentNullException(nameof(token))).ConfigureAwait(false)).AccessToken,
                 new JsonApi.Resource<Models.OnboardingDetails, object, object, object>
                 {
                     Data = new JsonApi.Data<Models.OnboardingDetails, object, object, object>
@@ -44,7 +44,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
                     }
                 },
                 idempotencyKey ?? Guid.NewGuid(),
-                cancellationToken ?? CancellationToken.None)).Data);
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false)).Data);
 
         private static Models.OnboardingDetailsResponse Map(JsonApi.Data<Models.OnboardingDetailsResponse, object, object, object> data)
         {

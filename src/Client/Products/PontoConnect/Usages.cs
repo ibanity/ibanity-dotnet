@@ -37,8 +37,8 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         public async Task<Usage> Get(ClientAccessToken token, Guid organizationId, int year, int month, CancellationToken? cancellationToken) =>
             Map((await _apiClient.Get<JsonApi.Resource<Usage, object, UsageRelationships, object>>(
                 $"{_urlPrefix}/organizations/{organizationId}/usage/{year:D4}-{month:D2}",
-                (await _accessTokenProvider.RefreshToken(token ?? throw new ArgumentNullException(nameof(token)))).AccessToken,
-                cancellationToken ?? CancellationToken.None)).Data);
+                (await _accessTokenProvider.RefreshToken(token ?? throw new ArgumentNullException(nameof(token))).ConfigureAwait(false)).AccessToken,
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false)).Data);
 
         private static Usage Map(JsonApi.Data<Usage, object, UsageRelationships, object> data)
         {

@@ -177,8 +177,8 @@ namespace Ibanity.Apis.Client.Products
         {
             var page = await _apiClient.Get<JsonApi.Collection<TAttributes, TMeta, TRelationships, TLinks, JsonApi.CursorBasedPaging>>(
                 path,
-                await GetAccessToken(token),
-                cancellationToken ?? CancellationToken.None);
+                await GetAccessToken(token).ConfigureAwait(false),
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
 
             var result = new IbanityCollection<TAttributes>()
             {
@@ -208,8 +208,8 @@ namespace Ibanity.Apis.Client.Products
         {
             var page = await _apiClient.Get<JsonApi.Collection<TAttributes, TMeta, TRelationships, TLinks, JsonApi.OffsetBasedPaging>>(
                 path,
-                await GetAccessToken(token),
-                cancellationToken ?? CancellationToken.None);
+                await GetAccessToken(token).ConfigureAwait(false),
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
 
             var result = new IsabelCollection<TAttributes>()
             {
@@ -239,8 +239,8 @@ namespace Ibanity.Apis.Client.Products
         {
             var page = await _apiClient.Get<JsonApi.Collection<TAttributes, TMeta, TRelationships, TLinks, JsonApi.PageBasedPaging>>(
                 path,
-                await GetAccessToken(token),
-                cancellationToken ?? CancellationToken.None);
+                await GetAccessToken(token).ConfigureAwait(false),
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
 
             var result = new EInvoicingCollection<TAttributes>()
             {
@@ -264,8 +264,8 @@ namespace Ibanity.Apis.Client.Products
         protected async Task<TAttributes> InternalGet(TToken token, string path, TId id, CancellationToken? cancellationToken) =>
             Map((await _apiClient.Get<JsonApi.Resource<TAttributes, TMeta, TRelationships, TLinks>>(
                 $"{path}/{id}",
-                await GetAccessToken(token),
-                cancellationToken ?? CancellationToken.None)).Data);
+                await GetAccessToken(token).ConfigureAwait(false),
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false)).Data);
 
         /// <summary>
         /// Delete a single resource.
@@ -277,8 +277,8 @@ namespace Ibanity.Apis.Client.Products
         protected async Task InternalDelete(TToken token, string path, TId id, CancellationToken? cancellationToken) =>
             await _apiClient.Delete(
                 $"{path}/{id}",
-                await GetAccessToken(token),
-                cancellationToken ?? CancellationToken.None);
+                await GetAccessToken(token).ConfigureAwait(false),
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
 
         private Guid? GetIdempotencyKey(Guid? from) => from ?? (_generateIdempotencyKey ? (Guid?)Guid.NewGuid() : null);
 
@@ -294,10 +294,10 @@ namespace Ibanity.Apis.Client.Products
         protected async Task<TAttributes> InternalCreate<T>(TToken token, string path, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             Map((await _apiClient.Post<JsonApi.Resource<T, object, object, object>, JsonApi.Resource<TAttributes, TMeta, TRelationships, TLinks>>(
                 $"{path}",
-                await GetAccessToken(token),
+                await GetAccessToken(token).ConfigureAwait(false),
                 new JsonApi.Resource<T, object, object, object> { Data = payload },
                 GetIdempotencyKey(idempotencyKey),
-                cancellationToken ?? CancellationToken.None)).Data);
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false)).Data);
 
         /// <summary>
         /// Create a new resource.
@@ -312,10 +312,10 @@ namespace Ibanity.Apis.Client.Products
         protected async Task<TAttributes> InternalUpdate<T>(TToken token, string path, TId id, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             Map((await _apiClient.Patch<JsonApi.Resource<T, object, object, object>, JsonApi.Resource<TAttributes, TMeta, TRelationships, TLinks>>(
                 $"{path}/{id}",
-                await GetAccessToken(token),
+                await GetAccessToken(token).ConfigureAwait(false),
                 new JsonApi.Resource<T, object, object, object> { Data = payload },
                 GetIdempotencyKey(idempotencyKey),
-                cancellationToken ?? CancellationToken.None)).Data);
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false)).Data);
 
         /// <summary>
         /// Get payload and write it to a provided stream.
@@ -328,9 +328,9 @@ namespace Ibanity.Apis.Client.Products
         protected async Task InternalGetToStream(TToken token, string path, TId id, Stream target, CancellationToken? cancellationToken) =>
             await _apiClient.GetToStream(
                 $"{path}/{id}",
-                await GetAccessToken(token),
+                await GetAccessToken(token).ConfigureAwait(false),
                 target,
-                cancellationToken ?? CancellationToken.None);
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
 
         /// <summary>
         /// Map received JSON:API data to a single-level object.
@@ -361,7 +361,7 @@ namespace Ibanity.Apis.Client.Products
         /// <returns>Bearer token</returns>
         protected async Task<string> GetAccessToken(TToken token) => token == null
             ? null
-            : (await _accessTokenProvider.RefreshToken(token)).AccessToken;
+            : (await _accessTokenProvider.RefreshToken(token).ConfigureAwait(false)).AccessToken;
     }
 
     /// <summary>

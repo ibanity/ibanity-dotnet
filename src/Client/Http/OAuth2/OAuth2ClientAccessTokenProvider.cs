@@ -61,7 +61,7 @@ namespace Ibanity.Apis.Client.Http.OAuth2
                 null,
                 DateTimeOffset.MinValue);
 
-            return await RefreshToken(token, cancellationToken);
+            return await RefreshToken(token, cancellationToken).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -87,8 +87,8 @@ namespace Ibanity.Apis.Client.Http.OAuth2
 
             _logger.Debug("Getting new token from client credentials");
 
-            var result = await (await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None)).ThrowOnOAuth2Failure(_serializer, _logger);
-            var response = _serializer.Deserialize<OAuth2Response>(await result.Content.ReadAsStringAsync());
+            var result = await (await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None).ConfigureAwait(false)).ThrowOnOAuth2Failure(_serializer, _logger).ConfigureAwait(false);
+            var response = _serializer.Deserialize<OAuth2Response>(await result.Content.ReadAsStringAsync().ConfigureAwait(false));
 
             token.AccessToken = response.AccessToken;
             token.ValidUntil = _clock.Now + response.ExpiresIn;

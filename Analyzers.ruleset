@@ -3,4 +3,7 @@
   <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp.Features" RuleNamespace="Microsoft.CodeAnalysis.CSharp.Features">
     <Rule Id="CA1716" Action="None" />
   </Rules>
+  <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Analyzers.ManagedCodeAnalysis">
+    <Rule Id="CA2007" Action="Error" />
+  </Rules>
 </RuleSet>

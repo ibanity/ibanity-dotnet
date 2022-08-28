@@ -42,7 +42,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         public async Task<BulkPaymentInitiationRequest> Create(Token token, string filename, string path, bool? isShared = null, bool? hideDetails = null, CancellationToken? cancellationToken = null)
         {
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
-                return await Create(token, filename, stream, isShared, hideDetails, cancellationToken);
+                return await Create(token, filename, stream, isShared, hideDetails, cancellationToken).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -58,11 +58,11 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
 
             var result = await _apiClient.PostInline<JsonApi.Resource<BulkPaymentInitiationRequest, object, object, object>>(
                 $"{_urlPrefix}/{EntityName}",
-                (await _accessTokenProvider.RefreshToken(token ?? throw new ArgumentNullException(nameof(token)))).AccessToken,
+                (await _accessTokenProvider.RefreshToken(token ?? throw new ArgumentNullException(nameof(token))).ConfigureAwait(false)).AccessToken,
                 headers,
                 filename,
                 xmlContent,
-                cancellationToken ?? CancellationToken.None);
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
 
             return Map(result.Data);
         }

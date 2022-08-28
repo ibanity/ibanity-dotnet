@@ -31,8 +31,8 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         public async Task<Models.UserInfo> Get(Token token, CancellationToken? cancellationToken) =>
             await _apiClient.Get<Models.UserInfo>(
                 $"{_urlPrefix}/{EntityName}",
-                (await _accessTokenProvider.RefreshToken(token ?? throw new ArgumentNullException(nameof(token)))).AccessToken,
-                cancellationToken ?? CancellationToken.None);
+                (await _accessTokenProvider.RefreshToken(token ?? throw new ArgumentNullException(nameof(token))).ConfigureAwait(false)).AccessToken,
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
     }
 
     /// <summary>

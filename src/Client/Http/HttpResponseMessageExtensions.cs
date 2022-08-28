@@ -37,7 +37,7 @@ namespace Ibanity.Apis.Client.Http
             using (var content = @this.Content)
                 body = content == null
                     ? null
-                    : await content.ReadAsStringAsync();
+                    : await content.ReadAsStringAsync().ConfigureAwait(false);
 
             var requestId = @this.Headers.TryGetValues(RequestIdHeader, out var values) ? values.SingleOrDefault() : null;
             var statusCode = @this.StatusCode;

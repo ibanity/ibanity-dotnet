@@ -22,7 +22,7 @@ namespace Ibanity.Apis.Client.Webhooks.Jwt
         /// <inheritdoc />
         public async Task<RSA> GetPublicKey(string keyId, CancellationToken? cancellationToken)
         {
-            var response = await _apiClient.Get<JsonWebKeySet>("webhooks/keys", null, cancellationToken ?? CancellationToken.None);
+            var response = await _apiClient.Get<JsonWebKeySet>("webhooks/keys", null, cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
 
             var jwk = response.Keys.
                 Where(k =>

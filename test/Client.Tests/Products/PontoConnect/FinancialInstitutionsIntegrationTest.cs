@@ -46,18 +46,18 @@ namespace Ibanity.Apis.Client.Tests.Http
                 Build();
 
             Guid id = Guid.Parse("433329cb-3a66-4d47-8387-98bdaa5e55ad");
-            var financialInstitution = await ibanityService.PontoConnect.FinancialInstitutions.Get(id);
+            var financialInstitution = await ibanityService.PontoConnect.FinancialInstitutions.Get(id).ConfigureAwait(false);
             Assert.IsNotNull(financialInstitution);
 
             logger.
                 Verify(l => l.Debug(expectedDebugLog), Times.Once);
 
             var filters = new[] { new Filter("name", FilterOperator.Like, "gring") };
-            var financialInstitutions = await ibanityService.PontoConnect.FinancialInstitutions.List(filters);
+            var financialInstitutions = await ibanityService.PontoConnect.FinancialInstitutions.List(filters).ConfigureAwait(false);
             Assert.IsNotNull(financialInstitutions);
 
-            var clientAccessToken = await ibanityService.PontoConnect.ClientTokenService.GetToken();
-            var usage = await ibanityService.PontoConnect.Usages.Get(clientAccessToken, Guid.Parse("a86f1396-013b-4258-857b-a8a212c540e8"), 2020, 7);
+            var clientAccessToken = await ibanityService.PontoConnect.ClientTokenService.GetToken().ConfigureAwait(false);
+            var usage = await ibanityService.PontoConnect.Usages.Get(clientAccessToken, Guid.Parse("a86f1396-013b-4258-857b-a8a212c540e8"), 2020, 7).ConfigureAwait(false);
         }
     }
 }

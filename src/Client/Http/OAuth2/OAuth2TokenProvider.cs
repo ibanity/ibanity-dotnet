@@ -83,8 +83,8 @@ namespace Ibanity.Apis.Client.Http.OAuth2
 
             _logger.Debug("Getting new token from authorization code");
 
-            var result = await (await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None)).ThrowOnOAuth2Failure(_serializer, _logger);
-            var response = _serializer.Deserialize<OAuth2Response>(await result.Content.ReadAsStringAsync());
+            var result = await (await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None).ConfigureAwait(false)).ThrowOnOAuth2Failure(_serializer, _logger).ConfigureAwait(false);
+            var response = _serializer.Deserialize<OAuth2Response>(await result.Content.ReadAsStringAsync().ConfigureAwait(false));
 
             return new Token(
                 response.AccessToken,
@@ -119,7 +119,7 @@ namespace Ibanity.Apis.Client.Http.OAuth2
                 DateTimeOffset.MinValue,
                 refreshToken);
 
-            return await RefreshToken(token, cancellationToken);
+            return await RefreshToken(token, cancellationToken).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -147,8 +147,8 @@ namespace Ibanity.Apis.Client.Http.OAuth2
 
             _logger.Debug("Getting new token from refresh token");
 
-            var result = await (await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None)).ThrowOnOAuth2Failure(_serializer, _logger);
-            var response = _serializer.Deserialize<OAuth2Response>(await result.Content.ReadAsStringAsync());
+            var result = await (await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None).ConfigureAwait(false)).ThrowOnOAuth2Failure(_serializer, _logger).ConfigureAwait(false);
+            var response = _serializer.Deserialize<OAuth2Response>(await result.Content.ReadAsStringAsync().ConfigureAwait(false));
 
             token.AccessToken = response.AccessToken;
             token.ValidUntil = _clock.Now + response.ExpiresIn;
@@ -175,7 +175,7 @@ namespace Ibanity.Apis.Client.Http.OAuth2
 
             request.Headers.Authorization = new BasicAuthenticationHeaderValue(_clientId, _clientSecret);
 
-            await (await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None)).ThrowOnOAuth2Failure(_serializer, _logger);
+            await (await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None).ConfigureAwait(false)).ThrowOnOAuth2Failure(_serializer, _logger).ConfigureAwait(false);
         }
     }
 }
