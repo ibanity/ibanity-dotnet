@@ -53,6 +53,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
 
             var payload = new JsonApi.Data<Supplier, object, object, object>
             {
+                Id = id.ToString(),
                 Type = "supplier",
                 Attributes = supplier
             };
