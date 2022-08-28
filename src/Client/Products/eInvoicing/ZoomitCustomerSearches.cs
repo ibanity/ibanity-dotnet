@@ -19,11 +19,11 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
         public ZoomitCustomerSearches(IApiClient apiClient, IAccessTokenProvider<ClientAccessToken> accessTokenProvider, string urlPrefix) :
-            base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName })
+            base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName }, false)
         { }
 
         /// <inheritdoc />
-        public Task<ZoomitCustomerSearchResponse> Create(ClientAccessToken token, Guid supplierId, ZoomitCustomerSearch zoomitCustomerSearch, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
+        public Task<ZoomitCustomerSearchResponse> Create(ClientAccessToken token, Guid supplierId, ZoomitCustomerSearch zoomitCustomerSearch, CancellationToken? cancellationToken = null)
         {
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
@@ -37,7 +37,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
                 Attributes = zoomitCustomerSearch
             };
 
-            return InternalCreate(token, new[] { supplierId }, payload, idempotencyKey, cancellationToken);
+            return InternalCreate(token, new[] { supplierId }, payload, null, cancellationToken);
         }
     }
 
@@ -53,9 +53,8 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="token">Authentication token</param>
         /// <param name="supplierId">Supplier ID</param>
         /// <param name="zoomitCustomerSearch">An object representing a new Zoomit Customer search</param>
-        /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created supplier resource</returns>
-        Task<ZoomitCustomerSearchResponse> Create(ClientAccessToken token, Guid supplierId, ZoomitCustomerSearch zoomitCustomerSearch, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+        Task<ZoomitCustomerSearchResponse> Create(ClientAccessToken token, Guid supplierId, ZoomitCustomerSearch zoomitCustomerSearch, CancellationToken? cancellationToken = null);
     }
 }

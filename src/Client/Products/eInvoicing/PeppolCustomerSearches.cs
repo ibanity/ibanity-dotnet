@@ -17,11 +17,11 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="apiClient">Generic API client</param>
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
-        public PeppolCustomerSearches(IApiClient apiClient, IAccessTokenProvider<ClientAccessToken> accessTokenProvider, string urlPrefix) : base(apiClient, accessTokenProvider, urlPrefix, EntityName)
+        public PeppolCustomerSearches(IApiClient apiClient, IAccessTokenProvider<ClientAccessToken> accessTokenProvider, string urlPrefix) : base(apiClient, accessTokenProvider, urlPrefix, EntityName, false)
         { }
 
         /// <inheritdoc />
-        public Task<PeppolCustomerSearchResponse> Create(ClientAccessToken token, PeppolCustomerSearch peppolCustomerSearch, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
+        public Task<PeppolCustomerSearchResponse> Create(ClientAccessToken token, PeppolCustomerSearch peppolCustomerSearch, CancellationToken? cancellationToken = null)
         {
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
@@ -35,7 +35,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
                 Attributes = peppolCustomerSearch
             };
 
-            return InternalCreate(token, payload, idempotencyKey, cancellationToken);
+            return InternalCreate(token, payload, null, cancellationToken);
         }
     }
 
@@ -52,9 +52,8 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// </summary>
         /// <param name="token">Authentication token</param>
         /// <param name="peppolCustomerSearch">An object representing a new Peppol Customer search</param>
-        /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created supplier resource</returns>
-        Task<PeppolCustomerSearchResponse> Create(ClientAccessToken token, PeppolCustomerSearch peppolCustomerSearch, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+        Task<PeppolCustomerSearchResponse> Create(ClientAccessToken token, PeppolCustomerSearch peppolCustomerSearch, CancellationToken? cancellationToken = null);
     }
 }

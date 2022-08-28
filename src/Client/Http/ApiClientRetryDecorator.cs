@@ -68,11 +68,11 @@ namespace Ibanity.Apis.Client.Http
             Execute("Get", async () => await _underlyingInstance.Get<T>(path, bearerToken, cancellationToken), cancellationToken);
 
         /// <inheritdoc />
-        public Task<TResponse> Patch<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken) =>
+        public Task<TResponse> Patch<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid? idempotencyKey, CancellationToken cancellationToken) =>
             Execute("Patch", async () => await _underlyingInstance.Patch<TRequest, TResponse>(path, bearerToken, payload, idempotencyKey, cancellationToken), cancellationToken);
 
         /// <inheritdoc />
-        public Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid idempotencyKey, CancellationToken cancellationToken) =>
+        public Task<TResponse> Post<TRequest, TResponse>(string path, string bearerToken, TRequest payload, Guid? idempotencyKey, CancellationToken cancellationToken) =>
             Execute("Post", async () => await _underlyingInstance.Post<TRequest, TResponse>(path, bearerToken, payload, idempotencyKey, cancellationToken), cancellationToken);
 
         /// <inheritdoc />

@@ -17,7 +17,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="apiClient">Generic API client</param>
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
-        public Suppliers(IApiClient apiClient, IAccessTokenProvider<ClientAccessToken> accessTokenProvider, string urlPrefix) : base(apiClient, accessTokenProvider, urlPrefix, EntityName)
+        public Suppliers(IApiClient apiClient, IAccessTokenProvider<ClientAccessToken> accessTokenProvider, string urlPrefix) : base(apiClient, accessTokenProvider, urlPrefix, EntityName, false)
         { }
 
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
             InternalGet(token, id, cancellationToken);
 
         /// <inheritdoc />
-        public Task<SupplierResponse> Create(ClientAccessToken token, NewSupplier supplier, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
+        public Task<SupplierResponse> Create(ClientAccessToken token, NewSupplier supplier, CancellationToken? cancellationToken = null)
         {
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
@@ -39,11 +39,11 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
                 Attributes = supplier
             };
 
-            return InternalCreate(token, payload, idempotencyKey, cancellationToken);
+            return InternalCreate(token, payload, null, cancellationToken);
         }
 
         /// <inheritdoc />
-        public Task<SupplierResponse> Update(ClientAccessToken token, Guid id, Supplier supplier, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
+        public Task<SupplierResponse> Update(ClientAccessToken token, Guid id, Supplier supplier, CancellationToken? cancellationToken = null)
         {
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
@@ -58,7 +58,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
                 Attributes = supplier
             };
 
-            return InternalUpdate(token, id, payload, idempotencyKey, cancellationToken);
+            return InternalUpdate(token, id, payload, null, cancellationToken);
         }
 
         /// <inheritdoc />
@@ -85,10 +85,9 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// </summary>
         /// <param name="token">Authentication token</param>
         /// <param name="supplier">An object representing a new supplier</param>
-        /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created supplier resource</returns>
-        Task<SupplierResponse> Create(ClientAccessToken token, NewSupplier supplier, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+        Task<SupplierResponse> Create(ClientAccessToken token, NewSupplier supplier, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Update Supplier
@@ -96,10 +95,9 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="token">Authentication token</param>
         /// <param name="id">Financial institution transaction ID</param>
         /// <param name="supplier">An object representing a supplier</param>
-        /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The updated supplier resource</returns>
-        Task<SupplierResponse> Update(ClientAccessToken token, Guid id, Supplier supplier, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+        Task<SupplierResponse> Update(ClientAccessToken token, Guid id, Supplier supplier, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Delete Supplier

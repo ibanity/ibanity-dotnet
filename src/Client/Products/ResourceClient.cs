@@ -23,6 +23,7 @@ namespace Ibanity.Apis.Client.Products
     {
         private readonly IApiClient _apiClient;
         private readonly IAccessTokenProvider<TToken> _accessTokenProvider;
+        private readonly bool _generateIdempotencyKey;
 
         /// <summary>
         /// Beginning of URIs, composed by Ibanity API endpoint, followed by product name.
@@ -35,7 +36,8 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="apiClient">Generic API client</param>
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
-        protected BaseResourceClient(IApiClient apiClient, IAccessTokenProvider<TToken> accessTokenProvider, string urlPrefix)
+        /// <param name="generateIdempotencyKey">Generate a random idempotency key if none was specified</param>
+        protected BaseResourceClient(IApiClient apiClient, IAccessTokenProvider<TToken> accessTokenProvider, string urlPrefix, bool generateIdempotencyKey)
         {
             if (string.IsNullOrWhiteSpace(urlPrefix))
                 throw new ArgumentException($"'{nameof(urlPrefix)}' cannot be null or whitespace.", nameof(urlPrefix));
@@ -43,6 +45,7 @@ namespace Ibanity.Apis.Client.Products
             _apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
             _accessTokenProvider = accessTokenProvider ?? throw new ArgumentNullException(nameof(accessTokenProvider));
             UrlPrefix = urlPrefix;
+            _generateIdempotencyKey = generateIdempotencyKey;
         }
 
         /// <summary>
@@ -277,7 +280,7 @@ namespace Ibanity.Apis.Client.Products
                 await GetAccessToken(token),
                 cancellationToken ?? CancellationToken.None);
 
-        private Guid GetIdempotencyKey(Guid? from) => from ?? Guid.NewGuid();
+        private Guid? GetIdempotencyKey(Guid? from) => from ?? (_generateIdempotencyKey ? (Guid?)Guid.NewGuid() : null);
 
         /// <summary>
         /// Create a new resource.
@@ -382,8 +385,9 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
         /// <param name="entityName">Name of the resource</param>
-        protected ResourceClient(IApiClient apiClient, IAccessTokenProvider<TToken> accessTokenProvider, string urlPrefix, string entityName) :
-            base(apiClient, accessTokenProvider, urlPrefix)
+        /// <param name="generateIdempotencyKey">Generate a random idempotency key if none was specified</param>
+        protected ResourceClient(IApiClient apiClient, IAccessTokenProvider<TToken> accessTokenProvider, string urlPrefix, string entityName, bool generateIdempotencyKey = true) :
+            base(apiClient, accessTokenProvider, urlPrefix, generateIdempotencyKey)
         {
             if (string.IsNullOrWhiteSpace(entityName))
                 throw new ArgumentException($"'{nameof(entityName)}' cannot be null or whitespace.", nameof(entityName));
@@ -514,8 +518,9 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
         /// <param name="entityName">Name of the resource</param>
-        protected ResourceClient(IApiClient apiClient, IAccessTokenProvider<TToken> accessTokenProvider, string urlPrefix, string entityName) :
-            base(apiClient, accessTokenProvider, urlPrefix, entityName)
+        /// <param name="generateIdempotencyKey">Generate a random idempotency key if none was specified</param>
+        protected ResourceClient(IApiClient apiClient, IAccessTokenProvider<TToken> accessTokenProvider, string urlPrefix, string entityName, bool generateIdempotencyKey = true) :
+            base(apiClient, accessTokenProvider, urlPrefix, entityName, generateIdempotencyKey)
         { }
 
         /// <inheritdoc />
@@ -544,8 +549,9 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
         /// <param name="entityNames">Names of the resources hierarchy</param>
-        protected ResourceWithParentClient(IApiClient apiClient, IAccessTokenProvider<TToken> accessTokenProvider, string urlPrefix, string[] entityNames) :
-            base(apiClient, accessTokenProvider, urlPrefix)
+        /// <param name="generateIdempotencyKey">Generate a random idempotency key if none was specified</param>
+        protected ResourceWithParentClient(IApiClient apiClient, IAccessTokenProvider<TToken> accessTokenProvider, string urlPrefix, string[] entityNames, bool generateIdempotencyKey = true) :
+            base(apiClient, accessTokenProvider, urlPrefix, generateIdempotencyKey)
         {
             _entityNames = entityNames ?? throw new ArgumentNullException(nameof(entityNames));
 
@@ -663,8 +669,9 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
         /// <param name="entityNames">Names of the resources hierarchy</param>
-        protected ResourceWithParentClient(IApiClient apiClient, IAccessTokenProvider<TToken> accessTokenProvider, string urlPrefix, string[] entityNames) :
-            base(apiClient, accessTokenProvider, urlPrefix, entityNames)
+        /// <param name="generateIdempotencyKey">Generate a random idempotency key if none was specified</param>
+        protected ResourceWithParentClient(IApiClient apiClient, IAccessTokenProvider<TToken> accessTokenProvider, string urlPrefix, string[] entityNames, bool generateIdempotencyKey = true) :
+            base(apiClient, accessTokenProvider, urlPrefix, entityNames, generateIdempotencyKey)
         { }
 
         /// <inheritdoc />
