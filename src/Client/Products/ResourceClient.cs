@@ -277,6 +277,8 @@ namespace Ibanity.Apis.Client.Products
                 await GetAccessToken(token),
                 cancellationToken ?? CancellationToken.None);
 
+        private Guid GetIdempotencyKey(Guid? from) => from ?? Guid.NewGuid();
+
         /// <summary>
         /// Create a new resource.
         /// </summary>
@@ -291,7 +293,7 @@ namespace Ibanity.Apis.Client.Products
                 $"{path}",
                 await GetAccessToken(token),
                 new JsonApi.Resource<T, object, object, object> { Data = payload },
-                idempotencyKey ?? Guid.NewGuid(),
+                GetIdempotencyKey(idempotencyKey),
                 cancellationToken ?? CancellationToken.None)).Data);
 
         /// <summary>
@@ -309,7 +311,7 @@ namespace Ibanity.Apis.Client.Products
                 $"{path}/{id}",
                 await GetAccessToken(token),
                 new JsonApi.Resource<T, object, object, object> { Data = payload },
-                idempotencyKey ?? Guid.NewGuid(),
+                GetIdempotencyKey(idempotencyKey),
                 cancellationToken ?? CancellationToken.None)).Data);
 
         /// <summary>
