@@ -6,6 +6,7 @@
     <AnalysisMode>Recommended</AnalysisMode>
     <CodeAnalysisRuleSet>../../Analyzers.ruleset</CodeAnalysisRuleSet>
     <IsPackable>false</IsPackable>
+    <RootNamespace>Ibanity.Apis.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

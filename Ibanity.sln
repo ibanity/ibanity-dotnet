@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "src\Client\Client
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{604E94DD-E50A-479B-B112-0A7C1E6EB7D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.Test", "test\Client.Tests\Client.Test.csproj", "{1FABC5EC-1E9C-4CC0-A382-AE3CF6B9438A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client.Tests", "test\Client.Tests\Client.Tests.csproj", "{1FABC5EC-1E9C-4CC0-A382-AE3CF6B9438A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{3C49FD96-DA1E-467C-B965-A64101BBF0FD}"
 EndProject

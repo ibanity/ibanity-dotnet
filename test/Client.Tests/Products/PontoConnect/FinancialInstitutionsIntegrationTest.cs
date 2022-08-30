@@ -5,7 +5,7 @@ using Ibanity.Apis.Client.Utils.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace Ibanity.Apis.Client.Tests.Http
+namespace Ibanity.Apis.Client.Tests.Products.PontoConnect
 {
     [TestClass]
     public class FinancialInstitutionsIntegrationTest
