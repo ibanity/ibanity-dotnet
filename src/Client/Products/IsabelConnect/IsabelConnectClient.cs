@@ -4,7 +4,7 @@ using Ibanity.Apis.Client.Products.IsabelConnect.Models;
 namespace Ibanity.Apis.Client.Products.IsabelConnect
 {
     /// <summary>
-    /// Contains services for all Ponto Connect-releated resources.
+    /// Contains services for all Ponto Connect-related resources.
     /// </summary>
     public class IsabelConnectClient : ProductClient<ITokenProviderWithoutCodeVerifier>, IIsabelConnectClient
     {
@@ -50,7 +50,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
     }
 
     /// <summary>
-    /// Contains services for all Ponto Connect-releated resources.
+    /// Contains services for all Ponto Connect-related resources.
     /// </summary>
     public interface IIsabelConnectClient : IProductWithRefreshTokenClient<ITokenProviderWithoutCodeVerifier>
     {

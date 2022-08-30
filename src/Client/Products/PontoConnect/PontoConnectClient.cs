@@ -3,7 +3,7 @@ using Ibanity.Apis.Client.Http;
 namespace Ibanity.Apis.Client.Products.PontoConnect
 {
     /// <summary>
-    /// Contains services for all Ponto Connect-releated resources.
+    /// Contains services for all Ponto Connect-related resources.
     /// </summary>
     public class PontoConnectClient : ProductClient<ITokenProviderWithCodeVerifier>, IPontoConnectClient
     {
@@ -77,7 +77,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     }
 
     /// <summary>
-    /// Contains services for all Ponto Connect-releated resources.
+    /// Contains services for all Ponto Connect-related resources.
     /// </summary>
     public interface IPontoConnectClient : IProductWithRefreshTokenClient<ITokenProviderWithCodeVerifier>
     {

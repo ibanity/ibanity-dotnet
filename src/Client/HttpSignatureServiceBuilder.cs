@@ -116,7 +116,7 @@ namespace Ibanity.Apis.Client
         /// <summary>
         /// Define signature certificate.
         /// </summary>
-        /// <param name="id">Certificat ID from the Developer Portal</param>
+        /// <param name="id">Certificate ID from the Developer Portal</param>
         /// <param name="certificate">Signature certificate</param>
         /// <returns>The builder to be used to pursue configuration</returns>
         IHttpSignatureServiceOptionalPropertiesBuilder AddCertificate(string id, X509Certificate2 certificate);
@@ -124,7 +124,7 @@ namespace Ibanity.Apis.Client
         /// <summary>
         /// Define signature certificate.
         /// </summary>
-        /// <param name="id">Certificat ID from the Developer Portal</param>
+        /// <param name="id">Certificate ID from the Developer Portal</param>
         /// <param name="path">Signature certificate path</param>
         /// <param name="password">Signature certificate passphrase</param>
         /// <returns>The builder to be used to pursue configuration</returns>

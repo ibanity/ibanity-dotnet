@@ -3,7 +3,7 @@ using Ibanity.Apis.Client.Http;
 namespace Ibanity.Apis.Client.Products.eInvoicing
 {
     /// <summary>
-    /// Contains services for all eInvoicing-releated resources.
+    /// Contains services for all eInvoicing-related resources.
     /// </summary>
     public class EInvoicingClient : ProductClient<ITokenProviderWithoutCodeVerifier>, IEInvoicingClient
     {
