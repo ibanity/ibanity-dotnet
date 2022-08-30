@@ -107,7 +107,7 @@ namespace Ibanity.Apis.Client.Http
             using (var writer = new StreamWriter(stream, Encoding))
             {
                 writer.Write(payload);
-                writer.Flush();
+                await writer.FlushAsync().ConfigureAwait(false);
 
                 stream.Seek(0L, SeekOrigin.Begin);
                 headers = GetCommonHeaders(method, bearerToken, path, idempotencyKey, stream);
