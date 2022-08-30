@@ -25,11 +25,10 @@ namespace Ibanity.Apis.Client.Webhooks.Jwt
             var response = await _apiClient.Get<JsonWebKeySet>("webhooks/keys", null, cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
 
             var jwk = response.Keys.
-                Where(k =>
+                Single(k =>
                     k.Usage == "sig" &&
                     k.Status == "ACTIVE" &&
-                    k.Id == keyId).
-                Single();
+                    k.Id == keyId);
 
             var key = RSA.Create();
             key.ImportParameters(new RSAParameters
