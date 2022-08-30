@@ -6,7 +6,7 @@ using Ibanity.Apis.Client.Products.eInvoicing.Models;
 
 namespace Ibanity.Apis.Client.Products.eInvoicing
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="ISuppliers" />
     public class Suppliers : ResourceClient<SupplierResponse, object, object, object, ClientAccessToken>, ISuppliers
     {
         private const string EntityName = "suppliers";

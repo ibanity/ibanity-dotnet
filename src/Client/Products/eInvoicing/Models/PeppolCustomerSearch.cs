@@ -22,7 +22,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
         public string CustomerReference { get; set; }
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="PeppolCustomerSearch" />
     [DataContract]
     public class PeppolCustomerSearchResponse : PeppolCustomerSearch, IIdentified<Guid>
     {

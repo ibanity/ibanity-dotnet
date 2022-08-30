@@ -8,7 +8,7 @@ using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.eInvoicing
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="IPeppolDocuments" />
     public class PeppolDocuments : ResourceClient<PeppolDocument, object, object, object, ClientAccessToken>, IPeppolDocuments
     {
         private const string EntityName = "peppol/documents";

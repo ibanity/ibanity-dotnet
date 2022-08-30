@@ -6,7 +6,7 @@ using Ibanity.Apis.Client.Products.eInvoicing.Models;
 
 namespace Ibanity.Apis.Client.Products.eInvoicing
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="IZoomitCustomerSearches" />
     public class ZoomitCustomerSearches : ResourceWithParentClient<ZoomitCustomerSearchResponse, object, object, object, ClientAccessToken>, IZoomitCustomerSearches
     {
         private const string ParentEntityName = "zoomit/suppliers";

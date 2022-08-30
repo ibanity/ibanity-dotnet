@@ -8,7 +8,7 @@ using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.eInvoicing
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="IZoomitDocuments" />
     public class ZoomitDocuments : ResourceClient<ZoomitDocument, object, object, object, ClientAccessToken>, IZoomitDocuments
     {
         private const string EntityName = "zoomit/documents";

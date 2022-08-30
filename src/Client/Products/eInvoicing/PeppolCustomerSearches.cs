@@ -6,7 +6,7 @@ using Ibanity.Apis.Client.Products.eInvoicing.Models;
 
 namespace Ibanity.Apis.Client.Products.eInvoicing
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="IPeppolCustomerSearches" />
     public class PeppolCustomerSearches : ResourceClient<PeppolCustomerSearchResponse, object, object, object, ClientAccessToken>, IPeppolCustomerSearches
     {
         private const string EntityName = "peppol/customer-searches";

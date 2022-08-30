@@ -131,7 +131,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
         public string Zip { get; set; }
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="Supplier" />
     public class SupplierResponse : Supplier, IIdentified<Guid>
     {
         /// <inheritdoc />

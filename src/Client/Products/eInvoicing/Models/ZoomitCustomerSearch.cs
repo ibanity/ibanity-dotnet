@@ -26,7 +26,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
         public string Status { get; set; }
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="ZoomitCustomerSearch" />
     public class ZoomitCustomerSearchResponse : ZoomitCustomerSearch, IIdentified<Guid>
     {
         /// <inheritdoc />

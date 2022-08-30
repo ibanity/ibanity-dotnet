@@ -8,7 +8,7 @@ using Ibanity.Apis.Client.Products.eInvoicing.Models;
 
 namespace Ibanity.Apis.Client.Products.eInvoicing
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="IPeppolInvoices" />
     public class PeppolInvoices : ResourceWithParentClient<PeppolInvoice, object, object, object, ClientAccessToken>, IPeppolInvoices
     {
         private const string ParentEntityName = "peppol/suppliers";
