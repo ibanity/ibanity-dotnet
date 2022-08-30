@@ -27,7 +27,7 @@ var ibanityService = new IbanityServiceBuilder().
     Build();
 
 var cancellationTokenSource = new CancellationTokenSource();
-Console.CancelKeyPress += (s, e) =>
+Console.CancelKeyPress += (_, e) =>
 {
     Console.WriteLine("Canceling...");
     cancellationTokenSource.Cancel();
