@@ -20,7 +20,7 @@ var ibanityService = new IbanityServiceBuilder().
 
 // Add services to the container.
 builder.Services.
-    AddSingleton<IIbanityService>(ibanityService).
+    AddSingleton(ibanityService).
     AddSession().
     AddRazorPages();
 
