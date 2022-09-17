@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Http.OAuth2;
+using Ibanity.Apis.Client.Products.CodaboxConnect;
 using Ibanity.Apis.Client.Products.eInvoicing;
 using Ibanity.Apis.Client.Products.IsabelConnect;
 using Ibanity.Apis.Client.Products.PontoConnect;
@@ -33,6 +34,8 @@ namespace Ibanity.Apis.Client
         private string _isabelConnectClientSecret;
         private string _eInvoicingClientId;
         private string _eInvoicingClientSecret;
+        private string _codaboxConnectClientId;
+        private string _codaboxConnectClientSecret;
         private ILoggerFactory _loggerFactory;
         private TimeSpan? _timeout;
         private Action<HttpClient> _customizeClient;
@@ -162,6 +165,20 @@ namespace Ibanity.Apis.Client
 
             _eInvoicingClientId = clientId;
             _eInvoicingClientSecret = clientSecret;
+
+            return this;
+        }
+
+        IIbanityServiceOptionalPropertiesBuilder IIbanityServiceOptionalPropertiesBuilder.AddCodaboxConnectOAuth2Authentication(string clientId, string clientSecret)
+        {
+            if (string.IsNullOrWhiteSpace(clientId))
+                throw new ArgumentException($"'{nameof(clientId)}' cannot be null or whitespace.", nameof(clientId));
+
+            if (string.IsNullOrWhiteSpace(clientSecret))
+                throw new ArgumentException($"'{nameof(clientSecret)}' cannot be null or whitespace.", nameof(clientSecret));
+
+            _codaboxConnectClientId = clientId;
+            _codaboxConnectClientSecret = clientSecret;
 
             return this;
         }
@@ -322,6 +339,20 @@ namespace Ibanity.Apis.Client
                         _eInvoicingClientId,
                         _eInvoicingClientSecret));
 
+            var codaboxConnectClient = new CodaboxConnectClient(
+                versionLessApiClient,
+                UnconfiguredTokenProvider.InstanceWithoutCodeVerifier,
+                _codaboxConnectClientId == null
+                    ? UnconfiguredTokenProvider.ClientAccessInstance
+                    : new OAuth2ClientAccessTokenProvider(
+                        loggerFactory,
+                        httpClient,
+                        clock,
+                        serializer,
+                        CodaboxConnectClient.UrlPrefix,
+                        _codaboxConnectClientId,
+                        _codaboxConnectClientSecret));
+
             IJwksService jwksService = new JwksService(versionLessApiClient);
 
             var webhooksJwksCachingDuration = _webhooksJwksCachingDuration ?? TimeSpan.FromSeconds(30d);
@@ -340,7 +371,7 @@ namespace Ibanity.Apis.Client
                     clock,
                     _webhooksAllowedClockSkew ?? TimeSpan.FromSeconds(30d)));
 
-            return new IbanityService(httpClient, pontoConnectClient, isabelConnectClient, eInvoicingClient, webhooksService);
+            return new IbanityService(httpClient, pontoConnectClient, isabelConnectClient, eInvoicingClient, codaboxConnectClient, webhooksService);
         }
 
         private IApiClient BuildApiClient(HttpClient httpClient, JsonSerializer serializer, IHttpSignatureService signatureService, ILoggerFactory loggerFactory, string version)
@@ -486,6 +517,14 @@ namespace Ibanity.Apis.Client
         /// <param name="clientSecret">OAuth2 client secret</param>
         /// <returns>The builder to be used to pursue configuration</returns>
         IIbanityServiceOptionalPropertiesBuilder AddEInvoicingOAuth2Authentication(string clientId, string clientSecret);
+
+        /// <summary>
+        /// Define Codabox Connect OAuth2 credentials.
+        /// </summary>
+        /// <param name="clientId">Valid OAuth2 client identifier for your application</param>
+        /// <param name="clientSecret">OAuth2 client secret</param>
+        /// <returns>The builder to be used to pursue configuration</returns>
+        IIbanityServiceOptionalPropertiesBuilder AddCodaboxConnectOAuth2Authentication(string clientId, string clientSecret);
 
         /// <summary>
         /// Configure logger.

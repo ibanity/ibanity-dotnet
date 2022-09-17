@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using Ibanity.Apis.Client.Products.CodaboxConnect;
 using Ibanity.Apis.Client.Products.eInvoicing;
 using Ibanity.Apis.Client.Products.IsabelConnect;
 using Ibanity.Apis.Client.Products.PontoConnect;
@@ -20,13 +21,15 @@ namespace Ibanity.Apis.Client
         /// <param name="pontoConnectClient">Ponto Connect service</param>
         /// <param name="isabelConnectClient">Isabel Connect service</param>
         /// <param name="eInvoicingClient">eInvoicing service</param>
+        /// <param name="codaboxConnectClient">Codabox Connect service</param>
         /// <param name="webhooksService">Webhooks service</param>
-        public IbanityService(HttpClient httpClient, IPontoConnectClient pontoConnectClient, IIsabelConnectClient isabelConnectClient, IEInvoicingClient eInvoicingClient, IWebhooksService webhooksService)
+        public IbanityService(HttpClient httpClient, IPontoConnectClient pontoConnectClient, IIsabelConnectClient isabelConnectClient, IEInvoicingClient eInvoicingClient, ICodaboxConnectClient codaboxConnectClient, IWebhooksService webhooksService)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             PontoConnect = pontoConnectClient ?? throw new ArgumentNullException(nameof(pontoConnectClient));
             IsabelConnect = isabelConnectClient ?? throw new ArgumentNullException(nameof(isabelConnectClient));
             EInvoicing = eInvoicingClient ?? throw new ArgumentNullException(nameof(eInvoicingClient));
+            CodaboxConnect = codaboxConnectClient ?? throw new ArgumentNullException(nameof(codaboxConnectClient));
             Webhooks = webhooksService ?? throw new ArgumentNullException(nameof(webhooksService));
         }
 
@@ -38,6 +41,9 @@ namespace Ibanity.Apis.Client
 
         /// <inheritdoc />
         public IEInvoicingClient EInvoicing { get; }
+
+        /// <inheritdoc />
+        public ICodaboxConnectClient CodaboxConnect { get; }
 
         /// <inheritdoc />
         public IWebhooksService Webhooks { get; }
@@ -87,6 +93,11 @@ namespace Ibanity.Apis.Client
         /// Get the eInvoicing service.
         /// </summary>
         IEInvoicingClient EInvoicing { get; }
+
+        /// <summary>
+        /// Get the Codabox Connect service.
+        /// </summary>
+        ICodaboxConnectClient CodaboxConnect { get; }
 
         /// <summary>
         /// Allows to validate and deserialize webhook payloads.
