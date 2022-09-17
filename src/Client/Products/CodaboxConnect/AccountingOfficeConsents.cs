@@ -1,3 +1,6 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Products.CodaboxConnect.Models;
 
@@ -16,6 +19,24 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
         public AccountingOfficeConsents(IApiClient apiClient, IAccessTokenProvider<ClientAccessToken> accessTokenProvider, string urlPrefix) : base(apiClient, accessTokenProvider, urlPrefix, EntityName, false)
         { }
+
+        /// <inheritdoc />
+        public Task<AccountingOfficeConsentResponse> Create(ClientAccessToken token, NewAccountingOfficeConsent accountingOfficeConsent, CancellationToken? cancellationToken = null)
+        {
+            if (token is null)
+                throw new ArgumentNullException(nameof(token));
+
+            if (accountingOfficeConsent is null)
+                throw new ArgumentNullException(nameof(accountingOfficeConsent));
+
+            var payload = new JsonApi.Data<AccountingOfficeConsent, object, object, object>
+            {
+                Type = "accountingOfficeConsent",
+                Attributes = accountingOfficeConsent
+            };
+
+            return InternalCreate(token, payload, null, cancellationToken);
+        }
     }
 
     /// <summary>
@@ -23,5 +44,13 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
     /// </summary>
     public interface IAccountingOfficeConsents
     {
+        /// <summary>
+        /// Create Accounting Office Consent
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="accountingOfficeConsent">An object representing a new Accounting Office Consent</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The created Accounting Office Consent resource</returns>
+        Task<AccountingOfficeConsentResponse> Create(ClientAccessToken token, NewAccountingOfficeConsent accountingOfficeConsent, CancellationToken? cancellationToken = null);
     }
 }
