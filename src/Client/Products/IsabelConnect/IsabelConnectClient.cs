@@ -3,13 +3,11 @@ using Ibanity.Apis.Client.Products.IsabelConnect.Models;
 
 namespace Ibanity.Apis.Client.Products.IsabelConnect
 {
-    /// <summary>
-    /// Contains services for all Ponto Connect-related resources.
-    /// </summary>
+    /// <inheritdoc cref="IIsabelConnectClient" />
     public class IsabelConnectClient : ProductClient<ITokenProviderWithoutCodeVerifier>, IIsabelConnectClient
     {
         /// <summary>
-        /// Product name use as prefix in Ponto Connect URIs.
+        /// Product name used as prefix in Isabel Connect URIs.
         /// </summary>
         public const string UrlPrefix = "isabel-connect";
 
@@ -50,7 +48,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
     }
 
     /// <summary>
-    /// Contains services for all Ponto Connect-related resources.
+    /// Contains services for all Isabel Connect-related resources.
     /// </summary>
     public interface IIsabelConnectClient : IProductWithRefreshTokenClient<ITokenProviderWithoutCodeVerifier>
     {

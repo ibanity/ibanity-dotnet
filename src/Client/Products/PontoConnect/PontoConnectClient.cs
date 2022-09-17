@@ -2,13 +2,11 @@ using Ibanity.Apis.Client.Http;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect
 {
-    /// <summary>
-    /// Contains services for all Ponto Connect-related resources.
-    /// </summary>
+    /// <inheritdoc cref="IPontoConnectClient" />
     public class PontoConnectClient : ProductClient<ITokenProviderWithCodeVerifier>, IPontoConnectClient
     {
         /// <summary>
-        /// Product name use as prefix in Ponto Connect URIs.
+        /// Product name used as prefix in Ponto Connect URIs.
         /// </summary>
         public const string UrlPrefix = "ponto-connect";
 

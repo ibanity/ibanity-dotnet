@@ -2,13 +2,11 @@ using Ibanity.Apis.Client.Http;
 
 namespace Ibanity.Apis.Client.Products.eInvoicing
 {
-    /// <summary>
-    /// Contains services for all eInvoicing-related resources.
-    /// </summary>
+    /// <inheritdoc cref="IEInvoicingClient" />
     public class EInvoicingClient : ProductClient<ITokenProviderWithoutCodeVerifier>, IEInvoicingClient
     {
         /// <summary>
-        /// Product name use as prefix in eInvoicing URIs.
+        /// Product name used as prefix in eInvoicing URIs.
         /// </summary>
         public const string UrlPrefix = "einvoicing";
 

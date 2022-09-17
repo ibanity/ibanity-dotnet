@@ -79,7 +79,7 @@ namespace Ibanity.Apis.Client
         IPontoConnectClient PontoConnect { get; }
 
         /// <summary>
-        /// Get the Ponto Connect service.
+        /// Get the Isabel Connect service.
         /// </summary>
         IIsabelConnectClient IsabelConnect { get; }
 
