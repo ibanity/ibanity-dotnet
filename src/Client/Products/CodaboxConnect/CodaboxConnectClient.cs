@@ -19,7 +19,11 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         public CodaboxConnectClient(IApiClient apiClient, ITokenProviderWithoutCodeVerifier tokenService, IClientAccessTokenProvider clientAccessTokenService)
             : base(apiClient, tokenService, clientAccessTokenService)
         {
+            AccountingOfficeConsents = new AccountingOfficeConsents(apiClient, clientAccessTokenService, UrlPrefix);
         }
+
+        /// <inheritdoc />
+        public IAccountingOfficeConsents AccountingOfficeConsents { get; }
     }
 
     /// <summary>
@@ -27,5 +31,9 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
     /// </summary>
     public interface ICodaboxConnectClient : IProductClient
     {
+        /// <summary>
+        /// This resource allows an Accounting Software to create a new Accounting Office Consent. This consent allows an Accounting Software to retrieve the documents of clients of an Accounting Office.
+        /// </summary>
+        IAccountingOfficeConsents AccountingOfficeConsents { get; }
     }
 }
