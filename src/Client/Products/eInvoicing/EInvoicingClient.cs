@@ -113,7 +113,6 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <p>CodaBox will verify the compliance of the UBL with XSD and schematron rules (you can find the CodaBox schematron rules <see href="https://documentation.ibanity.com/einvoicing/ZOOMIT-EN16931-UBL.sch">here</see>)</p>
         /// <p>In order to send a credit note to Zoomit, some additional fields are required</p>
         /// </summary>
-
         IZoomitCreditNotes ZoomitCreditNotes { get; }
 
         /// <summary>
