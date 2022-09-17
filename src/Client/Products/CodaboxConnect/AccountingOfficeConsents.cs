@@ -21,6 +21,10 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         { }
 
         /// <inheritdoc />
+        public Task<AccountingOfficeConsentResponse> Get(ClientAccessToken token, Guid id, CancellationToken? cancellationToken = null) =>
+            InternalGet(token, id, cancellationToken);
+
+        /// <inheritdoc />
         public Task<AccountingOfficeConsentResponse> Create(ClientAccessToken token, NewAccountingOfficeConsent accountingOfficeConsent, CancellationToken? cancellationToken = null)
         {
             if (token is null)
@@ -44,6 +48,15 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
     /// </summary>
     public interface IAccountingOfficeConsents
     {
+        /// <summary>
+        /// Get Accounting Office Consent
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="id">Accounting Office Consent ID</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>Returns a Accounting Office Consent resource.</returns>
+        Task<AccountingOfficeConsentResponse> Get(ClientAccessToken token, Guid id, CancellationToken? cancellationToken = null);
+
         /// <summary>
         /// Create Accounting Office Consent
         /// </summary>
