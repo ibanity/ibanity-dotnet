@@ -40,6 +40,10 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
             InternalGetToStream(token, new[] { accountingOfficeId.ToString(), clientId }, id, "application/vnd.api+json", target, cancellationToken);
 
         /// <inheritdoc />
+        public Task GetXml(ClientAccessToken token, Guid accountingOfficeId, string clientId, Guid id, Stream target, CancellationToken? cancellationToken = null) =>
+            InternalGetToStream(token, new[] { accountingOfficeId.ToString(), clientId }, id, "application/xml", target, cancellationToken);
+
+        /// <inheritdoc />
         protected override Guid ParseId(string id) => Guid.Parse(id);
     }
 }
