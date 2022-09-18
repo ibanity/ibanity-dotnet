@@ -658,7 +658,7 @@ namespace Ibanity.Apis.Client.Products
     /// <typeparam name="TMeta">Resource meta type</typeparam>
     /// <typeparam name="TRelationships">Resource relationships type</typeparam>
     /// <typeparam name="TLinks">Resource links type</typeparam>
-    /// <typeparam name="TToken">Resource links type</typeparam>
+    /// <typeparam name="TToken">Token type</typeparam>
     public abstract class ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks, TToken> :
         ResourceWithParentClient<TAttributes, TMeta, TRelationships, TLinks, Guid, Guid, TToken> where TAttributes : IIdentified<Guid> where TToken : BaseToken
     {
