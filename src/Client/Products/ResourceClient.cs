@@ -323,12 +323,14 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="token">Authentication token</param>
         /// <param name="path">Path part preceding the ID</param>
         /// <param name="id">Unique identifier of the resource</param>
+        /// <param name="acceptHeader">Format of the response you expect from the call</param>
         /// <param name="target">Destination stream where the payload will be written to</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        protected async Task InternalGetToStream(TToken token, string path, TId id, Stream target, CancellationToken? cancellationToken) =>
+        protected async Task InternalGetToStream(TToken token, string path, TId id, string acceptHeader, Stream target, CancellationToken? cancellationToken) =>
             await _apiClient.GetToStream(
                 $"{path}/{id}",
                 await GetAccessToken(token).ConfigureAwait(false),
+                acceptHeader,
                 target,
                 cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
 
@@ -459,10 +461,11 @@ namespace Ibanity.Apis.Client.Products
         /// </summary>
         /// <param name="token">Authentication token</param>
         /// <param name="id">Unique identifier of the resource</param>
+        /// <param name="acceptHeader">Format of the response you expect from the call</param>
         /// <param name="target">Destination stream where the payload will be written to</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        protected Task InternalGetToStream(TToken token, TId id, Stream target, CancellationToken? cancellationToken) =>
-            InternalGetToStream(token, GetPath(), id, target, cancellationToken);
+        protected Task InternalGetToStream(TToken token, TId id, string acceptHeader, Stream target, CancellationToken? cancellationToken) =>
+            InternalGetToStream(token, GetPath(), id, acceptHeader, target, cancellationToken);
 
         /// <summary>
         /// Delete a single resource.

@@ -37,7 +37,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
 
         /// <inheritdoc />
         public Task Get(Token token, string id, Stream target, CancellationToken? cancellationToken = null) =>
-            InternalGetToStream(token, id, target, cancellationToken);
+            InternalGetToStream(token, id, null, target, cancellationToken);
 
         /// <inheritdoc />
         protected override string ParseId(string id) => id;

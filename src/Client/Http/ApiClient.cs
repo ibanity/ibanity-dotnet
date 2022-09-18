@@ -198,7 +198,7 @@ namespace Ibanity.Apis.Client.Http
         }
 
         /// <inheritdoc />
-        public async Task GetToStream(string path, string bearerToken, Stream target, CancellationToken cancellationToken)
+        public async Task GetToStream(string path, string bearerToken, string acceptHeader, Stream target, CancellationToken cancellationToken)
         {
             if (path is null)
                 throw new ArgumentNullException(nameof(path));
@@ -210,6 +210,9 @@ namespace Ibanity.Apis.Client.Http
 
             using (var request = new HttpRequestMessage(HttpMethod.Get, path))
             {
+                if (!string.IsNullOrWhiteSpace(acceptHeader))
+                    request.Headers.Add("Accept", acceptHeader);
+
                 foreach (var header in headers)
                     if (header.Key != "Accept")
                         request.Headers.Add(header.Key, header.Value);
@@ -243,10 +246,11 @@ namespace Ibanity.Apis.Client.Http
         /// </summary>
         /// <param name="path">Query string, absolute, or relative to product root</param>
         /// <param name="bearerToken">Token added to Authorization header</param>
+        /// <param name="acceptHeader">Format of the response you expect from the call</param>
         /// <param name="target">Destination stream where the payload will be written to</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The specified resource</returns>
-        Task GetToStream(string path, string bearerToken, Stream target, CancellationToken cancellationToken);
+        Task GetToStream(string path, string bearerToken, string acceptHeader, Stream target, CancellationToken cancellationToken);
 
         /// <summary>
         /// Send a DELETE request with a returned payload.
