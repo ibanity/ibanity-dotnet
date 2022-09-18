@@ -25,6 +25,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
             PayrollStatements = new PayrollStatements(apiClient, clientAccessTokenService, UrlPrefix);
             CreditCardStatements = new CreditCardStatements(apiClient, clientAccessTokenService, UrlPrefix);
             SalesInvoices = new SalesInvoices(apiClient, clientAccessTokenService, UrlPrefix);
+            PurchaseInvoices = new PurchaseInvoices(apiClient, clientAccessTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -44,6 +45,9 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
 
         /// <inheritdoc />
         public ISalesInvoices SalesInvoices { get; }
+
+        /// <inheritdoc />
+        public IPurchaseInvoices PurchaseInvoices { get; }
     }
 
     /// <summary>
@@ -80,5 +84,10 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         /// This resource allows an Accounting Software to retrieve a sales invoice or credit note document for a client of an accounting office.
         /// </summary>
         ISalesInvoices SalesInvoices { get; }
+
+        /// <summary>
+        /// This resource allows an Accounting Software to retrieve a purchase invoice or credit note document for a client of an accounting office.
+        /// </summary>
+        IPurchaseInvoices PurchaseInvoices { get; }
     }
 }
