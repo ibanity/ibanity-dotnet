@@ -22,6 +22,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
             AccountingOfficeConsents = new AccountingOfficeConsents(apiClient, clientAccessTokenService, UrlPrefix);
             DocumentSearches = new DocumentSearches(apiClient, clientAccessTokenService, UrlPrefix);
             BankAccountStatements = new BankAccountStatements(apiClient, clientAccessTokenService, UrlPrefix);
+            PayrollStatements = new PayrollStatements(apiClient, clientAccessTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -32,6 +33,9 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
 
         /// <inheritdoc />
         public IBankAccountStatements BankAccountStatements { get; }
+
+        /// <inheritdoc />
+        public IPayrollStatements PayrollStatements { get; }
     }
 
     /// <summary>
@@ -53,5 +57,10 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         /// This resource allows an Accounting Software to retrieve a bank account statement for a client of an accounting office.
         /// </summary>
         IBankAccountStatements BankAccountStatements { get; }
+
+        /// <summary>
+        /// This resource allows an Accounting Software to retrieve a Payroll Statement for a client of an accounting office.
+        /// </summary>
+        IPayrollStatements PayrollStatements { get; }
     }
 }

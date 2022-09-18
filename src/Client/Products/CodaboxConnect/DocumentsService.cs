@@ -36,6 +36,10 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
             InternalGetToStream(token, new[] { accountingOfficeId.ToString(), clientId }, id, "application/vnd.coda.v1+cod", target, cancellationToken);
 
         /// <inheritdoc />
+        public Task GetJsonMetadata(ClientAccessToken token, Guid accountingOfficeId, string clientId, Guid id, Stream target, CancellationToken? cancellationToken = null) =>
+            InternalGetToStream(token, new[] { accountingOfficeId.ToString(), clientId }, id, "application/vnd.api+json", target, cancellationToken);
+
+        /// <inheritdoc />
         protected override Guid ParseId(string id) => Guid.Parse(id);
     }
 }
