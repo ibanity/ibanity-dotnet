@@ -291,11 +291,11 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created resource</returns>
-        protected async Task<TAttributes> InternalCreate<T>(TToken token, string path, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
-            Map((await _apiClient.Post<JsonApi.Resource<T, object, object, object>, JsonApi.Resource<TAttributes, TMeta, TRelationships, TLinks>>(
+        protected async Task<TAttributes> InternalCreate<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks>(TToken token, string path, JsonApi.Data<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+            Map((await _apiClient.Post<JsonApi.Resource<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks>, JsonApi.Resource<TAttributes, TMeta, TRelationships, TLinks>>(
                 $"{path}",
                 await GetAccessToken(token).ConfigureAwait(false),
-                new JsonApi.Resource<T, object, object, object> { Data = payload },
+                new JsonApi.Resource<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks> { Data = payload },
                 GetIdempotencyKey(idempotencyKey),
                 cancellationToken ?? CancellationToken.None).ConfigureAwait(false)).Data);
 
@@ -620,7 +620,7 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created resource</returns>
-        protected Task<TAttributes> InternalCreate<T>(TToken token, TParentsId[] parentIds, JsonApi.Data<T, object, object, object> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+        protected Task<TAttributes> InternalCreate<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks>(TToken token, TParentsId[] parentIds, JsonApi.Data<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             InternalCreate(token, GetPath(parentIds), payload, idempotencyKey, cancellationToken);
 
         /// <summary>
