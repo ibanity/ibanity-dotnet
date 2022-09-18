@@ -605,6 +605,18 @@ namespace Ibanity.Apis.Client.Products
             InternalGet(token, GetPath(parentIds), id, cancellationToken);
 
         /// <summary>
+        /// Get payload and write it to a provided stream.
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="parentIds">IDs of parent resources</param>
+        /// <param name="id">Unique identifier of the resource</param>
+        /// <param name="acceptHeader">Format of the response you expect from the call</param>
+        /// <param name="target">Destination stream where the payload will be written to</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        protected Task InternalGetToStream(TToken token, TParentsId[] parentIds, TId id, string acceptHeader, Stream target, CancellationToken? cancellationToken) =>
+            InternalGetToStream(token, GetPath(parentIds), id, acceptHeader, target, cancellationToken);
+
+        /// <summary>
         /// Delete a single resource.
         /// </summary>
         /// <param name="token">Authentication token</param>
