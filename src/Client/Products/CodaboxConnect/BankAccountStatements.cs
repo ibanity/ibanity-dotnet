@@ -8,10 +8,8 @@ using Ibanity.Apis.Client.Products.CodaboxConnect.Models;
 namespace Ibanity.Apis.Client.Products.CodaboxConnect
 {
     /// <inheritdoc cref="IBankAccountStatements" />
-    public class BankAccountStatements : ResourceWithParentClient<BankAccountStatement, object, object, object, string, Guid, ClientAccessToken>, IBankAccountStatements
+    public class BankAccountStatements : DocumentsService<BankAccountStatement>, IBankAccountStatements
     {
-        private const string TopLevelParentEntityName = "accounting-offices";
-        private const string ParentEntityName = "clients";
         private const string EntityName = "bank-account-statements";
 
         /// <summary>
@@ -20,23 +18,8 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         /// <param name="apiClient">Generic API client</param>
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
-        public BankAccountStatements(IApiClient apiClient, IAccessTokenProvider<ClientAccessToken> accessTokenProvider, string urlPrefix) : base(apiClient, accessTokenProvider, urlPrefix, new[] { TopLevelParentEntityName, ParentEntityName, EntityName }, false)
+        public BankAccountStatements(IApiClient apiClient, IAccessTokenProvider<ClientAccessToken> accessTokenProvider, string urlPrefix) : base(apiClient, accessTokenProvider, urlPrefix, EntityName)
         { }
-
-        /// <inheritdoc />
-        public Task<BankAccountStatement> Get(ClientAccessToken token, Guid accountingOfficeId, string clientId, Guid id, CancellationToken? cancellationToken = null) =>
-            InternalGet(token, new[] { accountingOfficeId.ToString(), clientId }, id, cancellationToken);
-
-        /// <inheritdoc />
-        public Task GetPdf(ClientAccessToken token, Guid accountingOfficeId, string clientId, Guid id, Stream target, CancellationToken? cancellationToken = null) =>
-            InternalGetToStream(token, new[] { accountingOfficeId.ToString(), clientId }, id, "application/pdf", target, cancellationToken);
-
-        /// <inheritdoc />
-        public Task GetCoda(ClientAccessToken token, Guid accountingOfficeId, string clientId, Guid id, Stream target, CancellationToken? cancellationToken = null) =>
-            InternalGetToStream(token, new[] { accountingOfficeId.ToString(), clientId }, id, "application/vnd.coda.v1+cod", target, cancellationToken);
-
-        /// <inheritdoc />
-        protected override Guid ParseId(string id) => Guid.Parse(id);
     }
 
     /// <summary>
