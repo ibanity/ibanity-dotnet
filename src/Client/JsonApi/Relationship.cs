@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Ibanity.Apis.Client.JsonApi
 {
     /// <summary>
-    /// Resource relationships.
+    /// Resource relationship.
     /// </summary>
     [DataContract]
     public class Relationship
@@ -20,5 +20,18 @@ namespace Ibanity.Apis.Client.JsonApi
         /// </summary>
         [DataMember(Name = "data", EmitDefaultValue = false)]
         public Data Data { get; set; }
+    }
+
+    /// <summary>
+    /// Resource relationships.
+    /// </summary>
+    [DataContract]
+    public class Relationships
+    {
+        /// <summary>
+        /// Linked resources.
+        /// </summary>
+        [DataMember(Name = "data", EmitDefaultValue = false)]
+        public Data[] Data { get; set; }
     }
 }
