@@ -21,6 +21,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         {
             AccountingOfficeConsents = new AccountingOfficeConsents(apiClient, clientAccessTokenService, UrlPrefix);
             DocumentSearches = new DocumentSearches(apiClient, clientAccessTokenService, UrlPrefix);
+            BankAccountStatements = new BankAccountStatements(apiClient, clientAccessTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -28,6 +29,9 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
 
         /// <inheritdoc />
         public IDocumentSearches DocumentSearches { get; }
+
+        /// <inheritdoc />
+        public IBankAccountStatements BankAccountStatements { get; }
     }
 
     /// <summary>
@@ -44,5 +48,10 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         /// This resource allows an Accounting Software to search for documents of clients of an Accounting Office. Documents can be searched by type, for one or multiple clients. Additionally, it is possible to filter documents within a given period of time. This resource supports pagination.
         /// </summary>
         IDocumentSearches DocumentSearches { get; }
+
+        /// <summary>
+        /// This resource allows an Accounting Software to retrieve a bank account statement for a client of an accounting office.
+        /// </summary>
+        IBankAccountStatements BankAccountStatements { get; }
     }
 }
