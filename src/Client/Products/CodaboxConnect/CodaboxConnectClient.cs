@@ -20,10 +20,14 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
             : base(apiClient, tokenService, clientAccessTokenService)
         {
             AccountingOfficeConsents = new AccountingOfficeConsents(apiClient, clientAccessTokenService, UrlPrefix);
+            DocumentSearches = new DocumentSearches(apiClient, clientAccessTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
         public IAccountingOfficeConsents AccountingOfficeConsents { get; }
+
+        /// <inheritdoc />
+        public IDocumentSearches DocumentSearches { get; }
     }
 
     /// <summary>
@@ -35,5 +39,10 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         /// This resource allows an Accounting Software to create a new Accounting Office Consent. This consent allows an Accounting Software to retrieve the documents of clients of an Accounting Office.
         /// </summary>
         IAccountingOfficeConsents AccountingOfficeConsents { get; }
+
+        /// <summary>
+        /// This resource allows an Accounting Software to search for documents of clients of an Accounting Office. Documents can be searched by type, for one or multiple clients. Additionally, it is possible to filter documents within a given period of time. This resource supports pagination.
+        /// </summary>
+        IDocumentSearches DocumentSearches { get; }
     }
 }
