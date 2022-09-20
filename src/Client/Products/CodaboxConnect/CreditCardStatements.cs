@@ -36,7 +36,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         /// </summary>
         /// <param name="token">Authentication token</param>
         /// <param name="accountingOfficeId">Accounting office identifier</param>
-        /// <param name="clientId">Bank account statement's owner</param>
+        /// <param name="clientId">Credit Card statement's owner</param>
         /// <param name="id">Credit Card Statement ID</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>Returns a Credit Card Statement resource.</returns>
@@ -47,7 +47,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         /// </summary>
         /// <param name="token">Authentication token</param>
         /// <param name="accountingOfficeId">Accounting office identifier</param>
-        /// <param name="clientId">Bank account statement's owner</param>
+        /// <param name="clientId">Credit Card statement's owner</param>
         /// <param name="id">Credit Card Statement ID</param>
         /// <param name="target">Destination stream where the PDF document will be written</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
@@ -59,7 +59,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         /// </summary>
         /// <param name="token">Authentication token</param>
         /// <param name="accountingOfficeId">Accounting office identifier</param>
-        /// <param name="clientId">Bank account statement's owner</param>
+        /// <param name="clientId">Credit Card statement's owner</param>
         /// <param name="id">Credit Card Statement ID</param>
         /// <param name="target">Destination stream where the PDF document will be written</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>

@@ -32,7 +32,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         /// </summary>
         /// <param name="token">Authentication token</param>
         /// <param name="accountingOfficeId">Accounting office identifier</param>
-        /// <param name="clientId">Bank account statement's owner</param>
+        /// <param name="clientId">Payroll statement's owner</param>
         /// <param name="id">Payroll Statement ID</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>Returns a Payroll Statement resource.</returns>
@@ -43,7 +43,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         /// </summary>
         /// <param name="token">Authentication token</param>
         /// <param name="accountingOfficeId">Accounting office identifier</param>
-        /// <param name="clientId">Bank account statement's owner</param>
+        /// <param name="clientId">Payroll statement's owner</param>
         /// <param name="id">Payroll Statement ID</param>
         /// <param name="target">Destination stream where the PDF document will be written</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
@@ -55,7 +55,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         /// </summary>
         /// <param name="token">Authentication token</param>
         /// <param name="accountingOfficeId">Accounting office identifier</param>
-        /// <param name="clientId">Bank account statement's owner</param>
+        /// <param name="clientId">Payroll statement's owner</param>
         /// <param name="id">Payroll Statement ID</param>
         /// <param name="target">Destination stream where the PDF document will be written</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>

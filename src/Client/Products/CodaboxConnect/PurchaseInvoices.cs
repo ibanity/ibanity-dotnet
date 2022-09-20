@@ -32,7 +32,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         /// </summary>
         /// <param name="token">Authentication token</param>
         /// <param name="accountingOfficeId">Accounting office identifier</param>
-        /// <param name="clientId">Bank account statement's owner</param>
+        /// <param name="clientId">Purchase Invoice's owner</param>
         /// <param name="id">Purchase Invoice Statement ID</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>Returns a Purchase Invoice Statement resource.</returns>
@@ -43,7 +43,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         /// </summary>
         /// <param name="token">Authentication token</param>
         /// <param name="accountingOfficeId">Accounting office identifier</param>
-        /// <param name="clientId">Bank account statement's owner</param>
+        /// <param name="clientId">Purchase Invoice's owner</param>
         /// <param name="id">Purchase Invoice Statement ID</param>
         /// <param name="target">Destination stream where the PDF document will be written</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
@@ -55,7 +55,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         /// </summary>
         /// <param name="token">Authentication token</param>
         /// <param name="accountingOfficeId">Accounting office identifier</param>
-        /// <param name="clientId">Bank account statement's owner</param>
+        /// <param name="clientId">Purchase Invoice's owner</param>
         /// <param name="id">Purchase Invoice ID</param>
         /// <param name="target">Destination stream where the PDF document will be written</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
