@@ -8,7 +8,7 @@ using Ibanity.Apis.Client.Products.CodaboxConnect.Models;
 namespace Ibanity.Apis.Client.Products.CodaboxConnect
 {
     /// <inheritdoc cref="ICreditCardStatements" />
-    public class CreditCardStatements : GuidIdentifiedDocumentsService<CreditCardStatement>, ICreditCardStatements
+    public class CreditCardStatements : DocumentsService<CreditCardStatement, string>, ICreditCardStatements
     {
         private const string EntityName = "credit-card-statements";
 
@@ -22,8 +22,11 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         { }
 
         /// <inheritdoc />
-        public Task GetCaro(ClientAccessToken token, Guid accountingOfficeId, string clientId, Guid id, Stream target, CancellationToken? cancellationToken = null) =>
+        public Task GetCaro(ClientAccessToken token, Guid accountingOfficeId, string clientId, string id, Stream target, CancellationToken? cancellationToken = null) =>
             InternalGetToStream(token, new[] { accountingOfficeId.ToString(), clientId }, id, "application/vnd.caro.v1+xml", target, cancellationToken);
+
+        /// <inheritdoc />
+        protected override string ParseId(string id) => id;
     }
 
     /// <summary>
@@ -40,7 +43,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         /// <param name="id">Credit Card Statement ID</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>Returns a Credit Card Statement resource.</returns>
-        Task<CreditCardStatement> Get(ClientAccessToken token, Guid accountingOfficeId, string clientId, Guid id, CancellationToken? cancellationToken = null);
+        Task<CreditCardStatement> Get(ClientAccessToken token, Guid accountingOfficeId, string clientId, string id, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Get Credit Card Statement PDF
@@ -52,7 +55,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         /// <param name="target">Destination stream where the PDF document will be written</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>Returns a PDF representation of the Credit Card Statement.</returns>
-        Task GetPdf(ClientAccessToken token, Guid accountingOfficeId, string clientId, Guid id, Stream target, CancellationToken? cancellationToken = null);
+        Task GetPdf(ClientAccessToken token, Guid accountingOfficeId, string clientId, string id, Stream target, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Get Credit Card Statement in a structured format for easier booking
@@ -64,6 +67,6 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         /// <param name="target">Destination stream where the PDF document will be written</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>Returns the Credit Card Statement in a structured format for easier booking.</returns>
-        Task GetCaro(ClientAccessToken token, Guid accountingOfficeId, string clientId, Guid id, Stream target, CancellationToken? cancellationToken = null);
+        Task GetCaro(ClientAccessToken token, Guid accountingOfficeId, string clientId, string id, Stream target, CancellationToken? cancellationToken = null);
     }
 }

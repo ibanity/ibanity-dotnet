@@ -8,7 +8,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
     /// This resource allows an Accounting Software to retrieve a payroll statement for a client of an accounting office.
     /// </summary>
     [DataContract]
-    public class CreditCardStatement : Identified<Guid>
+    public class CreditCardStatement : Identified<string>
     {
         /// <summary>
         /// The name of the bank issuing the credit card statement.
