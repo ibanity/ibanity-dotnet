@@ -62,7 +62,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
         /// <summary>
         /// The identifier of the document.
         /// </summary>
-        public Guid Id { get; set; }
+        public string Id { get; set; }
     }
 
     /// <summary>

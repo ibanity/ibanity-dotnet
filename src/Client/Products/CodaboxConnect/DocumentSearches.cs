@@ -70,7 +70,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
             var result = base.Map(data);
 
             result.Clients = data.Relationships.Clients.Data.Select(c => c.Id).ToArray();
-            result.Documents = data.Relationships.Documents.Data.Select(d => new Document { Type = d.Type, Id = Guid.Parse(d.Id) }).ToArray();
+            result.Documents = data.Relationships.Documents.Data.Select(d => new Document { Type = d.Type, Id = d.Id }).ToArray();
 
             return result;
         }
