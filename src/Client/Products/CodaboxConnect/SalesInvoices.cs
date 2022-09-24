@@ -8,7 +8,7 @@ using Ibanity.Apis.Client.Products.CodaboxConnect.Models;
 namespace Ibanity.Apis.Client.Products.CodaboxConnect
 {
     /// <inheritdoc cref="ISalesInvoices" />
-    public class SalesInvoices : DocumentsService<SalesInvoice>, ISalesInvoices
+    public class SalesInvoices : GuidIdentifiedDocumentsService<SalesInvoice>, ISalesInvoices
     {
         private const string EntityName = "sales-invoices";
 

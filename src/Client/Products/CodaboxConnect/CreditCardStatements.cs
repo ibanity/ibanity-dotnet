@@ -8,7 +8,7 @@ using Ibanity.Apis.Client.Products.CodaboxConnect.Models;
 namespace Ibanity.Apis.Client.Products.CodaboxConnect
 {
     /// <inheritdoc cref="ICreditCardStatements" />
-    public class CreditCardStatements : DocumentsService<CreditCardStatement>, ICreditCardStatements
+    public class CreditCardStatements : GuidIdentifiedDocumentsService<CreditCardStatement>, ICreditCardStatements
     {
         private const string EntityName = "credit-card-statements";
 
