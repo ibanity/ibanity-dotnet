@@ -26,7 +26,8 @@ namespace Ibanity.Apis.Client.Webhooks
             { "pontoConnect.integration.revoked", typeof(Payload<NestedIntegrationAccountRevoked>) },
             { "pontoConnect.integration.accountAdded", typeof(Payload<NestedIntegrationAccountAdded>) },
             { "pontoConnect.integration.accountRevoked", typeof(Payload<NestedIntegrationAccountRevoked>) },
-            { "pontoConnect.organization.blocked", typeof(Payload<NestedOrganizationBlocked>) }
+            { "pontoConnect.organization.blocked", typeof(Payload<NestedOrganizationBlocked>) },
+            { "pontoConnect.organization.unblocked", typeof(Payload<NestedOrganizationUnblocked>) }
         };
 
         private readonly ISerializer<string> _serializer;
