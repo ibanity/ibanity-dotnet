@@ -19,6 +19,7 @@ namespace Ibanity.Apis.Client.Webhooks
             { "pontoConnect.synchronization.succeededWithoutChange", typeof(Payload<NestedSynchronizationSucceededWithoutChange>) },
             { "pontoConnect.synchronization.failed", typeof(Payload<NestedSynchronizationFailed>) },
             { "pontoConnect.account.detailsUpdated", typeof(Payload<NestedAccountDetailsUpdated>) },
+            { "pontoConnect.account.reauthorized", typeof(Payload<NestedAccountReauthorized>) },
             { "pontoConnect.account.transactionsCreated", typeof(Payload<NestedAccountTransactionsCreated>) },
             { "pontoConnect.account.transactionsUpdated", typeof(Payload<NestedAccountTransactionsUpdated>) }
         };
