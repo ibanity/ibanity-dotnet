@@ -21,7 +21,8 @@ namespace Ibanity.Apis.Client.Webhooks
             { "pontoConnect.account.detailsUpdated", typeof(Payload<NestedAccountDetailsUpdated>) },
             { "pontoConnect.account.reauthorized", typeof(Payload<NestedAccountReauthorized>) },
             { "pontoConnect.account.transactionsCreated", typeof(Payload<NestedAccountTransactionsCreated>) },
-            { "pontoConnect.account.transactionsUpdated", typeof(Payload<NestedAccountTransactionsUpdated>) }
+            { "pontoConnect.account.transactionsUpdated", typeof(Payload<NestedAccountTransactionsUpdated>) },
+            { "pontoConnect.integration.accountAdded", typeof(Payload<NestedIntegrationAccountAdded>) }
         };
 
         private readonly ISerializer<string> _serializer;
