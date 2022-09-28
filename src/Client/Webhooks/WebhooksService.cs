@@ -23,7 +23,7 @@ namespace Ibanity.Apis.Client.Webhooks
             { "pontoConnect.account.transactionsCreated", typeof(Payload<NestedAccountTransactionsCreated>) },
             { "pontoConnect.account.transactionsUpdated", typeof(Payload<NestedAccountTransactionsUpdated>) },
             { "pontoConnect.integration.created", typeof(Payload<NestedIntegrationCreated>) },
-            { "pontoConnect.integration.revoked", typeof(Payload<NestedIntegrationAccountRevoked>) },
+            { "pontoConnect.integration.revoked", typeof(Payload<NestedIntegrationRevoked>) },
             { "pontoConnect.integration.accountAdded", typeof(Payload<NestedIntegrationAccountAdded>) },
             { "pontoConnect.integration.accountRevoked", typeof(Payload<NestedIntegrationAccountRevoked>) },
             { "pontoConnect.organization.blocked", typeof(Payload<NestedOrganizationBlocked>) },
