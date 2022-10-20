@@ -168,6 +168,12 @@ namespace Ibanity.Apis.Client.Http
             if (path is null)
                 throw new ArgumentNullException(nameof(path));
 
+            if (filename is null)
+                throw new ArgumentNullException(nameof(filename));
+
+            if (string.IsNullOrWhiteSpace(filename))
+                throw new ArgumentException("File name is empty", nameof(filename));
+
             var headers = GetCommonHeaders(HttpMethod.Post, bearerToken, path, null, payload);
             payload.Seek(0L, SeekOrigin.Begin);
 
