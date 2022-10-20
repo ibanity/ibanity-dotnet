@@ -189,7 +189,7 @@ namespace Ibanity.Apis.Client.Http
 
                 request.Content = new StreamContent(payload);
                 request.Content.Headers.ContentType = new MediaTypeWithQualityHeaderValue(contentType);
-                request.Content.Headers.Add("Content-Disposition", $"inline; filename='{filename}'");
+                request.Content.Headers.Add("Content-Disposition", $@"inline; filename=""{EscapeFilename(filename)}""");
 
                 _customizeRequest(request);
 
@@ -202,6 +202,9 @@ namespace Ibanity.Apis.Client.Http
                 return _serializer.Deserialize<TResponse>(body);
             }
         }
+
+        private static string EscapeFilename(string filename) =>
+            filename.Replace(@"\", @"\\").Replace(@"""", @"\""");
 
         /// <inheritdoc />
         public async Task GetToStream(string path, string bearerToken, string acceptHeader, Stream target, CancellationToken cancellationToken)
