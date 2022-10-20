@@ -62,6 +62,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
                 headers,
                 filename,
                 xmlContent,
+                "application/xml",
                 cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
 
             return Map(result.Data);

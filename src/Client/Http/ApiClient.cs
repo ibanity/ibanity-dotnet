@@ -163,7 +163,7 @@ namespace Ibanity.Apis.Client.Http
         }
 
         /// <inheritdoc />
-        public async Task<TResponse> PostInline<TResponse>(string path, string bearerToken, IDictionary<string, string> additionalHeaders, string filename, Stream payload, CancellationToken cancellationToken)
+        public async Task<TResponse> PostInline<TResponse>(string path, string bearerToken, IDictionary<string, string> additionalHeaders, string filename, Stream payload, string contentType, CancellationToken cancellationToken)
         {
             if (path is null)
                 throw new ArgumentNullException(nameof(path));
@@ -182,7 +182,7 @@ namespace Ibanity.Apis.Client.Http
                     request.Headers.Add(header.Key, header.Value);
 
                 request.Content = new StreamContent(payload);
-                request.Content.Headers.ContentType = new MediaTypeWithQualityHeaderValue("application/xml");
+                request.Content.Headers.ContentType = new MediaTypeWithQualityHeaderValue(contentType);
                 request.Content.Headers.Add("Content-Disposition", $"inline; filename='{filename}'");
 
                 _customizeRequest(request);
@@ -292,9 +292,10 @@ namespace Ibanity.Apis.Client.Http
         /// <param name="additionalHeaders">Additional headers</param>
         /// <param name="filename">Content disposition filename</param>
         /// <param name="payload">Data to be sent</param>
+        /// <param name="contentType">Payload MIME type</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created resource</returns>
-        Task<TResponse> PostInline<TResponse>(string path, string bearerToken, IDictionary<string, string> additionalHeaders, string filename, Stream payload, CancellationToken cancellationToken);
+        Task<TResponse> PostInline<TResponse>(string path, string bearerToken, IDictionary<string, string> additionalHeaders, string filename, Stream payload, string contentType, CancellationToken cancellationToken);
 
         /// <summary>
         /// Send a PATCH request.

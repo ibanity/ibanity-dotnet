@@ -52,6 +52,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
                 new Dictionary<string, string>(),
                 filename,
                 xmlContent,
+                "application/xml",
                 cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
 
             return Map(result.Data);

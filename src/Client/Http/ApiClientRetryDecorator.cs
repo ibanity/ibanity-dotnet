@@ -76,8 +76,8 @@ namespace Ibanity.Apis.Client.Http
             Execute("Post", async () => await _underlyingInstance.Post<TRequest, TResponse>(path, bearerToken, payload, idempotencyKey, cancellationToken).ConfigureAwait(false), cancellationToken);
 
         /// <inheritdoc />
-        public Task<TResponse> PostInline<TResponse>(string path, string bearerToken, IDictionary<string, string> additionalHeaders, string filename, Stream payload, CancellationToken cancellationToken) =>
-            Execute("Post", async () => await _underlyingInstance.PostInline<TResponse>(path, bearerToken, additionalHeaders, filename, payload, cancellationToken).ConfigureAwait(false), cancellationToken);
+        public Task<TResponse> PostInline<TResponse>(string path, string bearerToken, IDictionary<string, string> additionalHeaders, string filename, Stream payload, string contentType, CancellationToken cancellationToken) =>
+            Execute("Post", async () => await _underlyingInstance.PostInline<TResponse>(path, bearerToken, additionalHeaders, filename, payload, contentType, cancellationToken).ConfigureAwait(false), cancellationToken);
 
         /// <inheritdoc />
         public Task GetToStream(string path, string bearerToken, string acceptHeader, Stream target, CancellationToken cancellationToken) =>
