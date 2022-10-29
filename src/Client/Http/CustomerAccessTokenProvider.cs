@@ -43,6 +43,7 @@ namespace Ibanity.Apis.Client.Http
         }
 
         /// <inheritdoc />
+        /// <remarks>Does nothing.</remarks>
         public Task<CustomerAccessToken> RefreshToken(CustomerAccessToken token, CancellationToken? cancellationToken = null) =>
             Task.FromResult(token);
     }
