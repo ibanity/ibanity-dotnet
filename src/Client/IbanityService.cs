@@ -4,6 +4,7 @@ using Ibanity.Apis.Client.Products.CodaboxConnect;
 using Ibanity.Apis.Client.Products.eInvoicing;
 using Ibanity.Apis.Client.Products.IsabelConnect;
 using Ibanity.Apis.Client.Products.PontoConnect;
+using Ibanity.Apis.Client.Products.XS2A;
 using Ibanity.Apis.Client.Webhooks;
 
 namespace Ibanity.Apis.Client
@@ -22,14 +23,16 @@ namespace Ibanity.Apis.Client
         /// <param name="isabelConnectClient">Isabel Connect service</param>
         /// <param name="eInvoicingClient">eInvoicing service</param>
         /// <param name="codaboxConnectClient">Codabox Connect service</param>
+        /// <param name="xs2aClient">XS2A service</param>
         /// <param name="webhooksService">Webhooks service</param>
-        public IbanityService(HttpClient httpClient, IPontoConnectClient pontoConnectClient, IIsabelConnectClient isabelConnectClient, IEInvoicingClient eInvoicingClient, ICodaboxConnectClient codaboxConnectClient, IWebhooksService webhooksService)
+        public IbanityService(HttpClient httpClient, IPontoConnectClient pontoConnectClient, IIsabelConnectClient isabelConnectClient, IEInvoicingClient eInvoicingClient, ICodaboxConnectClient codaboxConnectClient, IXS2AClient xs2aClient, IWebhooksService webhooksService)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             PontoConnect = pontoConnectClient ?? throw new ArgumentNullException(nameof(pontoConnectClient));
             IsabelConnect = isabelConnectClient ?? throw new ArgumentNullException(nameof(isabelConnectClient));
             EInvoicing = eInvoicingClient ?? throw new ArgumentNullException(nameof(eInvoicingClient));
             CodaboxConnect = codaboxConnectClient ?? throw new ArgumentNullException(nameof(codaboxConnectClient));
+            XS2A = xs2aClient ?? throw new ArgumentNullException(nameof(xs2aClient));
             Webhooks = webhooksService ?? throw new ArgumentNullException(nameof(webhooksService));
         }
 
@@ -44,6 +47,9 @@ namespace Ibanity.Apis.Client
 
         /// <inheritdoc />
         public ICodaboxConnectClient CodaboxConnect { get; }
+
+        /// <inheritdoc />
+        public IXS2AClient XS2A { get; }
 
         /// <inheritdoc />
         public IWebhooksService Webhooks { get; }
@@ -98,6 +104,11 @@ namespace Ibanity.Apis.Client
         /// Get the Codabox Connect service.
         /// </summary>
         ICodaboxConnectClient CodaboxConnect { get; }
+
+        /// <summary>
+        /// Get the XS2A service.
+        /// </summary>
+        IXS2AClient XS2A { get; }
 
         /// <summary>
         /// Allows to validate and deserialize webhook payloads.

@@ -8,6 +8,7 @@ using Ibanity.Apis.Client.Products.CodaboxConnect;
 using Ibanity.Apis.Client.Products.eInvoicing;
 using Ibanity.Apis.Client.Products.IsabelConnect;
 using Ibanity.Apis.Client.Products.PontoConnect;
+using Ibanity.Apis.Client.Products.XS2A;
 using Ibanity.Apis.Client.Utils;
 using Ibanity.Apis.Client.Utils.Logging;
 using Ibanity.Apis.Client.Webhooks;
@@ -357,6 +358,12 @@ namespace Ibanity.Apis.Client
                         _codaboxConnectClientSecret),
                 UnconfiguredTokenProvider.CustomerAccessInstance);
 
+            var xs2aClient = new XS2AClient(
+                versionLessApiClient,
+                UnconfiguredTokenProvider.InstanceWithoutCodeVerifier,
+                UnconfiguredTokenProvider.ClientAccessInstance,
+                UnconfiguredTokenProvider.CustomerAccessInstance); // TODO: use proper customer access token provider
+
             IJwksService jwksService = new JwksService(versionLessApiClient);
 
             var webhooksJwksCachingDuration = _webhooksJwksCachingDuration ?? TimeSpan.FromSeconds(30d);
@@ -375,7 +382,7 @@ namespace Ibanity.Apis.Client
                     clock,
                     _webhooksAllowedClockSkew ?? TimeSpan.FromSeconds(30d)));
 
-            return new IbanityService(httpClient, pontoConnectClient, isabelConnectClient, eInvoicingClient, codaboxConnectClient, webhooksService);
+            return new IbanityService(httpClient, pontoConnectClient, isabelConnectClient, eInvoicingClient, codaboxConnectClient, xs2aClient, webhooksService);
         }
 
         private IApiClient BuildApiClient(HttpClient httpClient, JsonSerializer serializer, IHttpSignatureService signatureService, ILoggerFactory loggerFactory, string version)
