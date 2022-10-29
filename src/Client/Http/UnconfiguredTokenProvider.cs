@@ -8,7 +8,7 @@ namespace Ibanity.Apis.Client.Http
     /// Token provider only throwing exception.
     /// </summary>
     /// <remarks>Used when client ID and client secret aren't configured.</remarks>
-    public class UnconfiguredTokenProvider : ITokenProviderWithCodeVerifier, ITokenProviderWithoutCodeVerifier, IClientAccessTokenProvider
+    public class UnconfiguredTokenProvider : ITokenProviderWithCodeVerifier, ITokenProviderWithoutCodeVerifier, IClientAccessTokenProvider, ICustomerAccessTokenProvider
     {
         /// <summary>
         /// Singleton instance
@@ -25,6 +25,11 @@ namespace Ibanity.Apis.Client.Http
         /// </summary>
         public static readonly IClientAccessTokenProvider ClientAccessInstance;
 
+        /// <summary>
+        /// Singleton instance for customer access token
+        /// </summary>
+        public static readonly ICustomerAccessTokenProvider CustomerAccessInstance;
+
         static UnconfiguredTokenProvider()
         {
             var instance = new UnconfiguredTokenProvider();
@@ -32,6 +37,7 @@ namespace Ibanity.Apis.Client.Http
             InstanceWithCodeVerifier = instance;
             InstanceWithoutCodeVerifier = instance;
             ClientAccessInstance = instance;
+            CustomerAccessInstance = instance;
         }
 
         private UnconfiguredTokenProvider() { }
@@ -82,5 +88,15 @@ namespace Ibanity.Apis.Client.Http
         /// <remarks>Does nothing besides throwing an exception.</remarks>
         public Task RevokeToken(Token token, CancellationToken? cancellationToken = null) =>
             throw new IbanityConfigurationException(Message);
+
+        /// <inheritdoc />
+        /// <remarks>Does nothing besides throwing an exception.</remarks>
+        Task<CustomerAccessToken> ICustomerAccessTokenProvider.GetToken(CancellationToken? cancellationToken) =>
+            throw new IbanityConfigurationException("Product doesn't support customer access tokens");
+
+        /// <inheritdoc />
+        /// <remarks>Does nothing besides throwing an exception.</remarks>
+        Task<CustomerAccessToken> IAccessTokenProvider<CustomerAccessToken>.RefreshToken(CustomerAccessToken token, CancellationToken? cancellationToken) =>
+            throw new IbanityConfigurationException("Product doesn't support customer access tokens");
     }
 }

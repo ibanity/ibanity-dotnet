@@ -98,4 +98,17 @@ namespace Ibanity.Apis.Client.Http
         /// <returns>A new client access token</returns>
         Task<ClientAccessToken> GetToken(CancellationToken? cancellationToken = null);
     }
+
+    /// <summary>
+    /// Manage customer access tokens.
+    /// </summary>
+    public interface ICustomerAccessTokenProvider : IAccessTokenProvider<CustomerAccessToken>
+    {
+        /// <summary>
+        /// Create a new customer access token for the application customer reference.
+        /// </summary>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>A new client access token</returns>
+        Task<CustomerAccessToken> GetToken(CancellationToken? cancellationToken = null);
+    }
 }
