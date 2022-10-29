@@ -16,8 +16,9 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="apiClient">Generic API client</param>
         /// <param name="tokenService">Service to generate and refresh access tokens</param>
         /// <param name="clientAccessTokenService">Service to generate and refresh client access tokens.</param>
-        public EInvoicingClient(IApiClient apiClient, ITokenProviderWithoutCodeVerifier tokenService, IClientAccessTokenProvider clientAccessTokenService)
-            : base(apiClient, tokenService, clientAccessTokenService)
+        /// <param name="customerTokenService">Service to generate and refresh customer access tokens.</param>
+        public EInvoicingClient(IApiClient apiClient, ITokenProviderWithoutCodeVerifier tokenService, IClientAccessTokenProvider clientAccessTokenService, ICustomerAccessTokenProvider customerTokenService)
+            : base(apiClient, tokenService, clientAccessTokenService, customerTokenService)
         {
             Suppliers = new Suppliers(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolCustomerSearches = new PeppolCustomerSearches(apiClient, clientAccessTokenService, UrlPrefix);

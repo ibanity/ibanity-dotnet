@@ -16,8 +16,9 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="apiClient">Generic API client</param>
         /// <param name="tokenService">Service to generate and refresh access tokens</param>
         /// <param name="clientAccessTokenService">Service to generate and refresh client access tokens.</param>
-        public PontoConnectClient(IApiClient apiClient, ITokenProviderWithCodeVerifier tokenService, IClientAccessTokenProvider clientAccessTokenService)
-            : base(apiClient, tokenService, clientAccessTokenService)
+        /// <param name="customerTokenService">Service to generate and refresh customer access tokens.</param>
+        public PontoConnectClient(IApiClient apiClient, ITokenProviderWithCodeVerifier tokenService, IClientAccessTokenProvider clientAccessTokenService, ICustomerAccessTokenProvider customerTokenService)
+            : base(apiClient, tokenService, clientAccessTokenService, customerTokenService)
         {
             FinancialInstitutions = new FinancialInstitutions(apiClient, tokenService, UrlPrefix);
             Accounts = new Accounts(apiClient, tokenService, UrlPrefix);

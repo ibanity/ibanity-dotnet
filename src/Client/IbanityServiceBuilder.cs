@@ -300,7 +300,8 @@ namespace Ibanity.Apis.Client
                         serializer,
                         PontoConnectClient.UrlPrefix,
                         _pontoConnectClientId,
-                        _pontoConnectClientSecret));
+                        _pontoConnectClientSecret),
+                UnconfiguredTokenProvider.CustomerAccessInstance);
 
             var isabelConnectClient = new IsabelConnectClient(
                 v2ApiClient,
@@ -323,7 +324,8 @@ namespace Ibanity.Apis.Client
                         serializer,
                         IsabelConnectClient.UrlPrefix,
                         _isabelConnectClientId,
-                        _isabelConnectClientSecret));
+                        _isabelConnectClientSecret),
+                UnconfiguredTokenProvider.CustomerAccessInstance);
 
             var eInvoicingClient = new EInvoicingClient(
                 versionLessApiClient,
@@ -337,7 +339,8 @@ namespace Ibanity.Apis.Client
                         serializer,
                         EInvoicingClient.UrlPrefix,
                         _eInvoicingClientId,
-                        _eInvoicingClientSecret));
+                        _eInvoicingClientSecret),
+                UnconfiguredTokenProvider.CustomerAccessInstance);
 
             var codaboxConnectClient = new CodaboxConnectClient(
                 versionLessApiClient,
@@ -351,7 +354,8 @@ namespace Ibanity.Apis.Client
                         serializer,
                         CodaboxConnectClient.UrlPrefix,
                         _codaboxConnectClientId,
-                        _codaboxConnectClientSecret));
+                        _codaboxConnectClientSecret),
+                UnconfiguredTokenProvider.CustomerAccessInstance);
 
             IJwksService jwksService = new JwksService(versionLessApiClient);
 

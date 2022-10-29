@@ -14,11 +14,13 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="apiClient">Generic API client</param>
         /// <param name="tokenService">Service to generate and refresh access tokens</param>
         /// <param name="clientAccessTokenService">Service to generate and refresh client access tokens.</param>
-        protected ProductClient(IApiClient apiClient, T tokenService, IClientAccessTokenProvider clientAccessTokenService)
+        /// <param name="customerTokenService">Service to generate and refresh customer access tokens.</param>
+        protected ProductClient(IApiClient apiClient, T tokenService, IClientAccessTokenProvider clientAccessTokenService, ICustomerAccessTokenProvider customerTokenService)
         {
             ApiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
             TokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
             ClientTokenService = clientAccessTokenService ?? throw new ArgumentNullException(nameof(clientAccessTokenService));
+            CustomerTokenService = customerTokenService ?? throw new ArgumentNullException(nameof(customerTokenService));
         }
 
         /// <inheritdoc />
@@ -29,6 +31,9 @@ namespace Ibanity.Apis.Client.Products
 
         /// <inheritdoc />
         public IClientAccessTokenProvider ClientTokenService { get; }
+
+        /// <inheritdoc />
+        public ICustomerAccessTokenProvider CustomerTokenService { get; }
     }
 
     /// <summary>
@@ -62,5 +67,16 @@ namespace Ibanity.Apis.Client.Products
         /// Service to generate and refresh client access tokens.
         /// </summary>
         IClientAccessTokenProvider ClientTokenService { get; }
+    }
+
+    /// <summary>
+    /// Base product client interface.
+    /// </summary>
+    public interface IProductClientWithCustomerAccessToken : IProductClient
+    {
+        /// <summary>
+        /// Service to generate and refresh customer access tokens.
+        /// </summary>
+        ICustomerAccessTokenProvider CustomerTokenService { get; }
     }
 }

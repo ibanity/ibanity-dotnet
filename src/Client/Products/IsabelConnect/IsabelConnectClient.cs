@@ -17,8 +17,9 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         /// <param name="apiClient">Generic API client</param>
         /// <param name="tokenService">Service to generate and refresh access tokens</param>
         /// <param name="clientAccessTokenService">Service to generate and refresh client access tokens.</param>
-        public IsabelConnectClient(IApiClient apiClient, ITokenProviderWithoutCodeVerifier tokenService, IClientAccessTokenProvider clientAccessTokenService)
-            : base(apiClient, tokenService, clientAccessTokenService)
+        /// <param name="customerTokenService">Service to generate and refresh customer access tokens.</param>
+        public IsabelConnectClient(IApiClient apiClient, ITokenProviderWithoutCodeVerifier tokenService, IClientAccessTokenProvider clientAccessTokenService, ICustomerAccessTokenProvider customerTokenService)
+            : base(apiClient, tokenService, clientAccessTokenService, customerTokenService)
         {
             Accounts = new Accounts(apiClient, tokenService, UrlPrefix);
             Transactions = new Transactions(apiClient, tokenService, UrlPrefix);
