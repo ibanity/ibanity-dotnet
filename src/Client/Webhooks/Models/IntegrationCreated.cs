@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Ibanity.Apis.Client.Webhooks.Models
 {
     /// <summary>
-    /// A webhook payload.
+    /// A webhook payload delivered whenever an integration has been created.
     /// </summary>
     public class IntegrationCreated : JsonApi.Data, IWebhookEvent
     {
@@ -22,7 +22,7 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     }
 
     /// <summary>
-    /// A webhook payload.
+    /// A webhook payload delivered whenever an integration has been created.
     /// </summary>
     public class NestedIntegrationCreated : PayloadData<IntegrationCreatedAttributes, IntegrationCreatedRelationships>
     {
@@ -38,7 +38,7 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     }
 
     /// <summary>
-    /// Payload attributes.
+    /// Payload attributes delivered whenever an integration has been created.
     /// </summary>
     public class IntegrationCreatedAttributes
     {
@@ -50,7 +50,7 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     }
 
     /// <summary>
-    /// Payload relationships.
+    /// Payload relationships delivered whenever an integration has been created.
     /// </summary>
     public class IntegrationCreatedRelationships
     {

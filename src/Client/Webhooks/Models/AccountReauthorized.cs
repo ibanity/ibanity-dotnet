@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Ibanity.Apis.Client.Webhooks.Models
 {
     /// <summary>
-    /// A webhook payload.
+    /// A webhook payload delivered whenever an account has been reauthorized.
     /// </summary>
     public class AccountReauthorized : JsonApi.Data, IWebhookEvent
     {
@@ -28,7 +28,7 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     }
 
     /// <summary>
-    /// A webhook payload.
+    /// A webhook payload delivered whenever an account has been reauthorized.
     /// </summary>
     public class NestedAccountReauthorized : PayloadData<AccountReauthorizedAttributes, AccountReauthorizedRelationships>
     {
@@ -45,7 +45,7 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     }
 
     /// <summary>
-    /// Payload attributes.
+    /// Payload attributes delivered whenever an account has been reauthorized.
     /// </summary>
     public class AccountReauthorizedAttributes
     {
@@ -57,7 +57,7 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     }
 
     /// <summary>
-    /// Payload relationships.
+    /// Payload relationships delivered whenever an account has been reauthorized.
     /// </summary>
     public class AccountReauthorizedRelationships
     {
