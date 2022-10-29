@@ -96,7 +96,7 @@ namespace Ibanity.Apis.Client.Http
 
         /// <inheritdoc />
         /// <remarks>Does nothing besides throwing an exception.</remarks>
-        Task<CustomerAccessToken> IAccessTokenProvider<CustomerAccessToken>.RefreshToken(CustomerAccessToken token, CancellationToken? cancellationToken) =>
+        public Task<CustomerAccessToken> RefreshToken(CustomerAccessToken token, CancellationToken? cancellationToken) =>
             throw new IbanityConfigurationException("Product doesn't support customer access tokens");
     }
 }
