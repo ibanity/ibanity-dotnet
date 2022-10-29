@@ -37,7 +37,7 @@ namespace Ibanity.Apis.Client.Http
         }
 
         /// <inheritdoc />
-        public Task<CustomerAccessToken> GetToken(CancellationToken? cancellationToken = null)
+        public Task<CustomerAccessToken> GetToken(string applicationCustomerReference, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
         {
             throw new System.NotImplementedException();
         }
