@@ -110,7 +110,7 @@ namespace Ibanity.Apis.Client.Http
         /// <param name="applicationCustomerReference">Your unique identifier for this customer</param>
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>A new client access token</returns>
+        /// <returns>A new customer access token</returns>
         Task<CustomerAccessToken> GetToken(string applicationCustomerReference, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }
