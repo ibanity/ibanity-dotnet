@@ -53,7 +53,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
     /// <summary>
     /// Contains services for all Codabox Connect-related resources.
     /// </summary>
-    public interface ICodaboxConnectClient : IProductClient
+    public interface ICodaboxConnectClient : IProductClientWithClientAccessToken
     {
         /// <summary>
         /// This resource allows an Accounting Software to create a new Accounting Office Consent. This consent allows an Accounting Software to retrieve the documents of clients of an Accounting Office.

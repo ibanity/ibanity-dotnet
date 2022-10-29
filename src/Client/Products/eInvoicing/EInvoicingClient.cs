@@ -61,7 +61,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
     /// <summary>
     /// Contains services for all eInvoicing-related resources.
     /// </summary>
-    public interface IEInvoicingClient : IProductClient
+    public interface IEInvoicingClient : IProductClientWithClientAccessToken
     {
         /// <summary>
         /// This resource allows a Software Partner to create a new Supplier.
