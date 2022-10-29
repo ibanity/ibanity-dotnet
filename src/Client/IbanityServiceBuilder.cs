@@ -362,7 +362,11 @@ namespace Ibanity.Apis.Client
                 versionLessApiClient,
                 UnconfiguredTokenProvider.InstanceWithoutCodeVerifier,
                 UnconfiguredTokenProvider.ClientAccessInstance,
-                UnconfiguredTokenProvider.CustomerAccessInstance); // TODO: use proper customer access token provider
+                new CustomerAccessTokenProvider(
+                    loggerFactory,
+                    httpClient,
+                    serializer,
+                    XS2AClient.UrlPrefix));
 
             IJwksService jwksService = new JwksService(versionLessApiClient);
 
