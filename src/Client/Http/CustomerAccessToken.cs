@@ -8,18 +8,6 @@ namespace Ibanity.Apis.Client.Http
     public class CustomerAccessToken : BaseToken
     {
         /// <summary>
-        /// Build a new instance.
-        /// </summary>
-        public CustomerAccessToken() { }
-
-        /// <summary>
-        /// Build a new instance.
-        /// </summary>
-        /// <param name="accessToken">Bearer token</param>
-        public CustomerAccessToken(string accessToken) =>
-            AccessToken = accessToken;
-
-        /// <summary>
         /// Unique identifier for the customer access token.
         /// </summary>
         public Guid Id { get; set; }
