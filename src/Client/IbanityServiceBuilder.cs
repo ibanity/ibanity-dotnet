@@ -363,7 +363,6 @@ namespace Ibanity.Apis.Client
                 UnconfiguredTokenProvider.InstanceWithoutCodeVerifier,
                 UnconfiguredTokenProvider.ClientAccessInstance,
                 new CustomerAccessTokenProvider(
-                    loggerFactory,
                     versionLessApiClient,
                     XS2AClient.UrlPrefix));
 
