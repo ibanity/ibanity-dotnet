@@ -280,6 +280,18 @@ namespace Ibanity.Apis.Client.Products
                 await GetAccessToken(token).ConfigureAwait(false),
                 cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
 
+        /// <summary>
+        /// Delete a resource.
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="path">Resource collection path</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        protected async Task<TAttributes> InternalDelete(TToken token, string path, CancellationToken? cancellationToken) =>
+            await _apiClient.Delete<TAttributes>(
+                path,
+                await GetAccessToken(token).ConfigureAwait(false),
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
+
         private Guid? GetIdempotencyKey(Guid? from) => from ?? (_generateIdempotencyKey ? (Guid?)Guid.NewGuid() : null);
 
         /// <summary>
@@ -475,6 +487,14 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         protected Task InternalDelete(TToken token, TId id, CancellationToken? cancellationToken) =>
             InternalDelete(token, GetPath(), id, cancellationToken);
+
+        /// <summary>
+        /// Delete a resource.
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        protected Task<TAttributes> InternalDelete(TToken token, CancellationToken? cancellationToken) =>
+            InternalDelete(token, GetPath(), cancellationToken);
 
         /// <summary>
         /// Create a new resource.
