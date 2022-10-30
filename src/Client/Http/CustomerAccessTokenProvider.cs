@@ -32,9 +32,30 @@ namespace Ibanity.Apis.Client.Http
         }
 
         /// <inheritdoc />
-        public Task<CustomerAccessToken> GetToken(string applicationCustomerReference, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
+        public async Task<CustomerAccessToken> GetToken(string applicationCustomerReference, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
         {
-            throw new System.NotImplementedException();
+            var response = await _apiClient.Post<JsonApi.Resource<CustomerAccessTokenRequest, object, object, object>, JsonApi.Resource<CustomerAccessTokenResponse, object, object, object>>(
+                _urlPrefix + "/customer-access-tokens",
+                null,
+                new JsonApi.Resource<CustomerAccessTokenRequest, object, object, object>
+                {
+                    Data = new JsonApi.Data<CustomerAccessTokenRequest, object, object, object>
+                    {
+                        Attributes = new CustomerAccessTokenRequest
+                        {
+                            ApplicationCustomerReference = applicationCustomerReference
+                        }
+                    }
+                },
+                idempotencyKey ?? Guid.NewGuid(),
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
+
+            return new CustomerAccessToken
+            {
+                AccessToken = response.Data.Attributes.Token,
+                Id = Guid.Parse(response.Data.Id),
+                ApplicationCustomerReference = applicationCustomerReference
+            };
         }
 
         /// <inheritdoc />
