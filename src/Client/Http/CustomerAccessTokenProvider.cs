@@ -1,8 +1,6 @@
 using System;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Ibanity.Apis.Client.Utils;
 using Ibanity.Apis.Client.Utils.Logging;
 
 namespace Ibanity.Apis.Client.Http
@@ -11,18 +9,16 @@ namespace Ibanity.Apis.Client.Http
     public class CustomerAccessTokenProvider : ICustomerAccessTokenProvider
     {
         private readonly ILogger _logger;
-        private readonly HttpClient _httpClient;
-        private readonly ISerializer<string> _serializer;
+        private readonly IApiClient _apiClient;
         private readonly string _urlPrefix;
 
         /// <summary>
         /// Build a new instance.
         /// </summary>
         /// <param name="loggerFactory">Allow to build the logger used within this instance</param>
-        /// <param name="httpClient">Low-level HTTP client</param>
-        /// <param name="serializer">To-string serializer</param>
+        /// <param name="apiClient">Generic API client</param>
         /// <param name="urlPrefix">Product endpoint</param>
-        public CustomerAccessTokenProvider(ILoggerFactory loggerFactory, HttpClient httpClient, ISerializer<string> serializer, string urlPrefix)
+        public CustomerAccessTokenProvider(ILoggerFactory loggerFactory, IApiClient apiClient, string urlPrefix)
         {
             if (loggerFactory is null)
                 throw new ArgumentNullException(nameof(loggerFactory));
@@ -31,8 +27,7 @@ namespace Ibanity.Apis.Client.Http
                 throw new ArgumentException($"'{nameof(urlPrefix)}' cannot be null or whitespace.", nameof(urlPrefix));
 
             _logger = loggerFactory.CreateLogger<CustomerAccessTokenProvider>();
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            _apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
             _urlPrefix = urlPrefix;
         }
 
