@@ -54,8 +54,7 @@ namespace Ibanity.Apis.Client.Http
             return new CustomerAccessToken
             {
                 AccessToken = response.Data.Attributes.Token,
-                Id = Guid.Parse(response.Data.Id),
-                ApplicationCustomerReference = applicationCustomerReference
+                Id = Guid.Parse(response.Data.Id)
             };
         }
 
