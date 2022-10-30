@@ -41,6 +41,7 @@ namespace Ibanity.Apis.Client.Http
                 {
                     Data = new JsonApi.Data<CustomerAccessTokenRequest, object, object, object>
                     {
+                        Type = "customerAccessToken",
                         Attributes = new CustomerAccessTokenRequest
                         {
                             ApplicationCustomerReference = applicationCustomerReference
