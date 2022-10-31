@@ -60,6 +60,10 @@ namespace Ibanity.Apis.Client.Products.XS2A
                 cancellationToken);
 
         /// <inheritdoc />
+        public Task<FinancialInstitutionResponse> Get(Guid id, CancellationToken? cancellationToken = null) =>
+            InternalGet(null, id, cancellationToken);
+
+        /// <inheritdoc />
         protected override FinancialInstitutionResponse Map(Data<FinancialInstitutionResponse, object, object, FinancialInstitutionLinks> data)
         {
             var result = base.Map(data);
@@ -119,5 +123,13 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of financial institution resources</returns>
         Task<PageBasedXS2ACollection<FinancialInstitutionResponse>> ListForCustomer(CustomerAccessToken token, IEnumerable<Filter> filters = null, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Get Financial Institution
+        /// </summary>
+        /// <param name="id">Financial institution ID</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns></returns>
+        Task<FinancialInstitutionResponse> Get(Guid id, CancellationToken? cancellationToken = null);
     }
 }
