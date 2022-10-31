@@ -21,10 +21,14 @@ namespace Ibanity.Apis.Client.Products.XS2A
             : base(apiClient, tokenService, clientAccessTokenService, customerTokenService)
         {
             Customers = new Customers(apiClient, customerTokenService, UrlPrefix);
+            FinancialInstitutions = new FinancialInstitutions(apiClient, customerTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
         public ICustomers Customers { get; }
+
+        /// <inheritdoc />
+        public IFinancialInstitutions FinancialInstitutions { get; }
     }
 
     /// <summary>
@@ -38,5 +42,11 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <p>In the case that your customer wants to revoke your access to some accounts, you should use the Delete Account endpoint instead.</p>
         /// </summary>
         ICustomers Customers { get; }
+
+        /// <summary>
+        /// This is an object representing a financial institution, providing its basic details - including whether it is a sandbox object or not.
+        /// </summary>
+        /// <remarks>You can manage fake financial institutions in the sandbox using the create, update, and delete methods. Obviously, these endpoints will not work for real, live financial institutions.</remarks>
+        IFinancialInstitutions FinancialInstitutions { get; }
     }
 }
