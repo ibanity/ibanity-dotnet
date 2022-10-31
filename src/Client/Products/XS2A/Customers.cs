@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
-using Ibanity.Apis.Client.Products.IsabelConnect.Models;
+using Ibanity.Apis.Client.Products.XS2A.Models;
 
 namespace Ibanity.Apis.Client.Products.XS2A
 {

@@ -2,7 +2,7 @@ using System;
 using System.Runtime.Serialization;
 using Ibanity.Apis.Client.Utils;
 
-namespace Ibanity.Apis.Client.Products.IsabelConnect.Models
+namespace Ibanity.Apis.Client.Products.XS2A.Models
 {
     /// <summary>
     /// <p>This is an object representing a customer. A customer resource is created with the creation of a related customer access token.</p>
