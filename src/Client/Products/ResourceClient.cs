@@ -157,6 +157,41 @@ namespace Ibanity.Apis.Client.Products
         /// Get all resources.
         /// </summary>
         /// <param name="token">Authentication token</param>
+        /// <param name="path">Resource collection path</param>
+        /// <param name="filters">Attributes to be filtered from the results</param>
+        /// <param name="customParameters">Custom parameters</param>
+        /// <param name="pageNumber">Number of page that should be returned. Must be included to use page-based pagination.</param>
+        /// <param name="pageSize">Number of items by page</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>First page of items</returns>
+        protected Task<PageBasedXS2ACollection<TAttributes>> InternalXs2aPageBasedList(TToken token, string path, IEnumerable<Filter> filters, IEnumerable<(string, string)> customParameters, long? pageNumber, int? pageSize, CancellationToken? cancellationToken)
+        {
+            var parameters = (filters ?? Enumerable.Empty<Filter>()).Select(f => f.ToString()).ToList();
+
+            if (customParameters != null)
+                parameters.AddRange(customParameters.Select(p => $"{p.Item1}={p.Item2}"));
+
+            if (pageSize.HasValue)
+                parameters.Add($"page[size]={pageSize.Value}");
+
+            if (pageNumber.HasValue)
+                parameters.Add($"page[number]={pageNumber.Value}");
+
+            // we need a proper builder here
+            var queryParameters = parameters.Any()
+                ? "?" + string.Join("&", parameters)
+                : string.Empty;
+
+            return InternalXs2aPageBasedList(
+                token,
+                $"{path}{queryParameters}",
+                cancellationToken);
+        }
+
+        /// <summary>
+        /// Get all resources.
+        /// </summary>
+        /// <param name="token">Authentication token</param>
         /// <param name="continuationToken">Token referencing the page to request</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>Requested page of items</returns>
@@ -248,6 +283,36 @@ namespace Ibanity.Apis.Client.Products
                 Size = page.Meta.Paging.Size,
                 Total = page.Meta.Paging.Total,
                 Items = page.Data.Select(Map).ToList()
+            };
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get all resources.
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="path">Resource collection path</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>First page of items</returns>
+        protected async Task<PageBasedXS2ACollection<TAttributes>> InternalXs2aPageBasedList(TToken token, string path, CancellationToken? cancellationToken)
+        {
+            var page = await _apiClient.Get<JsonApi.Collection<TAttributes, TMeta, TRelationships, TLinks, JsonApi.PageBasedPaging>>(
+                path,
+                await GetAccessToken(token).ConfigureAwait(false),
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
+
+            var result = new PageBasedXS2ACollection<TAttributes>()
+            {
+                Number = page.Meta.Paging.Number,
+                Size = page.Meta.Paging.Size,
+                TotalEntries = page.Meta.Paging.TotalEntries,
+                TotalPages = page.Meta.Paging.TotalPages,
+                Items = page.Data.Select(Map).ToList(),
+                FirstLink = page.Links.First,
+                LastLink = page.Links.Last,
+                NextLink = page.Links.Next,
+                PreviousLink = page.Links.Previous
             };
 
             return result;
@@ -447,6 +512,19 @@ namespace Ibanity.Apis.Client.Products
         /// <returns>First page of items</returns>
         protected Task<EInvoicingCollection<TAttributes>> InternalPageBasedList(TToken token, IEnumerable<Filter> filters, IEnumerable<(string, string)> customParameters, long? pageNumber, int? pageSize, CancellationToken? cancellationToken) =>
             InternalPageBasedList(token, GetPath(), filters, customParameters, pageNumber, pageSize, cancellationToken);
+
+        /// <summary>
+        /// Get all resources.
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="filters">Attributes to be filtered from the results</param>
+        /// <param name="customParameters">Custom parameters</param>
+        /// <param name="pageNumber">Number of page that should be returned. Must be included to use page-based pagination.</param>
+        /// <param name="pageSize">Number of items by page</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>First page of items</returns>
+        protected Task<PageBasedXS2ACollection<TAttributes>> InternalXs2aPageBasedList(TToken token, IEnumerable<Filter> filters, IEnumerable<(string, string)> customParameters, long? pageNumber, int? pageSize, CancellationToken? cancellationToken) =>
+            InternalXs2aPageBasedList(token, GetPath(), filters, null, pageNumber, pageSize, cancellationToken);
 
         /// <summary>
         /// Get all resources.
