@@ -22,6 +22,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
         {
             Customers = new Customers(apiClient, customerTokenService, UrlPrefix);
             FinancialInstitutions = new FinancialInstitutions(apiClient, customerTokenService, UrlPrefix);
+            FinancialInstitutionCountries = new FinancialInstitutionCountries(apiClient, customerTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -29,6 +30,9 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
         /// <inheritdoc />
         public IFinancialInstitutions FinancialInstitutions { get; }
+
+        /// <inheritdoc />
+        public IFinancialInstitutionCountries FinancialInstitutionCountries { get; }
     }
 
     /// <summary>
@@ -48,5 +52,10 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// </summary>
         /// <remarks>You can manage fake financial institutions in the sandbox using the create, update, and delete methods. Obviously, these endpoints will not work for real, live financial institutions.</remarks>
         IFinancialInstitutions FinancialInstitutions { get; }
+
+        /// <summary>
+        /// This endpoint provides a list of the unique countries for which there are financial institutions available in the list financial institutions endpoint. These codes can be used to filter the financial institutions by country.
+        /// </summary>
+        IFinancialInstitutionCountries FinancialInstitutionCountries { get; }
     }
 }
