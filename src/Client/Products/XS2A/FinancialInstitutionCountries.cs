@@ -1,5 +1,9 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Products.XS2A.Models;
+using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.XS2A
 {
@@ -20,6 +24,10 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
         /// <inheritdoc />
         protected override string ParseId(string id) => id;
+
+        /// <inheritdoc />
+        public Task<IbanityCollection<FinancialInstitutionCountry>> List(int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null) =>
+            InternalCursorBasedList(null, null, pageSize, pageBefore, pageAfter, cancellationToken);
     }
 
     /// <summary>
@@ -27,5 +35,14 @@ namespace Ibanity.Apis.Client.Products.XS2A
     /// </summary>
     public interface IFinancialInstitutionCountries
     {
+        /// <summary>
+        /// List Financial Institutions Countries
+        /// </summary>
+        /// <param name="pageSize"></param>
+        /// <param name="pageBefore"></param>
+        /// <param name="pageAfter"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IbanityCollection<FinancialInstitutionCountry>> List(int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
     }
 }
