@@ -70,5 +70,17 @@ namespace Ibanity.Apis.Client.JsonApi
         /// </summary>
         [DataMember(Name = "total", EmitDefaultValue = false)]
         public long? Total { get; set; }
+
+        /// <summary>
+        /// Number of total resources in the requested scope.
+        /// </summary>
+        [DataMember(Name = "totalEntries", EmitDefaultValue = false)]
+        public long? TotalEntries { get; set; }
+
+        /// <summary>
+        /// Number of total pages in the requested scope.
+        /// </summary>
+        [DataMember(Name = "totalPages", EmitDefaultValue = false)]
+        public long? TotalPages { get; set; }
     }
 }

@@ -25,5 +25,11 @@ namespace Ibanity.Apis.Client.JsonApi
         /// </summary>
         [DataMember(Name = "next", EmitDefaultValue = false)]
         public string Next { get; set; }
+
+        /// <summary>
+        /// Link to the last page.
+        /// </summary>
+        [DataMember(Name = "last", EmitDefaultValue = false)]
+        public string Last { get; set; }
     }
 }
