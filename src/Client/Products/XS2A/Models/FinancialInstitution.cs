@@ -29,8 +29,8 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         /// Indicates whether the financial institution allows bulk payment initiation requests
         /// </summary>
         /// <value>Indicates whether the financial institution allows bulk payment initiation requests</value>
-        [DataMember(Name = "bulkPaymentsEnabled", EmitDefaultValue = true)]
-        public bool BulkPaymentsEnabled { get; set; }
+        [DataMember(Name = "bulkPaymentsEnabled", EmitDefaultValue = false)]
+        public bool? BulkPaymentsEnabled { get; set; }
 
         /// <summary>
         /// Identifies which values are accepted for the bulk payment initiation request &lt;code&gt;productType&lt;/code&gt;
@@ -50,15 +50,15 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         /// Indicates if a &lt;code&gt;financialInstitutionCustomerReference&lt;/code&gt; must be provided for &lt;a href&#x3D;&#39;https://documentation.ibanity.com//api#create-account-information-access-request&#39;&gt;account information access requests&lt;/a&gt; and &lt;a href&#x3D;&#39;#create-payment-initiation-request&#39;&gt;payment initiation requests&lt;/a&gt; for this financial institution
         /// </summary>
         /// <value>Indicates if a &lt;code&gt;financialInstitutionCustomerReference&lt;/code&gt; must be provided for &lt;a href&#x3D;&#39;https://documentation.ibanity.com//api#create-account-information-access-request&#39;&gt;account information access requests&lt;/a&gt; and &lt;a href&#x3D;&#39;#create-payment-initiation-request&#39;&gt;payment initiation requests&lt;/a&gt; for this financial institution</value>
-        [DataMember(Name = "financialInstitutionCustomerReferenceRequired", EmitDefaultValue = true)]
-        public bool FinancialInstitutionCustomerReferenceRequired { get; set; }
+        [DataMember(Name = "financialInstitutionCustomerReferenceRequired", EmitDefaultValue = false)]
+        public bool? FinancialInstitutionCustomerReferenceRequired { get; set; }
 
         /// <summary>
         /// Indicates whether a &lt;code&gt;requestedExecutionDate&lt;/code&gt; is supported for &lt;a href&#x3D;&#39;https://documentation.ibanity.com//api#payment-initiation-request&#39;&gt;payment initiation requests&lt;/a&gt; from accounts belonging to this financial institution
         /// </summary>
         /// <value>Indicates whether a &lt;code&gt;requestedExecutionDate&lt;/code&gt; is supported for &lt;a href&#x3D;&#39;https://documentation.ibanity.com//api#payment-initiation-request&#39;&gt;payment initiation requests&lt;/a&gt; from accounts belonging to this financial institution</value>
-        [DataMember(Name = "futureDatedPaymentsAllowed", EmitDefaultValue = true)]
-        public bool FutureDatedPaymentsAllowed { get; set; }
+        [DataMember(Name = "futureDatedPaymentsAllowed", EmitDefaultValue = false)]
+        public bool? FutureDatedPaymentsAllowed { get; set; }
 
         /// <summary>
         /// Location of the logo image for the financial institution
@@ -100,7 +100,7 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         /// </summary>
         /// <value>Indicates the minimum permitted length of the &lt;code&gt;requestedAccountReferences&lt;/code&gt; array when creating an &lt;a href&#x3D;&#39;https://documentation.ibanity.com//api#create-account-information-access-request&#39;&gt;account information access request&lt;/a&gt; for the financial institution.</value>
         [DataMember(Name = "minRequestedAccountReferences", EmitDefaultValue = false)]
-        public decimal MinRequestedAccountReferences { get; set; }
+        public decimal? MinRequestedAccountReferences { get; set; }
 
         /// <summary>
         /// Name of the financial institution
@@ -113,8 +113,8 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         /// Indicates whether the financial institution allows &lt;a href&#x3D;&#39;https://documentation.ibanity.com//api#payment-initiation-request&#39;&gt;payment initiation requests&lt;/a&gt;
         /// </summary>
         /// <value>Indicates whether the financial institution allows &lt;a href&#x3D;&#39;https://documentation.ibanity.com//api#payment-initiation-request&#39;&gt;payment initiation requests&lt;/a&gt;</value>
-        [DataMember(Name = "paymentsEnabled", EmitDefaultValue = true)]
-        public bool PaymentsEnabled { get; set; }
+        [DataMember(Name = "paymentsEnabled", EmitDefaultValue = false)]
+        public bool? PaymentsEnabled { get; set; }
 
         /// <summary>
         /// Identifies which values are accepted for the &lt;a href&#x3D;&#39;https://documentation.ibanity.com//api#payment-initiation-request&#39;&gt;payment initiation request&lt;/a&gt; &lt;code&gt;productType&lt;/code&gt;
@@ -127,8 +127,8 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         /// Indicates whether the financial institution allows periodic payment initiation requests
         /// </summary>
         /// <value>Indicates whether the financial institution allows periodic payment initiation requests</value>
-        [DataMember(Name = "periodicPaymentsEnabled", EmitDefaultValue = true)]
-        public bool PeriodicPaymentsEnabled { get; set; }
+        [DataMember(Name = "periodicPaymentsEnabled", EmitDefaultValue = false)]
+        public bool? PeriodicPaymentsEnabled { get; set; }
 
         /// <summary>
         /// Identifies which values are accepted for the periodic payment initiation request &lt;code&gt;productType&lt;/code&gt;
@@ -148,22 +148,22 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         /// Indicates whether credentials must be stored to access a customer&#39;s account information
         /// </summary>
         /// <value>Indicates whether credentials must be stored to access a customer&#39;s account information</value>
-        [DataMember(Name = "requiresCredentialStorage", EmitDefaultValue = true)]
-        public bool RequiresCredentialStorage { get; set; }
+        [DataMember(Name = "requiresCredentialStorage", EmitDefaultValue = false)]
+        public bool? RequiresCredentialStorage { get; set; }
 
         /// <summary>
         /// Indicates whether the IP address of the customer must be provided when creating an &lt;a href&#x3D;&#39;https://documentation.ibanity.com//api#create-account-information-access-request&#39;&gt;account information access request&lt;/a&gt; or &lt;a href&#x3D;&#39;#create-payment-initiation-request&#39;&gt;payment initiation request&lt;/a&gt; for the financial institution
         /// </summary>
         /// <value>Indicates whether the IP address of the customer must be provided when creating an &lt;a href&#x3D;&#39;https://documentation.ibanity.com//api#create-account-information-access-request&#39;&gt;account information access request&lt;/a&gt; or &lt;a href&#x3D;&#39;#create-payment-initiation-request&#39;&gt;payment initiation request&lt;/a&gt; for the financial institution</value>
-        [DataMember(Name = "requiresCustomerIpAddress", EmitDefaultValue = true)]
-        public bool RequiresCustomerIpAddress { get; set; }
+        [DataMember(Name = "requiresCustomerIpAddress", EmitDefaultValue = false)]
+        public bool? RequiresCustomerIpAddress { get; set; }
 
         /// <summary>
         /// Indicates whether the financial institution is one in the sandbox or the real deal
         /// </summary>
         /// <value>Indicates whether the financial institution is one in the sandbox or the real deal</value>
-        [DataMember(Name = "sandbox", EmitDefaultValue = true)]
-        public bool Sandbox { get; set; }
+        [DataMember(Name = "sandbox", EmitDefaultValue = false)]
+        public bool? Sandbox { get; set; }
 
         /// <summary>
         /// Hexadecimal color code related to the secondary branding color of the financial institution
