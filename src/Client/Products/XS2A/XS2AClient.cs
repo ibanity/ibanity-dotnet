@@ -23,6 +23,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
             Customers = new Customers(apiClient, customerTokenService, UrlPrefix);
             FinancialInstitutions = new FinancialInstitutions(apiClient, customerTokenService, UrlPrefix);
             FinancialInstitutionCountries = new FinancialInstitutionCountries(apiClient, customerTokenService, UrlPrefix);
+            Synchronizations = new Synchronizations(apiClient, customerTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -33,6 +34,9 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
         /// <inheritdoc />
         public IFinancialInstitutionCountries FinancialInstitutionCountries { get; }
+
+        /// <inheritdoc />
+        public ISynchronizations Synchronizations { get; }
     }
 
     /// <summary>
@@ -57,5 +61,11 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// This endpoint provides a list of the unique countries for which there are financial institutions available in the list financial institutions endpoint. These codes can be used to filter the financial institutions by country.
         /// </summary>
         IFinancialInstitutionCountries FinancialInstitutionCountries { get; }
+
+        /// <summary>
+        /// <p>This is an object representing a resource synchronization. This object will give you the details of the synchronization, including its resource, type, and status.</p>
+        /// <p>The synchronization API endpoints are customer specific and therefore can only be accessed by providing the corresponding customer access token.</p>
+        /// </summary>
+        ISynchronizations Synchronizations { get; }
     }
 }
