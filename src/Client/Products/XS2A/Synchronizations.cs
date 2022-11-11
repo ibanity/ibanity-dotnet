@@ -1,3 +1,6 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Products.XS2A.Models;
 
@@ -17,6 +20,24 @@ namespace Ibanity.Apis.Client.Products.XS2A
         public Synchronizations(IApiClient apiClient, IAccessTokenProvider<CustomerAccessToken> accessTokenProvider, string urlPrefix) :
             base(apiClient, accessTokenProvider, urlPrefix, EntityName)
         { }
+
+        /// <inheritdoc />
+        public Task<SynchronizationResponse> Create(CustomerAccessToken token, SynchronizationRequest synchronization, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
+        {
+            if (token is null)
+                throw new ArgumentNullException(nameof(token));
+
+            if (synchronization is null)
+                throw new ArgumentNullException(nameof(synchronization));
+
+            var payload = new JsonApi.Data<SynchronizationRequest, object, object, object>
+            {
+                Type = "synchronization",
+                Attributes = synchronization
+            };
+
+            return InternalCreate(token, payload, idempotencyKey, cancellationToken);
+        }
     }
 
     /// <summary>
@@ -25,5 +46,14 @@ namespace Ibanity.Apis.Client.Products.XS2A
     /// </summary>
     public interface ISynchronizations
     {
+        /// <summary>
+        /// Create Synchronization
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="synchronization">Details of the synchronization, including its resource, type, and status</param>
+        /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>A synchronization resource</returns>
+        Task<SynchronizationResponse> Create(CustomerAccessToken token, SynchronizationRequest synchronization, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }
