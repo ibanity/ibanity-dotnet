@@ -85,7 +85,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// List Initial Account Transactions Synchronization for Account Information Access Request
         /// </summary>
         /// <param name="token">Authentication token</param>
-        /// <param name="financialInstitutionsId">Financial institutions ID</param>
+        /// <param name="financialInstitutionsId">Financial institution ID</param>
         /// <param name="accountInformationAccessRequestsId">Account information access requests ID</param>
         /// <param name="pageLimit">Maximum number (1-100) of resources that might be returned. It is possible that the response contains fewer elements. Defaults to 10</param>
         /// <param name="pageBefore">Cursor for pagination. Indicates that the API should return the synchronization resources which are immediately before this one in the list (the previous page)</param>
