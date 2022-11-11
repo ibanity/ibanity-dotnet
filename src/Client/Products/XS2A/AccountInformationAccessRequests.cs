@@ -1,3 +1,6 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Products.XS2A.Models;
 
@@ -18,6 +21,28 @@ namespace Ibanity.Apis.Client.Products.XS2A
         public AccountInformationAccessRequests(IApiClient apiClient, IAccessTokenProvider<CustomerAccessToken> accessTokenProvider, string urlPrefix) :
             base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName })
         { }
+
+        /// <inheritdoc />
+        public Task<AccountInformationAccessRequestResponse> Create(CustomerAccessToken token, Guid financialInstitutionsId, AccountInformationAccessRequestRequest accountInformationAccessRequest, int? requestedPastTransactionDays = null, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
+        {
+            if (token is null)
+                throw new ArgumentNullException(nameof(token));
+
+            if (accountInformationAccessRequest is null)
+                throw new ArgumentNullException(nameof(accountInformationAccessRequest));
+
+            var payload = new JsonApi.Data<AccountInformationAccessRequestRequest, AccountInformationAccessRequestMeta, object, object>
+            {
+                Type = "accountInformationAccessRequest",
+                Attributes = accountInformationAccessRequest,
+                Meta = new AccountInformationAccessRequestMeta
+                {
+                    RequestedPastTransactionDays = requestedPastTransactionDays
+                }
+            };
+
+            return InternalCreate(token, new[] { financialInstitutionsId }, payload, idempotencyKey, cancellationToken);
+        }
     }
 
     /// <summary>
@@ -28,5 +53,16 @@ namespace Ibanity.Apis.Client.Products.XS2A
     /// </summary>
     public interface IAccountInformationAccessRequests
     {
+        /// <summary>
+        /// Create account information access request
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="financialInstitutionsId">Financial institution ID</param>
+        /// <param name="accountInformationAccessRequest">Details of the account information access request</param>
+        /// <param name="requestedPastTransactionDays">Optional number of days to fetch past transactions. Default is 90</param>
+        /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The created account information access request resource</returns>
+        Task<AccountInformationAccessRequestResponse> Create(CustomerAccessToken token, Guid financialInstitutionsId, AccountInformationAccessRequestRequest accountInformationAccessRequest, int? requestedPastTransactionDays = null, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }
