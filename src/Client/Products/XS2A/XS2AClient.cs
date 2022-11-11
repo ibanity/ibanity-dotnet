@@ -25,6 +25,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
             FinancialInstitutionCountries = new FinancialInstitutionCountries(apiClient, customerTokenService, UrlPrefix);
             Synchronizations = new Synchronizations(apiClient, customerTokenService, UrlPrefix);
             BatchSynchronizations = new BatchSynchronizations(apiClient, customerTokenService, UrlPrefix);
+            AccountInformationAccessRequests = new AccountInformationAccessRequests(apiClient, customerTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -41,6 +42,9 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
         /// <inheritdoc />
         public IBatchSynchronizations BatchSynchronizations { get; }
+
+        /// <inheritdoc />
+        public IAccountInformationAccessRequests AccountInformationAccessRequests { get; }
     }
 
     /// <summary>
@@ -76,5 +80,13 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// This is an object representing a resource batch-synchronization. This object will give you the details of the batch-synchronization.
         /// </summary>
         IBatchSynchronizations BatchSynchronizations { get; }
+
+        /// <summary>
+        /// <p>This is an object representing an account information access request. When you want to access the account information of one of your customers, you have to create one to start the authorization flow.</p>
+        /// <p>When creating the account information access request, you will receive the redirect link in the response. Your customer should be redirected to this url to begin the authorization process. At the end of the flow, they will be returned to the redirect uri that you defined.</p>
+        /// <p>If the access request is not authorized (for example when the customer cancels the flow), an error query parameter will be added to the redirect uri. The possible values of this parameter are access_denied and unsupported_multi_currency_account.</p>
+        /// <p>When authorizing account access by a financial institution user (in the sandbox), you should use 123456 as the digipass response. You can also use the Ibanity Sandbox Authorization Portal CLI to automate this authorization.</p>
+        /// </summary>
+        IAccountInformationAccessRequests AccountInformationAccessRequests { get; }
     }
 }
