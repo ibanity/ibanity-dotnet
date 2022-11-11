@@ -1,3 +1,6 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Products.XS2A.Models;
 
@@ -17,6 +20,21 @@ namespace Ibanity.Apis.Client.Products.XS2A
         public BatchSynchronizations(IApiClient apiClient, IAccessTokenProvider<CustomerAccessToken> accessTokenProvider, string urlPrefix) :
             base(apiClient, accessTokenProvider, urlPrefix, EntityName)
         { }
+
+        /// <inheritdoc />
+        public Task<BatchSynchronizationResponse> Create(BatchSynchronization batchSynchronization, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
+        {
+            if (batchSynchronization is null)
+                throw new ArgumentNullException(nameof(batchSynchronization));
+
+            var payload = new JsonApi.Data<BatchSynchronization, object, object, object>
+            {
+                Type = "batchSynchronization",
+                Attributes = batchSynchronization
+            };
+
+            return InternalCreate(null, payload, idempotencyKey, cancellationToken);
+        }
     }
 
     /// <summary>
@@ -24,5 +42,13 @@ namespace Ibanity.Apis.Client.Products.XS2A
     /// </summary>
     public interface IBatchSynchronizations
     {
+        /// <summary>
+        /// Create Batch Synchronization
+        /// </summary>
+        /// <param name="batchSynchronization">Details of the batch-synchronization</param>
+        /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>A batch synchronization resource</returns>
+        Task<BatchSynchronizationResponse> Create(BatchSynchronization batchSynchronization, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }
