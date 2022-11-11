@@ -45,10 +45,10 @@ namespace Ibanity.Apis.Client.Products.XS2A
             InternalGet(token, id, cancellationToken);
 
         /// <inheritdoc />
-        public Task<IbanityCollection<SynchronizationResponse>> List(CustomerAccessToken token, Guid financialInstitutionsId, Guid accountInformationAccessRequestsId, int? pageLimit = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null) =>
+        public Task<IbanityCollection<SynchronizationResponse>> List(CustomerAccessToken token, Guid financialInstitutionId, Guid accountInformationAccessRequestsId, int? pageLimit = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null) =>
             InternalCursorBasedList(
                 token,
-                $"{UrlPrefix}/customer/financial-institutions/{financialInstitutionsId}/account-information-access-requests/{accountInformationAccessRequestsId}/initial-account-transactions-synchronizations",
+                $"{UrlPrefix}/customer/financial-institutions/{financialInstitutionId}/account-information-access-requests/{accountInformationAccessRequestsId}/initial-account-transactions-synchronizations",
                 null,
                 pageLimit,
                 pageBefore,
@@ -85,13 +85,13 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// List Initial Account Transactions Synchronization for Account Information Access Request
         /// </summary>
         /// <param name="token">Authentication token</param>
-        /// <param name="financialInstitutionsId">Financial institution ID</param>
+        /// <param name="financialInstitutionId">Financial institution ID</param>
         /// <param name="accountInformationAccessRequestsId">Account information access requests ID</param>
         /// <param name="pageLimit">Maximum number (1-100) of resources that might be returned. It is possible that the response contains fewer elements. Defaults to 10</param>
         /// <param name="pageBefore">Cursor for pagination. Indicates that the API should return the synchronization resources which are immediately before this one in the list (the previous page)</param>
         /// <param name="pageAfter">Cursor for pagination. Indicates that the API should return the synchronization resources which are immediately after this one in the list (the next page)</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of initiation account's transactions synchronization resources related to the account information access request</returns>
-        Task<IbanityCollection<SynchronizationResponse>> List(CustomerAccessToken token, Guid financialInstitutionsId, Guid accountInformationAccessRequestsId, int? pageLimit = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
+        Task<IbanityCollection<SynchronizationResponse>> List(CustomerAccessToken token, Guid financialInstitutionId, Guid accountInformationAccessRequestsId, int? pageLimit = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
     }
 }

@@ -24,7 +24,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
         { }
 
         /// <inheritdoc />
-        public Task<AccountInformationAccessRequestResponse> Create(CustomerAccessToken token, Guid financialInstitutionsId, AccountInformationAccessRequestRequest accountInformationAccessRequest, int? requestedPastTransactionDays = null, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
+        public Task<AccountInformationAccessRequestResponse> Create(CustomerAccessToken token, Guid financialInstitutionId, AccountInformationAccessRequestRequest accountInformationAccessRequest, int? requestedPastTransactionDays = null, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
         {
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
@@ -42,12 +42,12 @@ namespace Ibanity.Apis.Client.Products.XS2A
                 }
             };
 
-            return InternalCreate(token, new[] { financialInstitutionsId }, payload, idempotencyKey, cancellationToken);
+            return InternalCreate(token, new[] { financialInstitutionId }, payload, idempotencyKey, cancellationToken);
         }
 
         /// <inheritdoc />
-        public Task<AccountInformationAccessRequestResponse> Get(CustomerAccessToken token, Guid financialInstitutionsId, Guid id, CancellationToken? cancellationToken = null) =>
-            InternalGet(token, new[] { financialInstitutionsId }, id, cancellationToken);
+        public Task<AccountInformationAccessRequestResponse> Get(CustomerAccessToken token, Guid financialInstitutionId, Guid id, CancellationToken? cancellationToken = null) =>
+            InternalGet(token, new[] { financialInstitutionId }, id, cancellationToken);
 
         /// <inheritdoc />
         protected override AccountInformationAccessRequestResponse Map(Data<AccountInformationAccessRequestResponse, AccountInformationAccessRequestMeta, object, AccountInformationAccessRequestLinks> data)
@@ -72,22 +72,22 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// Create account information access request
         /// </summary>
         /// <param name="token">Authentication token</param>
-        /// <param name="financialInstitutionsId">Financial institution ID</param>
+        /// <param name="financialInstitutionId">Financial institution ID</param>
         /// <param name="accountInformationAccessRequest">Details of the account information access request</param>
         /// <param name="requestedPastTransactionDays">Optional number of days to fetch past transactions. Default is 90</param>
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created account information access request resource</returns>
-        Task<AccountInformationAccessRequestResponse> Create(CustomerAccessToken token, Guid financialInstitutionsId, AccountInformationAccessRequestRequest accountInformationAccessRequest, int? requestedPastTransactionDays = null, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+        Task<AccountInformationAccessRequestResponse> Create(CustomerAccessToken token, Guid financialInstitutionId, AccountInformationAccessRequestRequest accountInformationAccessRequest, int? requestedPastTransactionDays = null, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Get account information access request
         /// </summary>
         /// <param name="token">Authentication token</param>
-        /// <param name="financialInstitutionsId">Financial institution ID</param>
+        /// <param name="financialInstitutionId">Financial institution ID</param>
         /// <param name="id">Account information access request ID</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created account information access request resource</returns>
-        Task<AccountInformationAccessRequestResponse> Get(CustomerAccessToken token, Guid financialInstitutionsId, Guid id, CancellationToken? cancellationToken = null);
+        Task<AccountInformationAccessRequestResponse> Get(CustomerAccessToken token, Guid financialInstitutionId, Guid id, CancellationToken? cancellationToken = null);
     }
 }
