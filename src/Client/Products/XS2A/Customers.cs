@@ -5,7 +5,7 @@ using Ibanity.Apis.Client.Products.XS2A.Models;
 
 namespace Ibanity.Apis.Client.Products.XS2A
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="ICustomers" />
     public class Customers : ResourceClient<Customer, object, object, object, CustomerAccessToken>, ICustomers
     {
         private const string EntityName = "customer";

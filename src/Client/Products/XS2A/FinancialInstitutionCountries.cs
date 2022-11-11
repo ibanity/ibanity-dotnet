@@ -7,7 +7,7 @@ using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.XS2A
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="IFinancialInstitutionCountries" />
     public class FinancialInstitutionCountries : ResourceClient<FinancialInstitutionCountry, object, object, object, string, CustomerAccessToken>, IFinancialInstitutionCountries
     {
         private const string EntityName = "financial-institution-countries";
