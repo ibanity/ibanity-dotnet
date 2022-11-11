@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
+using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Products.XS2A.Models;
 
 namespace Ibanity.Apis.Client.Products.XS2A
@@ -42,6 +43,16 @@ namespace Ibanity.Apis.Client.Products.XS2A
             };
 
             return InternalCreate(token, new[] { financialInstitutionsId }, payload, idempotencyKey, cancellationToken);
+        }
+
+        /// <inheritdoc />
+        protected override AccountInformationAccessRequestResponse Map(Data<AccountInformationAccessRequestResponse, AccountInformationAccessRequestMeta, object, AccountInformationAccessRequestLinks> data)
+        {
+            var result = base.Map(data);
+
+            result.Redirect = data.Links?.Redirect;
+
+            return result;
         }
     }
 
