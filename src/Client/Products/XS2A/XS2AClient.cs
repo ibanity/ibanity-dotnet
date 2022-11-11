@@ -24,6 +24,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
             FinancialInstitutions = new FinancialInstitutions(apiClient, customerTokenService, UrlPrefix);
             FinancialInstitutionCountries = new FinancialInstitutionCountries(apiClient, customerTokenService, UrlPrefix);
             Synchronizations = new Synchronizations(apiClient, customerTokenService, UrlPrefix);
+            BatchSynchronizations = new BatchSynchronizations(apiClient, customerTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -37,6 +38,9 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
         /// <inheritdoc />
         public ISynchronizations Synchronizations { get; }
+
+        /// <inheritdoc />
+        public IBatchSynchronizations BatchSynchronizations { get; }
     }
 
     /// <summary>
@@ -67,5 +71,10 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <p>The synchronization API endpoints are customer specific and therefore can only be accessed by providing the corresponding customer access token.</p>
         /// </summary>
         ISynchronizations Synchronizations { get; }
+
+        /// <summary>
+        /// This is an object representing a resource batch-synchronization. This object will give you the details of the batch-synchronization.
+        /// </summary>
+        IBatchSynchronizations BatchSynchronizations { get; }
     }
 }
