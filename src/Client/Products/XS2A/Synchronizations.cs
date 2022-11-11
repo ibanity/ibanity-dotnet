@@ -38,6 +38,10 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
             return InternalCreate(token, payload, idempotencyKey, cancellationToken);
         }
+
+        /// <inheritdoc />
+        public Task<SynchronizationResponse> Get(CustomerAccessToken token, Guid id, CancellationToken? cancellationToken = null) =>
+            InternalGet(token, id, cancellationToken);
     }
 
     /// <summary>
@@ -55,5 +59,14 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A synchronization resource</returns>
         Task<SynchronizationResponse> Create(CustomerAccessToken token, SynchronizationRequest synchronization, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Get Synchronization
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="id">ID of the synchronization</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>A synchronization resource</returns>
+        Task<SynchronizationResponse> Get(CustomerAccessToken token, Guid id, CancellationToken? cancellationToken = null);
     }
 }
