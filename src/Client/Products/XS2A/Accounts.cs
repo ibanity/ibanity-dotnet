@@ -54,6 +54,10 @@ namespace Ibanity.Apis.Client.Products.XS2A
             InternalGet(token, new[] { financialInstitutionId }, id, cancellationToken);
 
         /// <inheritdoc />
+        public Task Delete(CustomerAccessToken token, Guid financialInstitutionId, Guid id, CancellationToken? cancellationToken = null) =>
+            InternalDelete(token, new[] { financialInstitutionId }, id, cancellationToken);
+
+        /// <inheritdoc />
         protected override AccountResponse Map(JsonApi.Data<AccountResponse, AccountMeta, object, object> data)
         {
             var result = base.Map(data);
@@ -120,5 +124,15 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The specified account resource or 404 if not found</returns>
         Task<AccountResponse> Get(CustomerAccessToken token, Guid financialInstitutionId, Guid id, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Delete Account
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="financialInstitutionId">Financial institution ID</param>
+        /// <param name="id">Account ID</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <remarks>All account details and transactions have been destroyed. In the case that the customer would add this account again later, the account id and the transaction ids will be different since they will be considered completely new resources.</remarks>
+        Task Delete(CustomerAccessToken token, Guid financialInstitutionId, Guid id, CancellationToken? cancellationToken = null);
     }
 }
