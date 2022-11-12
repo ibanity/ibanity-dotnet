@@ -26,6 +26,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
             Synchronizations = new Synchronizations(apiClient, customerTokenService, UrlPrefix);
             BatchSynchronizations = new BatchSynchronizations(apiClient, customerTokenService, UrlPrefix);
             AccountInformationAccessRequests = new AccountInformationAccessRequests(apiClient, customerTokenService, UrlPrefix);
+            AccountInformationAccessRequestAuthorizations = new AccountInformationAccessRequestAuthorizations(apiClient, customerTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -45,6 +46,9 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
         /// <inheritdoc />
         public IAccountInformationAccessRequests AccountInformationAccessRequests { get; }
+
+        /// <inheritdoc />
+        public IAccountInformationAccessRequestAuthorizations AccountInformationAccessRequestAuthorizations { get; }
     }
 
     /// <summary>
@@ -88,5 +92,11 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <p>When authorizing account access by a financial institution user (in the sandbox), you should use 123456 as the digipass response. You can also use the Ibanity Sandbox Authorization Portal CLI to automate this authorization.</p>
         /// </summary>
         IAccountInformationAccessRequests AccountInformationAccessRequests { get; }
+
+        /// <summary>
+        /// <p>This object represent the authorization resource. When you perform an Authorization flow using TPP managed authorization flow, you need to create an authorization resource to complete the flow.</p>
+        /// <p>The attribute queryParameters contains the query parameters returned by the financial institution when the customer is redirected to your configured redirect uri.</p>
+        /// </summary>
+        IAccountInformationAccessRequestAuthorizations AccountInformationAccessRequestAuthorizations { get; }
     }
 }
