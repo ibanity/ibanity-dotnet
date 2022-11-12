@@ -50,6 +50,10 @@ namespace Ibanity.Apis.Client.Products.XS2A
                 cancellationToken);
 
         /// <inheritdoc />
+        public Task<AccountResponse> Get(CustomerAccessToken token, Guid financialInstitutionId, Guid id, CancellationToken? cancellationToken = null) =>
+            InternalGet(token, new[] { financialInstitutionId }, id, cancellationToken);
+
+        /// <inheritdoc />
         protected override AccountResponse Map(JsonApi.Data<AccountResponse, AccountMeta, object, object> data)
         {
             var result = base.Map(data);
@@ -106,5 +110,15 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of account resources</returns>
         Task<IbanityCollection<AccountResponse>> ListForAccountInformationAccessRequest(CustomerAccessToken token, Guid financialInstitutionId, Guid accountInformationAccessRequestId, int? pageLimit = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Get Account
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="financialInstitutionId">Financial institution ID</param>
+        /// <param name="id">Account ID</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The specified account resource or 404 if not found</returns>
+        Task<AccountResponse> Get(CustomerAccessToken token, Guid financialInstitutionId, Guid id, CancellationToken? cancellationToken = null);
     }
 }
