@@ -27,6 +27,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
             BatchSynchronizations = new BatchSynchronizations(apiClient, customerTokenService, UrlPrefix);
             AccountInformationAccessRequests = new AccountInformationAccessRequests(apiClient, customerTokenService, UrlPrefix);
             AccountInformationAccessRequestAuthorizations = new AccountInformationAccessRequestAuthorizations(apiClient, customerTokenService, UrlPrefix);
+            Accounts = new Accounts(apiClient, customerTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -49,6 +50,9 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
         /// <inheritdoc />
         public IAccountInformationAccessRequestAuthorizations AccountInformationAccessRequestAuthorizations { get; }
+
+        /// <inheritdoc />
+        public IAccounts Accounts { get; }
     }
 
     /// <summary>
@@ -98,5 +102,12 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <p>The attribute queryParameters contains the query parameters returned by the financial institution when the customer is redirected to your configured redirect uri.</p>
         /// </summary>
         IAccountInformationAccessRequestAuthorizations AccountInformationAccessRequestAuthorizations { get; }
+
+        /// <summary>
+        /// <p>This is an object representing a customer account. This object will provide details about the account, including the balance and the currency.</p>
+        /// <p>An account has related transactions and belongs to a financial institution.</p>
+        /// <p>The account API endpoints are customer specific and therefore can only be accessed by providing the corresponding customer access token.</p>
+        /// </summary>
+        IAccounts Accounts { get; }
     }
 }
