@@ -1,6 +1,9 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Products.XS2A.Models;
+using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.XS2A
 {
@@ -19,6 +22,17 @@ namespace Ibanity.Apis.Client.Products.XS2A
         public Accounts(IApiClient apiClient, IAccessTokenProvider<CustomerAccessToken> accessTokenProvider, string urlPrefix) :
             base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName })
         { }
+
+        /// <inheritdoc />
+        public Task<IbanityCollection<AccountResponse>> List(CustomerAccessToken token, int? pageLimit = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null) =>
+            InternalCursorBasedList(
+                token,
+                $"{UrlPrefix}/customer/accounts",
+                null,
+                pageLimit,
+                pageBefore,
+                pageAfter,
+                cancellationToken);
 
         /// <inheritdoc />
         protected override AccountResponse Map(JsonApi.Data<AccountResponse, AccountMeta, object, object> data)
@@ -42,5 +56,15 @@ namespace Ibanity.Apis.Client.Products.XS2A
     /// </summary>
     public interface IAccounts
     {
+        /// <summary>
+        /// List Accounts
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="pageLimit">Maximum number (1-100) of resources that might be returned. It is possible that the response contains fewer elements. Defaults to 10</param>
+        /// <param name="pageBefore">Cursor for pagination. Indicates that the API should return the synchronization resources which are immediately before this one in the list (the previous page)</param>
+        /// <param name="pageAfter">Cursor for pagination. Indicates that the API should return the synchronization resources which are immediately after this one in the list (the next page)</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>A list of account resources</returns>
+        Task<IbanityCollection<AccountResponse>> List(CustomerAccessToken token, int? pageLimit = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
     }
 }
