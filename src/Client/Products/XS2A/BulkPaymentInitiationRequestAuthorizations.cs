@@ -1,0 +1,47 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Ibanity.Apis.Client.Http;
+using Ibanity.Apis.Client.Products.XS2A.Models;
+
+namespace Ibanity.Apis.Client.Products.XS2A
+{
+    /// <inheritdoc cref="IBulkPaymentInitiationRequestAuthorizations" />
+    public class BulkPaymentInitiationRequestAuthorizations : BasePaymentInitiationRequestAuthorizations<BulkPaymentInitiationRequestAuthorizationRelationships>, IBulkPaymentInitiationRequestAuthorizations
+    {
+        private const string ParentEntityName = "bulk-payment-initiation-requests";
+
+        /// <summary>
+        /// Build a new instance.
+        /// </summary>
+        /// <param name="apiClient">Generic API client</param>
+        /// <param name="accessTokenProvider">Service to refresh access tokens</param>
+        /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
+        public BulkPaymentInitiationRequestAuthorizations(IApiClient apiClient, IAccessTokenProvider<CustomerAccessToken> accessTokenProvider, string urlPrefix) :
+            base(apiClient, accessTokenProvider, urlPrefix, ParentEntityName)
+        { }
+
+        /// <inheritdoc />
+        protected override string GetStatus(BulkPaymentInitiationRequestAuthorizationRelationships relationships) =>
+            relationships?.BulkPaymentInitiationRequest?.Data?.Attributes?.Status;
+    }
+
+    /// <summary>
+    /// <p>This object represent the authorization resource. When you perform an Authorization flow using TPP managed authorization flow, you need to create an authorization resource to complete the flow.</p>
+    /// <p>The attribute queryParameters contains the query parameters returned by the financial institution when the customer is redirected to your configured redirect uri.</p>
+    /// </summary>
+    public interface IBulkPaymentInitiationRequestAuthorizations
+    {
+        /// <summary>
+        /// Create bulk payment initiation request authorization
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="financialInstitutionId">Financial institution ID</param>
+        /// <param name="bulkPaymentInitiationRequestId">Bulk payment initiation request ID</param>
+        /// <param name="requestAuthorization">Details of the request authorization</param>
+        /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The created Account Information Access Request Authorization resource</returns>
+        Task<PaymentAuthorizationResponse> Create(CustomerAccessToken token, Guid financialInstitutionId, Guid bulkPaymentInitiationRequestId, RequestAuthorization requestAuthorization, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+    }
+}
