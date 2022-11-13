@@ -30,6 +30,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
             Accounts = new Accounts(apiClient, customerTokenService, UrlPrefix);
             Transactions = new Transactions(apiClient, customerTokenService, UrlPrefix);
             Holdings = new Holdings(apiClient, customerTokenService, UrlPrefix);
+            BulkPaymentInitiationRequests = new BulkPaymentInitiationRequests(apiClient, customerTokenService, UrlPrefix);
             PaymentInitiationRequests = new PaymentInitiationRequests(apiClient, customerTokenService, UrlPrefix);
             PeriodicPaymentInitiationRequests = new PeriodicPaymentInitiationRequests(apiClient, customerTokenService, UrlPrefix);
         }
@@ -63,6 +64,9 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
         /// <inheritdoc />
         public IHoldings Holdings { get; }
+
+        /// <inheritdoc />
+        public IBulkPaymentInitiationRequests BulkPaymentInitiationRequests { get; }
 
         /// <inheritdoc />
         public IPaymentInitiationRequests PaymentInitiationRequests { get; }
@@ -139,6 +143,11 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <p>The Holding API endpoints are customer specific and therefore can only be accessed by providing the corresponding customer access token.</p>
         /// </summary>
         IHoldings Holdings { get; }
+
+        /// <summary>
+        /// This is an object representing a bulk payment initiation request. When you want to request the initiation of payments on behalf of one of your customers, you can create one to start the authorization flow.
+        /// </summary>
+        IBulkPaymentInitiationRequests BulkPaymentInitiationRequests { get; }
 
         /// <summary>
         /// <p>This is an object representing a payment initiation request. When you want to initiate payment from one of your customers, you have to create one to start the authorization flow.</p>
