@@ -35,6 +35,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
             PaymentInitiationRequests = new PaymentInitiationRequests(apiClient, customerTokenService, UrlPrefix);
             PaymentInitiationRequestAuthorizations = new PaymentInitiationRequestAuthorizations(apiClient, customerTokenService, UrlPrefix);
             PeriodicPaymentInitiationRequests = new PeriodicPaymentInitiationRequests(apiClient, customerTokenService, UrlPrefix);
+            PeriodicPaymentInitiationRequestAuthorizations = new PeriodicPaymentInitiationRequestAuthorizations(apiClient, customerTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -81,6 +82,9 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
         /// <inheritdoc />
         public IPeriodicPaymentInitiationRequests PeriodicPaymentInitiationRequests { get; }
+
+        /// <inheritdoc />
+        public IPeriodicPaymentInitiationRequestAuthorizations PeriodicPaymentInitiationRequestAuthorizations { get; }
     }
 
     /// <summary>
@@ -184,5 +188,11 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <p>When authorizing periodic payment initiation from a financial institution user (in the sandbox), you should use 123456 as the digipass response.</p>
         /// </summary>
         IPeriodicPaymentInitiationRequests PeriodicPaymentInitiationRequests { get; }
+
+        /// <summary>
+        /// <p>This object represent the authorization resource. When you perform an Authorization flow using TPP managed authorization flow, you need to create an authorization resource to complete the flow.</p>
+        /// <p>The attribute queryParameters contains the query parameters returned by the financial institution when the customer is redirected to your configured redirect uri.</p>
+        /// </summary>
+        IPeriodicPaymentInitiationRequestAuthorizations PeriodicPaymentInitiationRequestAuthorizations { get; }
     }
 }
