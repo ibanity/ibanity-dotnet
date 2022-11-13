@@ -21,6 +21,24 @@ namespace Ibanity.Apis.Client.Products.XS2A
         public BulkPaymentInitiationRequests(IApiClient apiClient, IAccessTokenProvider<CustomerAccessToken> accessTokenProvider, string urlPrefix) :
             base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName })
         { }
+
+        /// <inheritdoc />
+        public Task<BulkPaymentInitiationRequestResponse> Create(CustomerAccessToken token, Guid financialInstitutionId, BulkPaymentInitiationRequest paymentInitiationRequest, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
+        {
+            if (token is null)
+                throw new ArgumentNullException(nameof(token));
+
+            if (paymentInitiationRequest is null)
+                throw new ArgumentNullException(nameof(paymentInitiationRequest));
+
+            var payload = new JsonApi.Data<BulkPaymentInitiationRequest, object, object, object>
+            {
+                Type = "paymentInitiationRequest",
+                Attributes = paymentInitiationRequest
+            };
+
+            return InternalCreate(token, new[] { financialInstitutionId }, payload, idempotencyKey, cancellationToken);
+        }
     }
 
     /// <summary>
@@ -28,5 +46,15 @@ namespace Ibanity.Apis.Client.Products.XS2A
     /// </summary>
     public interface IBulkPaymentInitiationRequests
     {
+        /// <summary>
+        /// Create Bulk Payment Initiation Request
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="financialInstitutionId">Financial institution ID</param>
+        /// <param name="paymentInitiationRequest">Details of the periodic payment initiation request</param>
+        /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The created payment initiation request resource</returns>
+        Task<BulkPaymentInitiationRequestResponse> Create(CustomerAccessToken token, Guid financialInstitutionId, BulkPaymentInitiationRequest paymentInitiationRequest, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }
