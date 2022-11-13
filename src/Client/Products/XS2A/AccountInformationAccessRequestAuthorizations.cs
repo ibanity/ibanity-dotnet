@@ -8,7 +8,7 @@ using Ibanity.Apis.Client.Products.XS2A.Models;
 namespace Ibanity.Apis.Client.Products.XS2A
 {
     /// <inheritdoc cref="IAccountInformationAccessRequestAuthorizations" />
-    public class AccountInformationAccessRequestAuthorizations : ResourceWithParentClient<AccountInformationAccessRequestAuthorizationResponse, object, object, AccountInformationAccessRequestAuthorizationLinks, CustomerAccessToken>, IAccountInformationAccessRequestAuthorizations
+    public class AccountInformationAccessRequestAuthorizations : ResourceWithParentClient<AccountInformationAccessRequestAuthorizationResponse, object, object, AuthorizationLinks, CustomerAccessToken>, IAccountInformationAccessRequestAuthorizations
     {
         private const string GrandParentEntityName = "customer/financial-institutions";
         private const string ParentEntityName = "account-information-access-requests";
@@ -25,7 +25,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
         { }
 
         /// <inheritdoc />
-        public Task<AccountInformationAccessRequestAuthorizationResponse> Create(CustomerAccessToken token, Guid financialInstitutionId, Guid accountInformationAccessRequestId, AccountInformationAccessRequestAuthorizationRequest accountInformationAccessRequestAuthorizationRequest, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
+        public Task<AccountInformationAccessRequestAuthorizationResponse> Create(CustomerAccessToken token, Guid financialInstitutionId, Guid accountInformationAccessRequestId, AuthorizationRequest accountInformationAccessRequestAuthorizationRequest, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
         {
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
@@ -33,7 +33,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
             if (accountInformationAccessRequestAuthorizationRequest is null)
                 throw new ArgumentNullException(nameof(accountInformationAccessRequestAuthorizationRequest));
 
-            var payload = new JsonApi.Data<AccountInformationAccessRequestAuthorizationRequest, object, object, object>
+            var payload = new JsonApi.Data<AuthorizationRequest, object, object, object>
             {
                 Type = "authorization",
                 Attributes = accountInformationAccessRequestAuthorizationRequest
@@ -43,7 +43,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
         }
 
         /// <inheritdoc />
-        protected override AccountInformationAccessRequestAuthorizationResponse Map(Data<AccountInformationAccessRequestAuthorizationResponse, object, object, AccountInformationAccessRequestAuthorizationLinks> data)
+        protected override AccountInformationAccessRequestAuthorizationResponse Map(Data<AccountInformationAccessRequestAuthorizationResponse, object, object, AuthorizationLinks> data)
         {
             var result = base.Map(data);
 
@@ -69,6 +69,6 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created Account Information Access Request Authorization resource</returns>
-        Task<AccountInformationAccessRequestAuthorizationResponse> Create(CustomerAccessToken token, Guid financialInstitutionId, Guid accountInformationAccessRequestId, AccountInformationAccessRequestAuthorizationRequest accountInformationAccessRequestAuthorizationRequest, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+        Task<AccountInformationAccessRequestAuthorizationResponse> Create(CustomerAccessToken token, Guid financialInstitutionId, Guid accountInformationAccessRequestId, AuthorizationRequest accountInformationAccessRequestAuthorizationRequest, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }
