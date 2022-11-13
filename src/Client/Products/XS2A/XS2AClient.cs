@@ -28,6 +28,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
             AccountInformationAccessRequests = new AccountInformationAccessRequests(apiClient, customerTokenService, UrlPrefix);
             AccountInformationAccessRequestAuthorizations = new AccountInformationAccessRequestAuthorizations(apiClient, customerTokenService, UrlPrefix);
             Accounts = new Accounts(apiClient, customerTokenService, UrlPrefix);
+            Transactions = new Transactions(apiClient, customerTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -53,6 +54,9 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
         /// <inheritdoc />
         public IAccounts Accounts { get; }
+
+        /// <inheritdoc />
+        public ITransactions Transactions { get; }
     }
 
     /// <summary>
@@ -109,5 +113,12 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <p>The account API endpoints are customer specific and therefore can only be accessed by providing the corresponding customer access token.</p>
         /// </summary>
         IAccounts Accounts { get; }
+
+        /// <summary>
+        /// <p>This is an object representing an account transaction. This object will give you the details of the financial transaction, including its amount and description.</p>
+        /// <p>From this object, you can link back to its account.</p>
+        /// <p>The transaction API endpoints are customer specific and therefore can only be accessed by providing the corresponding customer access token.</p>
+        /// </summary>
+        ITransactions Transactions { get; }
     }
 }
