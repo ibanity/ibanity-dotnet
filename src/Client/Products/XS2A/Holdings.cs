@@ -29,6 +29,10 @@ namespace Ibanity.Apis.Client.Products.XS2A
             InternalCursorBasedList(token, new[] { financialInstitutionId, accountId }, null, pageLimit, pageBefore, pageAfter, cancellationToken);
 
         /// <inheritdoc />
+        public Task<Holding> Get(CustomerAccessToken token, Guid financialInstitutionId, Guid accountId, Guid id, CancellationToken? cancellationToken = null) =>
+            InternalGet(token, new[] { financialInstitutionId, accountId }, id, cancellationToken);
+
+        /// <inheritdoc />
         protected override Holding Map(JsonApi.Data<Holding, object, HoldingRelationships, object> data)
         {
             var result = base.Map(data);
@@ -58,5 +62,16 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of holding resources</returns>
         Task<IbanityCollection<Holding>> List(CustomerAccessToken token, Guid financialInstitutionId, Guid accountId, int? pageLimit = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Get Holding
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="financialInstitutionId">Financial institution ID</param>
+        /// <param name="accountId">Bank account ID</param>
+        /// <param name="id">Holding ID</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The specified holding resource or 404 if not found</returns>
+        Task<Holding> Get(CustomerAccessToken token, Guid financialInstitutionId, Guid accountId, Guid id, CancellationToken? cancellationToken = null);
     }
 }
