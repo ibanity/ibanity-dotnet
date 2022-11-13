@@ -33,6 +33,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
             BulkPaymentInitiationRequests = new BulkPaymentInitiationRequests(apiClient, customerTokenService, UrlPrefix);
             BulkPaymentInitiationRequestAuthorizations = new BulkPaymentInitiationRequestAuthorizations(apiClient, customerTokenService, UrlPrefix);
             PaymentInitiationRequests = new PaymentInitiationRequests(apiClient, customerTokenService, UrlPrefix);
+            PaymentInitiationRequestAuthorizations = new PaymentInitiationRequestAuthorizations(apiClient, customerTokenService, UrlPrefix);
             PeriodicPaymentInitiationRequests = new PeriodicPaymentInitiationRequests(apiClient, customerTokenService, UrlPrefix);
         }
 
@@ -74,6 +75,9 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
         /// <inheritdoc />
         public IPaymentInitiationRequests PaymentInitiationRequests { get; }
+
+        /// <inheritdoc />
+        public IPaymentInitiationRequestAuthorizations PaymentInitiationRequestAuthorizations { get; }
 
         /// <inheritdoc />
         public IPeriodicPaymentInitiationRequests PeriodicPaymentInitiationRequests { get; }
@@ -166,6 +170,12 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <p>When authorizing payment initiation from a financial institution user (in the sandbox), you should use 123456 as the digipass response.</p>
         /// </summary>
         IPaymentInitiationRequests PaymentInitiationRequests { get; }
+
+        /// <summary>
+        /// <p>This object represent the authorization resource. When you perform an Authorization flow using TPP managed authorization flow, you need to create an authorization resource to complete the flow.</p>
+        /// <p>The attribute queryParameters contains the query parameters returned by the financial institution when the customer is redirected to your configured redirect uri.</p>
+        /// </summary>
+        IPaymentInitiationRequestAuthorizations PaymentInitiationRequestAuthorizations { get; }
 
         /// <summary>
         /// <p>This is an object representing a periodic payment initiation request. When you want to initiate periodic payment from one of your customers, you have to create one to start the authorization flow.</p>
