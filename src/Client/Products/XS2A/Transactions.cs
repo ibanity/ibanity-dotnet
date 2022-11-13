@@ -40,6 +40,10 @@ namespace Ibanity.Apis.Client.Products.XS2A
                 cancellationToken);
 
         /// <inheritdoc />
+        public Task<Transaction> Get(CustomerAccessToken token, Guid financialInstitutionId, Guid accountId, Guid id, CancellationToken? cancellationToken = null) =>
+            InternalGet(token, new[] { financialInstitutionId, accountId }, id, cancellationToken);
+
+        /// <inheritdoc />
         protected override Transaction Map(JsonApi.Data<Transaction, object, TransactionRelationships, object> data)
         {
             var result = base.Map(data);
@@ -81,5 +85,16 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of transaction resources updated during the synchronization</returns>
         Task<IbanityCollection<Transaction>> ListUpdatedForSynchronization(CustomerAccessToken token, Guid synchronizationId, int? pageLimit = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Get Transaction
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="financialInstitutionId">Financial institution ID</param>
+        /// <param name="accountId">Bank account ID</param>
+        /// <param name="id">Transaction ID</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The specified transaction resource or 404 if not found</returns>
+        Task<Transaction> Get(CustomerAccessToken token, Guid financialInstitutionId, Guid accountId, Guid id, CancellationToken? cancellationToken = null);
     }
 }
