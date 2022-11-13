@@ -43,6 +43,10 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <inheritdoc />
         public Task<BulkPaymentInitiationRequestResponse> Get(CustomerAccessToken token, Guid financialInstitutionId, Guid id, CancellationToken? cancellationToken = null) =>
             InternalGet(token, new[] { financialInstitutionId }, id, cancellationToken);
+
+        /// <inheritdoc />
+        public Task Delete(CustomerAccessToken token, Guid financialInstitutionId, Guid id, CancellationToken? cancellationToken = null) =>
+            InternalDelete(token, new[] { financialInstitutionId }, id, cancellationToken);
     }
 
     /// <summary>
@@ -70,5 +74,14 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The specified payment initiation request resource</returns>
         Task<BulkPaymentInitiationRequestResponse> Get(CustomerAccessToken token, Guid financialInstitutionId, Guid id, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Delete Bulk Payment Initiation Request
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="financialInstitutionId">Financial institution ID</param>
+        /// <param name="id">Bulk Payment Initiation Request ID</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        Task Delete(CustomerAccessToken token, Guid financialInstitutionId, Guid id, CancellationToken? cancellationToken = null);
     }
 }
