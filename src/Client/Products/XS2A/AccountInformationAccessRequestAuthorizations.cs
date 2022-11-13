@@ -25,7 +25,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
         { }
 
         /// <inheritdoc />
-        public Task<AccountInformationAccessRequestAuthorizationResponse> Create(CustomerAccessToken token, Guid financialInstitutionId, Guid accountInformationAccessRequestId, AuthorizationRequest accountInformationAccessRequestAuthorizationRequest, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
+        public Task<AccountInformationAccessRequestAuthorizationResponse> Create(CustomerAccessToken token, Guid financialInstitutionId, Guid accountInformationAccessRequestId, RequestAuthorization accountInformationAccessRequestAuthorizationRequest, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
         {
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
@@ -33,7 +33,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
             if (accountInformationAccessRequestAuthorizationRequest is null)
                 throw new ArgumentNullException(nameof(accountInformationAccessRequestAuthorizationRequest));
 
-            var payload = new JsonApi.Data<AuthorizationRequest, object, object, object>
+            var payload = new JsonApi.Data<RequestAuthorization, object, object, object>
             {
                 Type = "authorization",
                 Attributes = accountInformationAccessRequestAuthorizationRequest
@@ -65,10 +65,10 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="token">Authentication token</param>
         /// <param name="financialInstitutionId">Financial institution ID</param>
         /// <param name="accountInformationAccessRequestId">Account information access request ID</param>
-        /// <param name="accountInformationAccessRequestAuthorizationRequest">Details of the account information access request authorization</param>
+        /// <param name="accountInformationAccessRequestAuthorization">Details of the account information access request authorization</param>
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created Account Information Access Request Authorization resource</returns>
-        Task<AccountInformationAccessRequestAuthorizationResponse> Create(CustomerAccessToken token, Guid financialInstitutionId, Guid accountInformationAccessRequestId, AuthorizationRequest accountInformationAccessRequestAuthorizationRequest, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+        Task<AccountInformationAccessRequestAuthorizationResponse> Create(CustomerAccessToken token, Guid financialInstitutionId, Guid accountInformationAccessRequestId, RequestAuthorization accountInformationAccessRequestAuthorization, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }

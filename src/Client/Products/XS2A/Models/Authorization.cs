@@ -9,7 +9,7 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
     /// <p>The attribute queryParameters contains the query parameters returned by the financial institution when the customer is redirected to your configured redirect uri.</p>
     /// </summary>
     [DataContract]
-    public class AuthorizationRequest
+    public class RequestAuthorization
     {
         /// <summary>
         /// Parameters returned by the financial institution when the customer is redirected to your backend at the end of the authorization flow.
