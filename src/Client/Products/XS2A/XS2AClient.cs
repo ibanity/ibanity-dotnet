@@ -29,6 +29,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
             AccountInformationAccessRequestAuthorizations = new AccountInformationAccessRequestAuthorizations(apiClient, customerTokenService, UrlPrefix);
             Accounts = new Accounts(apiClient, customerTokenService, UrlPrefix);
             Transactions = new Transactions(apiClient, customerTokenService, UrlPrefix);
+            Holdings = new Holdings(apiClient, customerTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -57,6 +58,9 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
         /// <inheritdoc />
         public ITransactions Transactions { get; }
+
+        /// <inheritdoc />
+        public IHoldings Holdings { get; }
     }
 
     /// <summary>
@@ -120,5 +124,12 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <p>The transaction API endpoints are customer specific and therefore can only be accessed by providing the corresponding customer access token.</p>
         /// </summary>
         ITransactions Transactions { get; }
+
+        /// <summary>
+        /// <p>This is an object representing an account holding. This object will give you the details of the financial holding</p>
+        /// <p>From this object, you can link back to its account.</p>
+        /// <p>The Holding API endpoints are customer specific and therefore can only be accessed by providing the corresponding customer access token.</p>
+        /// </summary>
+        IHoldings Holdings { get; }
     }
 }
