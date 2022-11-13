@@ -39,6 +39,10 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
             return InternalCreate(token, new[] { financialInstitutionId }, payload, idempotencyKey, cancellationToken);
         }
+
+        /// <inheritdoc />
+        public Task<PaymentInitiationRequestResponse> Get(CustomerAccessToken token, Guid financialInstitutionId, Guid id, CancellationToken? cancellationToken = null) =>
+            InternalGet(token, new[] { financialInstitutionId }, id, cancellationToken);
     }
 
     /// <summary>
@@ -59,5 +63,15 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created payment initiation request resource</returns>
         Task<PaymentInitiationRequestResponse> Create(CustomerAccessToken token, Guid financialInstitutionId, PaymentInitiationRequest paymentInitiationRequest, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Get Payment Initiation Request
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="financialInstitutionId">Financial institution ID</param>
+        /// <param name="id">Payment Initiation Request ID</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The specified payment initiation request resource</returns>
+        Task<PaymentInitiationRequestResponse> Get(CustomerAccessToken token, Guid financialInstitutionId, Guid id, CancellationToken? cancellationToken = null);
     }
 }
