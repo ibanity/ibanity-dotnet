@@ -29,6 +29,17 @@ namespace Ibanity.Apis.Client.Products.XS2A
             InternalCursorBasedList(token, new[] { financialInstitutionId, accountId }, null, pageLimit, pageBefore, pageAfter, cancellationToken);
 
         /// <inheritdoc />
+        public Task<IbanityCollection<Transaction>> ListUpdatedForSynchronization(CustomerAccessToken token, Guid synchronizationId, int? pageLimit = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null) =>
+            InternalCursorBasedList(
+                token,
+                $"customer/synchronizations/{synchronizationId}/updated-transactions",
+                null,
+                pageLimit,
+                pageBefore,
+                pageAfter,
+                cancellationToken);
+
+        /// <inheritdoc />
         protected override Transaction Map(JsonApi.Data<Transaction, object, TransactionRelationships, object> data)
         {
             var result = base.Map(data);
@@ -58,5 +69,17 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of transaction resources</returns>
         Task<IbanityCollection<Transaction>> List(CustomerAccessToken token, Guid financialInstitutionId, Guid accountId, int? pageLimit = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// List Updated Transactions for Synchronization
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="synchronizationId">Synchronization ID</param>
+        /// <param name="pageLimit">Number of items by page</param>
+        /// <param name="pageBefore">Cursor that specifies the first resource of the next page</param>
+        /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>A list of transaction resources updated during the synchronization</returns>
+        Task<IbanityCollection<Transaction>> ListUpdatedForSynchronization(CustomerAccessToken token, Guid synchronizationId, int? pageLimit = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
     }
 }
