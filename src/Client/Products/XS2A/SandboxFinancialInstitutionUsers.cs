@@ -35,6 +35,21 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
             return InternalCreate(null, payload, idempotencyKey, cancellationToken);
         }
+
+        /// <inheritdoc />
+        public Task<SandboxFinancialInstitutionUserResponse> Update(Guid id, SandboxFinancialInstitutionUser sandboxFinancialInstitutionUser, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
+        {
+            if (sandboxFinancialInstitutionUser is null)
+                throw new ArgumentNullException(nameof(sandboxFinancialInstitutionUser));
+
+            var payload = new JsonApi.Data<SandboxFinancialInstitutionUser, object, object, object>
+            {
+                Type = "financialInstitutionUser",
+                Attributes = sandboxFinancialInstitutionUser
+            };
+
+            return InternalUpdate(null, id, payload, idempotencyKey, cancellationToken);
+        }
     }
 
     /// <summary>
@@ -51,5 +66,15 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created sandbox financial institution user resource</returns>
         Task<SandboxFinancialInstitutionUserResponse> Create(SandboxFinancialInstitutionUser sandboxFinancialInstitutionUser, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Update sandbox financial institution user
+        /// </summary>
+        /// <param name="id">Sandbox financial institution user ID</param>
+        /// <param name="sandboxFinancialInstitutionUser">Details of the sandbox financial institution user</param>
+        /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The created sandbox financial institution user resource</returns>
+        Task<SandboxFinancialInstitutionUserResponse> Update(Guid id, SandboxFinancialInstitutionUser sandboxFinancialInstitutionUser, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }
