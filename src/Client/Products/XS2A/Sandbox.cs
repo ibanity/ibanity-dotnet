@@ -19,6 +19,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
         {
             FinancialInstitutions = new SandboxFinancialInstitutions(apiClient, accessTokenProvider, UrlPrefix);
             FinancialInstitutionUsers = new SandboxFinancialInstitutionUsers(apiClient, accessTokenProvider, UrlPrefix);
+            FinancialInstitutionAccounts = new SandboxFinancialInstitutionAccounts(apiClient, accessTokenProvider, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -26,6 +27,9 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
         /// <inheritdoc />
         public ISandboxFinancialInstitutionUsers FinancialInstitutionUsers { get; }
+
+        /// <inheritdoc />
+        public ISandboxFinancialInstitutionAccounts FinancialInstitutionAccounts { get; }
     }
 
     /// <summary>
@@ -44,5 +48,12 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <p>From this object, you can follow the links to its related financial institution accounts and transactions.</p>
         /// </summary>
         ISandboxFinancialInstitutionUsers FinancialInstitutionUsers { get; }
+
+        /// <summary>
+        /// <p>This is an object representing a financial institution account, a fake account you create for test purposes.</p>
+        /// <p>In addition to the regular account API calls, there are sandbox-specific endpoints available to manage your sandbox data.</p>
+        /// <p>A financial institution account belongs to a financial institution user and financial institution and can have many associated financial institution transactions.</p>
+        /// </summary>
+        ISandboxFinancialInstitutionAccounts FinancialInstitutionAccounts { get; }
     }
 }
