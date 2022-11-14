@@ -21,6 +21,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
             FinancialInstitutionUsers = new SandboxFinancialInstitutionUsers(apiClient, accessTokenProvider, UrlPrefix);
             FinancialInstitutionAccounts = new SandboxFinancialInstitutionAccounts(apiClient, accessTokenProvider, UrlPrefix);
             FinancialInstitutionTransactions = new SandboxFinancialInstitutionTransactions(apiClient, accessTokenProvider, UrlPrefix);
+            FinancialInstitutionHoldings = new SandboxFinancialInstitutionHoldings(apiClient, accessTokenProvider, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -34,6 +35,9 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
         /// <inheritdoc />
         public ISandboxFinancialInstitutionTransactions FinancialInstitutionTransactions { get; }
+
+        /// <inheritdoc />
+        public ISandboxFinancialInstitutionHoldings FinancialInstitutionHoldings { get; }
     }
 
     /// <summary>
@@ -66,5 +70,12 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <p>From this object, you can follow the link to its related financial institution account</p>
         /// </summary>
         ISandboxFinancialInstitutionTransactions FinancialInstitutionTransactions { get; }
+
+        /// <summary>
+        /// <p>This is an object representing a financial institution holding, a fake holding on a fake securities account you can create for test purposes.</p>
+        /// <p>In addition to the regular holding API calls, there are sandbox-specific endpoints available to manage your sandbox data.</p>
+        /// <p>From this object, you can follow the link to its related financial institution account</p>
+        /// </summary>
+        ISandboxFinancialInstitutionHoldings FinancialInstitutionHoldings { get; }
     }
 }
