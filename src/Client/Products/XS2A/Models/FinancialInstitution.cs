@@ -193,4 +193,66 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         [DataMember(Name = "status", EmitDefaultValue = false)]
         public string Status { get; set; }
     }
+
+    /// <summary>
+    /// This is an object representing a financial institution, providing its basic details - including whether it is a sandbox object or not.
+    /// </summary>
+    public class SandboxFinancialInstitution
+    {
+        /// <summary>
+        /// Name of the financial institution
+        /// </summary>
+        /// <value>Name of the financial institution</value>
+        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = true)]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Location of the logo image for the financial institution
+        /// </summary>
+        /// <value>Location of the logo image for the financial institution</value>
+        [DataMember(Name = "logoUrl", EmitDefaultValue = false)]
+        public string LogoUrl { get; set; }
+
+        /// <summary>
+        /// Identifier for the financial institution, in &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_9362&#39;&gt;ISO9362&lt;/a&gt; format.
+        /// </summary>
+        /// <value>Identifier for the financial institution, in &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_9362&#39;&gt;ISO9362&lt;/a&gt; format.</value>
+        [DataMember(Name = "bic", EmitDefaultValue = false)]
+        public string Bic { get; set; }
+
+        /// <summary>
+        /// Country of the financial institution, in &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2&#39;&gt;ISO 3166-1 alpha-2&lt;/a&gt; format. Is &lt;code&gt;null&lt;/code&gt; in the case of an international financial institution.
+        /// </summary>
+        /// <value>Country of the financial institution, in &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2&#39;&gt;ISO 3166-1 alpha-2&lt;/a&gt; format. Is &lt;code&gt;null&lt;/code&gt; in the case of an international financial institution.</value>
+        [DataMember(Name = "country", EmitDefaultValue = false)]
+        public string Country { get; set; }
+
+        /// <summary>
+        /// Indicates if a &lt;code&gt;financialInstitutionCustomerReference&lt;/code&gt; must be provided for &lt;a href&#x3D;&#39;https://documentation.ibanity.com/xs2a/api#create-account-information-access-request&#39;&gt;account information access requests&lt;/a&gt; and &lt;a href&#x3D;&#39;#create-payment-initiation-request&#39;&gt;payment initiation requests&lt;/a&gt; for this financial institution
+        /// </summary>
+        /// <value>Indicates if a &lt;code&gt;financialInstitutionCustomerReference&lt;/code&gt; must be provided for &lt;a href&#x3D;&#39;https://documentation.ibanity.com/xs2a/api#create-account-information-access-request&#39;&gt;account information access requests&lt;/a&gt; and &lt;a href&#x3D;&#39;#create-payment-initiation-request&#39;&gt;payment initiation requests&lt;/a&gt; for this financial institution</value>
+        [DataMember(Name = "financialInstitutionCustomerReferenceRequired", EmitDefaultValue = true)]
+        public bool? FinancialInstitutionCustomerReferenceRequired { get; set; }
+
+        /// <summary>
+        /// Identifies the authorization models that are offered by the financial institution. &lt;a href&#x3D;&#39;/xs2a/products#authorization-models&#39;&gt;Learn more&lt;/a&gt;.
+        /// </summary>
+        /// <value>Identifies the authorization models that are offered by the financial institution. &lt;a href&#x3D;&#39;/xs2a/products#authorization-models&#39;&gt;Learn more&lt;/a&gt;.</value>
+        [DataMember(Name = "authorizationModels", EmitDefaultValue = false)]
+        public List<string> AuthorizationModels { get; set; }
+
+        /// <summary>
+        /// Attribute used to group multiple individual financial institutions in the same country
+        /// </summary>
+        /// <value>Attribute used to group multiple individual financial institutions in the same country</value>
+        [DataMember(Name = "sharedBrandReference", EmitDefaultValue = false)]
+        public string SharedBrandReference { get; set; }
+
+        /// <summary>
+        /// Customer-friendly name of the financial institution&#39;s shared brand, if it is a member of one
+        /// </summary>
+        /// <value>Customer-friendly name of the financial institution&#39;s shared brand, if it is a member of one</value>
+        [DataMember(Name = "sharedBrandName", EmitDefaultValue = false)]
+        public string SharedBrandName { get; set; }
+    }
 }
