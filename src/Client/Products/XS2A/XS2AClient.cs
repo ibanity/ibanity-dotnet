@@ -36,6 +36,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
             PaymentInitiationRequestAuthorizations = new PaymentInitiationRequestAuthorizations(apiClient, customerTokenService, UrlPrefix);
             PeriodicPaymentInitiationRequests = new PeriodicPaymentInitiationRequests(apiClient, customerTokenService, UrlPrefix);
             PeriodicPaymentInitiationRequestAuthorizations = new PeriodicPaymentInitiationRequestAuthorizations(apiClient, customerTokenService, UrlPrefix);
+            Sandbox = new Sandbox(apiClient, customerTokenService);
         }
 
         /// <inheritdoc />
@@ -85,6 +86,9 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
         /// <inheritdoc />
         public IPeriodicPaymentInitiationRequestAuthorizations PeriodicPaymentInitiationRequestAuthorizations { get; }
+
+        /// <inheritdoc />
+        public ISandbox Sandbox { get; }
     }
 
     /// <summary>
@@ -194,5 +198,10 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <p>The attribute queryParameters contains the query parameters returned by the financial institution when the customer is redirected to your configured redirect uri.</p>
         /// </summary>
         IPeriodicPaymentInitiationRequestAuthorizations PeriodicPaymentInitiationRequestAuthorizations { get; }
+
+        /// <summary>
+        /// Fake accounts and transactions.
+        /// </summary>
+        ISandbox Sandbox { get; }
     }
 }
