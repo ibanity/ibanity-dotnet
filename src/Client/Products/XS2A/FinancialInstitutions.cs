@@ -11,7 +11,7 @@ using Ibanity.Apis.Client.Utils;
 namespace Ibanity.Apis.Client.Products.XS2A
 {
     /// <inheritdoc cref="IFinancialInstitutions" />
-    public class FinancialInstitutions : ResourceClient<FinancialInstitutionResponse, object, object, FinancialInstitutionLinks, CustomerAccessToken>, IFinancialInstitutions
+    public class FinancialInstitutions : ResourceClient<FinancialInstitution, object, object, object, CustomerAccessToken>, IFinancialInstitutions
     {
         private const string EntityName = "financial-institutions";
 
@@ -26,7 +26,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
         { }
 
         /// <inheritdoc />
-        public Task<IbanityCollection<FinancialInstitutionResponse>> List(IEnumerable<Filter> filters = null, int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null) =>
+        public Task<IbanityCollection<FinancialInstitution>> List(IEnumerable<Filter> filters = null, int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null) =>
             InternalCursorBasedList(
                 null,
                 filters,
@@ -36,11 +36,11 @@ namespace Ibanity.Apis.Client.Products.XS2A
                 cancellationToken);
 
         /// <inheritdoc />
-        public Task<PageBasedXS2ACollection<FinancialInstitutionResponse>> List(IEnumerable<Filter> filters = null, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null) =>
+        public Task<PageBasedXS2ACollection<FinancialInstitution>> List(IEnumerable<Filter> filters = null, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null) =>
             InternalXs2aPageBasedList(null, filters, null, pageNumber, pageSize, cancellationToken);
 
         /// <inheritdoc />
-        public Task<IbanityCollection<FinancialInstitutionResponse>> ListForCustomer(CustomerAccessToken token, IEnumerable<Filter> filters = null, int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null) =>
+        public Task<IbanityCollection<FinancialInstitution>> ListForCustomer(CustomerAccessToken token, IEnumerable<Filter> filters = null, int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null) =>
             InternalCursorBasedList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 filters,
@@ -50,7 +50,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
                 cancellationToken);
 
         /// <inheritdoc />
-        public Task<PageBasedXS2ACollection<FinancialInstitutionResponse>> ListForCustomer(CustomerAccessToken token, IEnumerable<Filter> filters = null, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null) =>
+        public Task<PageBasedXS2ACollection<FinancialInstitution>> ListForCustomer(CustomerAccessToken token, IEnumerable<Filter> filters = null, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null) =>
             InternalXs2aPageBasedList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 filters,
@@ -60,18 +60,8 @@ namespace Ibanity.Apis.Client.Products.XS2A
                 cancellationToken);
 
         /// <inheritdoc />
-        public Task<FinancialInstitutionResponse> Get(Guid id, CancellationToken? cancellationToken = null) =>
+        public Task<FinancialInstitution> Get(Guid id, CancellationToken? cancellationToken = null) =>
             InternalGet(null, id, cancellationToken);
-
-        /// <inheritdoc />
-        protected override FinancialInstitutionResponse Map(Data<FinancialInstitutionResponse, object, object, FinancialInstitutionLinks> data)
-        {
-            var result = base.Map(data);
-
-            result.Self = data.Links?.Self;
-
-            return result;
-        }
     }
 
     /// <summary>
@@ -89,7 +79,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of financial institution resources</returns>
-        Task<IbanityCollection<FinancialInstitutionResponse>> List(IEnumerable<Filter> filters = null, int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
+        Task<IbanityCollection<FinancialInstitution>> List(IEnumerable<Filter> filters = null, int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// List Financial Institutions
@@ -99,7 +89,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="pageSize">Number of items by page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of financial institution resources</returns>
-        Task<PageBasedXS2ACollection<FinancialInstitutionResponse>> List(IEnumerable<Filter> filters = null, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null);
+        Task<PageBasedXS2ACollection<FinancialInstitution>> List(IEnumerable<Filter> filters = null, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// List Financial Institutions for a customer
@@ -111,7 +101,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of financial institution resources</returns>
-        Task<IbanityCollection<FinancialInstitutionResponse>> ListForCustomer(CustomerAccessToken token, IEnumerable<Filter> filters = null, int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
+        Task<IbanityCollection<FinancialInstitution>> ListForCustomer(CustomerAccessToken token, IEnumerable<Filter> filters = null, int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// List Financial Institutions for a customer
@@ -122,7 +112,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="pageSize">Number of items by page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of financial institution resources</returns>
-        Task<PageBasedXS2ACollection<FinancialInstitutionResponse>> ListForCustomer(CustomerAccessToken token, IEnumerable<Filter> filters = null, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null);
+        Task<PageBasedXS2ACollection<FinancialInstitution>> ListForCustomer(CustomerAccessToken token, IEnumerable<Filter> filters = null, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Get Financial Institution
@@ -130,6 +120,6 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="id">Financial institution ID</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns></returns>
-        Task<FinancialInstitutionResponse> Get(Guid id, CancellationToken? cancellationToken = null);
+        Task<FinancialInstitution> Get(Guid id, CancellationToken? cancellationToken = null);
     }
 }

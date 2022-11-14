@@ -9,7 +9,7 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
     /// This is an object representing a financial institution, providing its basic details - including whether it is a sandbox object or not.
     /// </summary>
     [DataContract]
-    public class FinancialInstitution
+    public class FinancialInstitution : Identified<Guid>
     {
         /// <summary>
         /// Identifies the authorization models that are offered by the financial institution. &lt;a href&#x3D;&#39;/xs2a/products#authorization-models&#39;&gt;Learn more&lt;/a&gt;.
@@ -192,38 +192,5 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         /// <value>Availability of the connection (experimental, beta, stable)</value>
         [DataMember(Name = "status", EmitDefaultValue = false)]
         public string Status { get; set; }
-    }
-
-    /// <inheritdoc cref="FinancialInstitution" />
-    [DataContract]
-    public class FinancialInstitutionResponse : FinancialInstitution, IIdentified<Guid>
-    {
-        /// <inheritdoc />
-        public Guid Id { get; set; }
-
-        /// <summary>
-        /// URL to access the financial institution.
-        /// </summary>
-        public Uri Self { get; set; }
-    }
-
-    /// <summary>
-    /// URL to access the financial institution.
-    /// </summary>
-    [DataContract]
-    public class FinancialInstitutionLinks
-    {
-        /// <summary>
-        /// URL to access the financial institution.
-        /// </summary>
-        [DataMember(Name = "self", EmitDefaultValue = false)]
-        public string SelfString { get; set; }
-
-        /// <summary>
-        /// URL to access the financial institution.
-        /// </summary>
-        public Uri Self => string.IsNullOrWhiteSpace(SelfString)
-            ? null
-            : new Uri(SelfString);
     }
 }
