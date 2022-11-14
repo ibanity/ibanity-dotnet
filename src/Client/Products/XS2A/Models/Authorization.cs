@@ -40,8 +40,8 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         /// <summary>
         /// Current status of the payment initiation request. Possible values are accepted-customer-profile, accepted-settlement-completed, accepted-settlement-in-progress, accepted-technical-validation, accepted-with-change, accepted-without-posting, received, pending, and rejected. See status definitions.
         /// </summary>
-        [DataMember(Name = "paymentStatus", EmitDefaultValue = false)]
-        public string PaymentStatus { get; set; }
+        [DataMember(Name = "paymentInitiationRequestStatus", EmitDefaultValue = false)]
+        public string PaymentInitiationRequestStatus { get; set; }
     }
 
     /// <summary>

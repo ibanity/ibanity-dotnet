@@ -51,7 +51,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
             var result = base.Map(data);
 
             result.NextRedirect = data.Links?.NextRedirect;
-            result.PaymentStatus = GetStatus(data.Relationships);
+            result.PaymentInitiationRequestStatus = GetStatus(data.Relationships);
 
             return result;
         }
