@@ -27,6 +27,10 @@ namespace Ibanity.Apis.Client.Products.XS2A
             InternalCursorBasedList(null, null, pageSize, pageBefore, pageAfter, cancellationToken);
 
         /// <inheritdoc />
+        public Task<SandboxFinancialInstitutionUserResponse> Get(Guid id, CancellationToken? cancellationToken = null) =>
+            InternalGet(null, id, cancellationToken);
+
+        /// <inheritdoc />
         public Task<SandboxFinancialInstitutionUserResponse> Create(SandboxFinancialInstitutionUser sandboxFinancialInstitutionUser, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
         {
             if (sandboxFinancialInstitutionUser is null)
@@ -76,6 +80,14 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of financial institution resources</returns>
         Task<IbanityCollection<SandboxFinancialInstitutionUserResponse>> List(int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Get sandbox financial institution user
+        /// </summary>
+        /// <param name="id">Sandbox financial institution User ID</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>A list of financial institution resources</returns>
+        Task<SandboxFinancialInstitutionUserResponse> Get(Guid id, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Create sandbox financial institution user
