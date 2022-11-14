@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Products.XS2A.Models;
+using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.XS2A
 {
@@ -20,6 +21,10 @@ namespace Ibanity.Apis.Client.Products.XS2A
         public SandboxFinancialInstitutionUsers(IApiClient apiClient, IAccessTokenProvider<CustomerAccessToken> accessTokenProvider, string urlPrefix) :
             base(apiClient, accessTokenProvider, urlPrefix, EntityName)
         { }
+
+        /// <inheritdoc />
+        public Task<IbanityCollection<SandboxFinancialInstitutionUserResponse>> List(int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null) =>
+            InternalCursorBasedList(null, null, pageSize, pageBefore, pageAfter, cancellationToken);
 
         /// <inheritdoc />
         public Task<SandboxFinancialInstitutionUserResponse> Create(SandboxFinancialInstitutionUser sandboxFinancialInstitutionUser, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
@@ -62,6 +67,16 @@ namespace Ibanity.Apis.Client.Products.XS2A
     /// </summary>
     public interface ISandboxFinancialInstitutionUsers
     {
+        /// <summary>
+        /// List sandbox financial institution users
+        /// </summary>
+        /// <param name="pageSize">Number of items by page</param>
+        /// <param name="pageBefore">Cursor that specifies the first resource of the next page</param>
+        /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>A list of financial institution resources</returns>
+        Task<IbanityCollection<SandboxFinancialInstitutionUserResponse>> List(int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
+
         /// <summary>
         /// Create sandbox financial institution user
         /// </summary>
