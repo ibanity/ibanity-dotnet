@@ -20,6 +20,21 @@ namespace Ibanity.Apis.Client.Products.XS2A
         public SandboxFinancialInstitutionUsers(IApiClient apiClient, IAccessTokenProvider<CustomerAccessToken> accessTokenProvider, string urlPrefix) :
             base(apiClient, accessTokenProvider, urlPrefix, EntityName)
         { }
+
+        /// <inheritdoc />
+        public Task<SandboxFinancialInstitutionUserResponse> Create(SandboxFinancialInstitutionUser sandboxFinancialInstitutionUser, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
+        {
+            if (sandboxFinancialInstitutionUser is null)
+                throw new ArgumentNullException(nameof(sandboxFinancialInstitutionUser));
+
+            var payload = new JsonApi.Data<SandboxFinancialInstitutionUser, object, object, object>
+            {
+                Type = "financialInstitutionUser",
+                Attributes = sandboxFinancialInstitutionUser
+            };
+
+            return InternalCreate(null, payload, idempotencyKey, cancellationToken);
+        }
     }
 
     /// <summary>
@@ -28,5 +43,13 @@ namespace Ibanity.Apis.Client.Products.XS2A
     /// </summary>
     public interface ISandboxFinancialInstitutionUsers
     {
+        /// <summary>
+        /// Create sandbox financial institution user
+        /// </summary>
+        /// <param name="sandboxFinancialInstitutionUser">Details of the sandbox financial institution user</param>
+        /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The created sandbox financial institution user resource</returns>
+        Task<SandboxFinancialInstitutionUserResponse> Create(SandboxFinancialInstitutionUser sandboxFinancialInstitutionUser, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }
