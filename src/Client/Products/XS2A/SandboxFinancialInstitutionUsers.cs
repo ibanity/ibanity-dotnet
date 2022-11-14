@@ -50,6 +50,10 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
             return InternalUpdate(null, id, payload, idempotencyKey, cancellationToken);
         }
+
+        /// <inheritdoc />
+        public Task Delete(Guid id, CancellationToken? cancellationToken = null) =>
+            InternalDelete(null, id, cancellationToken);
     }
 
     /// <summary>
@@ -76,5 +80,12 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created sandbox financial institution user resource</returns>
         Task<SandboxFinancialInstitutionUserResponse> Update(Guid id, SandboxFinancialInstitutionUser sandboxFinancialInstitutionUser, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Delete sandbox financial institution user
+        /// </summary>
+        /// <param name="id">Sandbox financial institution user ID</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        Task Delete(Guid id, CancellationToken? cancellationToken = null);
     }
 }
