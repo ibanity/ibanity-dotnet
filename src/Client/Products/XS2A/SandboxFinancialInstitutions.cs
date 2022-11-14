@@ -1,3 +1,6 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Products.XS2A.Models;
 
@@ -17,6 +20,21 @@ namespace Ibanity.Apis.Client.Products.XS2A
         public SandboxFinancialInstitutions(IApiClient apiClient, IAccessTokenProvider<CustomerAccessToken> accessTokenProvider, string urlPrefix) :
             base(apiClient, accessTokenProvider, urlPrefix, EntityName)
         { }
+
+        /// <inheritdoc />
+        public Task<FinancialInstitution> Create(SandboxFinancialInstitution sandboxFinancialInstitution, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
+        {
+            if (sandboxFinancialInstitution is null)
+                throw new ArgumentNullException(nameof(sandboxFinancialInstitution));
+
+            var payload = new JsonApi.Data<SandboxFinancialInstitution, object, object, object>
+            {
+                Type = "financialInstitution",
+                Attributes = sandboxFinancialInstitution
+            };
+
+            return InternalCreate(null, payload, idempotencyKey, cancellationToken);
+        }
     }
 
     /// <summary>
@@ -25,5 +43,13 @@ namespace Ibanity.Apis.Client.Products.XS2A
     /// <remarks>You can manage fake financial institutions in the sandbox using the create, update, and delete methods. Obviously, these endpoints will not work for real, live financial institutions.</remarks>
     public interface ISandboxFinancialInstitutions
     {
+        /// <summary>
+        /// Create sandbox financial institution
+        /// </summary>
+        /// <param name="sandboxFinancialInstitution">Details of the sandbox financial institution</param>
+        /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The created sandbox financial institution resource</returns>
+        Task<FinancialInstitution> Create(SandboxFinancialInstitution sandboxFinancialInstitution, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }
