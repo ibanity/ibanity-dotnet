@@ -35,6 +35,21 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
             return InternalCreate(null, payload, idempotencyKey, cancellationToken);
         }
+
+        /// <inheritdoc />
+        public Task<FinancialInstitution> Update(Guid id, SandboxFinancialInstitution sandboxFinancialInstitution, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
+        {
+            if (sandboxFinancialInstitution is null)
+                throw new ArgumentNullException(nameof(sandboxFinancialInstitution));
+
+            var payload = new JsonApi.Data<SandboxFinancialInstitution, object, object, object>
+            {
+                Type = "financialInstitution",
+                Attributes = sandboxFinancialInstitution
+            };
+
+            return InternalUpdate(null, id, payload, idempotencyKey, cancellationToken);
+        }
     }
 
     /// <summary>
@@ -51,5 +66,15 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created sandbox financial institution resource</returns>
         Task<FinancialInstitution> Create(SandboxFinancialInstitution sandboxFinancialInstitution, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Update sandbox financial institution
+        /// </summary>
+        /// <param name="id">Sandbox financial institution ID</param>
+        /// <param name="sandboxFinancialInstitution">Details of the sandbox financial institution</param>
+        /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The created sandbox financial institution resource</returns>
+        Task<FinancialInstitution> Update(Guid id, SandboxFinancialInstitution sandboxFinancialInstitution, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }
