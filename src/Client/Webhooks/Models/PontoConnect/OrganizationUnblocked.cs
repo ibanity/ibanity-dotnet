@@ -1,12 +1,12 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Ibanity.Apis.Client.Webhooks.Models
+namespace Ibanity.Apis.Client.Webhooks.Models.PontoConnect
 {
     /// <summary>
-    /// A webhook payload delivered whenever an integration has been created.
+    /// A webhook payload delivered whenever an organization has been unblocked.
     /// </summary>
-    public class IntegrationCreated : JsonApi.Data, IWebhookEvent
+    public class OrganizationUnblocked : JsonApi.Data, IWebhookEvent
     {
         /// <summary>
         /// Unique identifier of the associated organization.
@@ -22,13 +22,13 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     }
 
     /// <summary>
-    /// A webhook payload delivered whenever an integration has been created.
+    /// A webhook payload delivered whenever an organization has been unblocked.
     /// </summary>
-    public class NestedIntegrationCreated : PayloadData<IntegrationCreatedAttributes, IntegrationCreatedRelationships>
+    public class NestedOrganizationUnblocked : PayloadData<OrganizationUnblockedAttributes, OrganizationUnblockedRelationships>
     {
         /// <inheritdoc />
         public override IWebhookEvent Flatten() =>
-            new IntegrationCreated
+            new OrganizationUnblocked
             {
                 Id = Id,
                 Type = Type,
@@ -38,9 +38,9 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     }
 
     /// <summary>
-    /// Payload attributes delivered whenever an integration has been created.
+    /// Payload attributes delivered whenever an organization has been unblocked.
     /// </summary>
-    public class IntegrationCreatedAttributes
+    public class OrganizationUnblockedAttributes
     {
         /// <summary>
         /// When this notification was created.
@@ -50,9 +50,9 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     }
 
     /// <summary>
-    /// Payload relationships delivered whenever an integration has been created.
+    /// Payload relationships delivered whenever an organization has been unblocked.
     /// </summary>
-    public class IntegrationCreatedRelationships
+    public class OrganizationUnblockedRelationships
     {
         /// <summary>
         /// Details about the associated organization.

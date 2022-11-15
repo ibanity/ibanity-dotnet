@@ -1,12 +1,12 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Ibanity.Apis.Client.Webhooks.Models
+namespace Ibanity.Apis.Client.Webhooks.Models.PontoConnect
 {
     /// <summary>
-    /// A webhook payload delivered whenever an account is revoked from an integration.
+    /// A webhook payload delivered whenever an account is added to an integration.
     /// </summary>
-    public class IntegrationAccountRevoked : JsonApi.Data, IWebhookEvent
+    public class IntegrationAccountAdded : JsonApi.Data, IWebhookEvent
     {
         /// <summary>
         /// Unique identifier of the associated account.
@@ -28,13 +28,13 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     }
 
     /// <summary>
-    /// A webhook payload delivered whenever an account is revoked from an integration.
+    /// A webhook payload delivered whenever an account is added to an integration.
     /// </summary>
-    public class NestedIntegrationAccountRevoked : PayloadData<IntegrationAccountRevokedAttributes, IntegrationAccountRevokedRelationships>
+    public class NestedIntegrationAccountAdded : PayloadData<IntegrationAccountAddedAttributes, IntegrationAccountAddedRelationships>
     {
         /// <inheritdoc />
         public override IWebhookEvent Flatten() =>
-            new IntegrationAccountRevoked
+            new IntegrationAccountAdded
             {
                 Id = Id,
                 Type = Type,
@@ -45,9 +45,9 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     }
 
     /// <summary>
-    /// Payload attributes delivered whenever an account is revoked from an integration.
+    /// Payload attributes delivered whenever an account is added to an integration.
     /// </summary>
-    public class IntegrationAccountRevokedAttributes
+    public class IntegrationAccountAddedAttributes
     {
         /// <summary>
         /// When this notification was created.
@@ -57,9 +57,9 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     }
 
     /// <summary>
-    /// Payload relationships delivered whenever an account is revoked from an integration.
+    /// Payload relationships delivered whenever an account is added to an integration.
     /// </summary>
-    public class IntegrationAccountRevokedRelationships
+    public class IntegrationAccountAddedRelationships
     {
         /// <summary>
         /// Details about the associated account.

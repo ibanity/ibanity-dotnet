@@ -16,18 +16,18 @@ namespace Ibanity.Apis.Client.Webhooks
     {
         private static readonly IReadOnlyDictionary<string, Type> Types = new Dictionary<string, Type>
         {
-            { "pontoConnect.synchronization.succeededWithoutChange", typeof(Payload<NestedSynchronizationSucceededWithoutChange>) },
-            { "pontoConnect.synchronization.failed", typeof(Payload<NestedSynchronizationFailed>) },
-            { "pontoConnect.account.detailsUpdated", typeof(Payload<NestedAccountDetailsUpdated>) },
-            { "pontoConnect.account.reauthorized", typeof(Payload<NestedAccountReauthorized>) },
-            { "pontoConnect.account.transactionsCreated", typeof(Payload<NestedAccountTransactionsCreated>) },
-            { "pontoConnect.account.transactionsUpdated", typeof(Payload<NestedAccountTransactionsUpdated>) },
-            { "pontoConnect.integration.created", typeof(Payload<NestedIntegrationCreated>) },
-            { "pontoConnect.integration.revoked", typeof(Payload<NestedIntegrationRevoked>) },
-            { "pontoConnect.integration.accountAdded", typeof(Payload<NestedIntegrationAccountAdded>) },
-            { "pontoConnect.integration.accountRevoked", typeof(Payload<NestedIntegrationAccountRevoked>) },
-            { "pontoConnect.organization.blocked", typeof(Payload<NestedOrganizationBlocked>) },
-            { "pontoConnect.organization.unblocked", typeof(Payload<NestedOrganizationUnblocked>) }
+            { "pontoConnect.synchronization.succeededWithoutChange", typeof(Payload<Models.PontoConnect.NestedSynchronizationSucceededWithoutChange>) },
+            { "pontoConnect.synchronization.failed", typeof(Payload<Models.PontoConnect.NestedSynchronizationFailed>) },
+            { "pontoConnect.account.detailsUpdated", typeof(Payload<Models.PontoConnect.NestedAccountDetailsUpdated>) },
+            { "pontoConnect.account.reauthorized", typeof(Payload<Models.PontoConnect.NestedAccountReauthorized>) },
+            { "pontoConnect.account.transactionsCreated", typeof(Payload<Models.PontoConnect.NestedAccountTransactionsCreated>) },
+            { "pontoConnect.account.transactionsUpdated", typeof(Payload<Models.PontoConnect.NestedAccountTransactionsUpdated>) },
+            { "pontoConnect.integration.created", typeof(Payload<Models.PontoConnect.NestedIntegrationCreated>) },
+            { "pontoConnect.integration.revoked", typeof(Payload<Models.PontoConnect.NestedIntegrationRevoked>) },
+            { "pontoConnect.integration.accountAdded", typeof(Payload<Models.PontoConnect.NestedIntegrationAccountAdded>) },
+            { "pontoConnect.integration.accountRevoked", typeof(Payload<Models.PontoConnect.NestedIntegrationAccountRevoked>) },
+            { "pontoConnect.organization.blocked", typeof(Payload<Models.PontoConnect.NestedOrganizationBlocked>) },
+            { "pontoConnect.organization.unblocked", typeof(Payload<Models.PontoConnect.NestedOrganizationUnblocked>) }
         };
 
         private readonly ISerializer<string> _serializer;

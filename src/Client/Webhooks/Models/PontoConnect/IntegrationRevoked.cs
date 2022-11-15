@@ -1,19 +1,13 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Ibanity.Apis.Client.Webhooks.Models
+namespace Ibanity.Apis.Client.Webhooks.Models.PontoConnect
 {
     /// <summary>
-    /// A webhook payload delivered whenever an account is added to an integration.
+    /// A webhook payload delivered whenever an integration has been revoked.
     /// </summary>
-    public class IntegrationAccountAdded : JsonApi.Data, IWebhookEvent
+    public class IntegrationRevoked : JsonApi.Data, IWebhookEvent
     {
-        /// <summary>
-        /// Unique identifier of the associated account.
-        /// </summary>
-        [DataMember(Name = "accountId", EmitDefaultValue = false)]
-        public Guid AccountId { get; set; }
-
         /// <summary>
         /// Unique identifier of the associated organization.
         /// </summary>
@@ -28,26 +22,25 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     }
 
     /// <summary>
-    /// A webhook payload delivered whenever an account is added to an integration.
+    /// A webhook payload delivered whenever an integration has been revoked.
     /// </summary>
-    public class NestedIntegrationAccountAdded : PayloadData<IntegrationAccountAddedAttributes, IntegrationAccountAddedRelationships>
+    public class NestedIntegrationRevoked : PayloadData<IntegrationRevokedAttributes, IntegrationRevokedRelationships>
     {
         /// <inheritdoc />
         public override IWebhookEvent Flatten() =>
-            new IntegrationAccountAdded
+            new IntegrationRevoked
             {
                 Id = Id,
                 Type = Type,
-                AccountId = Guid.Parse(Relationships.Account.Data.Id),
                 OrganizationId = Guid.Parse(Relationships.Organization.Data.Id),
                 CreatedAt = Attributes.CreatedAt
             };
     }
 
     /// <summary>
-    /// Payload attributes delivered whenever an account is added to an integration.
+    /// Payload attributes delivered whenever an integration has been revoked.
     /// </summary>
-    public class IntegrationAccountAddedAttributes
+    public class IntegrationRevokedAttributes
     {
         /// <summary>
         /// When this notification was created.
@@ -57,16 +50,10 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     }
 
     /// <summary>
-    /// Payload relationships delivered whenever an account is added to an integration.
+    /// Payload relationships delivered whenever an integration has been revoked.
     /// </summary>
-    public class IntegrationAccountAddedRelationships
+    public class IntegrationRevokedRelationships
     {
-        /// <summary>
-        /// Details about the associated account.
-        /// </summary>
-        [DataMember(Name = "account", EmitDefaultValue = false)]
-        public Relationship Account { get; set; }
-
         /// <summary>
         /// Details about the associated organization.
         /// </summary>

@@ -1,13 +1,19 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Ibanity.Apis.Client.Webhooks.Models
+namespace Ibanity.Apis.Client.Webhooks.Models.PontoConnect
 {
     /// <summary>
-    /// A webhook payload delivered whenever an organization has been unblocked.
+    /// A webhook payload delivered whenever an account has been reauthorized.
     /// </summary>
-    public class OrganizationUnblocked : JsonApi.Data, IWebhookEvent
+    public class AccountReauthorized : JsonApi.Data, IWebhookEvent
     {
+        /// <summary>
+        /// Unique identifier of the associated account.
+        /// </summary>
+        [DataMember(Name = "accountId", EmitDefaultValue = false)]
+        public Guid AccountId { get; set; }
+
         /// <summary>
         /// Unique identifier of the associated organization.
         /// </summary>
@@ -22,25 +28,26 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     }
 
     /// <summary>
-    /// A webhook payload delivered whenever an organization has been unblocked.
+    /// A webhook payload delivered whenever an account has been reauthorized.
     /// </summary>
-    public class NestedOrganizationUnblocked : PayloadData<OrganizationUnblockedAttributes, OrganizationUnblockedRelationships>
+    public class NestedAccountReauthorized : PayloadData<AccountReauthorizedAttributes, AccountReauthorizedRelationships>
     {
         /// <inheritdoc />
         public override IWebhookEvent Flatten() =>
-            new OrganizationUnblocked
+            new AccountReauthorized
             {
                 Id = Id,
                 Type = Type,
+                AccountId = Guid.Parse(Relationships.Account.Data.Id),
                 OrganizationId = Guid.Parse(Relationships.Organization.Data.Id),
                 CreatedAt = Attributes.CreatedAt
             };
     }
 
     /// <summary>
-    /// Payload attributes delivered whenever an organization has been unblocked.
+    /// Payload attributes delivered whenever an account has been reauthorized.
     /// </summary>
-    public class OrganizationUnblockedAttributes
+    public class AccountReauthorizedAttributes
     {
         /// <summary>
         /// When this notification was created.
@@ -50,10 +57,16 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     }
 
     /// <summary>
-    /// Payload relationships delivered whenever an organization has been unblocked.
+    /// Payload relationships delivered whenever an account has been reauthorized.
     /// </summary>
-    public class OrganizationUnblockedRelationships
+    public class AccountReauthorizedRelationships
     {
+        /// <summary>
+        /// Details about the associated account.
+        /// </summary>
+        [DataMember(Name = "account", EmitDefaultValue = false)]
+        public Relationship Account { get; set; }
+
         /// <summary>
         /// Details about the associated organization.
         /// </summary>

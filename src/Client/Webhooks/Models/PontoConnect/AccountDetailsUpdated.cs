@@ -1,12 +1,12 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Ibanity.Apis.Client.Webhooks.Models
+namespace Ibanity.Apis.Client.Webhooks.Models.PontoConnect
 {
     /// <summary>
-    /// A webhook payload delivered whenever a synchronization fails.
+    /// A webhook payload delivered whenever a synchronization completes which updates details related to an account, such as the balance.
     /// </summary>
-    public class SynchronizationFailed : JsonApi.Data, IWebhookEvent
+    public class AccountDetailsUpdated : JsonApi.Data, IWebhookEvent
     {
         /// <summary>
         /// Unique identifier of the associated account.
@@ -21,12 +21,6 @@ namespace Ibanity.Apis.Client.Webhooks.Models
         public Guid SynchronizationId { get; set; }
 
         /// <summary>
-        /// Subtype of the related synchronization.
-        /// </summary>
-        [DataMember(Name = "synchronizationSubtype", EmitDefaultValue = false)]
-        public string SynchronizationSubtype { get; set; }
-
-        /// <summary>
         /// When this notification was created.
         /// </summary>
         [DataMember(Name = "createdAt", EmitDefaultValue = false)]
@@ -34,45 +28,38 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     }
 
     /// <summary>
-    /// A webhook payload delivered whenever a synchronization fails.
+    /// A webhook payload delivered whenever a synchronization completes which updates details related to an account, such as the balance.
     /// </summary>
-    public class NestedSynchronizationFailed : PayloadData<SynchronizationFailedAttributes, SynchronizationFailedRelationships>
+    public class NestedAccountDetailsUpdated : PayloadData<AccountDetailsUpdatedAttributes, AccountDetailsUpdatedRelationships>
     {
         /// <inheritdoc />
         public override IWebhookEvent Flatten() =>
-            new SynchronizationFailed
+            new AccountDetailsUpdated
             {
                 Id = Id,
                 Type = Type,
                 AccountId = Guid.Parse(Relationships.Account.Data.Id),
                 SynchronizationId = Guid.Parse(Relationships.Synchronization.Data.Id),
-                SynchronizationSubtype = Attributes.SynchronizationSubtype,
                 CreatedAt = Attributes.CreatedAt
             };
     }
 
     /// <summary>
-    /// Payload attributes delivered whenever a synchronization fails.
+    /// Payload attributes delivered whenever a synchronization completes which updates details related to an account, such as the balance.
     /// </summary>
-    public class SynchronizationFailedAttributes
+    public class AccountDetailsUpdatedAttributes
     {
         /// <summary>
         /// When this notification was created.
         /// </summary>
         [DataMember(Name = "createdAt", EmitDefaultValue = false)]
         public DateTimeOffset CreatedAt { get; set; }
-
-        /// <summary>
-        /// Subtype of the related synchronization.
-        /// </summary>
-        [DataMember(Name = "synchronizationSubtype", EmitDefaultValue = false)]
-        public string SynchronizationSubtype { get; set; }
     }
 
     /// <summary>
-    /// Payload relationships delivered whenever a synchronization fails.
+    /// Payload relationships delivered whenever a synchronization completes which updates details related to an account, such as the balance.
     /// </summary>
-    public class SynchronizationFailedRelationships
+    public class AccountDetailsUpdatedRelationships
     {
         /// <summary>
         /// Details about the associated account.

@@ -1,12 +1,12 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Ibanity.Apis.Client.Webhooks.Models
+namespace Ibanity.Apis.Client.Webhooks.Models.PontoConnect
 {
     /// <summary>
-    /// A webhook payload delivered whenever a synchronization completes which has created transactions for an account.
+    /// A webhook payload delivered whenever a synchronization fails.
     /// </summary>
-    public class AccountTransactionsCreated : JsonApi.Data, IWebhookEvent
+    public class SynchronizationFailed : JsonApi.Data, IWebhookEvent
     {
         /// <summary>
         /// Unique identifier of the associated account.
@@ -15,18 +15,18 @@ namespace Ibanity.Apis.Client.Webhooks.Models
         public Guid AccountId { get; set; }
 
         /// <summary>
-        /// Number of transactions created by the synchronization.
-        /// </summary>
-        [DataMember(Name = "count", EmitDefaultValue = false)]
-        public int Count { get; set; }
-
-        /// <summary>
         /// Unique identifier of the associated synchronization.
         /// </summary>
         [DataMember(Name = "synchronizationId", EmitDefaultValue = false)]
         public Guid SynchronizationId { get; set; }
 
         /// <summary>
+        /// Subtype of the related synchronization.
+        /// </summary>
+        [DataMember(Name = "synchronizationSubtype", EmitDefaultValue = false)]
+        public string SynchronizationSubtype { get; set; }
+
+        /// <summary>
         /// When this notification was created.
         /// </summary>
         [DataMember(Name = "createdAt", EmitDefaultValue = false)]
@@ -34,27 +34,27 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     }
 
     /// <summary>
-    /// A webhook payload delivered whenever a synchronization completes which has created transactions for an account.
+    /// A webhook payload delivered whenever a synchronization fails.
     /// </summary>
-    public class NestedAccountTransactionsCreated : PayloadData<AccountTransactionsCreatedAttributes, AccountTransactionsCreatedRelationships>
+    public class NestedSynchronizationFailed : PayloadData<SynchronizationFailedAttributes, SynchronizationFailedRelationships>
     {
         /// <inheritdoc />
         public override IWebhookEvent Flatten() =>
-            new AccountTransactionsCreated
+            new SynchronizationFailed
             {
                 Id = Id,
                 Type = Type,
                 AccountId = Guid.Parse(Relationships.Account.Data.Id),
-                Count = Attributes.Count,
                 SynchronizationId = Guid.Parse(Relationships.Synchronization.Data.Id),
+                SynchronizationSubtype = Attributes.SynchronizationSubtype,
                 CreatedAt = Attributes.CreatedAt
             };
     }
 
     /// <summary>
-    /// Payload attributes delivered whenever a synchronization completes which has created transactions for an account.
+    /// Payload attributes delivered whenever a synchronization fails.
     /// </summary>
-    public class AccountTransactionsCreatedAttributes
+    public class SynchronizationFailedAttributes
     {
         /// <summary>
         /// When this notification was created.
@@ -63,16 +63,16 @@ namespace Ibanity.Apis.Client.Webhooks.Models
         public DateTimeOffset CreatedAt { get; set; }
 
         /// <summary>
-        /// Number of transactions created by the synchronization.
+        /// Subtype of the related synchronization.
         /// </summary>
-        [DataMember(Name = "count", EmitDefaultValue = false)]
-        public int Count { get; set; }
+        [DataMember(Name = "synchronizationSubtype", EmitDefaultValue = false)]
+        public string SynchronizationSubtype { get; set; }
     }
 
     /// <summary>
-    /// Payload relationships delivered whenever a synchronization completes which has created transactions for an account.
+    /// Payload relationships delivered whenever a synchronization fails.
     /// </summary>
-    public class AccountTransactionsCreatedRelationships
+    public class SynchronizationFailedRelationships
     {
         /// <summary>
         /// Details about the associated account.

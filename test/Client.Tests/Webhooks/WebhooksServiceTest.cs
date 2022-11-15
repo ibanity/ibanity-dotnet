@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Ibanity.Apis.Client.Utils;
 using Ibanity.Apis.Client.Webhooks;
 using Ibanity.Apis.Client.Webhooks.Jwt;
-using Ibanity.Apis.Client.Webhooks.Models;
+using Ibanity.Apis.Client.Webhooks.Models.PontoConnect;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 

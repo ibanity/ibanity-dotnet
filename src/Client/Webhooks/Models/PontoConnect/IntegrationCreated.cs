@@ -1,19 +1,13 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Ibanity.Apis.Client.Webhooks.Models
+namespace Ibanity.Apis.Client.Webhooks.Models.PontoConnect
 {
     /// <summary>
-    /// A webhook payload delivered whenever an account has been reauthorized.
+    /// A webhook payload delivered whenever an integration has been created.
     /// </summary>
-    public class AccountReauthorized : JsonApi.Data, IWebhookEvent
+    public class IntegrationCreated : JsonApi.Data, IWebhookEvent
     {
-        /// <summary>
-        /// Unique identifier of the associated account.
-        /// </summary>
-        [DataMember(Name = "accountId", EmitDefaultValue = false)]
-        public Guid AccountId { get; set; }
-
         /// <summary>
         /// Unique identifier of the associated organization.
         /// </summary>
@@ -28,26 +22,25 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     }
 
     /// <summary>
-    /// A webhook payload delivered whenever an account has been reauthorized.
+    /// A webhook payload delivered whenever an integration has been created.
     /// </summary>
-    public class NestedAccountReauthorized : PayloadData<AccountReauthorizedAttributes, AccountReauthorizedRelationships>
+    public class NestedIntegrationCreated : PayloadData<IntegrationCreatedAttributes, IntegrationCreatedRelationships>
     {
         /// <inheritdoc />
         public override IWebhookEvent Flatten() =>
-            new AccountReauthorized
+            new IntegrationCreated
             {
                 Id = Id,
                 Type = Type,
-                AccountId = Guid.Parse(Relationships.Account.Data.Id),
                 OrganizationId = Guid.Parse(Relationships.Organization.Data.Id),
                 CreatedAt = Attributes.CreatedAt
             };
     }
 
     /// <summary>
-    /// Payload attributes delivered whenever an account has been reauthorized.
+    /// Payload attributes delivered whenever an integration has been created.
     /// </summary>
-    public class AccountReauthorizedAttributes
+    public class IntegrationCreatedAttributes
     {
         /// <summary>
         /// When this notification was created.
@@ -57,16 +50,10 @@ namespace Ibanity.Apis.Client.Webhooks.Models
     }
 
     /// <summary>
-    /// Payload relationships delivered whenever an account has been reauthorized.
+    /// Payload relationships delivered whenever an integration has been created.
     /// </summary>
-    public class AccountReauthorizedRelationships
+    public class IntegrationCreatedRelationships
     {
-        /// <summary>
-        /// Details about the associated account.
-        /// </summary>
-        [DataMember(Name = "account", EmitDefaultValue = false)]
-        public Relationship Account { get; set; }
-
         /// <summary>
         /// Details about the associated organization.
         /// </summary>

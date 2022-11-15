@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Ibanity.Apis.Client.Webhooks.Models
+namespace Ibanity.Apis.Client.Webhooks.Models.PontoConnect
 {
     /// <summary>
     /// A webhook payload delivered whenever a synchronization succeeds but does not change any account details or transactions.
