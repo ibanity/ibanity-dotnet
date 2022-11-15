@@ -30,7 +30,8 @@ namespace Ibanity.Apis.Client.Webhooks
             { "pontoConnect.organization.unblocked", typeof(Payload<Models.PontoConnect.NestedOrganizationUnblocked>) },
             { "xs2a.synchronization.succeededWithoutChange", typeof(Payload<Models.XS2A.NestedSynchronizationSucceededWithoutChange>) },
             { "xs2a.synchronization.failed", typeof(Payload<Models.XS2A.NestedSynchronizationFailed>) },
-            { "xs2a.account.detailsUpdated", typeof(Payload<Models.XS2A.NestedAccountDetailsUpdated>) }
+            { "xs2a.account.detailsUpdated", typeof(Payload<Models.XS2A.NestedAccountDetailsUpdated>) },
+            { "xs2a.account.transactionsCreated", typeof(Payload<Models.XS2A.NestedAccountTransactionsCreated>) }
         };
 
         private readonly ISerializer<string> _serializer;
