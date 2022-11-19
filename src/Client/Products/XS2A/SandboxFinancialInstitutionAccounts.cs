@@ -40,7 +40,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
             var payload = new JsonApi.Data<SandboxFinancialInstitutionAccount, object, object, object>
             {
-                Type = "financialInstitutionUser",
+                Type = "financialInstitutionAccount",
                 Attributes = sandboxFinancialInstitutionAccount
             };
 
