@@ -35,7 +35,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
                 cancellationToken);
 
         /// <inheritdoc />
-        public Task<PageBasedXS2ACollection<FinancialInstitution>> List(IEnumerable<Filter> filters = null, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null) =>
+        public Task<PageBasedXS2ACollection<FinancialInstitution>> ListByPage(IEnumerable<Filter> filters = null, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null) =>
             InternalXs2aPageBasedList(null, filters, null, pageNumber, pageSize, cancellationToken);
 
         /// <inheritdoc />
@@ -49,7 +49,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
                 cancellationToken);
 
         /// <inheritdoc />
-        public Task<PageBasedXS2ACollection<FinancialInstitution>> ListForCustomer(CustomerAccessToken token, IEnumerable<Filter> filters = null, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null) =>
+        public Task<PageBasedXS2ACollection<FinancialInstitution>> ListForCustomerByPage(CustomerAccessToken token, IEnumerable<Filter> filters = null, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null) =>
             InternalXs2aPageBasedList(
                 token ?? throw new ArgumentNullException(nameof(token)),
                 filters,
@@ -88,7 +88,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="pageSize">Number of items by page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of financial institution resources</returns>
-        Task<PageBasedXS2ACollection<FinancialInstitution>> List(IEnumerable<Filter> filters = null, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null);
+        Task<PageBasedXS2ACollection<FinancialInstitution>> ListByPage(IEnumerable<Filter> filters = null, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// List Financial Institutions for a customer
@@ -111,7 +111,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <param name="pageSize">Number of items by page</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of financial institution resources</returns>
-        Task<PageBasedXS2ACollection<FinancialInstitution>> ListForCustomer(CustomerAccessToken token, IEnumerable<Filter> filters = null, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null);
+        Task<PageBasedXS2ACollection<FinancialInstitution>> ListForCustomerByPage(CustomerAccessToken token, IEnumerable<Filter> filters = null, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Get Financial Institution
