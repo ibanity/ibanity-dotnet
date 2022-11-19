@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
+using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Products.XS2A.Models;
 using Ibanity.Apis.Client.Utils;
 
@@ -24,6 +25,15 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
         /// <inheritdoc />
         protected override string ParseId(string id) => id;
+
+        /// <inheritdoc />
+        protected override FinancialInstitutionCountry Map(Data<FinancialInstitutionCountry, object, object, object> data)
+        {
+            if (data.Attributes == null)
+                data.Attributes = new FinancialInstitutionCountry();
+
+            return base.Map(data);
+        }
 
         /// <inheritdoc />
         public Task<IbanityCollection<FinancialInstitutionCountry>> List(int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null) =>
