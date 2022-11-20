@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
+using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Products.XS2A.Models;
 
 namespace Ibanity.Apis.Client.Products.XS2A
@@ -23,6 +24,15 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <inheritdoc />
         public Task<Customer> Delete(CustomerAccessToken token, CancellationToken? cancellationToken = null) =>
             InternalDelete(token, cancellationToken);
+
+        /// <inheritdoc />
+        protected override Customer Map(Data<Customer, object, object, object> data)
+        {
+            if (data.Attributes == null)
+                data.Attributes = new Customer();
+
+            return base.Map(data);
+        }
     }
 
     /// <summary>
