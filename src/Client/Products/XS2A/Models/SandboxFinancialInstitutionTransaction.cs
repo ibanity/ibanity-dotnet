@@ -157,7 +157,7 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         /// </summary>
         /// <value>A fee that was withheld from this transaction at the financial institution</value>
         [DataMember(Name = "fee", EmitDefaultValue = false)]
-        public decimal Fee { get; set; }
+        public decimal? Fee { get; set; }
 
         /// <summary>
         /// When this financial institution transaction was last synchronized successfully. Formatted according to &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_8601&#39;&gt;ISO8601&lt;/a&gt; spec
