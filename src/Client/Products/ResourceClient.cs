@@ -352,10 +352,10 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="path">Resource collection path</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         protected async Task<TAttributes> InternalDelete(TToken token, string path, CancellationToken? cancellationToken) =>
-            await _apiClient.Delete<TAttributes>(
+            Map((await _apiClient.Delete<JsonApi.Resource<TAttributes, TMeta, TRelationships, TLinks>>(
                 path,
                 await GetAccessToken(token).ConfigureAwait(false),
-                cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false)).Data);
 
         private Guid? GetIdempotencyKey(Guid? from) => from ?? (_generateIdempotencyKey ? (Guid?)Guid.NewGuid() : null);
 
