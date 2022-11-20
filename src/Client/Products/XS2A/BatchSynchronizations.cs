@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
+using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Products.XS2A.Models;
 
 namespace Ibanity.Apis.Client.Products.XS2A
@@ -34,6 +35,15 @@ namespace Ibanity.Apis.Client.Products.XS2A
             };
 
             return InternalCreate(null, payload, idempotencyKey, cancellationToken);
+        }
+
+        /// <inheritdoc />
+        protected override BatchSynchronizationResponse Map(Data<BatchSynchronizationResponse, object, object, object> data)
+        {
+            if (data.Attributes == null)
+                data.Attributes = new BatchSynchronizationResponse();
+
+            return base.Map(data);
         }
     }
 
