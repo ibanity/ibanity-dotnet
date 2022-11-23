@@ -27,6 +27,12 @@ namespace Ibanity.Apis.Client.Webhooks.Models.PontoConnect
         public Guid SynchronizationId { get; set; }
 
         /// <summary>
+        /// Unique identifier of the associated organization.
+        /// </summary>
+        [DataMember(Name = "organizationId", EmitDefaultValue = false)]
+        public Guid OrganizationId { get; set; }
+
+        /// <summary>
         /// When this notification was created.
         /// </summary>
         [DataMember(Name = "createdAt", EmitDefaultValue = false)]
@@ -47,6 +53,7 @@ namespace Ibanity.Apis.Client.Webhooks.Models.PontoConnect
                 AccountId = Guid.Parse(Relationships.Account.Data.Id),
                 Count = Attributes.Count,
                 SynchronizationId = Guid.Parse(Relationships.Synchronization.Data.Id),
+                OrganizationId = Guid.Parse(Relationships.Organization.Data.Id),
                 CreatedAt = Attributes.CreatedAt
             };
     }
@@ -85,5 +92,11 @@ namespace Ibanity.Apis.Client.Webhooks.Models.PontoConnect
         /// </summary>
         [DataMember(Name = "synchronization", EmitDefaultValue = false)]
         public Relationship Synchronization { get; set; }
+
+        /// <summary>
+        /// Details about the associated organization.
+        /// </summary>
+        [DataMember(Name = "organization", EmitDefaultValue = false)]
+        public Relationship Organization { get; set; }
     }
 }
