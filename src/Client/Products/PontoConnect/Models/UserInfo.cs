@@ -46,6 +46,20 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public string Name { get; set; }
 
         /// <summary>
+        /// Only when scope name was requested and he integration was created via a representative
+        /// </summary>
+        /// <value>Only when scope name was requested and he integration was created via a representative</value>
+        [DataMember(Name = "representativeOrganizationName", EmitDefaultValue = false)]
+        public string RepresentativeOrganizationName { get; set; }
+
+        /// <summary>
+        /// Only if the integration was created via a representative
+        /// </summary>
+        /// <value>Only if the integration was created via a representative</value>
+        [DataMember(Name = "representativeOrganizationId", EmitDefaultValue = false)]
+        public Guid? RepresentativeOrganizationId { get; set; }
+
+        /// <summary>
         /// Short string representation.
         /// </summary>
         /// <returns>Short string representation</returns>
