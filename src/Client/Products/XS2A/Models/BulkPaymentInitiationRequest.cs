@@ -45,7 +45,7 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         /// </summary>
         /// <value>Specify the batch booking preference. Request this bulk payment to be listed as one global transaction, or one transaction per payment instruction. The financial institution may ignore this parameter</value>
         [DataMember(Name = "batchBookingPreferred", EmitDefaultValue = false)]
-        public bool BatchBookingPreferred { get; set; }
+        public bool? BatchBookingPreferred { get; set; }
 
         /// <summary>
         /// Your internal reference to the explicit consent provided by your consumer. You should store this consent reference in case of dispute.
