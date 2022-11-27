@@ -48,6 +48,9 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <inheritdoc />
         protected override PaymentAuthorizationResponse Map(Data<PaymentAuthorizationResponse, object, TRelationships, AuthorizationLinks> data)
         {
+            if (data.Attributes == null)
+                data.Attributes = new PaymentAuthorizationResponse();
+
             var result = base.Map(data);
 
             result.NextRedirect = data.Links?.NextRedirect;
