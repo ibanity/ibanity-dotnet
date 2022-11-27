@@ -18,21 +18,21 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         /// URI that your customer will be redirected to at the end of the authorization flow. HTTPS is required for live applications.
         /// </summary>
         /// <value>URI that your customer will be redirected to at the end of the authorization flow. HTTPS is required for live applications.</value>
-        [DataMember(Name = "redirectUri", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "redirectUri", EmitDefaultValue = false)]
         public string RedirectUri { get; set; }
 
         /// <summary>
         /// Your internal reference to the explicit consent provided by your consumer. You should store this consent reference in case of dispute.
         /// </summary>
         /// <value>Your internal reference to the explicit consent provided by your consumer. You should store this consent reference in case of dispute.</value>
-        [DataMember(Name = "consentReference", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "consentReference", EmitDefaultValue = false)]
         public string ConsentReference { get; set; }
 
         /// <summary>
         /// Type of periodic payment transfer. Will always be &lt;code&gt;sepa-credit-transfer&lt;/code&gt;
         /// </summary>
         /// <value>Type of periodic payment transfer. Will always be &lt;code&gt;sepa-credit-transfer&lt;/code&gt;</value>
-        [DataMember(Name = "productType", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "productType", EmitDefaultValue = false)]
         public string ProductType { get; set; }
 
         /// <summary>
@@ -74,14 +74,14 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         /// Currency of the periodic payment initiation request, in &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_4217&#39;&gt;ISO4217&lt;/a&gt; format
         /// </summary>
         /// <value>Currency of the periodic payment initiation request, in &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_4217&#39;&gt;ISO4217&lt;/a&gt; format</value>
-        [DataMember(Name = "currency", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "currency", EmitDefaultValue = false)]
         public string Currency { get; set; }
 
         /// <summary>
         /// Amount of funds being requested
         /// </summary>
         /// <value>Amount of funds being requested</value>
-        [DataMember(Name = "amount", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "amount", EmitDefaultValue = false)]
         public decimal Amount { get; set; }
 
         /// <summary>
@@ -109,21 +109,21 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         /// Name of the payee
         /// </summary>
         /// <value>Name of the payee</value>
-        [DataMember(Name = "creditorName", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "creditorName", EmitDefaultValue = false)]
         public string CreditorName { get; set; }
 
         /// <summary>
         /// Financial institution&#39;s internal reference for the payee&#39;s account
         /// </summary>
         /// <value>Financial institution&#39;s internal reference for the payee&#39;s account</value>
-        [DataMember(Name = "creditorAccountReference", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "creditorAccountReference", EmitDefaultValue = false)]
         public string CreditorAccountReference { get; set; }
 
         /// <summary>
         /// Type of payee&#39;s account reference, such as &lt;code&gt;IBAN&lt;/code&gt;
         /// </summary>
         /// <value>Type of payee&#39;s account reference, such as &lt;code&gt;IBAN&lt;/code&gt;</value>
-        [DataMember(Name = "creditorAccountReferenceType", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "creditorAccountReferenceType", EmitDefaultValue = false)]
         public string CreditorAccountReferenceType { get; set; }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         /// Identifier assigned by the initiating party to identify the transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain and so it has to follow the &lt;a href&#x3D;&#39;https://www.iso20022.org/&#39;&gt;ISO 20022&lt;/a&gt; constraint of being at most 35 characters long. A good way to generate such a unique identifier is to take a UUID and strip the dashes.
         /// </summary>
         /// <value>Identifier assigned by the initiating party to identify the transaction. This identification is passed on, unchanged, throughout the entire end-to-end chain and so it has to follow the &lt;a href&#x3D;&#39;https://www.iso20022.org/&#39;&gt;ISO 20022&lt;/a&gt; constraint of being at most 35 characters long. A good way to generate such a unique identifier is to take a UUID and strip the dashes.</value>
-        [DataMember(Name = "endToEndId", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "endToEndId", EmitDefaultValue = false)]
         public string EndToEndId { get; set; }
 
         /// <summary>
@@ -228,14 +228,14 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         /// Frequency of the periodic payment. Can be &lt;code&gt;weekly&lt;/code&gt;, &lt;code&gt;everyTwoWeeks&lt;/code&gt;, &lt;code&gt;monthly&lt;/code&gt;, &lt;code&gt;everyTwoMonths&lt;/code&gt;, &lt;code&gt;quarterly&lt;/code&gt;, &lt;code&gt;semiannual&lt;/code&gt; or &lt;code&gt;annual&lt;/code&gt;
         /// </summary>
         /// <value>Frequency of the periodic payment. Can be &lt;code&gt;weekly&lt;/code&gt;, &lt;code&gt;everyTwoWeeks&lt;/code&gt;, &lt;code&gt;monthly&lt;/code&gt;, &lt;code&gt;everyTwoMonths&lt;/code&gt;, &lt;code&gt;quarterly&lt;/code&gt;, &lt;code&gt;semiannual&lt;/code&gt; or &lt;code&gt;annual&lt;/code&gt;</value>
-        [DataMember(Name = "frequency", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "frequency", EmitDefaultValue = false)]
         public string Frequency { get; set; }
 
         /// <summary>
         /// Defines what to do if the execution should fall on a closing day. Can be &lt;code&gt;following&lt;/code&gt; to execute on the next opening day, or &lt;code&gt;preceding&lt;/code&gt; to execute on the previous opening day
         /// </summary>
         /// <value>Defines what to do if the execution should fall on a closing day. Can be &lt;code&gt;following&lt;/code&gt; to execute on the next opening day, or &lt;code&gt;preceding&lt;/code&gt; to execute on the previous opening day</value>
-        [DataMember(Name = "executionRule", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "executionRule", EmitDefaultValue = false)]
         public string ExecutionRule { get; set; }
 
         /// <summary>
