@@ -52,7 +52,7 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         /// </summary>
         /// <value>Your internal reference to the explicit consent provided by your consumer. You should store this consent reference in case of dispute.</value>
         [DataMember(Name = "consentReference", EmitDefaultValue = false)]
-        public Guid ConsentReference { get; set; }
+        public string ConsentReference { get; set; }
 
         /// <summary>
         /// Type of payment transfer. Will always be &lt;code&gt;sepa-credit-transfer&lt;/code&gt;
