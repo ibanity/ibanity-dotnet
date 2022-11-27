@@ -97,6 +97,13 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         public bool SkipIbanityCompletionCallback { get; set; }
 
         /// <summary>
+        /// Identifier the customer uses to log into the financial institution&#39;s online portal. Required for some financial institutions as indicated in their &lt;a href&#x3D;&#39;https://documentation.ibanity.com/xs2a/api#financial-institution-attributes&#39;&gt;attributes&lt;/a&gt;.
+        /// </summary>
+        /// <value>Identifier the customer uses to log into the financial institution&#39;s online portal. Required for some financial institutions as indicated in their &lt;a href&#x3D;&#39;https://documentation.ibanity.com/xs2a/api#financial-institution-attributes&#39;&gt;attributes&lt;/a&gt;.</value>
+        [DataMember(Name = "financialInstitutionCustomerReference", EmitDefaultValue = false)]
+        public string FinancialInstitutionCustomerReference { get; set; }
+
+        /// <summary>
         /// &lt;p&gt;List of payment attribute objects to be included in the bulk payment.&lt;/p&gt;&lt;p&gt;Required attributes are &lt;code&gt;currency&lt;/code&gt;, &lt;code&gt;amount&lt;/code&gt;, &lt;code&gt;creditorName&lt;/code&gt;, &lt;code&gt;creditorAccountReference&lt;/code&gt;, &lt;code&gt;creditorAccountReferenceType&lt;/code&gt; and &lt;code&gt;endToEndId&lt;/code&gt;.&lt;/p&gt;&lt;p&gt;Optional attributes are &lt;code&gt;remittanceInformation&lt;/code&gt;, &lt;code&gt;remittanceInformationType&lt;/code&gt;, &lt;code&gt;creditorAgent&lt;/code&gt;, and &lt;code&gt;creditorAgentType&lt;/code&gt;.&lt;/p&gt;&lt;p&gt;For more information see the &lt;a href&#x3D;&#39;https://documentation.ibanity.com/xs2a/api#create-payment-initiation-request-attributes&#39;&gt;create payment initiation request attributes&lt;/a&gt;&lt;/p&gt;
         /// </summary>
         /// <value>&lt;p&gt;List of payment attribute objects to be included in the bulk payment.&lt;/p&gt;&lt;p&gt;Required attributes are &lt;code&gt;currency&lt;/code&gt;, &lt;code&gt;amount&lt;/code&gt;, &lt;code&gt;creditorName&lt;/code&gt;, &lt;code&gt;creditorAccountReference&lt;/code&gt;, &lt;code&gt;creditorAccountReferenceType&lt;/code&gt; and &lt;code&gt;endToEndId&lt;/code&gt;.&lt;/p&gt;&lt;p&gt;Optional attributes are &lt;code&gt;remittanceInformation&lt;/code&gt;, &lt;code&gt;remittanceInformationType&lt;/code&gt;, &lt;code&gt;creditorAgent&lt;/code&gt;, and &lt;code&gt;creditorAgentType&lt;/code&gt;.&lt;/p&gt;&lt;p&gt;For more information see the &lt;a href&#x3D;&#39;https://documentation.ibanity.com/xs2a/api#create-payment-initiation-request-attributes&#39;&gt;create payment initiation request attributes&lt;/a&gt;&lt;/p&gt;</value>
