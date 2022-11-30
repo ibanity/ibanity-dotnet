@@ -13,6 +13,20 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
     public class Account
     {
         /// <summary>
+        /// When the account was authorized for the last time
+        /// </summary>
+        /// <value>When the account was authorized for the last time</value>
+        [DataMember(Name = "authorizedAt", EmitDefaultValue = false)]
+        public DateTimeOffset? AuthorizedAt { get; set; }
+
+        /// <summary>
+        /// When the authorization towards the account is expected to end
+        /// </summary>
+        /// <value>When the authorization towards the account is expected to end</value>
+        [DataMember(Name = "authorizationExpirationExpectedAt", EmitDefaultValue = false)]
+        public DateTimeOffset? AuthorizationExpirationExpectedAt { get; set; }
+
+        /// <summary>
         /// Type of financial institution account. Can be &lt;code&gt;checking&lt;/code&gt;, &lt;code&gt;savings&lt;/code&gt;, &lt;code&gt;securities&lt;/code&gt;, &lt;code&gt;card&lt;/code&gt; or &lt;code&gt;psp&lt;/code&gt;
         /// </summary>
         /// <value>Type of financial institution account. Can be &lt;code&gt;checking&lt;/code&gt;, &lt;code&gt;savings&lt;/code&gt;, &lt;code&gt;securities&lt;/code&gt;, &lt;code&gt;card&lt;/code&gt; or &lt;code&gt;psp&lt;/code&gt;</value>
