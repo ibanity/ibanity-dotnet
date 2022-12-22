@@ -11,7 +11,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect.Models
     /// <p>Important: The ID of the intraday transaction will NOT be the same as the ID of the corresponding <see cref="Transaction" />.</p>
     /// </summary>
     [DataContract]
-    public class IntradayTransaction : Identified<Guid>
+    public class IntradayTransaction : Identified<string>
     {
         /// <summary>
         /// Additional transaction-related information provided from the financial institution to the customer
