@@ -12,7 +12,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
     /// <para>At the end of the day, intraday transactions will be converted to transactions by the financial institution. The transactions will never be available as transactions and intraday transactions at the same time.</para>
     /// <para>Important: The ID of the intraday transaction will NOT be the same as the ID of the corresponding transaction.</para>
     /// </summary>
-    public class IntradayTransactions : ResourceWithParentClient<IntradayTransaction, object, object, object, string, Guid, Token>, IIntradayTransactions
+    public class IntradayTransactions : ResourceWithParentClient<IntradayTransaction, object, object, object, string, string, Token>, IIntradayTransactions
     {
         private const string ParentEntityName = "accounts";
         private const string EntityName = "intraday-transactions";
@@ -32,7 +32,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
             InternalOffsetBasedList(token, new[] { accountId }, null, null, pageOffset, pageSize, cancellationToken);
 
         /// <inheritdoc />
-        protected override Guid ParseId(string id) => Guid.Parse(id);
+        protected override string ParseId(string id) => id;
     }
 
     /// <summary>
