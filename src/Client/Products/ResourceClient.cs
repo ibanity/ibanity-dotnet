@@ -368,11 +368,28 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created resource</returns>
-        protected async Task<TAttributes> InternalCreate<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks>(TToken token, string path, JsonApi.Data<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+        protected Task<TAttributes> InternalCreate<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks>(TToken token, string path, JsonApi.Data<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+            InternalCreate(
+                token,
+                path,
+                new JsonApi.Resource<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks> { Data = payload },
+                idempotencyKey,
+                cancellationToken);
+
+        /// <summary>
+        /// Create a new resource.
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="path">Resource collection path</param>
+        /// <param name="resource">Resource</param>
+        /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The created resource</returns>
+        protected async Task<TAttributes> InternalCreate<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks>(TToken token, string path, JsonApi.Resource<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks> resource, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             Map((await _apiClient.Post<JsonApi.Resource<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks>, JsonApi.Resource<TAttributes, TMeta, TRelationships, TLinks>>(
                 $"{path}",
                 await GetAccessToken(token).ConfigureAwait(false),
-                new JsonApi.Resource<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks> { Data = payload },
+                resource,
                 GetIdempotencyKey(idempotencyKey),
                 cancellationToken ?? CancellationToken.None).ConfigureAwait(false)).Data);
 
@@ -735,6 +752,18 @@ namespace Ibanity.Apis.Client.Products
         /// <returns>The created resource</returns>
         protected Task<TAttributes> InternalCreate<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks>(TToken token, TParentsId[] parentIds, JsonApi.Data<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks> payload, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             InternalCreate(token, GetPath(parentIds), payload, idempotencyKey, cancellationToken);
+
+        /// <summary>
+        /// Create a new resource.
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="parentIds">IDs of parent resources</param>
+        /// <param name="resource">Resource</param>
+        /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>The created resource</returns>
+        protected Task<TAttributes> InternalCreate<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks>(TToken token, TParentsId[] parentIds, JsonApi.Resource<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks> resource, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
+            InternalCreate(token, GetPath(parentIds), resource, idempotencyKey, cancellationToken);
 
         /// <summary>
         /// Create a new resource.
