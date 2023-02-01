@@ -17,5 +17,11 @@ namespace Ibanity.Apis.Client.JsonApi
         /// </summary>
         [DataMember(Name = "data", EmitDefaultValue = false)]
         public Data<TAttributes, TMeta, TRelationships, TLinks> Data { get; set; }
+
+        /// <summary>
+        /// Resource metadata.
+        /// </summary>
+        [DataMember(Name = "meta", EmitDefaultValue = false)]
+        public TMeta Meta { get; set; }
     }
 }
