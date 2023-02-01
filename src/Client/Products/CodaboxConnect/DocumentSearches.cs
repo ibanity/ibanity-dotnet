@@ -36,7 +36,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
             if (clients is null)
                 throw new ArgumentNullException(nameof(clients));
 
-            var payload = new JsonApi.Data<DocumentSearch, JsonApi.CollectionMeta<JsonApi.CursorBasedPaging>, DocumentSearchRelationships, object>
+            var payload = new JsonApi.Data<DocumentSearch, object, DocumentSearchRelationships, object>
             {
                 Type = "documentSearch",
                 Attributes = documentSearch,
@@ -50,8 +50,11 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
                             Id = client
                         }).ToArray()
                     }
-                },
-                Meta = new JsonApi.CollectionMeta<JsonApi.CursorBasedPaging>
+                }
+            };
+
+            var meta = pageLimit.HasValue || pageAfter.HasValue
+                ? new JsonApi.CollectionMeta<JsonApi.CursorBasedPaging>
                 {
                     Paging = new JsonApi.CursorBasedPaging
                     {
@@ -59,9 +62,14 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
                         After = pageAfter
                     }
                 }
-            };
+                : null;
 
-            return InternalCreate(token, new[] { accountingOfficeId }, payload, null, cancellationToken);
+            return InternalCreate(
+                token,
+                new[] { accountingOfficeId },
+                new JsonApi.Resource<DocumentSearch, object, DocumentSearchRelationships, object> { Data = payload, Meta = meta },
+                null,
+                cancellationToken);
         }
 
         /// <inheritdoc />
