@@ -24,11 +24,22 @@ namespace Ibanity.Apis.Client.Webhooks.Jwt
         {
             var response = await _apiClient.Get<JsonWebKeySet>("webhooks/keys", null, cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
 
-            var jwk = response.Keys.
-                Single(k =>
+            var keys = response.Keys.
+                Where(k =>
                     k.Usage == "sig" &&
                     k.Status == "ACTIVE" &&
-                    k.Id == keyId);
+                    k.Id == keyId).
+                ToArray();
+
+            if (keys.Length != 1)
+            {
+                if (response.Keys.Any())
+                    throw new InvalidOperationException($"Can't find {keyId} active signature key. Got: {string.Join(" - ", response.Keys.Select(k => $"{k.Id ?? "no ID"} ({k.Usage ?? "no usage"} - {k.Status ?? "no status"})"))}");
+                else
+                    throw new InvalidOperationException($"Can't find {keyId} active signature key. No key received");
+            }
+
+            var jwk = keys.Single();
 
             var key = RSA.Create();
             key.ImportParameters(new RSAParameters
