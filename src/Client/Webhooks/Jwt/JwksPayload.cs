@@ -18,6 +18,7 @@ namespace Ibanity.Apis.Client.Webhooks.Jwt
     /// <summary>
     /// A cryptographic key. The members of the object represent properties of the key, including its value.
     /// </summary>
+    [DataContract]
     public class JsonWebKey
     {
         /// <summary>
