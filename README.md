@@ -34,10 +34,11 @@ All services are thread safe and can be configured as singleton if you want to l
 
 ### Code samples
 
-There are two sample projects available within this repository:
+There are three sample projects available within this repository:
 
 - [Console application sample](https://github.com/ibanity/ibanity-dotnet/tree/master/samples/cli)
 - [Web application sample](https://github.com/ibanity/ibanity-dotnet/tree/master/samples/webapp)
+- [Webhooks sample](https://github.com/ibanity/ibanity-dotnet/tree/master/samples/webhooks)
 
 See `ClientSample` class for extended examples.
 
