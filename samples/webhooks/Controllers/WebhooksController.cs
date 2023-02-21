@@ -14,8 +14,10 @@ public class WebhooksController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Post()
+    public async Task<IActionResult> Post()
     {
-        return Ok(new { Message = "Webhook received" });
+        using var reader = new StreamReader(Request.Body);
+        var payload = await reader.ReadToEndAsync();
+        return Ok(new { Message = "Webhook received: " + payload.Length });
     }
 }
