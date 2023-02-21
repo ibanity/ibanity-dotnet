@@ -20,8 +20,9 @@ public class WebhooksController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post([FromHeader] string signature)
     {
-        using var reader = new StreamReader(Request.Body);
-        var payload = await reader.ReadToEndAsync();
+        string payload;
+        using (var reader = new StreamReader(Request.Body))
+            payload = await reader.ReadToEndAsync();
 
         var content = await _ibanityService.Webhooks.VerifyAndDeserialize(payload, signature);
 
