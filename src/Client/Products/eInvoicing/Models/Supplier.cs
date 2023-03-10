@@ -147,6 +147,8 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
         /// <value>The picture of the front of the identity card of the legal representative of the company. Base64-encoded string. Supported formats are &lt;code&gt;image/jpeg&lt;/code&gt;, &lt;code&gt;image/png&lt;/code&gt;, &lt;code&gt;application/pdf&lt;/code&gt;. This picture will only be used for the KYC check, afterwards it will be deleted. Please do not share a picture of the back of the identity card.</value>
         [DataMember(Name = "representativeIdScan", EmitDefaultValue = false)]
         public string RepresentativeIdScan { get; set; }
+        [DataMember(Name = "businessRegisterScan", EmitDefaultValue = false)]
+        public string BusinessRegisterScan { get; set; }
     }
 
     /// <summary>
