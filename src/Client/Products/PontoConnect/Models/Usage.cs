@@ -30,6 +30,9 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         [DataMember(Name = "bulkPaymentBundleCount", EmitDefaultValue = true)]
         public int BulkPaymentBundleCount { get; set; }
 
+        [DataMember(Name = "bulkPaymentCount", EmitDefaultValue = true)]
+        public int BulkPaymentCount { get; set; }
+
         /// <summary>
         /// Number of accounts linked to the integration. The total is prorated, so may be a decimal number if accounts have been linked or unlinked during the month.
         /// </summary>
