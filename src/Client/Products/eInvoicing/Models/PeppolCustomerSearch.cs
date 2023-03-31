@@ -33,6 +33,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
         public List<SupportedDocumentFormat> SupportedDocumentFormats { get; set; }
 
         /// <inheritdoc />
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public Guid Id { get; set; }
     }
 

@@ -12,6 +12,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
     public class SandboxTransaction : Transaction, IIdentified<Guid>
     {
         /// <inheritdoc />
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public Guid Id { get; set; }
     }
 }

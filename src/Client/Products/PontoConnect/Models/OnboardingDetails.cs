@@ -94,6 +94,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
     public class OnboardingDetailsResponse : OnboardingDetails, IIdentified<Guid>
     {
         /// <inheritdoc />
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public Guid Id { get; set; }
     }
 }

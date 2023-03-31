@@ -27,9 +27,11 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
     }
 
     /// <inheritdoc cref="ZoomitCustomerSearch" />
+    [DataContract]
     public class ZoomitCustomerSearchResponse : ZoomitCustomerSearch, IIdentified<Guid>
     {
         /// <inheritdoc />
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public Guid Id { get; set; }
     }
 }

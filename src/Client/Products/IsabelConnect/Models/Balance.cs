@@ -55,11 +55,13 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect.Models
     /// <summary>
     /// Technical-only object, prefer <see cref="Balance" /> usage.
     /// </summary>
+    [DataContract]
     public class BalanceWithFakeId : Balance, IIdentified<string>
     {
         /// <summary>
         /// Fake field.
         /// </summary>
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public string Id { get; set; }
     }
 }

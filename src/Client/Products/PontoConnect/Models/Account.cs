@@ -125,9 +125,11 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
     }
 
     /// <inheritdoc cref="Account" />
+    [DataContract]
     public class AccountResponse : Account, IIdentified<Guid>
     {
         /// <inheritdoc />
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public Guid Id { get; set; }
 
         /// <summary>

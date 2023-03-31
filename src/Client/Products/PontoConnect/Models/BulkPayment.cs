@@ -76,6 +76,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
     }
 
     /// <inheritdoc cref="BulkPayment" />
+    [DataContract]
     public class BulkPaymentResponse : BulkPayment, IIdentified<Guid>
     {
         /// <summary>
@@ -101,6 +102,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
             : new Uri(RedirectUri);
 
         /// <inheritdoc />
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public Guid Id { get; set; }
     }
 }

@@ -35,6 +35,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
     public class AccountingOfficeConsentResponse : AccountingOfficeConsent, IIdentified<Guid>
     {
         /// <inheritdoc />
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public Guid Id { get; set; }
 
         /// <summary>

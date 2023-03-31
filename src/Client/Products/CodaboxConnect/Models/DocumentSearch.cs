@@ -33,9 +33,11 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
     }
 
     /// <inheritdoc />
+    [DataContract]
     public class DocumentSearchResponse : DocumentSearch, IIdentified<Guid>
     {
         /// <inheritdoc />
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public Guid Id { get; set; }
 
         /// <summary>

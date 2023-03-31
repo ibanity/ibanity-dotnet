@@ -58,6 +58,7 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
     public class SynchronizationResponse : Synchronization, IIdentified<Guid>
     {
         /// <inheritdoc />
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public Guid Id { get; set; }
 
         /// <summary>

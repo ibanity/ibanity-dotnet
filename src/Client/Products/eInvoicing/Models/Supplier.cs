@@ -132,9 +132,11 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
     }
 
     /// <inheritdoc cref="Supplier" />
+    [DataContract]
     public class SupplierResponse : Supplier, IIdentified<Guid>
     {
         /// <inheritdoc />
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public Guid Id { get; set; }
     }
 

@@ -41,9 +41,11 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
     }
 
     /// <inheritdoc />
+    [DataContract]
     public class SandboxFinancialInstitutionUserResponse : SandboxFinancialInstitutionUser, IIdentified<Guid>
     {
         /// <inheritdoc />
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public Guid Id { get; set; }
 
         /// <summary>

@@ -38,6 +38,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public DateTimeOffset CreatedAt { get; set; }
 
         /// <inheritdoc />
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public Guid Id { get; set; }
 
         /// <summary>

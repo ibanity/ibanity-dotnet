@@ -1,9 +1,13 @@
+using System.Runtime.Serialization;
+
 namespace Ibanity.Apis.Client.Utils
 {
     /// <inheritdoc />
+    [DataContract]
     public class Identified<T> : IIdentified<T>
     {
         /// <inheritdoc />
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public T Id { get; set; }
     }
 

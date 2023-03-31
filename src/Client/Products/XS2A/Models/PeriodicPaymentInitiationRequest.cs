@@ -253,6 +253,7 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
     public class PeriodicPaymentInitiationRequestResponse : PeriodicPaymentInitiationRequest, IIdentified<Guid>
     {
         /// <inheritdoc />
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public Guid Id { get; set; }
 
         /// <summary>
