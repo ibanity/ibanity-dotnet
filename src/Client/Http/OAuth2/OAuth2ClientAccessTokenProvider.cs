@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +13,7 @@ namespace Ibanity.Apis.Client.Http.OAuth2
     /// <inheritdoc />
     public class OAuth2ClientAccessTokenProvider : IClientAccessTokenProvider
     {
+        private const string RequestIdHeader = "ibanity-request-id";
         private static readonly TimeSpan ValidityThreshold = TimeSpan.FromMinutes(1d);
 
         private readonly ILogger _logger;
@@ -88,6 +91,10 @@ namespace Ibanity.Apis.Client.Http.OAuth2
             _logger.Debug("Getting new token from client credentials");
 
             var result = await (await _httpClient.SendAsync(request, cancellationToken ?? CancellationToken.None).ConfigureAwait(false)).ThrowOnOAuth2Failure(_serializer, _logger).ConfigureAwait(false);
+
+            var requestId = result.Headers.TryGetValues(RequestIdHeader, out var values) ? values.SingleOrDefault() : null;
+            _logger.Debug($"Response received ({result.StatusCode:D} {result.StatusCode:G}): {request.Method.ToString().ToUpper(CultureInfo.InvariantCulture)} {request.RequestUri.AbsolutePath} (request ID: {requestId})");
+
             var response = _serializer.Deserialize<OAuth2Response>(await result.Content.ReadAsStringAsync().ConfigureAwait(false));
 
             token.AccessToken = response.AccessToken;
