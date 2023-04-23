@@ -1,6 +1,9 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Products.XS2A.Models;
+using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.XS2A
 {
@@ -22,6 +25,10 @@ namespace Ibanity.Apis.Client.Products.XS2A
         { }
 
         /// <inheritdoc />
+        public Task<IbanityCollection<PendingTransaction>> List(CustomerAccessToken token, Guid financialInstitutionId, Guid accountId, int? pageLimit = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null) =>
+            InternalCursorBasedList(token, new[] { financialInstitutionId, accountId }, null, pageLimit, pageBefore, pageAfter, cancellationToken);
+
+        /// <inheritdoc />
         protected override PendingTransaction Map(JsonApi.Data<PendingTransaction, object, PendingTransactionRelationships, object> data)
         {
             var result = base.Map(data);
@@ -39,5 +46,17 @@ namespace Ibanity.Apis.Client.Products.XS2A
     /// </summary>
     public interface IPendingTransactions
     {
+        /// <summary>
+        /// List Pending Transactions
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="financialInstitutionId">Financial institution ID</param>
+        /// <param name="accountId">Bank account ID</param>
+        /// <param name="pageLimit">Number of items by page</param>
+        /// <param name="pageBefore">Cursor that specifies the first resource of the next page</param>
+        /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>A list of pending transaction resources</returns>
+        Task<IbanityCollection<PendingTransaction>> List(CustomerAccessToken token, Guid financialInstitutionId, Guid accountId, int? pageLimit = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
     }
 }
