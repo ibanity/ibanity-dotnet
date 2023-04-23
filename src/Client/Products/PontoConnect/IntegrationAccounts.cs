@@ -1,7 +1,10 @@
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Products.PontoConnect.Models;
+using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.PontoConnect
 {
@@ -29,6 +32,16 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         }
 
         /// <inheritdoc />
+        public Task<IbanityCollection<IntegrationAccount>> List(ClientAccessToken token, int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null) =>
+            InternalCursorBasedList(
+                token ?? throw new ArgumentNullException(nameof(token)),
+                null,
+                pageSize,
+                pageBefore,
+                pageAfter,
+                cancellationToken);
+
+        /// <inheritdoc />
         protected override IntegrationAccount Map(Data<IntegrationAccount, object, IntegrationAccountRelationships, object> data)
         {
             if (data is null)
@@ -51,5 +64,15 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
     /// </summary>
     public interface IIntegrationAccounts
     {
+        /// <summary>
+        /// List Integration Accounts
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="pageSize">Number of items by page</param>
+        /// <param name="pageBefore">Cursor that specifies the first resource of the next page</param>
+        /// <param name="pageAfter">Cursor that specifies the last resource of the previous page</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>A list of integration account resources</returns>
+        Task<IbanityCollection<IntegrationAccount>> List(ClientAccessToken token, int? pageSize = null, Guid? pageBefore = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null);
     }
 }
