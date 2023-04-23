@@ -54,6 +54,13 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
         public string Email { get; set; }
 
         /// <summary>
+        /// An object containing the identifying numbers of the supplier&lt;br&gt;For Belgian enterprises&lt;ul&gt;&lt;li&gt;&lt;code&gt;enterpriseNumber&lt;/code&gt; use the enterprise number as it appears in the Crossroads Bank for Enterprises. (10 digits starting with 0 or 1)&lt;/li&gt;&lt;li&gt;&lt;code&gt;vatNumber&lt;/code&gt; a valid Belgian VAT number (\&quot;BE\&quot; + 10 digits)&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;For Luxembourgish enterprises (at least one these must be provided)&lt;ul&gt;&lt;li&gt;&lt;code&gt;nationalIdentificationNumber&lt;/code&gt; Legal entity national identification number: (11 digits)&lt;/li&gt;&lt;li&gt;&lt;code&gt;vatNumber&lt;/code&gt; a valid Luxembourgish VAT number (\&quot;LU\&quot; + 8 digits)&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;For Dutch enterprises (at least one of these must be provided)&lt;ul&gt;&lt;li&gt;&lt;code&gt;kvkNumber&lt;/code&gt; the number you&#39;ve received as proof of your registration at the Netherlands Chamber of Commerce KVK (8 digits)&lt;/li&gt;&lt;li&gt;&lt;code&gt;vatNumbers&lt;/code&gt; a list of valid Dutch VAT numbers  (\&quot;NL\&quot; + 9 digits + \&quot;B\&quot; + 2 digits)&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;For German enterprises, &lt;code&gt;vatNumber&lt;/code&gt; a valid German VAT number (\&quot;DE\&quot; + 9 digits)
+        /// </summary>
+        /// <value>An object containing the identifying numbers of the supplier&lt;br&gt;For Belgian enterprises&lt;ul&gt;&lt;li&gt;&lt;code&gt;enterpriseNumber&lt;/code&gt; use the enterprise number as it appears in the Crossroads Bank for Enterprises. (10 digits starting with 0 or 1)&lt;/li&gt;&lt;li&gt;&lt;code&gt;vatNumber&lt;/code&gt; a valid Belgian VAT number (\&quot;BE\&quot; + 10 digits)&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;For Luxembourgish enterprises (at least one these must be provided)&lt;ul&gt;&lt;li&gt;&lt;code&gt;nationalIdentificationNumber&lt;/code&gt; Legal entity national identification number: (11 digits)&lt;/li&gt;&lt;li&gt;&lt;code&gt;vatNumber&lt;/code&gt; a valid Luxembourgish VAT number (\&quot;LU\&quot; + 8 digits)&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;For Dutch enterprises (at least one of these must be provided)&lt;ul&gt;&lt;li&gt;&lt;code&gt;kvkNumber&lt;/code&gt; the number you&#39;ve received as proof of your registration at the Netherlands Chamber of Commerce KVK (8 digits)&lt;/li&gt;&lt;li&gt;&lt;code&gt;vatNumbers&lt;/code&gt; a list of valid Dutch VAT numbers  (\&quot;NL\&quot; + 9 digits + \&quot;B\&quot; + 2 digits)&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;For German enterprises, &lt;code&gt;vatNumber&lt;/code&gt; a valid German VAT number (\&quot;DE\&quot; + 9 digits)</value>
+        [DataMember(Name = "enterpriseIdentification", EmitDefaultValue = false)]
+        public SupplierEnterpriseIdentification EnterpriseIdentification { get; set; }
+
+        /// <summary>
         /// The homepage of the website of the supplier.
         /// </summary>
         /// <value>The homepage of the website of the supplier.</value>
@@ -194,5 +201,42 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
         /// </summary>
         [DataMember(Name = "value", EmitDefaultValue = false)]
         public string Value { get; set; }
+    }
+
+    /// <summary>
+    /// Name of the supplier.
+    /// </summary>
+    [DataContract]
+    public class SupplierEnterpriseIdentification
+    {
+        /// <summary>
+        /// Enterprise number.
+        /// </summary>
+        [DataMember(Name = "enterpriseNumber", EmitDefaultValue = false)]
+        public string EnterpriseNumber { get; set; }
+
+        /// <summary>
+        /// VAT number.
+        /// </summary>
+        [DataMember(Name = "vatNumber", EmitDefaultValue = false)]
+        public string VatNumber { get; set; }
+
+        /// <summary>
+        /// National identification number.
+        /// </summary>
+        [DataMember(Name = "nationalIdentificationNumber", EmitDefaultValue = false)]
+        public string NationalIdentificationNumber { get; set; }
+
+        /// <summary>
+        /// KVK number.
+        /// </summary>
+        [DataMember(Name = "kvkNumber", EmitDefaultValue = false)]
+        public string KvkNumber { get; set; }
+
+        /// <summary>
+        /// A list of VAT numbers.
+        /// </summary>
+        [DataMember(Name = "vatNumbers", EmitDefaultValue = false)]
+        public List<string> VatNumbers { get; set; }
     }
 }
