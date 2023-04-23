@@ -33,6 +33,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             PaymentActivationRequests = new PaymentActivationRequests(apiClient, tokenService, UrlPrefix);
             Usages = new Usages(apiClient, clientAccessTokenService, UrlPrefix);
             Integrations = new Integrations(apiClient, clientAccessTokenService, UrlPrefix);
+            IntegrationAccounts = new IntegrationAccounts(apiClient, clientAccessTokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -73,6 +74,9 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
         /// <inheritdoc />
         public IIntegrations Integrations { get; }
+
+        /// <inheritdoc />
+        public IIntegrationAccounts IntegrationAccounts { get; }
     }
 
     /// <summary>
@@ -158,5 +162,11 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// This endpoint provides an alternative method to revoke the integration (in addition to the revoke refresh token endpoint). This endpoint remains accessible with a client access token, even if your refresh token is lost or expired.
         /// </summary>
         IIntegrations Integrations { get; }
+
+        /// <summary>
+        /// <p>This is an object representing the link between a user's account and an integration.</p>
+        /// <p>All accounts linked to your Ponto Connect application are returned by this endpoint.</p>
+        /// </summary>
+        IIntegrationAccounts IntegrationAccounts { get; }
     }
 }
