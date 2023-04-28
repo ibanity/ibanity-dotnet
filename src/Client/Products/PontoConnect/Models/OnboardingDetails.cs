@@ -89,9 +89,9 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public string AddressCity { get; set; }
 
         /// <summary>
-        /// TBD
+        /// Unique identifier of the financial institution that should be preselected during the Ponto onboarding process
         /// </summary>
-        /// <value>TBD</value>
+        /// <value>Unique identifier of the financial institution that should be preselected during the Ponto onboarding process</value>
         [DataMember(Name = "initialFinancialInstitutionId", EmitDefaultValue = false)]
         public Guid? InitialFinancialInstitutionId { get; set; }
     }
