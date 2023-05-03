@@ -17,7 +17,7 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         /// </summary>
         /// <value>When the authorization towards the account is expected to end. Formatted according to &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_8601&#39;&gt;ISO8601&lt;/a&gt; spec</value>
         [DataMember(Name = "authorizationExpirationExpectedAt", EmitDefaultValue = false)]
-        public DateTimeOffset AuthorizationExpirationExpectedAt { get; set; }
+        public DateTimeOffset? AuthorizationExpirationExpectedAt { get; set; }
 
         /// <summary>
         /// When the account was authorized for the last time. Formatted according to &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_8601&#39;&gt;ISO8601&lt;/a&gt; spec
