@@ -74,4 +74,11 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
         [DataMember(Name = "documents", EmitDefaultValue = false)]
         public JsonApi.Relationships Documents { get; set; }
     }
+
+    /// <summary>
+    /// Full document search resource.
+    /// </summary>
+    public class DocumentSearchFullResponse : JsonApi.Resource<DocumentSearchResponse, JsonApi.CollectionMeta<JsonApi.CursorBasedPaging>, DocumentSearchRelationshipsResponse, object>
+    {
+    }
 }

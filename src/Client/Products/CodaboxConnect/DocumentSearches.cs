@@ -66,7 +66,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
                 }
                 : null;
 
-            return Map((await _apiClient.Post<JsonApi.Resource<DocumentSearch, object, DocumentSearchRelationships, object>, JsonApi.Resource<DocumentSearchResponse, JsonApi.CollectionMeta<JsonApi.CursorBasedPaging>, DocumentSearchRelationshipsResponse, object>>(
+            return Map((await _apiClient.Post<JsonApi.Resource<DocumentSearch, object, DocumentSearchRelationships, object>, DocumentSearchFullResponse>(
                 UrlPrefix + "/" + ParentEntityName + "/" + accountingOfficeId + "/" + EntityName,
                 await GetAccessToken(token).ConfigureAwait(false),
                 new JsonApi.Resource<DocumentSearch, object, DocumentSearchRelationships, object> { Data = payload, Meta = meta },
