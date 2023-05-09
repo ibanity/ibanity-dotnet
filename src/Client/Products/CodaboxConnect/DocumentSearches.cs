@@ -15,17 +15,19 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         private const string ParentEntityName = "accounting-offices";
         private const string EntityName = "document-searches";
 
+        private readonly IApiClient _apiClient;
+
         /// <summary>
         /// Build a new instance.
         /// </summary>
         /// <param name="apiClient">Generic API client</param>
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
-        public DocumentSearches(IApiClient apiClient, IAccessTokenProvider<ClientAccessToken> accessTokenProvider, string urlPrefix) : base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName }, false)
-        { }
+        public DocumentSearches(IApiClient apiClient, IAccessTokenProvider<ClientAccessToken> accessTokenProvider, string urlPrefix) : base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName }, false) =>
+            _apiClient = apiClient;
 
         /// <inheritdoc />
-        public Task<DocumentSearchResponse> Create(ClientAccessToken token, Guid accountingOfficeId, DocumentSearch documentSearch, IEnumerable<string> clients, int? pageLimit = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null)
+        public async Task<DocumentSearchResponse> Create(ClientAccessToken token, Guid accountingOfficeId, DocumentSearch documentSearch, IEnumerable<string> clients, int? pageLimit = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null)
         {
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
@@ -64,12 +66,12 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
                 }
                 : null;
 
-            return InternalCreate(
-                token,
-                new[] { accountingOfficeId },
+            return Map((await _apiClient.Post<JsonApi.Resource<DocumentSearch, object, DocumentSearchRelationships, object>, JsonApi.Resource<DocumentSearchResponse, JsonApi.CollectionMeta<JsonApi.CursorBasedPaging>, DocumentSearchRelationshipsResponse, object>>(
+                UrlPrefix + "/" + ParentEntityName + "/" + accountingOfficeId + "/" + EntityName,
+                await GetAccessToken(token).ConfigureAwait(false),
                 new JsonApi.Resource<DocumentSearch, object, DocumentSearchRelationships, object> { Data = payload, Meta = meta },
                 null,
-                cancellationToken);
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false)).Data);
         }
 
         /// <inheritdoc />
