@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
-using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Products.CodaboxConnect.Models;
 
 namespace Ibanity.Apis.Client.Products.CodaboxConnect
@@ -75,7 +74,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         }
 
         /// <inheritdoc />
-        protected override DocumentSearchResponse Map(Data<DocumentSearchResponse, CollectionMeta<CursorBasedPaging>, DocumentSearchRelationshipsResponse, object> data)
+        protected override DocumentSearchResponse Map(JsonApi.Data<DocumentSearchResponse, JsonApi.CollectionMeta<JsonApi.CursorBasedPaging>, DocumentSearchRelationshipsResponse, object> data)
         {
             var result = base.Map(data);
 

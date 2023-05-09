@@ -15,6 +15,12 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
 
         /// <inheritdoc/>
         string IDocument.Id => Id.ToString();
+
+        /// <summary>
+        /// Document's owner
+        /// </summary>
+        [DataMember(Name = "client", EmitDefaultValue = false)]
+        public string Client { get; set; }
     }
 
     /// <summary>
