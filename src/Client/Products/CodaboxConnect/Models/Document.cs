@@ -6,9 +6,11 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
     /// <summary>
     /// Resource identifiers of the documents returned by the search.
     /// </summary>
+    [DataContract]
     public class Document<TId> : Identified<TId>, IDocument
     {
         /// <inheritdoc/>
+        [DataMember(Name = "type", EmitDefaultValue = false)]
         public string Type { get; set; }
 
         /// <inheritdoc/>
