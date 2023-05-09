@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.Serialization;
-using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
 {
@@ -8,7 +7,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
     /// This resource allows an Accounting Software to retrieve a payroll statement for a client of an accounting office.
     /// </summary>
     [DataContract]
-    public class SalesInvoice : Identified<Guid>
+    public class SalesInvoice : Document<Guid>
     {
         /// <summary>
         /// When this sales invoice was created. Formatted according to &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_8601&#39;&gt;ISO8601&lt;/a&gt; spec
