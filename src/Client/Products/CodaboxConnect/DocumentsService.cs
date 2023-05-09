@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
+using Ibanity.Apis.Client.Products.CodaboxConnect.Models;
 using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.CodaboxConnect
@@ -12,7 +13,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
     /// </summary>
     /// <typeparam name="TResource">Resource type</typeparam>
     /// <typeparam name="TId">Identifier type</typeparam>
-    public abstract class DocumentsService<TResource, TId> : ResourceWithParentClient<TResource, object, object, object, string, TId, ClientAccessToken> where TResource : IIdentified<TId>
+    public abstract class DocumentsService<TResource, TId> : ResourceWithParentClient<TResource, object, DocumentRelationships, object, string, TId, ClientAccessToken> where TResource : IIdentified<TId>
     {
         private const string TopLevelParentEntityName = "accounting-offices";
         private const string ParentEntityName = "clients";

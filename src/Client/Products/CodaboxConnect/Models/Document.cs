@@ -1,3 +1,4 @@
+using System.Runtime.Serialization;
 using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
@@ -28,5 +29,18 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
         /// The identifier of the document.
         /// </summary>
         string Id { get; }
+    }
+
+    /// <summary>
+    /// Link to the client that this document belongs to.
+    /// </summary>
+    [DataContract]
+    public class DocumentRelationships
+    {
+        /// <summary>
+        /// Link to the document's owner.
+        /// </summary>
+        [DataMember(Name = "client", EmitDefaultValue = false)]
+        public JsonApi.Relationship Client { get; set; }
     }
 }
