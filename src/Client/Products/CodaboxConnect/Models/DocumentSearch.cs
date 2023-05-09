@@ -76,9 +76,27 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
     }
 
     /// <summary>
+    /// Included resources.
+    /// </summary>
+    [DataContract]
+    public class DocumentSearchIncluded
+    {
+        /// <summary>
+        /// Resource identifiers of the documents returned by the search.
+        /// </summary>
+        [DataMember(Name = "documents", EmitDefaultValue = false)]
+        public Data<Document<string>, object, DocumentRelationships, object>[] Documents { get; set; }
+    }
+
+    /// <summary>
     /// Full document search resource.
     /// </summary>
     public class DocumentSearchFullResponse : JsonApi.Resource<DocumentSearchResponse, JsonApi.CollectionMeta<JsonApi.CursorBasedPaging>, DocumentSearchRelationshipsResponse, object>
     {
+        /// <summary>
+        /// Resource identifiers of the documents returned by the search.
+        /// </summary>
+        [DataMember(Name = "included", EmitDefaultValue = false)]
+        public DocumentSearchIncluded Included { get; set; }
     }
 }

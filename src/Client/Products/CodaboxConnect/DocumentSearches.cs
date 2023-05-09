@@ -65,12 +65,24 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
                 }
                 : null;
 
-            return Map((await _apiClient.Post<JsonApi.Resource<DocumentSearch, object, DocumentSearchRelationships, object>, DocumentSearchFullResponse>(
+            var fullResponse = await _apiClient.Post<JsonApi.Resource<DocumentSearch, object, DocumentSearchRelationships, object>, DocumentSearchFullResponse>(
                 UrlPrefix + "/" + ParentEntityName + "/" + accountingOfficeId + "/" + EntityName,
                 await GetAccessToken(token).ConfigureAwait(false),
                 new JsonApi.Resource<DocumentSearch, object, DocumentSearchRelationships, object> { Data = payload, Meta = meta },
                 null,
-                cancellationToken ?? CancellationToken.None).ConfigureAwait(false)).Data);
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
+
+            var result = Map(fullResponse.Data);
+
+            result.Documents = fullResponse.Included.Documents.Select(d =>
+            {
+                d.Attributes.Id = d.Id;
+                d.Attributes.Type = d.Type;
+
+                return d.Attributes;
+            }).ToArray();
+
+            return result;
         }
 
         /// <inheritdoc />
@@ -79,7 +91,6 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
             var result = base.Map(data);
 
             result.Clients = data.Relationships.Clients.Data.Select(c => c.Id).ToArray();
-            result.Documents = data.Relationships.Documents.Data.Select(d => new Document<string> { Type = d.Type, Id = d.Id }).ToArray();
 
             return result;
         }
