@@ -99,6 +99,13 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public decimal Amount { get; set; }
 
         /// <summary>
+        /// TBD
+        /// </summary>
+        /// <value>TBD</value>
+        [DataMember(Name = "endToEndId", EmitDefaultValue = true)]
+        public string EndToEndId { get; set; }
+
+        /// <summary>
         /// Short string representation.
         /// </summary>
         /// <returns>Short string representation</returns>
