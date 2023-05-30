@@ -152,6 +152,13 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public string Bic { get; set; }
 
         /// <summary>
+        /// TBD
+        /// </summary>
+        /// <value>TBD</value>
+        [DataMember(Name = "timeZone", EmitDefaultValue = false)]
+        public string TimeZone { get; set; }
+
+        /// <summary>
         /// Short string representation.
         /// </summary>
         /// <returns>Short string representation</returns>
