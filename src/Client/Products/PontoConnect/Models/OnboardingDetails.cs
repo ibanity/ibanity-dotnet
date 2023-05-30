@@ -87,6 +87,13 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// <value>City of the onboarding user&#39;s organization</value>
         [DataMember(Name = "addressCity", EmitDefaultValue = false)]
         public string AddressCity { get; set; }
+
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <value>TBD</value>
+        [DataMember(Name = "initialFinancialInstitutionId", EmitDefaultValue = false)]
+        public Guid InitialFinancialInstitutionId { get; set; }
     }
 
     /// <inheritdoc cref="OnboardingDetails" />
