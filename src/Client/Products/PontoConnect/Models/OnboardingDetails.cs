@@ -93,7 +93,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// </summary>
         /// <value>TBD</value>
         [DataMember(Name = "initialFinancialInstitutionId", EmitDefaultValue = false)]
-        public Guid InitialFinancialInstitutionId { get; set; }
+        public Guid? InitialFinancialInstitutionId { get; set; }
     }
 
     /// <inheritdoc cref="OnboardingDetails" />
