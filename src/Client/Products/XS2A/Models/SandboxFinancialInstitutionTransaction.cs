@@ -34,6 +34,13 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         public decimal? Amount { get; set; }
 
         /// <summary>
+        /// Indicates whether the sandbox will return the transaction has 'pending' if the execution date is within the next 4 hours. (default 'false')
+        /// </summary>
+        /// <value>Indicates whether the sandbox will return the transaction has 'pending' if the execution date is within the next 4 hours. (default 'false')</value>
+        [DataMember(Name = "automaticBooking", IsRequired = true, EmitDefaultValue = true)]
+        public bool? AutomaticBooking { get; set; }
+
+        /// <summary>
         /// Currency of the financial institution transaction, in &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_4217&#39;&gt;ISO4217&lt;/a&gt; format
         /// </summary>
         /// <value>Currency of the financial institution transaction, in &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_4217&#39;&gt;ISO4217&lt;/a&gt; format</value>
