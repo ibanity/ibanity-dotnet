@@ -100,6 +100,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <summary>
         /// Create Transaction Delete Request For Customer
         /// </summary>
+        /// <param name="token">Authentication token</param>
         /// <param name="transactionDeleteRequest">Details of the transaction-delete-request</param>
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
@@ -109,6 +110,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <summary>
         /// Create Transaction Delete Request For Account
         /// </summary>
+        /// <param name="token">Authentication token</param>
         /// <param name="transactionDeleteRequest">Details of the transaction-delete-request</param>
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
