@@ -24,12 +24,6 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
     [DataContract]
     public class TransactionDeleteRequestRequest : TransactionDeleteRequest
     {
-        /// <summary>
-        /// The beforeDate should be given in ISO8601 format
-        /// </summary>
-        /// <value>The beforeDate should be given in ISO8601 format</value>
-        [DataMember(Name = "beforeDate", EmitDefaultValue = true)]
-        public string BeforeDate { get; set; }
     }
 
     /// <inheritdoc />
@@ -39,12 +33,5 @@ namespace Ibanity.Apis.Client.Products.XS2A.Models
         /// <inheritdoc />
         [DataMember(Name = "id", EmitDefaultValue = false)]
         public Guid Id { get; set; }
-
-        /// <summary>
-        /// The requested date before which the transactions should be deleted.
-        /// </summary>
-        /// <value>The requested date before which the transactions should be deleted.</value>
-        [DataMember(Name = "beforeDate", EmitDefaultValue = false)]
-        public string BeforeDate { get; set; }
     }
 }
