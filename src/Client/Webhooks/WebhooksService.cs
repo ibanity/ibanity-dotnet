@@ -32,7 +32,14 @@ namespace Ibanity.Apis.Client.Webhooks
             { "xs2a.synchronization.failed", typeof(Payload<Models.XS2A.NestedSynchronizationFailed>) },
             { "xs2a.account.detailsUpdated", typeof(Payload<Models.XS2A.NestedAccountDetailsUpdated>) },
             { "xs2a.account.transactionsCreated", typeof(Payload<Models.XS2A.NestedAccountTransactionsCreated>) },
-            { "xs2a.account.transactionsUpdated", typeof(Payload<Models.XS2A.NestedAccountTransactionsUpdated>) }
+            { "xs2a.account.transactionsUpdated", typeof(Payload<Models.XS2A.NestedAccountTransactionsUpdated>) },
+            { "xs2a.account.transactionsDeleted", typeof(Payload<Models.XS2A.NestedAccountTransactionsDeleted>) },
+            { "xs2a.bulkPaymentInitiationRequest.authorizationCompleted", typeof(Payload<Models.XS2A.NestedBulkPaymentInitiationRequestAuthorizationCompleted>) },
+            { "xs2a.bulkPaymentInitiationRequest.statusUpdate", typeof(Payload<Models.XS2A.NestedBulkPaymentInitiationRequestStatusUpdated>) },
+            { "xs2a.paymentInitiationRequest.authorizationCompleted", typeof(Payload<Models.XS2A.NestedPaymentInitiationRequestAuthorizationCompleted>) },
+            { "xs2a.paymentInitiationRequest.statusUpdate", typeof(Payload<Models.XS2A.NestedPaymentInitiationRequestStatusUpdated>) },
+            { "xs2a.periodicPaymentInitiationRequest.authorizationCompleted", typeof(Payload<Models.XS2A.NestedPeriodicPaymentInitiationRequestAuthorizationCompleted>) },
+            { "xs2a.periodicPaymentInitiationRequest.statusUpdate", typeof(Payload<Models.XS2A.NestedPeriodicPaymentInitiationRequestStatusUpdated>) }
         };
 
         private readonly ISerializer<string> _serializer;
