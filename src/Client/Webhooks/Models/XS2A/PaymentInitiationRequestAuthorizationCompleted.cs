@@ -66,6 +66,7 @@ namespace Ibanity.Apis.Client.Webhooks.Models.XS2A
     /// Payload relationships delivered whenever a payment initiation request is completed.
     /// </summary>
     public class PaymentInitiationRequestAuthorizationCompletedRelationships
+    {
 
         /// <summary>
         /// Details about the associated payment initiation request.
