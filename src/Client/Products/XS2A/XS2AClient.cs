@@ -37,6 +37,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
             PaymentInitiationRequestAuthorizations = new PaymentInitiationRequestAuthorizations(apiClient, customerTokenService, UrlPrefix);
             PeriodicPaymentInitiationRequests = new PeriodicPaymentInitiationRequests(apiClient, customerTokenService, UrlPrefix);
             PeriodicPaymentInitiationRequestAuthorizations = new PeriodicPaymentInitiationRequestAuthorizations(apiClient, customerTokenService, UrlPrefix);
+            TransactionDeleteRequests = new TransactionDeleteRequests(apiClient, customerTokenService, UrlPrefix);
             Sandbox = new Sandbox(apiClient, customerTokenService);
         }
 
@@ -90,6 +91,9 @@ namespace Ibanity.Apis.Client.Products.XS2A
 
         /// <inheritdoc />
         public IPeriodicPaymentInitiationRequestAuthorizations PeriodicPaymentInitiationRequestAuthorizations { get; }
+
+        /// <inheritdoc />
+        public ITransactionDeleteRequests TransactionDeleteRequests { get; }
 
         /// <inheritdoc />
         public ISandbox Sandbox { get; }
@@ -209,6 +213,12 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// <p>The attribute queryParameters contains the query parameters returned by the financial institution when the customer is redirected to your configured redirect uri.</p>
         /// </summary>
         IPeriodicPaymentInitiationRequestAuthorizations PeriodicPaymentInitiationRequestAuthorizations { get; }
+
+        /// <summary>
+        /// <p>This is an object representing an account transaction delete request.</p>
+        /// <p>The transaction delete request API endpoints can be issued at the level of the application (all customers), a specific customer (all hiis/her accounts), or at account level. The customer access token is therefore only necessary for customer or account.</p>
+        /// </summary>
+        ITransactionDeleteRequests TransactionDeleteRequests { get; }
 
         /// <summary>
         /// Fake accounts and transactions.
