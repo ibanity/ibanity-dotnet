@@ -6,17 +6,20 @@ namespace Ibanity.Apis.Sample.CLI
     {
         private PontoConnectClientSample _pontoConnectClientSample;
         private IsabelConnectClientSample _isabelConnectClientSample;
+        private CodaboxConnectClientSample _codaboxConnectClientSample;
 
         public ClientSample(IConfiguration configuration, IIbanityService ibanityService)
         {
             _pontoConnectClientSample = new PontoConnectClientSample(configuration, ibanityService);
             _isabelConnectClientSample = new IsabelConnectClientSample(configuration, ibanityService);
+            _codaboxConnectClientSample = new CodaboxConnectClientSample(configuration, ibanityService);
         }
 
         public async Task Run(CancellationToken cancellationToken)
         {
             await _pontoConnectClientSample.Run(cancellationToken);
             await _isabelConnectClientSample.Run(cancellationToken);
+            await _codaboxConnectClientSample.Run(cancellationToken);
         }
     }
 }
