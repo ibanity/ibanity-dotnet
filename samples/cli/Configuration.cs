@@ -18,7 +18,9 @@ namespace Ibanity.Apis.Sample.CLI
             string isabelConnectClientId,
             string isabelConnectClientSecret,
             string? isabelConnectAuthorizationCode,
-            string isabelConnectRedirectUri)
+            string isabelConnectRedirectUri,
+            string codaboxConnectClientId,
+            string codaboxConnectClientSecret)
         {
             Endpoint = endpoint;
             MtlsCertificatePath = mtlsCertificatePath;
@@ -36,6 +38,8 @@ namespace Ibanity.Apis.Sample.CLI
             IsabelConnectClientSecret = isabelConnectClientSecret;
             IsabelConnectAuthorizationCode = isabelConnectAuthorizationCode;
             IsabelConnectRedirectUri = isabelConnectRedirectUri;
+            CodaboxConnectClientId = codaboxConnectClientId;
+            CodaboxConnectClientSecret = codaboxConnectClientSecret;
         }
 
         public string Endpoint { get; }
@@ -54,6 +58,8 @@ namespace Ibanity.Apis.Sample.CLI
         public string IsabelConnectClientSecret { get; }
         public string? IsabelConnectAuthorizationCode { get; }
         public string IsabelConnectRedirectUri { get; }
+        public string CodaboxConnectClientId { get; }
+        public string CodaboxConnectClientSecret { get; }
 
         public static IConfiguration BuildFromEnvironment()
         {
@@ -73,7 +79,9 @@ namespace Ibanity.Apis.Sample.CLI
                 GetMandatoryEnvironmentVariable("ISABEL_CONNECT_CLIENT_ID"),
                 GetMandatoryEnvironmentVariable("ISABEL_CONNECT_CLIENT_SECRET"),
                 Environment.GetEnvironmentVariable("ISABEL_CONNECT_AUTHORIZATION_CODE"),
-                GetMandatoryEnvironmentVariable("ISABEL_CONNECT_REDIRECT_URI")
+                GetMandatoryEnvironmentVariable("ISABEL_CONNECT_REDIRECT_URI"),
+                GetMandatoryEnvironmentVariable("CODABOX_CONNECT_CLIENT_ID"),
+                GetMandatoryEnvironmentVariable("CODABOX_CONNECT_CLIENT_SECRET")
             );
         }
 
@@ -106,5 +114,7 @@ namespace Ibanity.Apis.Sample.CLI
         public string IsabelConnectClientSecret { get; }
         public string? IsabelConnectAuthorizationCode { get; }
         public string IsabelConnectRedirectUri { get; }
+        public string CodaboxConnectClientId { get; }
+        public string CodaboxConnectClientSecret { get; }
     }
 }

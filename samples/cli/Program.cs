@@ -23,6 +23,9 @@ var ibanityService = new IbanityServiceBuilder().
         configuration.IsabelConnectClientId,
         configuration.IsabelConnectClientSecret).
     EnableRetries().
+    AddCodaboxConnectOAuth2Authentication(
+        configuration.CodaboxConnectClientId,
+        configuration.CodaboxConnectClientSecret).
     AddLogging(new ConsoleLogger()).
     Build();
 
