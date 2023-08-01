@@ -56,7 +56,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
         }
 
         /// <inheritdoc />
-        public Task<TransactionDeleteRequestResponse> CreateForAccount(CustomerAccessToken token, TransactionDeleteRequest transactionDeleteRequest, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
+        public Task<TransactionDeleteRequestResponse> CreateForAccount(CustomerAccessToken token, Guid financialInstitutionId, Guid accountId, TransactionDeleteRequest transactionDeleteRequest, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null)
         {
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
@@ -70,7 +70,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
                 Attributes = transactionDeleteRequest
             };
 
-            return InternalCreate(token, payload, idempotencyKey, cancellationToken);
+            return InternalCreate(token, $"{UrlPrefix}/customer/financial-institutions/{financialInstitutionId}/accounts/{accountId}/{EntityName}", payload, idempotencyKey, cancellationToken);
         }
 
         /// <inheritdoc />
@@ -111,10 +111,12 @@ namespace Ibanity.Apis.Client.Products.XS2A
         /// Create Transaction Delete Request For Account
         /// </summary>
         /// <param name="token">Authentication token</param>
+        /// <param name="financialInstitutionId">Financial institution ID</param>
+        /// <param name="accountId">Bank account ID</param>
         /// <param name="transactionDeleteRequest">Details of the transaction-delete-request</param>
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A transaction delete request resource</returns>
-        Task<TransactionDeleteRequestResponse> CreateForAccount(CustomerAccessToken token, TransactionDeleteRequest transactionDeleteRequest, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+        Task<TransactionDeleteRequestResponse> CreateForAccount(CustomerAccessToken token, Guid financialInstitutionId, Guid accountId, TransactionDeleteRequest transactionDeleteRequest, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
     }
 }
