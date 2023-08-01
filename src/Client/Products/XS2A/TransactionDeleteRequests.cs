@@ -52,7 +52,7 @@ namespace Ibanity.Apis.Client.Products.XS2A
                 Attributes = transactionDeleteRequest
             };
 
-            return InternalCreate(token, payload, idempotencyKey, cancellationToken);
+            return InternalCreate(token, $"{UrlPrefix}/customer/{EntityName}", payload, idempotencyKey, cancellationToken);
         }
 
         /// <inheritdoc />
