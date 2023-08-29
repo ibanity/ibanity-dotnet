@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 using Ibanity.Apis.Client.Utils;
+using Newtonsoft.Json;
 
 namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
 {
@@ -85,7 +86,25 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
         /// Resource identifiers of the documents returned by the search.
         /// </summary>
         [DataMember(Name = "documents", EmitDefaultValue = false)]
-        public Data<Document<string>, object, DocumentRelationships, object>[] Documents { get; set; }
+        [JsonProperty(ItemConverterType = typeof(DocumentJsonConverter))]
+        public JsonApi.Data<IDocument, object, DocumentRelationships, object>[] Documents { get; set; }
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class DocumentData<T> : JsonApi.Data<IDocument, object, DocumentRelationships, object> where T : IDocument
+    {
+        /// <summary>
+        /// Resource actual content.
+        /// </summary>
+        [DataMember(Name = "attributes", EmitDefaultValue = false)]
+        public T TypedAttributes
+        {
+            get => (T)Attributes;
+            set => Attributes = value;
+        }
     }
 
     /// <summary>

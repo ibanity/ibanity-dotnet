@@ -37,6 +37,11 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
         /// The identifier of the document.
         /// </summary>
         string Id { get; }
+
+        /// <summary>
+        /// Document's owner
+        /// </summary>
+        string Client { get; }
     }
 
     /// <summary>

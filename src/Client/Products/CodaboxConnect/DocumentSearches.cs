@@ -76,8 +76,21 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
 
             result.Documents = fullResponse.Included.Documents.Select(d =>
             {
-                d.Attributes.Id = d.Id;
-                d.Attributes.Type = d.Type;
+                switch (d.Attributes)
+                {
+                    case Document<Guid> typedDocument:
+                        typedDocument.Type = d.Type;
+                        typedDocument.Id = Guid.Parse(d.Id);
+                        typedDocument.Client = d.Relationships.Client.Data.Id;
+                        break;
+                    case Document<string> typedDocument:
+                        typedDocument.Type = d.Type;
+                        typedDocument.Id = d.Id;
+                        typedDocument.Client = d.Relationships.Client.Data.Id;
+                        break;
+                    default:
+                        throw new IbanityException("Unsupported document ID: " + d.Id);
+                }
 
                 return d.Attributes;
             }).ToArray();
