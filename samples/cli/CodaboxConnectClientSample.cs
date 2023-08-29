@@ -31,22 +31,40 @@ namespace Ibanity.Apis.Sample.CLI
                 },
                 cancellationToken);
 
+            var creditCardStatements = await GetDocuments(codaboxConnectService, token, consent, "creditCardStatement", cancellationToken);
+            var payrollStatements = await GetDocuments(codaboxConnectService, token, consent, "payrollStatement", cancellationToken);
+            var documents = creditCardStatements.Union(payrollStatements);
+
+            foreach (var document in documents)
+                switch (document)
+                {
+                    case CreditCardStatement doc:
+                        Console.WriteLine($"Document: {doc.Type} {doc.Id} for {doc.Client} from {doc.BankName}");
+                        break;
+                    default:
+                        Console.WriteLine($"Document: {document.Type} {document.Id} for {document.Client}");
+                        break;
+                }
+
+        }
+
+        private static async Task<IDocument[]> GetDocuments(ICodaboxConnectClient service, ClientAccessToken token, AccountingOfficeConsentResponse consent, string documentType, CancellationToken cancellationToken)
+        {
             var documentSearch = new DocumentSearch
             {
                 From = new DateTimeOffset(2019, 9, 26, 7, 58, 30, TimeSpan.Zero),
                 To = new DateTimeOffset(2020, 1, 1, 0, 0, 0, 996, TimeSpan.Zero),
-                DocumentType = "creditCardStatement"
+                DocumentType = documentType
             };
 
-            var search = await codaboxConnectService.DocumentSearches.Create(
+            var search = await service.DocumentSearches.Create(
                 token,
                 consent.AccountingOfficeId,
                 documentSearch,
                 new[] { consent.AccountingOfficeCompanyNumber },
                 cancellationToken: cancellationToken);
 
-            foreach (var document in search.Documents)
-                Console.WriteLine("Document: " + document);
+            return search.Documents;
         }
     }
 }
