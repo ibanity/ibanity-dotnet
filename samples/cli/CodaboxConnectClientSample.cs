@@ -1,16 +1,16 @@
 using Ibanity.Apis.Client;
+using Ibanity.Apis.Client.Http;
+using Ibanity.Apis.Client.Products.CodaboxConnect;
 using Ibanity.Apis.Client.Products.CodaboxConnect.Models;
 
 namespace Ibanity.Apis.Sample.CLI
 {
     public class CodaboxConnectClientSample
     {
-        private readonly IConfiguration _configuration;
         private readonly IIbanityService _ibanityService;
 
-        public CodaboxConnectClientSample(IConfiguration configuration, IIbanityService ibanityService)
+        public CodaboxConnectClientSample(IIbanityService ibanityService)
         {
-            _configuration = configuration;
             _ibanityService = ibanityService;
         }
 
