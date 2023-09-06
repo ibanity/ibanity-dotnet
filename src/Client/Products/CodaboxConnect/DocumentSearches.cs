@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
-using Ibanity.Apis.Client.JsonApi;
 using Ibanity.Apis.Client.Products.CodaboxConnect.Models;
 
 namespace Ibanity.Apis.Client.Products.CodaboxConnect
@@ -15,17 +14,19 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         private const string ParentEntityName = "accounting-offices";
         private const string EntityName = "document-searches";
 
+        private readonly IApiClient _apiClient;
+
         /// <summary>
         /// Build a new instance.
         /// </summary>
         /// <param name="apiClient">Generic API client</param>
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
-        public DocumentSearches(IApiClient apiClient, IAccessTokenProvider<ClientAccessToken> accessTokenProvider, string urlPrefix) : base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName }, false)
-        { }
+        public DocumentSearches(IApiClient apiClient, IAccessTokenProvider<ClientAccessToken> accessTokenProvider, string urlPrefix) : base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName }, false) =>
+            _apiClient = apiClient;
 
         /// <inheritdoc />
-        public Task<DocumentSearchResponse> Create(ClientAccessToken token, Guid accountingOfficeId, DocumentSearch documentSearch, IEnumerable<string> clients, int? pageLimit = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null)
+        public async Task<DocumentSearchResponse> Create(ClientAccessToken token, Guid accountingOfficeId, DocumentSearch documentSearch, IEnumerable<string> clients, int? pageLimit = null, Guid? pageAfter = null, CancellationToken? cancellationToken = null)
         {
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
@@ -64,21 +65,45 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
                 }
                 : null;
 
-            return InternalCreate(
-                token,
-                new[] { accountingOfficeId },
+            var fullResponse = await _apiClient.Post<JsonApi.Resource<DocumentSearch, object, DocumentSearchRelationships, object>, DocumentSearchFullResponse>(
+                UrlPrefix + "/" + ParentEntityName + "/" + accountingOfficeId + "/" + EntityName,
+                await GetAccessToken(token).ConfigureAwait(false),
                 new JsonApi.Resource<DocumentSearch, object, DocumentSearchRelationships, object> { Data = payload, Meta = meta },
                 null,
-                cancellationToken);
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
+
+            var result = Map(fullResponse.Data);
+
+            result.Documents = fullResponse.Included.Documents.Select(d =>
+            {
+                switch (d.Attributes)
+                {
+                    case Document<Guid> typedDocument:
+                        typedDocument.Type = d.Type;
+                        typedDocument.Id = Guid.Parse(d.Id);
+                        typedDocument.Client = d.Relationships.Client.Data.Id;
+                        break;
+                    case Document<string> typedDocument:
+                        typedDocument.Type = d.Type;
+                        typedDocument.Id = d.Id;
+                        typedDocument.Client = d.Relationships.Client.Data.Id;
+                        break;
+                    default:
+                        throw new IbanityException("Unsupported document ID: " + d.Id);
+                }
+
+                return d.Attributes;
+            }).ToArray();
+
+            return result;
         }
 
         /// <inheritdoc />
-        protected override DocumentSearchResponse Map(Data<DocumentSearchResponse, CollectionMeta<CursorBasedPaging>, DocumentSearchRelationshipsResponse, object> data)
+        protected override DocumentSearchResponse Map(JsonApi.Data<DocumentSearchResponse, JsonApi.CollectionMeta<JsonApi.CursorBasedPaging>, DocumentSearchRelationshipsResponse, object> data)
         {
             var result = base.Map(data);
 
             result.Clients = data.Relationships.Clients.Data.Select(c => c.Id).ToArray();
-            result.Documents = data.Relationships.Documents.Data.Select(d => new Document { Type = d.Type, Id = d.Id }).ToArray();
 
             return result;
         }

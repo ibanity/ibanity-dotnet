@@ -387,7 +387,7 @@ namespace Ibanity.Apis.Client.Products
         /// <returns>The created resource</returns>
         protected async Task<TAttributes> InternalCreate<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks>(TToken token, string path, JsonApi.Resource<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks> resource, Guid? idempotencyKey, CancellationToken? cancellationToken) =>
             Map((await _apiClient.Post<JsonApi.Resource<TRequestAttributes, TRequestMeta, TRequestRelationships, TRequestLinks>, JsonApi.Resource<TAttributes, TMeta, TRelationships, TLinks>>(
-                $"{path}",
+                path,
                 await GetAccessToken(token).ConfigureAwait(false),
                 resource,
                 GetIdempotencyKey(idempotencyKey),

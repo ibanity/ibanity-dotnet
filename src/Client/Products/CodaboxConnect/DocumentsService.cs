@@ -3,6 +3,8 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
+using Ibanity.Apis.Client.JsonApi;
+using Ibanity.Apis.Client.Products.CodaboxConnect.Models;
 using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.CodaboxConnect
@@ -12,7 +14,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
     /// </summary>
     /// <typeparam name="TResource">Resource type</typeparam>
     /// <typeparam name="TId">Identifier type</typeparam>
-    public abstract class DocumentsService<TResource, TId> : ResourceWithParentClient<TResource, object, object, object, string, TId, ClientAccessToken> where TResource : IIdentified<TId>
+    public abstract class DocumentsService<TResource, TId> : ResourceWithParentClient<TResource, object, DocumentRelationships, object, string, TId, ClientAccessToken> where TResource : Document<TId>
     {
         private const string TopLevelParentEntityName = "accounting-offices";
         private const string ParentEntityName = "clients";
@@ -26,6 +28,16 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
         /// <param name="entityName">Last URL component</param>
         public DocumentsService(IApiClient apiClient, IAccessTokenProvider<ClientAccessToken> accessTokenProvider, string urlPrefix, string entityName) : base(apiClient, accessTokenProvider, urlPrefix, new[] { TopLevelParentEntityName, ParentEntityName, entityName }, false)
         { }
+
+        /// <inheritdoc />
+        protected override TResource Map(Data<TResource, object, DocumentRelationships, object> data)
+        {
+            var result = base.Map(data);
+
+            result.Client = data.Relationships.Client.Data.Id;
+
+            return result;
+        }
 
         /// <summary>
         /// Get resource.
@@ -93,7 +105,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect
     }
 
     /// <inheritdoc />
-    public abstract class GuidIdentifiedDocumentsService<TResource> : DocumentsService<TResource, Guid> where TResource : IIdentified<Guid>
+    public abstract class GuidIdentifiedDocumentsService<TResource> : DocumentsService<TResource, Guid> where TResource : Document<Guid>
     {
         /// <summary>
         /// Build a new instance.

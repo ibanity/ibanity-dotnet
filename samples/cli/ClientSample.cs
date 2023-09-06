@@ -12,7 +12,7 @@ namespace Ibanity.Apis.Sample.CLI
         {
             _pontoConnectClientSample = new PontoConnectClientSample(configuration, ibanityService);
             _isabelConnectClientSample = new IsabelConnectClientSample(configuration, ibanityService);
-            _codaboxConnectClientSample = new CodaboxConnectClientSample(configuration, ibanityService);
+            _codaboxConnectClientSample = new CodaboxConnectClientSample(ibanityService);
         }
 
         public async Task Run(CancellationToken cancellationToken)

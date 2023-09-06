@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.Serialization;
-using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
 {
@@ -8,7 +7,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
     /// This resource allows an Accounting Software to retrieve a payroll statement for a client of an accounting office.
     /// </summary>
     [DataContract]
-    public class CreditCardStatement : Identified<string>
+    public class CreditCardStatement : Document<string>
     {
         /// <summary>
         /// The name of the bank issuing the credit card statement.

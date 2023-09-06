@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.Serialization;
-using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
 {
@@ -8,7 +7,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
     /// This resource allows an Accounting Software to retrieve a purchase invoice or credit note document for a client of an accounting office.
     /// </summary>
     [DataContract]
-    public class PurchaseInvoice : Identified<Guid>
+    public class PurchaseInvoice : Document<Guid>
     {
         /// <summary>
         /// Format of the response you expect from the call. If present, it must be one of the following: &lt;ul&gt;&lt;li&gt;&lt;code&gt;application/vnd.api+json&lt;/code&gt; a purchase invoice resource.&lt;/li&gt;&lt;li&gt;&lt;code&gt;application/pdf&lt;/code&gt; a purchase invoice in its original format.&lt;/li&gt;&lt;li&gt;&lt;code&gt;application/xml&lt;/code&gt; a purchase invoice in a structured format for easier booking.&lt;/li&gt;&lt;/ul&gt;Defaults to &lt;code&gt;application/vnd.api+json&lt;/code&gt;.

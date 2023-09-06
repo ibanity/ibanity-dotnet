@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 using Ibanity.Apis.Client.Utils;
+using Newtonsoft.Json;
 
 namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
 {
@@ -48,23 +49,7 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
         /// <summary>
         /// Resource identifiers of the documents returned by the search.
         /// </summary>
-        public Document[] Documents { get; set; }
-    }
-
-    /// <summary>
-    /// Resource identifiers of the documents returned by the search.
-    /// </summary>
-    public class Document
-    {
-        /// <summary>
-        /// The type of the document. Valid values are: creditCardStatement, purchaseInvoice, salesInvoice, payrollStatement, bankAccountStatement.
-        /// </summary>
-        public string Type { get; set; }
-
-        /// <summary>
-        /// The identifier of the document.
-        /// </summary>
-        public string Id { get; set; }
+        public IDocument[] Documents { get; set; }
     }
 
     /// <summary>
@@ -89,5 +74,48 @@ namespace Ibanity.Apis.Client.Products.CodaboxConnect.Models
         /// </summary>
         [DataMember(Name = "documents", EmitDefaultValue = false)]
         public JsonApi.Relationships Documents { get; set; }
+    }
+
+    /// <summary>
+    /// Included resources.
+    /// </summary>
+    [DataContract]
+    public class DocumentSearchIncluded
+    {
+        /// <summary>
+        /// Resource identifiers of the documents returned by the search.
+        /// </summary>
+        [DataMember(Name = "documents", EmitDefaultValue = false)]
+        [JsonProperty(ItemConverterType = typeof(DocumentJsonConverter))]
+        public JsonApi.Data<IDocument, object, DocumentRelationships, object>[] Documents { get; set; }
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class DocumentData<T> : JsonApi.Data<IDocument, object, DocumentRelationships, object> where T : IDocument
+    {
+        /// <summary>
+        /// Resource actual content.
+        /// </summary>
+        [DataMember(Name = "attributes", EmitDefaultValue = false)]
+        public T TypedAttributes
+        {
+            get => (T)Attributes;
+            set => Attributes = value;
+        }
+    }
+
+    /// <summary>
+    /// Full document search resource.
+    /// </summary>
+    public class DocumentSearchFullResponse : JsonApi.Resource<DocumentSearchResponse, JsonApi.CollectionMeta<JsonApi.CursorBasedPaging>, DocumentSearchRelationshipsResponse, object>
+    {
+        /// <summary>
+        /// Resource identifiers of the documents returned by the search.
+        /// </summary>
+        [DataMember(Name = "included", EmitDefaultValue = false)]
+        public DocumentSearchIncluded Included { get; set; }
     }
 }
