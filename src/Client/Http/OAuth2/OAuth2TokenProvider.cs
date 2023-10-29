@@ -159,8 +159,6 @@ namespace Ibanity.Apis.Client.Http.OAuth2
             var requestId = result.Headers.TryGetValues(RequestIdHeader, out var values) ? values.SingleOrDefault() : null;
             _logger.Debug($"Response received ({result.StatusCode:D} {result.StatusCode:G}): {request.Method.ToString().ToUpper(CultureInfo.InvariantCulture)} {request.RequestUri.AbsolutePath} (request ID: {requestId})");
 
-
-
             var response = _serializer.Deserialize<OAuth2Response>(await result.Content.ReadAsStringAsync().ConfigureAwait(false));
 
             token.AccessToken = response.AccessToken;
@@ -192,8 +190,6 @@ namespace Ibanity.Apis.Client.Http.OAuth2
 
             var requestId = result.Headers.TryGetValues(RequestIdHeader, out var values) ? values.SingleOrDefault() : null;
             _logger.Debug($"Response received ({result.StatusCode:D} {result.StatusCode:G}): {request.Method.ToString().ToUpper(CultureInfo.InvariantCulture)} {request.RequestUri.AbsolutePath} (request ID: {requestId})");
-
-
         }
     }
 }
