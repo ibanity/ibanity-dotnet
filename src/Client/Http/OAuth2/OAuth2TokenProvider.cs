@@ -93,6 +93,9 @@ namespace Ibanity.Apis.Client.Http.OAuth2
 
             var response = _serializer.Deserialize<OAuth2Response>(await result.Content.ReadAsStringAsync().ConfigureAwait(false));
 
+            if (string.IsNullOrWhiteSpace(response.RefreshToken))
+                _logger.Info("Missing refresh token, probably running without 'offline_access' scope");
+
             return new Token(
                 response.AccessToken,
                 _clock.Now + response.ExpiresIn,
@@ -137,6 +140,9 @@ namespace Ibanity.Apis.Client.Http.OAuth2
 
             if (token.ValidUntil - _clock.Now >= ValidityThreshold)
                 return token;
+
+            if (string.IsNullOrWhiteSpace(token.RefreshToken))
+                throw new IbanityException("Expired token. Did you forget 'offline_access' scope?");
 
             var payload = new Dictionary<string, string>
             {
