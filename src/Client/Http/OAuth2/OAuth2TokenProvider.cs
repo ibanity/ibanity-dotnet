@@ -142,7 +142,7 @@ namespace Ibanity.Apis.Client.Http.OAuth2
                 return token;
 
             if (string.IsNullOrWhiteSpace(token.RefreshToken))
-                throw new IbanityException("Expired token. Did you forget 'offline_access' scope?");
+                throw new IbanityException("Your access token is expired and there's no refresh token available. Did you forget 'offline_access' scope?");
 
             var payload = new Dictionary<string, string>
             {
