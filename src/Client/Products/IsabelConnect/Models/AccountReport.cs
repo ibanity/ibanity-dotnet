@@ -20,6 +20,13 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect.Models
         public List<string> AccountReferences { get; set; }
 
         /// <summary>
+        /// References and associated currency of the corresponding accounts
+        /// </summary>
+        /// <value>References and associated currency of the corresponding accounts</value>
+        [DataMember(Name = "accountReferencesAndCurrencies", EmitDefaultValue = false)]
+        public List<AccountReferencesAndCurrencies> AccountReferencesAndCurrencies { get; set; }
+
+        /// <summary>
         /// Format of the corresponding account report file. Possible values are &lt;code&gt;CODA&lt;/code&gt;, &lt;code&gt;MT940&lt;/code&gt;, &lt;code&gt;MT940N&lt;/code&gt;, &lt;code&gt;MT940E&lt;/code&gt;, &lt;code&gt;MT941&lt;/code&gt;, &lt;code&gt;MT942&lt;/code&gt;, &lt;code&gt;MT942N&lt;/code&gt;, &lt;code&gt;MT942E&lt;/code&gt;, &lt;code&gt;CAMT52&lt;/code&gt;, &lt;code&gt;CAMT53&lt;/code&gt;, &lt;code&gt;CAMT54&lt;/code&gt;
         /// </summary>
         /// <value>Format of the corresponding account report file. Possible values are &lt;code&gt;CODA&lt;/code&gt;, &lt;code&gt;MT940&lt;/code&gt;, &lt;code&gt;MT940N&lt;/code&gt;, &lt;code&gt;MT940E&lt;/code&gt;, &lt;code&gt;MT941&lt;/code&gt;, &lt;code&gt;MT942&lt;/code&gt;, &lt;code&gt;MT942N&lt;/code&gt;, &lt;code&gt;MT942E&lt;/code&gt;, &lt;code&gt;CAMT52&lt;/code&gt;, &lt;code&gt;CAMT53&lt;/code&gt;, &lt;code&gt;CAMT54&lt;/code&gt;</value>
