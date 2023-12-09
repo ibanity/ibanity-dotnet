@@ -8,6 +8,11 @@ namespace Ibanity.Apis.Client.Utils
     /// </summary>
     public class JsonSerializer : ISerializer<string>
     {
+        private readonly JsonSerializerSettings _settings = new JsonSerializerSettings
+        {
+            MaxDepth = 128 // Mitigation for https://github.com/advisories/GHSA-5crp-9r3c-p9vr
+        };
+
         /// <summary>
         /// Convert an object to a JSON string.
         /// </summary>
@@ -15,7 +20,7 @@ namespace Ibanity.Apis.Client.Utils
         /// <param name="value">Object to transform</param>
         /// <returns>The JSON representation of the argument</returns>
         public string Serialize<T>(T value) =>
-            JsonConvert.SerializeObject(value);
+            JsonConvert.SerializeObject(value, _settings);
 
         /// <summary>
         /// Create an object from a JSON string.
@@ -24,7 +29,7 @@ namespace Ibanity.Apis.Client.Utils
         /// <param name="value">JSON of an object</param>
         /// <returns>An instance matching the JSON value</returns>
         public T Deserialize<T>(string value) =>
-            JsonConvert.DeserializeObject<T>(value ?? throw new ArgumentNullException(nameof(value)));
+            JsonConvert.DeserializeObject<T>(value ?? throw new ArgumentNullException(nameof(value)), _settings);
 
         /// <summary>
         /// Create an object from a JSON string.
@@ -35,7 +40,8 @@ namespace Ibanity.Apis.Client.Utils
         public object Deserialize(string value, Type type) =>
             JsonConvert.DeserializeObject(
                 value ?? throw new ArgumentNullException(nameof(value)),
-                type ?? throw new ArgumentNullException(nameof(type)));
+                type ?? throw new ArgumentNullException(nameof(type)),
+                _settings);
     }
 
     /// <summary>
