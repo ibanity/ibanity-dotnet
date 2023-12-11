@@ -44,6 +44,7 @@ namespace Ibanity.Apis.Sample.CLI
             }
 
             var firstAccount = await isabelConnectService.Accounts.Get(token, accounts.Items.First().Id, cancellationToken);
+            var accountReports = await isabelConnectService.AccountReports.List(token, cancellationToken: cancellationToken);
         }
     }
 }
