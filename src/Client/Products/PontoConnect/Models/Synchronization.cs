@@ -69,9 +69,9 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public Guid ResourceId { get; set; }
 
         /// <summary>
-        /// What is being synchronized. Account information such as balance is updated using &lt;code&gt;accountDetails&lt;/code&gt;, while &lt;code&gt;accountTransactions&lt;/code&gt; is used to synchronize the transactions.
+        /// What is being synchronized. Account information such as balance is updated using &lt;code&gt;accountDetails&lt;/code&gt;, while &lt;code&gt;accountTransactionsWithUnsettled&lt;/code&gt; is used to synchronize the transactions.
         /// </summary>
-        /// <value>What is being synchronized. Account information such as balance is updated using &lt;code&gt;accountDetails&lt;/code&gt;, while &lt;code&gt;accountTransactions&lt;/code&gt; is used to synchronize the transactions.</value>
+        /// <value>What is being synchronized. Account information such as balance is updated using &lt;code&gt;accountDetails&lt;/code&gt;, while &lt;code&gt;accountTransactionsWithUnsettled&lt;/code&gt; is used to synchronize the transactions.</value>
         [DataMember(Name = "subtype", EmitDefaultValue = false)]
         public string Subtype { get; set; }
 

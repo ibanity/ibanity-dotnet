@@ -23,6 +23,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             FinancialInstitutions = new FinancialInstitutions(apiClient, tokenService, UrlPrefix);
             Accounts = new Accounts(apiClient, tokenService, UrlPrefix);
             Transactions = new Transactions(apiClient, tokenService, UrlPrefix);
+            PendingTransactions = new PendingTransactions(apiClient, tokenService, UrlPrefix);
             ReauthorizationRequests = new ReauthorizationRequests(apiClient, tokenService, UrlPrefix);
             Payments = new Payments(apiClient, tokenService, UrlPrefix);
             BulkPayments = new BulkPayments(apiClient, tokenService, UrlPrefix);
@@ -44,6 +45,9 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
         /// <inheritdoc />
         public ITransactions Transactions { get; }
+
+        /// <inheritdoc />
+        public IPendingTransactions PendingTransactions { get; }
 
         /// <inheritdoc />
         public IReauthorizationRequests ReauthorizationRequests { get; }
@@ -101,6 +105,12 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <para>From this object, you can link back to its account.</para>
         /// </summary>
         ITransactions Transactions { get; }
+
+        /// <summary>
+        /// <para>This is an object representing an account pending transaction. This object will give you the details of the financial transaction, including its amount and description.</para>
+        /// <para>From this object, you can link back to its account.</para>
+        /// </summary>
+        IPendingTransactions PendingTransactions { get; }
 
         /// <summary>
         /// <para>This object allows you to request the reauthorization of a specific bank account.</para>
