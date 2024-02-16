@@ -122,6 +122,10 @@ namespace Ibanity.Apis.Sample.CLI
             var transaction = await pontoConnectService.Transactions.Get(token, accountId, transactions.Items.First().Id, cancellationToken);
             Console.WriteLine("Transaction: " + transaction);
 
+            var pendingTransactions = await pontoConnectService.PendingTransactions.List(token, accountId);
+            foreach (var pendingTransaction in pendingTransactions.Items)
+                Console.WriteLine($"Pending transaction: {pendingTransaction.Id} for account {pendingTransaction.AccountId}");
+
             var payment = await pontoConnectService.Payments.Create(token, accountId, new PaymentRequest
             {
                 RemittanceInformation = "payment",
