@@ -26,6 +26,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             ReauthorizationRequests = new ReauthorizationRequests(apiClient, tokenService, UrlPrefix);
             Payments = new Payments(apiClient, tokenService, UrlPrefix);
             BulkPayments = new BulkPayments(apiClient, tokenService, UrlPrefix);
+            PaymentRequests = new PaymentRequests(apiClient, tokenService, UrlPrefix);
             Synchronizations = new Synchronizations(apiClient, tokenService, UrlPrefix);
             Sandbox = new Sandbox(apiClient, tokenService, UrlPrefix);
             OnboardingDetails = new OnboardingDetails(apiClient, clientAccessTokenService, UrlPrefix);
@@ -53,6 +54,9 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
 
         /// <inheritdoc />
         public IBulkPayments BulkPayments { get; }
+
+        /// <inheritdoc />
+        public IPaymentRequests PaymentRequests { get; }
 
         /// <inheritdoc />
         public ISynchronizations Synchronizations { get; }
@@ -123,6 +127,13 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <para>When authorizing bulk payment initiation in the sandbox, you should use the pre-filled credentials and 123456 as the digipass response.</para>
         /// </summary>
         IBulkPayments BulkPayments { get; }
+
+        /// <summary>
+        /// <para>This is an object representing a payment request. When you want to initiate payment request from one of your user's accounts, you have to create one to start the authorization flow.</para>
+        /// <para>If you provide a redirect URI when creating the payment request, you will receive a redirect link to send your customer to to start the authorization flow. Note that for live payment requests, your user must have already requested and been granted payment request service for their organization to use this flow.</para>
+        /// <para>When authorizing payment request initiation in the sandbox, you should use the pre-filled credentials and 123456 as the digipass response.</para>
+        /// </summary>
+        IPaymentRequests PaymentRequests { get; }
 
         /// <summary>
         /// This is an object representing a resource synchronization. This object will give you the details of the synchronization, including its resource, type, and status.

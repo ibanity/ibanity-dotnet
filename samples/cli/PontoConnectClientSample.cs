@@ -175,6 +175,25 @@ namespace Ibanity.Apis.Sample.CLI
             await pontoConnectService.BulkPayments.Delete(token, accountId, bulkPayment.Id, cancellationToken);
 
             Console.WriteLine($"Bulk payment {bulkPayment.Id} deleted");
+
+            var paymentRequest = await pontoConnectService.PaymentRequests.Create(token, accountId, new PaymentRequest
+            {
+                RemittanceInformation = "payment-request",
+                RemittanceInformationType = "unstructured",
+                RequestedExecutionDate = DateTimeOffset.Now.AddDays(1d),
+                Currency = "EUR",
+                Amount = 59m,
+            });
+
+            Console.WriteLine("Payment request created: " + paymentRequest);
+
+            paymentRequest = await pontoConnectService.PaymentRequests.Get(token, accountId, paymentRequest.Id);
+
+            Console.WriteLine("Payment request: " + paymentRequest);
+
+            await pontoConnectService.PaymentRequests.Delete(token, accountId, paymentRequest.Id);
+
+            Console.WriteLine($"Payment request {paymentRequest.Id} deleted");
         }
     }
 }
