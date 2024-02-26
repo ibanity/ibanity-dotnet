@@ -65,7 +65,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
     }
 
     /// <inheritdoc />
-    public class BulkPaymentRequest : BulkPayment
+    public class BulkPaymentRequestInitiation : BulkPayment
     {
         /// <summary>
         /// URI that your user will be redirected to at the end of the authorization flow.&lt;/a&gt;
