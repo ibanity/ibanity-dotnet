@@ -28,7 +28,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         { }
 
         /// <inheritdoc />
-        public Task<BulkPaymentResponse> Create(Token token, Guid accountId, BulkPaymentRequest payment, Guid? idempotencyKey, CancellationToken? cancellationToken)
+        public Task<BulkPaymentResponse> Create(Token token, Guid accountId, BulkPaymentRequestInitiation payment, Guid? idempotencyKey, CancellationToken? cancellationToken)
         {
             if (token is null)
                 throw new ArgumentNullException(nameof(token));
@@ -36,7 +36,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
             if (payment is null)
                 throw new ArgumentNullException(nameof(payment));
 
-            var payload = new JsonApi.Data<BulkPaymentRequest, object, object, object>
+            var payload = new JsonApi.Data<BulkPaymentRequestInitiation, object, object, object>
             {
                 Type = "bulkPayment",
                 Attributes = payment
@@ -81,7 +81,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <param name="idempotencyKey">Several requests with the same idempotency key will be executed only once</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>The created bulk payment resource</returns>
-        Task<BulkPaymentResponse> Create(Token token, Guid accountId, BulkPaymentRequest payment, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
+        Task<BulkPaymentResponse> Create(Token token, Guid accountId, BulkPaymentRequestInitiation payment, Guid? idempotencyKey = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Get Bulk Payment
