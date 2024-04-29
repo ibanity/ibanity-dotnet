@@ -184,7 +184,6 @@ namespace Ibanity.Apis.Sample.CLI
             {
                 RemittanceInformation = "payment-request",
                 RemittanceInformationType = "unstructured",
-                Currency = "EUR",
                 Amount = 59m,
             }, cancellationToken: cancellationToken);
 

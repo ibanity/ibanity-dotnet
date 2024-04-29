@@ -39,7 +39,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// Name of the payee. Limited to 60 characters in the set &lt;code&gt;a b c d e f g h i j k l m n o p q r s t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 0 1 2 3 4 5 6 7 8 9 / - ? : ( ) . , &#39; + Space&lt;/code&gt; to ensure it is not rejected by the financial institution.
         /// </summary>
         /// <value>Name of the payee. Limited to 60 characters in the set &lt;code&gt;a b c d e f g h i j k l m n o p q r s t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 0 1 2 3 4 5 6 7 8 9 / - ? : ( ) . , &#39; + Space&lt;/code&gt; to ensure it is not rejected by the financial institution.</value>
-        [DataMember(Name = "creditorName", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "creditorName", IsRequired = false, EmitDefaultValue = false)]
         public string CreditorName { get; set; }
 
         /// <summary>
@@ -113,6 +113,13 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public string SignedAt { get; set; }
 
         /// <summary>
+        /// When the payment request is handled where should the user be redirected to
+        /// </summary>
+        /// <value>When the payment request is handled where should the user be redirected to</value>
+        [DataMember(Name = "redirectUri", EmitDefaultValue = false)]
+        public string RedirectUri { get; set; }
+
+        /// <summary>
         /// Short string representation.
         /// </summary>
         /// <returns>Short string representation</returns>
@@ -122,12 +129,6 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
     /// <inheritdoc />
     public class PaymentRequestRequestInitiation : PaymentRequest
     {
-        /// <summary>
-        /// URI that your user will be redirected to at the end of the authorization flow&lt;/a&gt;
-        /// </summary>
-        /// <value>URI that your user will be redirected to at the end of the authorization flow&lt;/a&gt;</value>
-        [DataMember(Name = "redirectUri", EmitDefaultValue = false)]
-        public string RedirectUri { get; set; }
     }
 
     /// <inheritdoc cref="PaymentRequest" />
@@ -148,13 +149,6 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public Uri SigningRedirect => string.IsNullOrWhiteSpace(SigningUri)
             ? null
             : new Uri(SigningUri);
-
-        /// <summary>
-        /// URI to redirect your customer to when payment request has succesfully been completed.
-        /// </summary>
-        /// <value>URI to redirect your customer to when payment request has succesfully been completed.</value>
-        [DataMember(Name = "redirectUri", EmitDefaultValue = false)]
-        public string RedirectUri { get; set; }
 
         /// <summary>
         /// URI to redirect to from your customer frontend to conduct the authorization flow.
