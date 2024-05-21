@@ -28,6 +28,7 @@ namespace Ibanity.Apis.Client.Webhooks
             { "pontoConnect.integration.accountRevoked", typeof(Payload<Models.PontoConnect.NestedIntegrationAccountRevoked>) },
             { "pontoConnect.organization.blocked", typeof(Payload<Models.PontoConnect.NestedOrganizationBlocked>) },
             { "pontoConnect.organization.unblocked", typeof(Payload<Models.PontoConnect.NestedOrganizationUnblocked>) },
+            { "pontoConnect.paymentRequest.closed", typeof(Payload<Models.PontoConnect.NestedPaymentRequestClosed>) },
             { "xs2a.synchronization.succeededWithoutChange", typeof(Payload<Models.XS2A.NestedSynchronizationSucceededWithoutChange>) },
             { "xs2a.synchronization.failed", typeof(Payload<Models.XS2A.NestedSynchronizationFailed>) },
             { "xs2a.account.detailsUpdated", typeof(Payload<Models.XS2A.NestedAccountDetailsUpdated>) },

@@ -6,35 +6,14 @@ using Ibanity.Apis.Client.Utils;
 namespace Ibanity.Apis.Client.Products.PontoConnect.Models
 {
     /// <summary>
-    /// <para>This is an object representing a payment. When you want to initiate payment from one of your user's accounts, you have to create one to start the authorization flow.</para>
-    /// <para>If you provide a redirect URI when creating the payment, you will receive a redirect link to send your customer to to start the authorization flow. Note that for live payments, your user must have already requested and been granted payment service for their organization to use this flow.</para>
-    /// <para>Otherwise, the user can sign the payment in the Ponto Dashboard.</para>
-    /// <para>When authorizing payment initiation in the sandbox, you should use the pre-filled credentials and 123456 as the digipass response.</para>
+    /// <para>This is an object representing a payment request. When you want to initiate payment request from one of your user's accounts, you have to create one to start the authorization flow.</para>
+    /// <para>If you provide a redirect URI when creating the payment request, you will receive a redirect link to send your customer to to start the authorization flow. Note that for live payment requests, your user must have already requested and been granted payment request service for their organization to use this flow.</para>
+    /// <para>Otherwise, the user can sign the payment request in the Ponto Dashboard.</para>
+    /// <para>When authorizing payment request initiation in the sandbox, you should use the pre-filled credentials and 123456 as the digipass response.</para>
     /// </summary>
     [DataContract]
-    public class Payment
+    public class PaymentRequest
     {
-        /// <summary>
-        /// A date in the future when the payment is requested to be executed. The availability of this feature depends on each financial institution. See &lt;a href&#x3D;&#39;https://documentation.ibanity.com/ponto-connect/api#financial-institution-attributes&#39;&gt;financial institution attributes&lt;/a&gt;
-        /// </summary>
-        /// <value>A date in the future when the payment is requested to be executed. The availability of this feature depends on each financial institution. See &lt;a href&#x3D;&#39;https://documentation.ibanity.com/ponto-connect/api#financial-institution-attributes&#39;&gt;financial institution attributes&lt;/a&gt;</value>
-        [DataMember(Name = "requestedExecutionDate", EmitDefaultValue = false)]
-        public string RequestedExecutionDateString
-        {
-            get => RequestedExecutionDate.HasValue
-                ? RequestedExecutionDate.Value.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)
-                : null;
-            set => RequestedExecutionDate = !string.IsNullOrWhiteSpace(value)
-                ? (DateTimeOffset?)DateTimeOffset.Parse(value, CultureInfo.InvariantCulture)
-                : null;
-        }
-
-        /// <summary>
-        /// A date in the future when the payment is requested to be executed. The availability of this feature depends on each financial institution. See &lt;a href&#x3D;&#39;https://documentation.ibanity.com/ponto-connect/api#financial-institution-attributes&#39;&gt;financial institution attributes&lt;/a&gt;
-        /// </summary>
-        /// <value>A date in the future when the payment is requested to be executed. The availability of this feature depends on each financial institution. See &lt;a href&#x3D;&#39;https://documentation.ibanity.com/ponto-connect/api#financial-institution-attributes&#39;&gt;financial institution attributes&lt;/a&gt;</value>
-        public DateTimeOffset? RequestedExecutionDate { get; set; }
-
         /// <summary>
         /// Type of remittance information, can be &lt;code&gt;structured&lt;/code&gt; or &lt;code&gt;unstructured&lt;/code&gt;
         /// </summary>
@@ -50,9 +29,9 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public string RemittanceInformation { get; set; }
 
         /// <summary>
-        /// Currency of the payment, in &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_4217&#39;&gt;ISO4217&lt;/a&gt; format
+        /// Currency of the payment request, in &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_4217&#39;&gt;ISO4217&lt;/a&gt; format
         /// </summary>
-        /// <value>Currency of the payment, in &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_4217&#39;&gt;ISO4217&lt;/a&gt; format</value>
+        /// <value>Currency of the payment request, in &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_4217&#39;&gt;ISO4217&lt;/a&gt; format</value>
         [DataMember(Name = "currency", IsRequired = true, EmitDefaultValue = false)]
         public string Currency { get; set; }
 
@@ -60,7 +39,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// Name of the payee. Limited to 60 characters in the set &lt;code&gt;a b c d e f g h i j k l m n o p q r s t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 0 1 2 3 4 5 6 7 8 9 / - ? : ( ) . , &#39; + Space&lt;/code&gt; to ensure it is not rejected by the financial institution.
         /// </summary>
         /// <value>Name of the payee. Limited to 60 characters in the set &lt;code&gt;a b c d e f g h i j k l m n o p q r s t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 0 1 2 3 4 5 6 7 8 9 / - ? : ( ) . , &#39; + Space&lt;/code&gt; to ensure it is not rejected by the financial institution.</value>
-        [DataMember(Name = "creditorName", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "creditorName", IsRequired = false, EmitDefaultValue = false)]
         public string CreditorName { get; set; }
 
         /// <summary>
@@ -92,9 +71,23 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public string CreditorAccountReference { get; set; }
 
         /// <summary>
-        /// Amount of the payment.
+        /// Type of payer account reference, currently must be &lt;code&gt;IBAN&lt;/code&gt;
         /// </summary>
-        /// <value>Amount of the payment.</value>
+        /// <value>Type of payer account reference, currently must be &lt;code&gt;IBAN&lt;/code&gt;</value>
+        [DataMember(Name = "debtorAccountReferenceType", IsRequired = false, EmitDefaultValue = false)]
+        public string DebtorAccountReferenceType { get; set; }
+
+        /// <summary>
+        /// Financial institution&#39;s internal reference for the payer account
+        /// </summary>
+        /// <value>Financial institution&#39;s internal reference for the payer account</value>
+        [DataMember(Name = "debtorAccountReference", IsRequired = false, EmitDefaultValue = false)]
+        public string DebtorAccountReference { get; set; }
+
+        /// <summary>
+        /// Amount of the payment request.
+        /// </summary>
+        /// <value>Amount of the payment request.</value>
         [DataMember(Name = "amount", IsRequired = true, EmitDefaultValue = false)]
         public decimal Amount { get; set; }
 
@@ -106,6 +99,27 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public string EndToEndId { get; set; }
 
         /// <summary>
+        /// When the payment request is fully closed
+        /// </summary>
+        /// <value>When the payment request is fully closed</value>
+        [DataMember(Name = "closedAt", EmitDefaultValue = false)]
+        public string ClosedAt { get; set; }
+
+        /// <summary>
+        /// When the payment request was signed
+        /// </summary>
+        /// <value>When the payment request was signed</value>
+        [DataMember(Name = "signedAt", EmitDefaultValue = false)]
+        public string SignedAt { get; set; }
+
+        /// <summary>
+        /// When the payment request is handled where should the user be redirected to
+        /// </summary>
+        /// <value>When the payment request is handled where should the user be redirected to</value>
+        [DataMember(Name = "redirectUri", EmitDefaultValue = false)]
+        public string RedirectUri { get; set; }
+
+        /// <summary>
         /// Short string representation.
         /// </summary>
         /// <returns>Short string representation</returns>
@@ -113,33 +127,28 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
     }
 
     /// <inheritdoc />
-    public class PaymentRequestInitiation : Payment
+    public class PaymentRequestRequestInitiation : PaymentRequest
     {
-        /// <summary>
-        /// URI that your user will be redirected to at the end of the authorization flow&lt;/a&gt;
-        /// </summary>
-        /// <value>URI that your user will be redirected to at the end of the authorization flow&lt;/a&gt;</value>
-        [DataMember(Name = "redirectUri", EmitDefaultValue = false)]
-        public string RedirectUri { get; set; }
     }
 
-    /// <inheritdoc cref="Payment" />
+    /// <inheritdoc cref="PaymentRequest" />
     [DataContract]
-    public class PaymentResponse : Payment, IIdentified<Guid>
+    public class PaymentRequestResponse : PaymentRequest, IIdentified<Guid>
     {
         /// <summary>
-        /// Current status of the payment.
+        /// URI to redirect to from your customer frontend to conduct the authorization flow.
         /// </summary>
-        /// <value>Current status of the payment.</value>
-        [DataMember(Name = "status", EmitDefaultValue = false)]
-        public string Status { get; set; }
+        /// <value>URI to redirect to from your customer frontend to conduct the authorization flow.</value>
+        [DataMember(Name = "signingUri", EmitDefaultValue = false)]
+        public string SigningUri { get; set; }
 
         /// <summary>
         /// URI to redirect to from your customer frontend to conduct the authorization flow.
         /// </summary>
         /// <value>URI to redirect to from your customer frontend to conduct the authorization flow.</value>
-        [DataMember(Name = "redirectUri", EmitDefaultValue = false)]
-        public string RedirectUri { get; set; }
+        public Uri SigningRedirect => string.IsNullOrWhiteSpace(SigningUri)
+            ? null
+            : new Uri(SigningUri);
 
         /// <summary>
         /// URI to redirect to from your customer frontend to conduct the authorization flow.
@@ -158,16 +167,29 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
     /// URI to redirect to from your customer frontend to conduct the authorization flow.
     /// </summary>
     [DataContract]
-    public class PaymentLinks
+    public class PaymentRequestLinks
     {
         /// <summary>
         /// URI to redirect to from your customer frontend to conduct the authorization flow.
+        /// </summary>
+        [DataMember(Name = "signingRedirect", EmitDefaultValue = false)]
+        public string SigningRedirectString { get; set; }
+
+        /// <summary>
+        /// URI to redirect to from your customer frontend to conduct the authorization flow.
+        /// </summary>
+        public Uri SigningRedirect => string.IsNullOrWhiteSpace(SigningRedirectString)
+            ? null
+            : new Uri(SigningRedirectString);
+
+        /// <summary>
+        /// URI to redirect your customer to after a succesful authorization flow.
         /// </summary>
         [DataMember(Name = "redirect", EmitDefaultValue = false)]
         public string RedirectString { get; set; }
 
         /// <summary>
-        /// URI to redirect to from your customer frontend to conduct the authorization flow.
+        /// URI to redirect your customer to after a succesful authorization flow.
         /// </summary>
         public Uri Redirect => string.IsNullOrWhiteSpace(RedirectString)
             ? null

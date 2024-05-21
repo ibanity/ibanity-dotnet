@@ -122,7 +122,11 @@ namespace Ibanity.Apis.Sample.CLI
             var transaction = await pontoConnectService.Transactions.Get(token, accountId, transactions.Items.First().Id, cancellationToken);
             Console.WriteLine("Transaction: " + transaction);
 
-            var payment = await pontoConnectService.Payments.Create(token, accountId, new PaymentRequest
+            var pendingTransactions = await pontoConnectService.PendingTransactions.List(token, accountId);
+            foreach (var pendingTransaction in pendingTransactions.Items)
+                Console.WriteLine($"Pending transaction: {pendingTransaction.Id} for account {pendingTransaction.AccountId}");
+
+            var payment = await pontoConnectService.Payments.Create(token, accountId, new PaymentRequestInitiation
             {
                 RemittanceInformation = "payment",
                 RemittanceInformationType = "unstructured",
@@ -146,7 +150,7 @@ namespace Ibanity.Apis.Sample.CLI
 
             Console.WriteLine($"Payment {payment.Id} deleted");
 
-            var bulkPayment = await pontoConnectService.BulkPayments.Create(token, accountId, new BulkPaymentRequest
+            var bulkPayment = await pontoConnectService.BulkPayments.Create(token, accountId, new BulkPaymentRequestInitiation
             {
                 BatchBookingPreferred = true,
                 Reference = "myReference",
@@ -175,6 +179,23 @@ namespace Ibanity.Apis.Sample.CLI
             await pontoConnectService.BulkPayments.Delete(token, accountId, bulkPayment.Id, cancellationToken);
 
             Console.WriteLine($"Bulk payment {bulkPayment.Id} deleted");
+
+            var paymentRequest = await pontoConnectService.PaymentRequests.Create(token, accountId, new PaymentRequestRequestInitiation
+            {
+                RemittanceInformation = "payment-request",
+                RemittanceInformationType = "unstructured",
+                Amount = 59m,
+            }, cancellationToken: cancellationToken);
+
+            Console.WriteLine("Payment request created: " + paymentRequest);
+
+            paymentRequest = await pontoConnectService.PaymentRequests.Get(token, accountId, paymentRequest.Id, cancellationToken);
+
+            Console.WriteLine("Payment request: " + paymentRequest);
+
+            await pontoConnectService.PaymentRequests.Delete(token, accountId, paymentRequest.Id, cancellationToken);
+
+            Console.WriteLine($"Payment request {paymentRequest.Id} deleted");
         }
     }
 }
