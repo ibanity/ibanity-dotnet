@@ -22,6 +22,8 @@ namespace Ibanity.Apis.Client.Webhooks
             { "pontoConnect.account.reauthorized", typeof(Payload<Models.PontoConnect.NestedAccountReauthorized>) },
             { "pontoConnect.account.transactionsCreated", typeof(Payload<Models.PontoConnect.NestedAccountTransactionsCreated>) },
             { "pontoConnect.account.transactionsUpdated", typeof(Payload<Models.PontoConnect.NestedAccountTransactionsUpdated>) },
+            { "pontoConnect.account.pendingTransactionsCreated", typeof(Payload<Models.PontoConnect.NestedAccountPendingTransactionsCreated>) },
+            { "pontoConnect.account.pendingTransactionsUpdated", typeof(Payload<Models.PontoConnect.NestedAccountPendingTransactionsUpdated>) },
             { "pontoConnect.integration.created", typeof(Payload<Models.PontoConnect.NestedIntegrationCreated>) },
             { "pontoConnect.integration.revoked", typeof(Payload<Models.PontoConnect.NestedIntegrationRevoked>) },
             { "pontoConnect.integration.accountAdded", typeof(Payload<Models.PontoConnect.NestedIntegrationAccountAdded>) },
