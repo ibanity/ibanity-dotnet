@@ -96,6 +96,13 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public Guid? InitialFinancialInstitutionId { get; set; }
 
         /// <summary>
+        /// Unique identifier that can be used to identify records on the partner side.
+        /// </summary>
+        /// <value>Unique identifier that can be used to identify records on the partner side.</value>
+        [DataMember(Name = "partnerReference", EmitDefaultValue = false)]
+        public string PartnerReference { get; set; }
+
+        /// <summary>
         /// Indicates if the onboarding details should be automatically submitted if all fields are completed. Defaults to false
         /// </summary>
         /// <value>Automatically submit forms when all fields are completed</value>
