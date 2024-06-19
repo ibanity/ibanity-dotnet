@@ -136,6 +136,13 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
         /// <value>The zipcode of the city where the supplier is located.</value>
         [DataMember(Name = "zip", EmitDefaultValue = false)]
         public string Zip { get; set; }
+
+        /// <summary>
+        /// &lt;i&gt;(Optional)&lt;/i&gt; The flag denoting whether a given supplier should be registered on Peppol in order to receive Peppol documents. Default value is false.
+        /// </summary>
+        /// <value>&lt;i&gt;(Optional)&lt;/i&gt; The flag denoting whether a given supplier should be registered on Peppol in order to receive Peppol documents. Default value is false.</value>
+        [DataMember(Name = "peppolReceiver", EmitDefaultValue = false)]
+        public bool? PeppolReceiver { get; set; }
     }
 
     /// <inheritdoc cref="Supplier" />
