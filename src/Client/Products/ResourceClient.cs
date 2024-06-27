@@ -709,6 +709,20 @@ namespace Ibanity.Apis.Client.Products
             InternalOffsetBasedList(token, GetPath(parentIds), filters, customParameters, pageOffset, pageSize, cancellationToken);
 
         /// <summary>
+        /// Get all resources.
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="parentIds">IDs of parent resources</param>
+        /// <param name="filters">Attributes to be filtered from the results</param>
+        /// <param name="customParameters">Custom parameters</param>
+        /// <param name="pageNumber">Number of page that should be returned. Must be included to use page-based pagination.</param>
+        /// <param name="pageSize">Number of items by page</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>First page of items</returns>
+        protected Task<EInvoicingCollection<TAttributes>> InternalPageBasedList(TToken token, TParentsId[] parentIds, IEnumerable<Filter> filters, IEnumerable<(string, string)> customParameters, long? pageNumber, int? pageSize, CancellationToken? cancellationToken) =>
+            InternalPageBasedList(token, GetPath(parentIds), filters, customParameters, pageNumber, pageSize, cancellationToken);
+
+        /// <summary>
         /// Get a single resource.
         /// </summary>
         /// <param name="token">Authentication token</param>
