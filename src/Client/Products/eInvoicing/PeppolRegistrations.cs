@@ -22,6 +22,10 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         public PeppolRegistrations(IApiClient apiClient, IAccessTokenProvider<ClientAccessToken> accessTokenProvider, string urlPrefix) :
             base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName })
         { }
+
+        /// <inheritdoc />
+        public Task<EInvoicingCollection<PeppolRegistration>> List(ClientAccessToken token, Guid supplierId, CancellationToken? cancellationToken = null) =>
+            InternalPageBasedList(token, new[] { supplierId }, null, null, null, null, cancellationToken);
     }
 
     /// <summary>
@@ -29,5 +33,13 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
     /// </summary>
     public interface IPeppolRegistrations
     {
+        /// <summary>
+        /// List Registrations
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="supplierId">Supplier ID</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>A list of registration resources</returns>
+        Task<EInvoicingCollection<PeppolRegistration>> List(ClientAccessToken token, Guid supplierId, CancellationToken? cancellationToken = null);
     }
 }
