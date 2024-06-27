@@ -49,7 +49,7 @@ namespace Ibanity.Apis.Client.Http
                 }
                 catch (Exception e) when (i < _count)
                 {
-                    var delay = TimeSpan.FromSeconds(Math.Pow(_baseDelay.TotalSeconds, i + 1));
+                    var delay = TimeSpan.FromSeconds(_baseDelay.TotalSeconds * Math.Pow(2, i));
                     _logger.Warn($"{operation} failed (try {i + 1} of {_count}), retrying in {delay.TotalSeconds:F2} seconds", e);
                     await Task.Delay(delay, cancellationToken).ConfigureAwait(false);
                 }
