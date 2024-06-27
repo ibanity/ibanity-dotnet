@@ -25,6 +25,10 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
             InternalGet(token, id, cancellationToken);
 
         /// <inheritdoc />
+        public Task<Utils.EInvoicingCollection<SupplierResponse>> List(ClientAccessToken token, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null) =>
+            InternalPageBasedList(token, null, null, pageNumber, pageSize, cancellationToken);
+
+        /// <inheritdoc />
         public Task<SupplierResponse> Create(ClientAccessToken token, NewSupplier supplier, CancellationToken? cancellationToken = null)
         {
             if (token is null)
@@ -79,6 +83,16 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>Returns a supplier resource.</returns>
         Task<SupplierResponse> Get(ClientAccessToken token, Guid id, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// List Supplier
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="pageNumber">Number of page that should be returned. Must be included to use page-based pagination.</param>
+        /// <param name="pageSize">Number (1-2000) of document resources that you want to be returned. Defaults to 2000.</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>Returns a list of supplier resource.</returns>
+        Task<Utils.EInvoicingCollection<SupplierResponse>> List(ClientAccessToken token, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Create Supplier
