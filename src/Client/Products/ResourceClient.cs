@@ -279,9 +279,9 @@ namespace Ibanity.Apis.Client.Products
 
             var result = new EInvoicingCollection<TAttributes>()
             {
-                Number = page.Meta?.Paging?.Number,
-                Size = page.Meta?.Paging?.Size,
-                Total = page.Meta?.Paging?.Total,
+                Number = page.Meta.Paging.Number,
+                Size = page.Meta.Paging.Size,
+                Total = page.Meta.Paging.Total,
                 Items = page.Data.Select(Map).ToList()
             };
 
