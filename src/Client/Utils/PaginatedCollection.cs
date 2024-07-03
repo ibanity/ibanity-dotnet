@@ -4,23 +4,32 @@ using System.Collections.Generic;
 namespace Ibanity.Apis.Client.Utils
 {
     /// <summary>
+    /// List of resources.
+    /// </summary>
+    /// <typeparam name="T">Resource type.</typeparam>
+#pragma warning disable CA1711 // Keep 'Collection' name
+    public class Collection<T>
+#pragma warning restore CA1711
+    {
+        /// <summary>
+        /// Actual list.
+        /// </summary>
+        public List<T> Items { get; set; }
+    }
+
+    /// <summary>
     /// <para>List of resources.</para>
     /// <para>Contains a token to get the next page.</para>
     /// </summary>
     /// <typeparam name="T">Resource type.</typeparam>
 #pragma warning disable CA1711 // Keep 'Collection' name
-    public class PaginatedCollection<T>
+    public class PaginatedCollection<T> : Collection<T>
 #pragma warning restore CA1711
     {
         /// <summary>
         /// Token allowing to fetch the next page.
         /// </summary>
         public ContinuationToken ContinuationToken { get; set; }
-
-        /// <summary>
-        /// Actual list.
-        /// </summary>
-        public List<T> Items { get; set; }
     }
 
     /// <summary>

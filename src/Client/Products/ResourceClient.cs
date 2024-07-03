@@ -295,6 +295,28 @@ namespace Ibanity.Apis.Client.Products
         /// <param name="path">Resource collection path</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>First page of items</returns>
+        protected async Task<Collection<TAttributes>> InternalList(TToken token, string path, CancellationToken? cancellationToken)
+        {
+            var page = await _apiClient.Get<JsonApi.Collection<TAttributes, TMeta, TRelationships, TLinks, object>>(
+                path,
+                await GetAccessToken(token).ConfigureAwait(false),
+                cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
+
+            var result = new Collection<TAttributes>()
+            {
+                Items = page.Data.Select(Map).ToList()
+            };
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get all resources.
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="path">Resource collection path</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>First page of items</returns>
         protected async Task<PageBasedXS2ACollection<TAttributes>> InternalXs2aPageBasedList(TToken token, string path, CancellationToken? cancellationToken)
         {
             var page = await _apiClient.Get<JsonApi.Collection<TAttributes, TMeta, TRelationships, TLinks, JsonApi.PageBasedPaging>>(
@@ -721,6 +743,18 @@ namespace Ibanity.Apis.Client.Products
         /// <returns>First page of items</returns>
         protected Task<EInvoicingCollection<TAttributes>> InternalPageBasedList(TToken token, TParentsId[] parentIds, IEnumerable<Filter> filters, IEnumerable<(string, string)> customParameters, long? pageNumber, int? pageSize, CancellationToken? cancellationToken) =>
             InternalPageBasedList(token, GetPath(parentIds), filters, customParameters, pageNumber, pageSize, cancellationToken);
+
+        /// <summary>
+        /// Get all resources.
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="parentIds">IDs of parent resources</param>
+        /// <param name="filters">Attributes to be filtered from the results</param>
+        /// <param name="customParameters">Custom parameters</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>First page of items</returns>
+        protected Task<Collection<TAttributes>> InternalList(TToken token, TParentsId[] parentIds, IEnumerable<Filter> filters, IEnumerable<(string, string)> customParameters, CancellationToken? cancellationToken) =>
+            InternalList(token, GetPath(parentIds), cancellationToken);
 
         /// <summary>
         /// Get a single resource.
