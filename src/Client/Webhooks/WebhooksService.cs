@@ -17,6 +17,7 @@ namespace Ibanity.Apis.Client.Webhooks
         private static readonly IReadOnlyDictionary<string, Type> Types = new Dictionary<string, Type>
         {
             { "eInvoicing.inbound.document.new", typeof(Payload<Models.eInvoicing.NestedInboundDocumentNew>) },
+            { "eInvoicing.peppol.registrations.updated", typeof(Payload<Models.eInvoicing.NestedPeppolRegistrationsUpdated>) },
             { "pontoConnect.synchronization.succeededWithoutChange", typeof(Payload<Models.PontoConnect.NestedSynchronizationSucceededWithoutChange>) },
             { "pontoConnect.synchronization.failed", typeof(Payload<Models.PontoConnect.NestedSynchronizationFailed>) },
             { "pontoConnect.account.detailsUpdated", typeof(Payload<Models.PontoConnect.NestedAccountDetailsUpdated>) },
