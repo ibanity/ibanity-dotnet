@@ -163,6 +163,18 @@ Mutual TLS client certificate (as well as signature certificate) can be loaded i
 - Using the path to the file holding the certificate, and its passphrase.
 - Using a `X509Certificate2` instance, allowing you to load the certificate from a custom location you manage.
 
+#### Azure App Service
+
+When running on _Azure App Service_, even when loading the certificate from a file, Windows must access the certificate store. This may lead to an exception when the library is loading certificates.
+
+You can use Azure CLI to allow this operation:
+
+```bash
+az webapp config appsettings set --name <app-name> --resource-group <resource-group-name> --settings WEBSITE_LOAD_USER_PROFILE=1
+```
+
+More information is available in [App Service documentation](https://learn.microsoft.com/en-us/azure/app-service/configure-ssl-certificate-in-code?tabs=linux#load-certificate-from-file).
+
 ## Requirements
 
 Either:
