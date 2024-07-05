@@ -138,7 +138,9 @@ switch (webhookEvent)
 }
 ```
 
-## Creating PFX certificate file
+## Certificates
+
+### Creating PFX certificate file
 
 You may need to convert your certificate from _.pem_ files to a _.pfx_ file (also known as PKCS#12 format). You can use an _OpenSSL_ command to do so:
 
@@ -153,6 +155,25 @@ Where:
 - _certificate.pfx_ is the resulting PKCS#12 file
 
 You will have to enter the passphrase protecting the _private_key.pem_ file, then (twice) the passphrase you want to use to encrypt the _certificate.pfx_ file.
+
+### Loading certificate
+
+Mutual TLS client certificate (as well as signature certificate) can be loaded in two different ways:
+
+- Using the path to the file holding the certificate, and its passphrase.
+- Using a `X509Certificate2` instance, allowing you to load the certificate from a custom location you manage.
+
+#### Azure App Service
+
+When running on _Azure App Service_, even when loading the certificate from a file, Windows must access the certificate store. This may lead to an exception when the library is loading certificates.
+
+You can use Azure CLI to allow this operation:
+
+```bash
+az webapp config appsettings set --name <app-name> --resource-group <resource-group-name> --settings WEBSITE_LOAD_USER_PROFILE=1
+```
+
+More information is available in [App Service documentation](https://learn.microsoft.com/en-us/azure/app-service/configure-ssl-certificate-in-code?tabs=linux#load-certificate-from-file).
 
 ## Requirements
 
