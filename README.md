@@ -138,7 +138,9 @@ switch (webhookEvent)
 }
 ```
 
-## Creating PFX certificate file
+## Certificates
+
+### Creating PFX certificate file
 
 You may need to convert your certificate from _.pem_ files to a _.pfx_ file (also known as PKCS#12 format). You can use an _OpenSSL_ command to do so:
 
@@ -153,6 +155,13 @@ Where:
 - _certificate.pfx_ is the resulting PKCS#12 file
 
 You will have to enter the passphrase protecting the _private_key.pem_ file, then (twice) the passphrase you want to use to encrypt the _certificate.pfx_ file.
+
+### Loading certificate
+
+Mutual TLS client certificate (as well as signature certificate) can be loaded in two different ways:
+
+- Using the path to the file holding the certificate, and its passphrase.
+- Using a `X509Certificate2` instance, allowing you to load the certificate from a custom location you manage.
 
 ## Requirements
 
