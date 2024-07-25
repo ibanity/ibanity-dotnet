@@ -122,6 +122,13 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// <value>Unique identifier of the organization that should be preselected during the Ponto onboarding process</value>
         [DataMember(Name = "requestedOrganisationId", EmitDefaultValue = false)]
         public Guid? RequestedOrganisationId { get; set; }
+
+        /// <summary>
+        /// Type of the onboarding user&#39;s organization. Valid values are 'business' and 'personal'. Defaults to 'business'
+        /// </summary>
+        /// <value>Type of the onboarding user&#39;s organization. Valid values are 'business' and 'personal'. Defaults to 'business'</value>
+        [DataMember(Name = "organizationType", EmitDefaultValue = false)]
+        public string OrganizationType { get; set; }
     }
 
     /// <inheritdoc cref="OnboardingDetails" />
