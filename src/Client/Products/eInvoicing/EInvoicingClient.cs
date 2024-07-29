@@ -22,6 +22,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         {
             Suppliers = new Suppliers(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolCustomerSearches = new PeppolCustomerSearches(apiClient, clientAccessTokenService, UrlPrefix);
+            PeppolRegistrations = new PeppolRegistrations(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolInvoices = new PeppolInvoices(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolCreditNotes = new PeppolCreditNotes(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolDocuments = new PeppolDocuments(apiClient, clientAccessTokenService, UrlPrefix);
@@ -36,6 +37,9 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
 
         /// <inheritdoc />
         public IPeppolCustomerSearches PeppolCustomerSearches { get; }
+
+        /// <inheritdoc />
+        public IPeppolRegistrations PeppolRegistrations { get; }
 
         /// <inheritdoc />
         public IPeppolInvoices PeppolInvoices { get; }
@@ -76,6 +80,11 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <p>A list of test receivers can be found in <see href="https://documentation.ibanity.com/einvoicing/products#development-resources">Development Resources</see></p>
         /// </summary>
         IPeppolCustomerSearches PeppolCustomerSearches { get; }
+
+        /// <summary>
+        /// Peppol Registrations
+        /// </summary>
+        IPeppolRegistrations PeppolRegistrations { get; }
 
         /// <summary>
         /// <p>This is an object representing the invoice that can be sent by a supplier. This document is always an UBL in a format supported by CodaBox.</p>
