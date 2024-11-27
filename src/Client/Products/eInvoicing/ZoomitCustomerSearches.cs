@@ -48,7 +48,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
     public interface IZoomitCustomerSearches
     {
         /// <summary>
-        /// Create Supplier
+        /// Create Zoomit Customer Search
         /// </summary>
         /// <param name="token">Authentication token</param>
         /// <param name="supplierId">Supplier ID</param>
