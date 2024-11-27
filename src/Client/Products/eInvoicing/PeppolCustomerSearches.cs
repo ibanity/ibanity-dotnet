@@ -48,7 +48,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
     public interface IPeppolCustomerSearches
     {
         /// <summary>
-        /// Create Supplier
+        /// Create Peppol Customer search
         /// </summary>
         /// <param name="token">Authentication token</param>
         /// <param name="peppolCustomerSearch">An object representing a new Peppol Customer search</param>
