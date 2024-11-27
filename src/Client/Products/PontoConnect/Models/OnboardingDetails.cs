@@ -94,6 +94,41 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// <value>Unique identifier of the financial institution that should be preselected during the Ponto onboarding process</value>
         [DataMember(Name = "initialFinancialInstitutionId", EmitDefaultValue = false)]
         public Guid? InitialFinancialInstitutionId { get; set; }
+
+        /// <summary>
+        /// Unique identifier that can be used to identify records on the partner side.
+        /// </summary>
+        /// <value>Unique identifier that can be used to identify records on the partner side.</value>
+        [DataMember(Name = "partnerReference", EmitDefaultValue = false)]
+        public string PartnerReference { get; set; }
+
+        /// <summary>
+        /// Indicates if the onboarding details should be automatically submitted if all fields are completed. Defaults to false
+        /// </summary>
+        /// <value>Automatically submit forms when all fields are completed</value>
+        [DataMember(Name = "automaticSubmissionOnCompletedForms", EmitDefaultValue = false)]
+        public bool AutomaticSubmissionOnCompletedForms { get; set; }
+
+        /// <summary>
+        /// Preferred OTP method for the user.
+        /// </summary>
+        /// <value>Preferred OTP method for the user.</value>
+        [DataMember(Name = "preferredOtpMethod", EmitDefaultValue = false)]
+        public string PreferredOtpMethod { get; set; }
+
+        /// <summary>
+        /// Unique identifier of the organization that should be preselected during the Ponto onboarding process
+        /// </summary>
+        /// <value>Unique identifier of the organization that should be preselected during the Ponto onboarding process</value>
+        [DataMember(Name = "requestedOrganisationId", EmitDefaultValue = false)]
+        public Guid? RequestedOrganisationId { get; set; }
+
+        /// <summary>
+        /// Type of the onboarding user&#39;s organization. Valid values are 'business' and 'personal'. Defaults to 'business'
+        /// </summary>
+        /// <value>Type of the onboarding user&#39;s organization. Valid values are 'business' and 'personal'. Defaults to 'business'</value>
+        [DataMember(Name = "organizationType", EmitDefaultValue = false)]
+        public string OrganizationType { get; set; }
     }
 
     /// <inheritdoc cref="OnboardingDetails" />
