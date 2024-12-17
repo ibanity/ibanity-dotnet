@@ -39,12 +39,12 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
     }
 
     /// <summary>
-    /// Peppol document
+    /// Peppol Outbound Document
     /// </summary>
     public interface IPeppolDocuments
     {
         /// <summary>
-        /// List Accounts
+        /// List Peppol Outbound Documents
         /// </summary>
         /// <param name="token">Authentication token</param>
         /// <param name="fromStatusChanged">Start of the document status change period scope. Must be within 7 days of the toStatusChanged date-time.</param>

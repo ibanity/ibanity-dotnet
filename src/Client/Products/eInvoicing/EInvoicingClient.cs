@@ -99,7 +99,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         IPeppolCreditNotes PeppolCreditNotes { get; }
 
         /// <summary>
-        /// Peppol document
+        /// Peppol Outbound Document
         /// </summary>
         IPeppolDocuments PeppolDocuments { get; }
 
