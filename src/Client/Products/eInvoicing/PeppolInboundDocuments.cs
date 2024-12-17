@@ -39,6 +39,10 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         }
 
         /// <inheritdoc />
+        public Task<PeppolInboundDocument> Get(ClientAccessToken token, Guid id, CancellationToken? cancellationToken = null) =>
+            InternalGet(token, id, cancellationToken);
+
+        /// <inheritdoc />
         protected override PeppolInboundDocument Map(Data<PeppolInboundDocument, object, PeppolInboundDocumentRelationships, object> data)
         {
             var result = base.Map(data);
@@ -65,5 +69,14 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of Peppol Inbound Document resources</returns>
         Task<EInvoicingCollection<PeppolInboundDocument>> List(ClientAccessToken token, DateTimeOffset? fromCreatedAt, Guid? supplierId, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Get Peppol Inbound Document
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="id">Document ID</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns></returns>
+        Task<PeppolInboundDocument> Get(ClientAccessToken token, Guid id, CancellationToken? cancellationToken = null);
     }
 }
