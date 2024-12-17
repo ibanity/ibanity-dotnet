@@ -1,3 +1,4 @@
+using System;
 using Ibanity.Apis.Client.Http;
 
 namespace Ibanity.Apis.Client.Products.eInvoicing
@@ -25,7 +26,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
             PeppolRegistrations = new PeppolRegistrations(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolInvoices = new PeppolInvoices(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolCreditNotes = new PeppolCreditNotes(apiClient, clientAccessTokenService, UrlPrefix);
-            PeppolDocuments = new PeppolDocuments(apiClient, clientAccessTokenService, UrlPrefix);
+            PeppolOutboundDocuments = PeppolDocuments = new PeppolOutboundDocuments(apiClient, clientAccessTokenService, UrlPrefix);
             ZoomitCustomerSearches = new ZoomitCustomerSearches(apiClient, clientAccessTokenService, UrlPrefix);
             ZoomitInvoices = new ZoomitInvoices(apiClient, clientAccessTokenService, UrlPrefix);
             ZoomitCreditNotes = new ZoomitCreditNotes(apiClient, clientAccessTokenService, UrlPrefix);
@@ -49,6 +50,9 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
 
         /// <inheritdoc />
         public IPeppolDocuments PeppolDocuments { get; }
+
+        /// <inheritdoc />
+        public IPeppolOutboundDocuments PeppolOutboundDocuments { get; }
 
         /// <inheritdoc />
         public IZoomitCustomerSearches ZoomitCustomerSearches { get; }
@@ -101,7 +105,13 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <summary>
         /// Peppol Outbound Document
         /// </summary>
+        [Obsolete("Prefer 'PeppolOutboundDocument' property")]
         IPeppolDocuments PeppolDocuments { get; }
+
+        /// <summary>
+        /// Peppol Outbound Document
+        /// </summary>
+        IPeppolOutboundDocuments PeppolOutboundDocuments { get; }
 
         /// <summary>
         /// <p>This endpoint allows you to search for a customer on the Zoomit network. Based on the response you know whether the customer is reachable on Zoomit or not.</p>

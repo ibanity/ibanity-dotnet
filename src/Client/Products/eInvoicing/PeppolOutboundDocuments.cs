@@ -8,8 +8,8 @@ using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.eInvoicing
 {
-    /// <inheritdoc cref="IPeppolDocuments" />
-    public class PeppolDocuments : ResourceClient<PeppolDocument, object, object, object, ClientAccessToken>, IPeppolDocuments
+    /// <inheritdoc cref="IPeppolOutboundDocuments" />
+    public class PeppolOutboundDocuments : ResourceClient<PeppolDocument, object, object, object, ClientAccessToken>, IPeppolOutboundDocuments, IPeppolDocuments
     {
         private const string EntityName = "peppol/documents";
 
@@ -19,7 +19,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="apiClient">Generic API client</param>
         /// <param name="accessTokenProvider">Service to refresh access tokens</param>
         /// <param name="urlPrefix">Beginning of URIs, composed by Ibanity API endpoint, followed by product name</param>
-        public PeppolDocuments(IApiClient apiClient, IAccessTokenProvider<ClientAccessToken> accessTokenProvider, string urlPrefix) :
+        public PeppolOutboundDocuments(IApiClient apiClient, IAccessTokenProvider<ClientAccessToken> accessTokenProvider, string urlPrefix) :
             base(apiClient, accessTokenProvider, urlPrefix, EntityName)
         { }
 
@@ -41,7 +41,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
     /// <summary>
     /// Peppol Outbound Document
     /// </summary>
-    public interface IPeppolDocuments
+    public interface IPeppolOutboundDocuments
     {
         /// <summary>
         /// List Peppol Outbound Documents
@@ -55,4 +55,10 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <returns>A list of Peppol Document resources</returns>
         Task<EInvoicingCollection<PeppolDocument>> List(ClientAccessToken token, DateTimeOffset? fromStatusChanged, DateTimeOffset? toStatusChanged, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null);
     }
+
+    /// <summary>
+    /// Peppol Outbound Document
+    /// </summary>
+    /// <remarks>To maintain backwards compatibility.</remarks>
+    public interface IPeppolDocuments : IPeppolOutboundDocuments { }
 }
