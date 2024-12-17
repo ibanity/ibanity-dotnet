@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
@@ -43,6 +44,10 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
             InternalGet(token, id, cancellationToken);
 
         /// <inheritdoc />
+        public Task GetXml(ClientAccessToken token, Guid id, Stream target, CancellationToken? cancellationToken = null) =>
+            InternalGetToStream(token, id, "application/xml", target, cancellationToken);
+
+        /// <inheritdoc />
         protected override PeppolInboundDocument Map(Data<PeppolInboundDocument, object, PeppolInboundDocumentRelationships, object> data)
         {
             var result = base.Map(data);
@@ -78,5 +83,15 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns></returns>
         Task<PeppolInboundDocument> Get(ClientAccessToken token, Guid id, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// Get Peppol Inbound Document XML
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="id">Document ID</param>
+        /// <param name="target">Document ID</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns></returns>
+        Task GetXml(ClientAccessToken token, Guid id, Stream target, CancellationToken? cancellationToken = null);
     }
 }
