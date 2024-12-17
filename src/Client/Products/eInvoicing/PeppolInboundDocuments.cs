@@ -25,6 +25,20 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         { }
 
         /// <inheritdoc />
+        public Task<EInvoicingCollection<PeppolInboundDocument>> List(ClientAccessToken token, DateTimeOffset? fromCreatedAt, Guid? supplierId, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null)
+        {
+            var parameters = new List<(string, string)>();
+
+            if (fromCreatedAt.HasValue)
+                parameters.Add(("fromCreatedAt", fromCreatedAt.Value.ToString("o")));
+
+            if (supplierId.HasValue)
+                parameters.Add(("supplierId", supplierId.Value.ToString("D")));
+
+            return InternalPageBasedList(token, null, parameters, pageNumber, pageSize, cancellationToken);
+        }
+
+        /// <inheritdoc />
         protected override PeppolInboundDocument Map(Data<PeppolInboundDocument, object, PeppolInboundDocumentRelationships, object> data)
         {
             var result = base.Map(data);
@@ -40,5 +54,16 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
     /// </summary>
     public interface IPeppolInboundDocuments
     {
+        /// <summary>
+        /// List Peppol Inbound Documents
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="fromCreatedAt">Start of the document created date period scope.</param>
+        /// <param name="supplierId">The uuid of the supplier given during the on boarding process.</param>
+        /// <param name="pageNumber">Number of page that should be returned. Must be included to use page-based pagination.</param>
+        /// <param name="pageSize">Number (1-2000) of document resources that you want to be returned. Defaults to 2000.</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>A list of Peppol Inbound Document resources</returns>
+        Task<EInvoicingCollection<PeppolInboundDocument>> List(ClientAccessToken token, DateTimeOffset? fromCreatedAt, Guid? supplierId, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null);
     }
 }
