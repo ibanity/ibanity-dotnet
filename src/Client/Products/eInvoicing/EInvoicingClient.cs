@@ -27,6 +27,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
             PeppolInvoices = new PeppolInvoices(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolCreditNotes = new PeppolCreditNotes(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolOutboundDocuments = PeppolDocuments = new PeppolOutboundDocuments(apiClient, clientAccessTokenService, UrlPrefix);
+            PeppolInboundDocuments = new PeppolInboundDocuments(apiClient, clientAccessTokenService, UrlPrefix);
             ZoomitCustomerSearches = new ZoomitCustomerSearches(apiClient, clientAccessTokenService, UrlPrefix);
             ZoomitInvoices = new ZoomitInvoices(apiClient, clientAccessTokenService, UrlPrefix);
             ZoomitCreditNotes = new ZoomitCreditNotes(apiClient, clientAccessTokenService, UrlPrefix);
@@ -53,6 +54,9 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
 
         /// <inheritdoc />
         public IPeppolOutboundDocuments PeppolOutboundDocuments { get; }
+
+        /// <inheritdoc />
+        public IPeppolInboundDocuments PeppolInboundDocuments { get; }
 
         /// <inheritdoc />
         public IZoomitCustomerSearches ZoomitCustomerSearches { get; }
@@ -112,6 +116,11 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// Peppol Outbound Document
         /// </summary>
         IPeppolOutboundDocuments PeppolOutboundDocuments { get; }
+
+        /// <summary>
+        /// Peppol inbound documents
+        /// </summary>
+        IPeppolInboundDocuments PeppolInboundDocuments { get; }
 
         /// <summary>
         /// <p>This endpoint allows you to search for a customer on the Zoomit network. Based on the response you know whether the customer is reachable on Zoomit or not.</p>
