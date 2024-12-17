@@ -53,7 +53,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="token">Authentication token</param>
         /// <param name="peppolCustomerSearch">An object representing a new Peppol Customer search</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>The created supplier resource</returns>
+        /// <returns>The created Peppol Customer search resource</returns>
         Task<PeppolCustomerSearchResponse> Create(ClientAccessToken token, PeppolCustomerSearch peppolCustomerSearch, CancellationToken? cancellationToken = null);
     }
 }

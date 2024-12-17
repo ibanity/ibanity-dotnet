@@ -54,7 +54,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="supplierId">Supplier ID</param>
         /// <param name="zoomitCustomerSearch">An object representing a new Zoomit Customer search</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>The created supplier resource</returns>
+        /// <returns>The created Zoomit Customer Search resource</returns>
         Task<ZoomitCustomerSearchResponse> Create(ClientAccessToken token, Guid supplierId, ZoomitCustomerSearch zoomitCustomerSearch, CancellationToken? cancellationToken = null);
     }
 }
