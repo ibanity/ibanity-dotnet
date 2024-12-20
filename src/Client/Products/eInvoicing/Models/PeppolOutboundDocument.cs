@@ -6,10 +6,10 @@ using Ibanity.Apis.Client.Utils;
 namespace Ibanity.Apis.Client.Products.eInvoicing.Models
 {
     /// <summary>
-    /// Peppol document
+    /// Peppol outbound document
     /// </summary>
     [DataContract]
-    public class PeppolDocument : Identified<Guid>
+    public class PeppolOutboundDocument : Identified<Guid>
     {
         /// <summary>
         /// When this peppol document was created. Formatted according to &lt;a href&#x3D;&#39;https://en.wikipedia.org/wiki/ISO_8601&#39;&gt;ISO8601&lt;/a&gt; spec
@@ -34,4 +34,10 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
         [DataMember(Name = "status", EmitDefaultValue = false)]
         public string Status { get; set; }
     }
+
+    /// <summary>
+    /// Peppol outbound document
+    /// </summary>
+    /// <remarks>To maintain backwards compatibility.</remarks>
+    public class PeppolDocument : PeppolOutboundDocument { }
 }
