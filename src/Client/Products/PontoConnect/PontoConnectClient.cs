@@ -182,7 +182,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect
         /// <para>When creating the payment request activation request, you will receive the redirect link in the response. Your customer should be redirected to this url to begin the process. At the end of the flow, they will be returned to the redirect uri that you defined.</para>
         /// <para>When using this endpoint in the sandbox, the redirection flow will work but the user will not be prompted to request payment request activation as this is enabled by default in the sandbox.</para>
         /// </summary>
-        IPaymentRequestctivationRequests PaymentRequestActivationRequests { get; }
+        IPaymentRequestActivationRequests PaymentRequestActivationRequests { get; }
 
         /// <summary>
         /// This endpoint provides the usage of your integration by the provided organization during a given month. In order to continue to allow access to this information if an integration is revoked, you must use a client access token for this endpoint.
