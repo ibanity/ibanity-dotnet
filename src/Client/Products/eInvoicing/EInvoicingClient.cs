@@ -21,12 +21,15 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         public EInvoicingClient(IApiClient apiClient, ITokenProviderWithoutCodeVerifier tokenService, IClientAccessTokenProvider clientAccessTokenService, ICustomerAccessTokenProvider customerTokenService)
             : base(apiClient, tokenService, clientAccessTokenService, customerTokenService)
         {
+            var peppolOutboundDocuments = new PeppolOutboundDocuments(apiClient, clientAccessTokenService, UrlPrefix);
+
             Suppliers = new Suppliers(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolCustomerSearches = new PeppolCustomerSearches(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolRegistrations = new PeppolRegistrations(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolInvoices = new PeppolInvoices(apiClient, clientAccessTokenService, UrlPrefix);
             PeppolCreditNotes = new PeppolCreditNotes(apiClient, clientAccessTokenService, UrlPrefix);
-            PeppolOutboundDocuments = PeppolDocuments = new PeppolOutboundDocuments(apiClient, clientAccessTokenService, UrlPrefix);
+            PeppolDocuments = peppolOutboundDocuments;
+            PeppolOutboundDocuments = peppolOutboundDocuments;
             PeppolInboundDocuments = new PeppolInboundDocuments(apiClient, clientAccessTokenService, UrlPrefix);
             ZoomitCustomerSearches = new ZoomitCustomerSearches(apiClient, clientAccessTokenService, UrlPrefix);
             ZoomitInvoices = new ZoomitInvoices(apiClient, clientAccessTokenService, UrlPrefix);
