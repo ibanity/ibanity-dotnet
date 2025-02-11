@@ -30,10 +30,10 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
             var parameters = new List<(string, string)>();
 
             if (fromStatusChanged.HasValue)
-                parameters.Add(("fromStatusChanged", fromStatusChanged.Value.ToString("o")));
+                parameters.Add(("fromStatusChanged", fromStatusChanged.Value.UtcDateTime.ToString("o")));
 
             if (toStatusChanged.HasValue)
-                parameters.Add(("toStatusChanged", toStatusChanged.Value.ToString("o")));
+                parameters.Add(("toStatusChanged", toStatusChanged.Value.UtcDateTime.ToString("o")));
 
             return InternalPageBasedList(token, null, parameters, pageNumber, pageSize, cancellationToken);
         }
