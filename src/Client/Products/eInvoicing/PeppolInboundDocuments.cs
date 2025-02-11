@@ -31,7 +31,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
             var parameters = new List<(string, string)>();
 
             if (fromCreatedAt.HasValue)
-                parameters.Add(("fromCreatedAt", fromCreatedAt.Value.ToString("o")));
+                parameters.Add(("fromCreatedAt", fromCreatedAt.Value.UtcDateTime.ToString("o")));
 
             if (supplierId.HasValue)
                 parameters.Add(("supplierId", supplierId.Value.ToString("D")));
