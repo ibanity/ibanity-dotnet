@@ -25,6 +25,13 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public bool PaymentsActivationRequested { get; set; }
 
         /// <summary>
+        /// Indicates whether the organization has requested to be able to send payments request from Ponto. If it is &lt;code&gt;false&lt;/code&gt; (or you are in the sandbox), you may use the &lt;a href&#x3D;&#39;https://documentation.ibanity.com//api#request-payment-activation&#39;&gt;payment request activation request&lt;/a&gt; redirect flow.
+        /// </summary>
+        /// <value>Indicates whether the organization has requested to be able to sign payments from Ponto. If it is &lt;code&gt;false&lt;/code&gt; (or you are in the sandbox), you may use the &lt;a href&#x3D;&#39;https://documentation.ibanity.com//api#request-payment-request-activation&#39;&gt;payment request activation request&lt;/a&gt; redirect flow.</value>
+        [DataMember(Name = "paymentsRequestActivationRequested", EmitDefaultValue = true)]
+        public bool PaymentsRequestActivationRequested { get; set; }
+
+        /// <summary>
         /// Indicates whether the organization can currently sign live payments from Ponto. Must be &lt;code&gt;true&lt;/code&gt; to use the (bulk) payment redirect flow.
         /// </summary>
         /// <value>Indicates whether the organization can currently sign live payments from Ponto. Must be &lt;code&gt;true&lt;/code&gt; to use the (bulk) payment redirect flow.</value>
