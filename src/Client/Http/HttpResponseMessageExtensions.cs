@@ -49,8 +49,9 @@ namespace Ibanity.Apis.Client.Http
                     ? null
                     : serializer.Deserialize<JsonApi.Error>(body);
             }
-            catch
+            catch (Exception e)
             {
+                logger.Error($"Can't deserialize error: {e.Message}", e);
                 errors = null;
             }
 
