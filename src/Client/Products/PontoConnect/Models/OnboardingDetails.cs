@@ -129,6 +129,13 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// <value>Type of the onboarding user&#39;s organization. Valid values are 'business' and 'personal'. Defaults to 'business'</value>
         [DataMember(Name = "organizationType", EmitDefaultValue = false)]
         public string OrganizationType { get; set; }
+
+        /// <summary>
+        /// Indicates whether the financial institution selection step should be skipped during onboarding
+        /// </summary>
+        /// <value>Whether to skip the financial institution selection step</value>
+        [DataMember(Name = "skipFinancialInstitutionSelection", EmitDefaultValue = false)]
+        public bool SkipFinancialInstitutionSelection { get; set; }
     }
 
     /// <inheritdoc cref="OnboardingDetails" />
