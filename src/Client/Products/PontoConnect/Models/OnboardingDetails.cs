@@ -135,7 +135,7 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         /// </summary>
         /// <value>Whether to skip the financial institution selection step</value>
         [DataMember(Name = "skipFinancialInstitutionSelection", EmitDefaultValue = false)]
-        public bool SkipFinancialInstitutionSelection { get; set; }
+        public bool? SkipFinancialInstitutionSelection { get; set; }
     }
 
     /// <inheritdoc cref="OnboardingDetails" />
