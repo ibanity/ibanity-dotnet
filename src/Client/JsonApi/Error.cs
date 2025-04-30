@@ -27,5 +27,23 @@ namespace Ibanity.Apis.Client.JsonApi
         /// Error description.
         /// </summary>
         public string Detail { get; set; }
+
+        /// <summary>
+        /// Error source.
+        /// </summary>
+        public ErrorSource Source { get; set; }
+    }
+
+    /// <summary>
+    /// Error source.
+    /// </summary>
+    public class ErrorSource
+    {
+        /// <summary>
+        /// Error pointer.
+        /// </summary>
+#pragma warning disable CA1720
+        public string Pointer { get; set; }
+#pragma warning restore CA1720
     }
 }
