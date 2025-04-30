@@ -25,7 +25,14 @@ namespace Ibanity.Apis.Client.Http
         private static string Format(JsonApi.Error error)
         {
             if (error?.Errors?.Any() ?? false)
-                return string.Join(" - ", error.Errors.Select(e => $"{e.Code} ({e.Detail})"));
+                return string.Join(" - ", error.Errors.Select(e =>
+                {
+                    var source = string.IsNullOrWhiteSpace(e.Source?.Pointer)
+                        ? string.Empty
+                        : $" at {e.Source.Pointer}";
+
+                    return $"{e.Code} ({e.Detail}{source})";
+                }));
 
             return "Unspecified";
         }
