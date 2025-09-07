@@ -24,7 +24,7 @@ namespace Ibanity.Apis.Client.Webhooks.Models.eInvoicing
     /// <summary>
     /// A webhook payload delivered whenever a peppol registration is updated to registered or registration-failed.
     /// </summary>
-    public class NestedPeppolRegistrationsUpdated : PayloadData<PeppolRegistrationsUpdatedAttributes, PeppolRegistrationsUpdatedRelationships>
+    public class NestedPeppolRegistrationsUpdated : PayloadData<Attributes, SupplierRelationships>
     {
         /// <inheritdoc />
         public override IWebhookEvent Flatten() =>
@@ -35,29 +35,5 @@ namespace Ibanity.Apis.Client.Webhooks.Models.eInvoicing
                 SupplierId = Guid.Parse(Relationships.Supplier.Data.Id),
                 CreatedAt = Attributes.CreatedAt
             };
-    }
-
-    /// <summary>
-    /// Payload attributes delivered whenever a peppol registration is updated to registered or registration-failed.
-    /// </summary>
-    public class PeppolRegistrationsUpdatedAttributes
-    {
-        /// <summary>
-        /// When this notification was created.
-        /// </summary>
-        [DataMember(Name = "createdAt", EmitDefaultValue = false)]
-        public DateTimeOffset CreatedAt { get; set; }
-    }
-
-    /// <summary>
-    /// Payload relationships delivered whenever a peppol registration is updated to registered or registration-failed.
-    /// </summary>
-    public class PeppolRegistrationsUpdatedRelationships
-    {
-        /// <summary>
-        /// A Supplier reference.
-        /// </summary>
-        [DataMember(Name = "supplier", EmitDefaultValue = false)]
-        public Relationship Supplier { get; set; }
     }
 }

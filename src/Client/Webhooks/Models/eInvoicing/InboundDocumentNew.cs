@@ -33,7 +33,7 @@ namespace Ibanity.Apis.Client.Webhooks.Models.eInvoicing
     /// A webhook payload delivered whenever there is a new document available.
     /// </summary>
 #pragma warning disable CA1711 // Identifiers should not have incorrect suffix
-    public class NestedInboundDocumentNew : PayloadData<InboundDocumentNewAttributes, InboundDocumentNewRelationships>
+    public class NestedInboundDocumentNew : PayloadData<Attributes, InboundDocumentNewRelationships>
 #pragma warning restore CA1711 // Identifiers should not have incorrect suffix
     {
         /// <inheritdoc />
@@ -49,32 +49,14 @@ namespace Ibanity.Apis.Client.Webhooks.Models.eInvoicing
     }
 
     /// <summary>
-    /// Payload attributes delivered whenever there is a new document available.
-    /// </summary>
-    public class InboundDocumentNewAttributes
-    {
-        /// <summary>
-        /// When this notification was created.
-        /// </summary>
-        [DataMember(Name = "createdAt", EmitDefaultValue = false)]
-        public DateTimeOffset CreatedAt { get; set; }
-    }
-
-    /// <summary>
     /// Payload relationships delivered whenever there is a new document available.
     /// </summary>
-    public class InboundDocumentNewRelationships
+    public class InboundDocumentNewRelationships : SupplierRelationships
     {
         /// <summary>
         /// A Peppol Inbound Document reference.
         /// </summary>
         [DataMember(Name = "document", EmitDefaultValue = false)]
         public Relationship Document { get; set; }
-
-        /// <summary>
-        /// A Supplier reference.
-        /// </summary>
-        [DataMember(Name = "supplier", EmitDefaultValue = false)]
-        public Relationship Supplier { get; set; }
     }
 }
