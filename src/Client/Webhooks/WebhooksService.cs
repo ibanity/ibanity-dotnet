@@ -18,6 +18,7 @@ namespace Ibanity.Apis.Client.Webhooks
         {
             { "eInvoicing.inbound.document.new", typeof(Payload<Models.eInvoicing.NestedInboundDocumentNew>) },
             { "eInvoicing.peppol.registrations.updated", typeof(Payload<Models.eInvoicing.NestedPeppolRegistrationsUpdated>) },
+            { "eInvoicing.supplier.kyc.rejected", typeof(Payload<Models.eInvoicing.NestedSupplierKycRejected>) },
             { "eInvoicing.supplier.onboarded", typeof(Payload<Models.eInvoicing.NestedSupplierOnboarded>) },
             { "pontoConnect.synchronization.succeededWithoutChange", typeof(Payload<Models.PontoConnect.NestedSynchronizationSucceededWithoutChange>) },
             { "pontoConnect.synchronization.failed", typeof(Payload<Models.PontoConnect.NestedSynchronizationFailed>) },
