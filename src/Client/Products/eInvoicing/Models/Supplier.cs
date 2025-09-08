@@ -176,6 +176,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
         /// </summary>
         /// <value>The scan of the company's entry in the business registration directory of that company's country. Base64-encoded string. Supported formats are &lt;code&gt;image/jpeg&lt;/code&gt;, &lt;code&gt;image/png&lt;/code&gt;, &lt;code&gt;application/pdf&lt;/code&gt;. This picture will only be used for the KYC check, afterwards it will be deleted. Only for non-Belgian companies. Maximum file size: 1MiB..</value>
         [DataMember(Name = "businessRegisterScan", EmitDefaultValue = false)]
+        [Obsolete("Prefer 'BusinessRegisterScans' property")]
         public string BusinessRegisterScan { get; set; }
     }
 
