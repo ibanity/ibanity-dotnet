@@ -37,6 +37,11 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
         /// ID of the supplier that this document belongs to.
         /// </summary>
         public Guid SupplierId { get; set; }
+
+        /// <summary>
+        /// ID of the related business status.
+        /// </summary>
+        public Guid? BusinessStatusId { get; set; }
     }
 
     /// <summary>
@@ -50,5 +55,11 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
         /// </summary>
         [DataMember(Name = "supplier", EmitDefaultValue = false)]
         public JsonApi.Relationship Supplier { get; set; }
+
+        /// <summary>
+        /// Link to the business status.
+        /// </summary>
+        [DataMember(Name = "businessStatus", EmitDefaultValue = false)]
+        public JsonApi.Relationship BusinessStatus { get; set; }
     }
 }
