@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ibanity.Apis.Client.Http;
 using Ibanity.Apis.Client.Products.eInvoicing.Models;
+using Ibanity.Apis.Client.Utils;
 
 namespace Ibanity.Apis.Client.Products.eInvoicing
 {
@@ -21,6 +22,10 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         public PeppolInboundDocumentBusinessStatuses(IApiClient apiClient, IAccessTokenProvider<ClientAccessToken> accessTokenProvider, string urlPrefix) :
             base(apiClient, accessTokenProvider, urlPrefix, new[] { ParentEntityName, EntityName })
         { }
+
+        /// <inheritdoc/>
+        public Task<Collection<PeppolInboundDocumentBusinessStatusResponse>> List(ClientAccessToken token, Guid inboundDocumentId, CancellationToken? cancellationToken = null) =>
+            InternalList(token, new[] { inboundDocumentId }, null, null, cancellationToken);
 
         /// <inheritdoc/>
         public Task<PeppolInboundDocumentBusinessStatusResponse> Create(ClientAccessToken token, Guid inboundDocumentId, PeppolInboundDocumentBusinessStatus businessStatus, CancellationToken? cancellationToken = null)
@@ -46,6 +51,15 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
     /// </summary>
     public interface IPeppolInboundDocumentBusinessStatuses
     {
+        /// <summary>
+        /// List Peppol Inbound Documents Business Statuses
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="inboundDocumentId">Inbound document ID</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>A list of Peppol Inbound Document Business Status resources</returns>
+        Task<Collection<PeppolInboundDocumentBusinessStatusResponse>> List(ClientAccessToken token, Guid inboundDocumentId, CancellationToken? cancellationToken = null);
+
         /// <summary>
         /// Create Peppol Inbound Document Business Status
         /// </summary>
