@@ -28,6 +28,10 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
             InternalList(token, new[] { inboundDocumentId }, null, null, cancellationToken);
 
         /// <inheritdoc/>
+        public Task<PeppolInboundDocumentBusinessStatusResponse> Get(ClientAccessToken token, Guid inboundDocumentId, Guid businessStatusId, CancellationToken? cancellationToken = null) =>
+            InternalGet(token, new[] { inboundDocumentId }, businessStatusId, cancellationToken);
+
+        /// <inheritdoc/>
         public Task<PeppolInboundDocumentBusinessStatusResponse> Create(ClientAccessToken token, Guid inboundDocumentId, PeppolInboundDocumentBusinessStatus businessStatus, CancellationToken? cancellationToken = null)
         {
             if (token is null)
@@ -59,6 +63,16 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of Peppol Inbound Document Business Status resources</returns>
         Task<Collection<PeppolInboundDocumentBusinessStatusResponse>> List(ClientAccessToken token, Guid inboundDocumentId, CancellationToken? cancellationToken = null);
+
+        /// <summary>
+        /// List Peppol Inbound Documents Business Status
+        /// </summary>
+        /// <param name="token">Authentication token</param>
+        /// <param name="inboundDocumentId">Inbound document ID</param>
+        /// <param name="businessStatusId">Inbound document business status ID</param>
+        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
+        /// <returns>A list of Peppol Inbound Document Business Status resources</returns>
+        Task<PeppolInboundDocumentBusinessStatusResponse> Get(ClientAccessToken token, Guid inboundDocumentId, Guid businessStatusId, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Create Peppol Inbound Document Business Status
