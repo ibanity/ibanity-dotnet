@@ -4,11 +4,9 @@ using System.Runtime.Serialization;
 namespace Ibanity.Apis.Client.Webhooks.Models.eInvoicing
 {
     /// <summary>
-    /// A webhook payload delivered whenever there is a new document available.
+    /// A webhook payload delivered whenever the status of a Peppol outbound document business status changes.
     /// </summary>
-#pragma warning disable CA1711 // Identifiers should not have incorrect suffix
-    public class InboundDocumentNew : JsonApi.Data, IWebhookEvent
-#pragma warning restore CA1711 // Identifiers should not have incorrect suffix
+    public class NewPeppolOutboundDocumentBusinessStatus : JsonApi.Data, IWebhookEvent
     {
         /// <summary>
         /// Unique identifier of the associated document.
@@ -30,15 +28,13 @@ namespace Ibanity.Apis.Client.Webhooks.Models.eInvoicing
     }
 
     /// <summary>
-    /// A webhook payload delivered whenever there is a new document available.
+    /// A webhook payload delivered whenever the status of a Peppol outbound document business status changes.
     /// </summary>
-#pragma warning disable CA1711 // Identifiers should not have incorrect suffix
-    public class NestedInboundDocumentNew : PayloadData<Attributes, DocumentRelationships>
-#pragma warning restore CA1711 // Identifiers should not have incorrect suffix
+    public class NestedNewPeppolOutboundDocumentBusinessStatus : PayloadData<Attributes, DocumentRelationships>
     {
         /// <inheritdoc />
         public override IWebhookEvent Flatten() =>
-            new InboundDocumentNew
+            new NewPeppolOutboundDocumentBusinessStatus
             {
                 Id = Id,
                 Type = Type,

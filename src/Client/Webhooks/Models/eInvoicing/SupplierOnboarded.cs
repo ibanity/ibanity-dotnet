@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 namespace Ibanity.Apis.Client.Webhooks.Models.eInvoicing
 {
     /// <summary>
-    /// A webhook payload delivered whenever a peppol registration is updated to registered or registration-failed.
+    /// A webhook payload delivered whenever the supplier is onboarded, i.e., its status is updated to ONBOARDED.
     /// </summary>
-    public class PeppolRegistrationsUpdated : JsonApi.Data, IWebhookEvent
+    public class SupplierOnboarded : JsonApi.Data, IWebhookEvent
     {
         /// <summary>
         /// Unique identifier of the associated supplier.
@@ -22,13 +22,13 @@ namespace Ibanity.Apis.Client.Webhooks.Models.eInvoicing
     }
 
     /// <summary>
-    /// A webhook payload delivered whenever a peppol registration is updated to registered or registration-failed.
+    /// A webhook payload delivered whenever the supplier is onboarded, i.e., its status is updated to ONBOARDED.
     /// </summary>
-    public class NestedPeppolRegistrationsUpdated : PayloadData<Attributes, SupplierRelationships>
+    public class NestedSupplierOnboarded : PayloadData<Attributes, SupplierRelationships>
     {
         /// <inheritdoc />
         public override IWebhookEvent Flatten() =>
-            new PeppolRegistrationsUpdated
+            new SupplierOnboarded
             {
                 Id = Id,
                 Type = Type,
