@@ -31,6 +31,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
             PeppolDocuments = peppolOutboundDocuments;
             PeppolOutboundDocuments = peppolOutboundDocuments;
             PeppolInboundDocuments = new PeppolInboundDocuments(apiClient, clientAccessTokenService, UrlPrefix);
+            PeppolInboundDocumentBusinessStatuses = new PeppolInboundDocumentBusinessStatuses(apiClient, clientAccessTokenService, UrlPrefix);
             ZoomitCustomerSearches = new ZoomitCustomerSearches(apiClient, clientAccessTokenService, UrlPrefix);
             ZoomitInvoices = new ZoomitInvoices(apiClient, clientAccessTokenService, UrlPrefix);
             ZoomitCreditNotes = new ZoomitCreditNotes(apiClient, clientAccessTokenService, UrlPrefix);
@@ -60,6 +61,9 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
 
         /// <inheritdoc />
         public IPeppolInboundDocuments PeppolInboundDocuments { get; }
+
+        /// <inheritdoc />
+        public IPeppolInboundDocumentBusinessStatuses PeppolInboundDocumentBusinessStatuses { get; }
 
         /// <inheritdoc />
         public IZoomitCustomerSearches ZoomitCustomerSearches { get; }
@@ -124,6 +128,11 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// Peppol inbound documents
         /// </summary>
         IPeppolInboundDocuments PeppolInboundDocuments { get; }
+
+        /// <summary>
+        /// This is an object representing the business status of an inbound document that can be added by a supplier. Once created, business statuses are translated into an IMR document and transmitted to the sender of the inbound document. Unless otherwise stated, business status codes are mapped to the same IMR status code.
+        /// </summary>
+        IPeppolInboundDocumentBusinessStatuses PeppolInboundDocumentBusinessStatuses { get; }
 
         /// <summary>
         /// <p>This endpoint allows you to search for a customer on the Zoomit network. Based on the response you know whether the customer is reachable on Zoomit or not.</p>

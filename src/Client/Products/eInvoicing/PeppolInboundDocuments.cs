@@ -53,6 +53,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
             var result = base.Map(data);
 
             result.SupplierId = Guid.Parse(data.Relationships.Supplier.Data.Id);
+            result.BusinessStatusId = Guid.Parse(data.Relationships?.BusinessStatus?.Data?.Id);
 
             return result;
         }
