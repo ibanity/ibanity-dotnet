@@ -25,7 +25,7 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         { }
 
         /// <inheritdoc />
-        public Task<EInvoicingCollection<PeppolOutboundDocument>> List(ClientAccessToken token, DateTimeOffset? fromStatusChanged, DateTimeOffset? toStatusChanged, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null)
+        public Task<EInvoicingCollection<PeppolOutboundDocument>> List(ClientAccessToken token, DateTimeOffset? fromStatusChanged, DateTimeOffset? toStatusChanged, Guid? supplierId, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null)
         {
             var parameters = new List<(string, string)>();
 
@@ -35,13 +35,16 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
             if (toStatusChanged.HasValue)
                 parameters.Add(("toStatusChanged", toStatusChanged.Value.UtcDateTime.ToString("o")));
 
+            if (supplierId.HasValue)
+                parameters.Add(("supplierId", supplierId.Value.ToString("D")));
+
             return InternalPageBasedList(token, null, parameters, pageNumber, pageSize, cancellationToken);
         }
 
         /// <inheritdoc />
-        async Task<EInvoicingCollection<PeppolDocument>> IPeppolDocuments.List(ClientAccessToken token, DateTimeOffset? fromStatusChanged, DateTimeOffset? toStatusChanged, long? pageNumber, int? pageSize, CancellationToken? cancellationToken)
+        async Task<EInvoicingCollection<PeppolDocument>> IPeppolDocuments.List(ClientAccessToken token, DateTimeOffset? fromStatusChanged, DateTimeOffset? toStatusChanged, Guid? supplierId, long? pageNumber, int? pageSize, CancellationToken? cancellationToken)
         {
-            var collection = await List(token, fromStatusChanged, toStatusChanged, pageNumber, pageSize, cancellationToken).ConfigureAwait(false);
+            var collection = await List(token, fromStatusChanged, toStatusChanged, supplierId, pageNumber, pageSize, cancellationToken).ConfigureAwait(false);
 
             return new EInvoicingCollection<PeppolDocument>
             {
@@ -65,11 +68,12 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="token">Authentication token</param>
         /// <param name="fromStatusChanged">Start of the document status change period scope. Must be within 7 days of the toStatusChanged date-time.</param>
         /// <param name="toStatusChanged">End of the document status change period scope. Must be equal to or later than fromStatusChanged. Defaults to the current date-time.</param>
+        /// <param name="supplierId">The uuid of the supplier given during the on boarding process.</param>
         /// <param name="pageNumber">Number of page that should be returned. Must be included to use page-based pagination.</param>
         /// <param name="pageSize">Number (1-2000) of document resources that you want to be returned. Defaults to 2000.</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of Peppol Outbound Document resources</returns>
-        Task<EInvoicingCollection<PeppolOutboundDocument>> List(ClientAccessToken token, DateTimeOffset? fromStatusChanged, DateTimeOffset? toStatusChanged, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null);
+        Task<EInvoicingCollection<PeppolOutboundDocument>> List(ClientAccessToken token, DateTimeOffset? fromStatusChanged, DateTimeOffset? toStatusChanged, Guid? supplierId = null, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null);
     }
 
     /// <summary>
@@ -84,11 +88,12 @@ namespace Ibanity.Apis.Client.Products.eInvoicing
         /// <param name="token">Authentication token</param>
         /// <param name="fromStatusChanged">Start of the document status change period scope. Must be within 7 days of the toStatusChanged date-time.</param>
         /// <param name="toStatusChanged">End of the document status change period scope. Must be equal to or later than fromStatusChanged. Defaults to the current date-time.</param>
+        /// <param name="supplierId">The uuid of the supplier given during the on boarding process.</param>
         /// <param name="pageNumber">Number of page that should be returned. Must be included to use page-based pagination.</param>
         /// <param name="pageSize">Number (1-2000) of document resources that you want to be returned. Defaults to 2000.</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>A list of Peppol Outbound Document resources</returns>
         /// <remarks>To maintain backwards compatibility.</remarks>
-        Task<EInvoicingCollection<PeppolDocument>> List(ClientAccessToken token, DateTimeOffset? fromStatusChanged, DateTimeOffset? toStatusChanged, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null);
+        Task<EInvoicingCollection<PeppolDocument>> List(ClientAccessToken token, DateTimeOffset? fromStatusChanged, DateTimeOffset? toStatusChanged, Guid? supplierId = null, long? pageNumber = null, int? pageSize = null, CancellationToken? cancellationToken = null);
     }
 }
