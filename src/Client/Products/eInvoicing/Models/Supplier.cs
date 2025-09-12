@@ -165,10 +165,18 @@ namespace Ibanity.Apis.Client.Products.eInvoicing.Models
         public string RepresentativeIdScan { get; set; }
 
         /// <summary>
+        /// (Only required in case the KYC is outsourced to Flowin.) The scan of the company's entry in the business registration directory of that company's country. Array of Base64-encoded strings. Supported formats are &lt;code&gt;image/jpeg&lt;/code&gt;, &lt;code&gt;image/png&lt;/code&gt;, &lt;code&gt;application/pdf&lt;/code&gt;. This scan will only be used for the KYC check, afterwards it will be deleted. Only for non-Belgian companies. Please provide the full document. In case of a company managed through one or more companies, please provide the business register scans of all companies up to the level where we are able to link the given Legal Representative to the Supplier. Maximum 5 files, maximum file size: 1MiB.
+        /// </summary>
+        /// <value>(Only required in case the KYC is outsourced to Flowin.) The scan of the company's entry in the business registration directory of that company's country. Array of Base64-encoded strings. Supported formats are &lt;code&gt;image/jpeg&lt;/code&gt;, &lt;code&gt;image/png&lt;/code&gt;, &lt;code&gt;application/pdf&lt;/code&gt;. This scan will only be used for the KYC check, afterwards it will be deleted. Only for non-Belgian companies. Please provide the full document. In case of a company managed through one or more companies, please provide the business register scans of all companies up to the level where we are able to link the given Legal Representative to the Supplier. Maximum 5 files, maximum file size: 1MiB.</value>
+        [DataMember(Name = "businessRegisterScans", EmitDefaultValue = false)]
+        public List<string> BusinessRegisterScans { get; set; }
+
+        /// <summary>
         /// The scan of the company's entry in the business registration directory of that company's country.. Base64-encoded string. Supported formats are &lt;code&gt;image/jpeg&lt;/code&gt;, &lt;code&gt;image/png&lt;/code&gt;, &lt;code&gt;application/pdf&lt;/code&gt;. This picture will only be used for the KYC check, afterwards it will be deleted. Only for non-Belgian companies. Maximum file size: 1MiB..
         /// </summary>
         /// <value>The scan of the company's entry in the business registration directory of that company's country. Base64-encoded string. Supported formats are &lt;code&gt;image/jpeg&lt;/code&gt;, &lt;code&gt;image/png&lt;/code&gt;, &lt;code&gt;application/pdf&lt;/code&gt;. This picture will only be used for the KYC check, afterwards it will be deleted. Only for non-Belgian companies. Maximum file size: 1MiB..</value>
         [DataMember(Name = "businessRegisterScan", EmitDefaultValue = false)]
+        [Obsolete("Prefer 'BusinessRegisterScans' property")]
         public string BusinessRegisterScan { get; set; }
     }
 
