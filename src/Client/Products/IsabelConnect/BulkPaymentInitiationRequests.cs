@@ -39,14 +39,14 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
             InternalGet(token, id, cancellationToken);
 
         /// <inheritdoc />
-        public async Task<BulkPaymentInitiationRequest> Create(Token token, string filename, string path, bool? isShared = null, bool? hideDetails = null, CancellationToken? cancellationToken = null)
+        public async Task<BulkPaymentInitiationRequest> Create(Token token, string filename, string path, bool? isShared = null, bool? hideDetails = null, string envelopeName = null, CancellationToken? cancellationToken = null)
         {
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
-                return await Create(token, filename, stream, isShared, hideDetails, cancellationToken).ConfigureAwait(false);
+                return await Create(token, filename, stream, isShared, hideDetails, envelopeName, cancellationToken).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
-        public async Task<BulkPaymentInitiationRequest> Create(Token token, string filename, Stream xmlContent, bool? isShared = null, bool? hideDetails = null, CancellationToken? cancellationToken = null)
+        public async Task<BulkPaymentInitiationRequest> Create(Token token, string filename, Stream xmlContent, bool? isShared = null, bool? hideDetails = null, string envelopeName = null, CancellationToken? cancellationToken = null)
         {
             var headers = new Dictionary<string, string>();
 
@@ -55,6 +55,9 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
 
             if (hideDetails.HasValue)
                 headers.Add("Hide-Details", hideDetails.Value.ToString().ToLowerInvariant());
+
+            if (!string.IsNullOrWhiteSpace(envelopeName))
+                headers.Add("envelopeName", envelopeName);
 
             var result = await _apiClient.PostInline<JsonApi.Resource<BulkPaymentInitiationRequest, object, object, object>>(
                 $"{_urlPrefix}/{EntityName}",
@@ -95,9 +98,10 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         /// <param name="path">Local path the the XML file to upload</param>
         /// <param name="isShared">Defines if the payment file can be accessed by the other users having the right mandate on Isabel 6. Defaults to <c>true</c>.</param>
         /// <param name="hideDetails">Defines if the details (on single transactions) within the payment file can be viewed by other users on Isabel 6 or not. Defaults to <c>false</c>.</param>
+        /// <param name="envelopeName">Optional name for the envelope that groups the payments.</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>Returns a bulk payment initiation request resource</returns>
-        Task<BulkPaymentInitiationRequest> Create(Token token, string filename, string path, bool? isShared = null, bool? hideDetails = null, CancellationToken? cancellationToken = null);
+        Task<BulkPaymentInitiationRequest> Create(Token token, string filename, string path, bool? isShared = null, bool? hideDetails = null, string envelopeName = null, CancellationToken? cancellationToken = null);
 
         /// <summary>
         /// Create Bulk Payment Initiation Request
@@ -107,8 +111,9 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         /// <param name="xmlContent">XML content to upload</param>
         /// <param name="isShared">Defines if the payment file can be accessed by the other users having the right mandate on Isabel 6. Defaults to <c>true</c>.</param>
         /// <param name="hideDetails">Defines if the details (on single transactions) within the payment file can be viewed by other users on Isabel 6 or not. Defaults to <c>false</c>.</param>
+        /// <param name="envelopeName">Optional name for the envelope that groups the payments.</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
         /// <returns>Returns a bulk payment initiation request resource</returns>
-        Task<BulkPaymentInitiationRequest> Create(Token token, string filename, Stream xmlContent, bool? isShared = null, bool? hideDetails = null, CancellationToken? cancellationToken = null);
+        Task<BulkPaymentInitiationRequest> Create(Token token, string filename, Stream xmlContent, bool? isShared = null, bool? hideDetails = null, string envelopeName = null, CancellationToken? cancellationToken = null);
     }
 }
