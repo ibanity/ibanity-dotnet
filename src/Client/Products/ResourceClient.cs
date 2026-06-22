@@ -73,7 +73,7 @@ namespace Ibanity.Apis.Client.Products
                 parameters.Add($"page[after]={pageAfter.Value:D}");
 
             // we need a proper builder here
-            var queryParameters = parameters.Any()
+            var queryParameters = parameters.Count > 0
                 ? "?" + string.Join("&", parameters)
                 : string.Empty;
 
@@ -108,7 +108,7 @@ namespace Ibanity.Apis.Client.Products
                 parameters.Add($"offset={pageOffset.Value}");
 
             // we need a proper builder here
-            var queryParameters = parameters.Any()
+            var queryParameters = parameters.Count > 0
                 ? "?" + string.Join("&", parameters)
                 : string.Empty;
 
@@ -143,7 +143,7 @@ namespace Ibanity.Apis.Client.Products
                 parameters.Add($"page[number]={pageNumber.Value}");
 
             // we need a proper builder here
-            var queryParameters = parameters.Any()
+            var queryParameters = parameters.Count > 0
                 ? "?" + string.Join("&", parameters)
                 : string.Empty;
 
@@ -178,7 +178,7 @@ namespace Ibanity.Apis.Client.Products
                 parameters.Add($"page[number]={pageNumber.Value}");
 
             // we need a proper builder here
-            var queryParameters = parameters.Any()
+            var queryParameters = parameters.Count > 0
                 ? "?" + string.Join("&", parameters)
                 : string.Empty;
 
@@ -215,18 +215,21 @@ namespace Ibanity.Apis.Client.Products
                 await GetAccessToken(token).ConfigureAwait(false),
                 cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
 
+      var tmpPageMetaPaging = page.Meta?.Paging;
+      var tmpPageLinks = page.Links;
+      
             var result = new IbanityCollection<TAttributes>()
             {
-                PageLimit = page.Meta?.Paging?.Limit,
-                BeforeCursor = page.Meta?.Paging?.Before,
-                AfterCursor = page.Meta?.Paging?.After,
-                FirstLink = page.Links?.First,
-                PreviousLink = page.Links?.Previous,
-                NextLink = page.Links?.Next,
+                PageLimit = tmpPageMetaPaging?.Limit,
+                BeforeCursor = tmpPageMetaPaging?.Before,
+                AfterCursor = tmpPageMetaPaging?.After,
+                FirstLink = tmpPageLinks?.First,
+                PreviousLink = tmpPageLinks?.Previous,
+                NextLink = tmpPageLinks?.Next,
                 Items = page.Data.Select(Map).ToList(),
-                ContinuationToken = page.Links?.Next == null
+                ContinuationToken = tmpPageLinks?.Next == null
                     ? null
-                    : new ContinuationToken { NextUrl = page.Links.Next }
+                    : new ContinuationToken { NextUrl = tmpPageLinks.Next }
             };
 
             return result;
@@ -246,18 +249,20 @@ namespace Ibanity.Apis.Client.Products
                 await GetAccessToken(token).ConfigureAwait(false),
                 cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
 
+      var tmpPageMetaPaging = page.Meta.Paging;
+      
             var result = new IsabelCollection<TAttributes>()
             {
-                Offset = page.Meta.Paging.Offset,
-                Total = page.Meta.Paging.Total,
-                Items = page.Data.Select(Map).ToList(),
-                ContinuationToken = page.Meta.Paging.Total <= page.Meta.Paging.Offset + page.Data.Count
-                    ? null
-                    : new ContinuationToken
-                    {
-                        PageSize = page.Data.Count,
-                        PageOffset = page.Meta.Paging.Offset + page.Data.Count
-                    }
+  Offset = tmpPageMetaPaging.Offset,
+  Total = tmpPageMetaPaging.Total,
+  Items = page.Data.Select(Map).ToList(),
+  ContinuationToken = tmpPageMetaPaging.Total <= tmpPageMetaPaging.Offset + page.Data.Count
+      ? null
+      : new ContinuationToken
+      {
+          PageSize = page.Data.Count,
+          PageOffset = tmpPageMetaPaging.Offset + page.Data.Count
+      }
             };
 
             return result;
@@ -277,11 +282,12 @@ namespace Ibanity.Apis.Client.Products
                 await GetAccessToken(token).ConfigureAwait(false),
                 cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
 
+      var tmpPageMetaPaging = page.Meta.Paging;
             var result = new EInvoicingCollection<TAttributes>()
             {
-                Number = page.Meta.Paging.Number,
-                Size = page.Meta.Paging.Size,
-                Total = page.Meta.Paging.Total,
+                Number = tmpPageMetaPaging.Number,
+                Size = tmpPageMetaPaging.Size,
+                Total = tmpPageMetaPaging.Total,
                 Items = page.Data.Select(Map).ToList()
             };
 
