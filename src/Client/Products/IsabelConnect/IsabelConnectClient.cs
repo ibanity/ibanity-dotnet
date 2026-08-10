@@ -27,6 +27,8 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
             IntradayTransactions = new IntradayTransactions(apiClient, tokenService, UrlPrefix);
             AccountReports = new AccountReports(apiClient, tokenService, UrlPrefix);
             BulkPaymentInitiationRequests = new BulkPaymentInitiationRequests(apiClient, tokenService, UrlPrefix);
+            PaymentNotifications = new PaymentNotifications(apiClient, tokenService, UrlPrefix);
+            PaymentStatuses = new PaymentStatuses(apiClient, tokenService, UrlPrefix);
         }
 
         /// <inheritdoc />
@@ -46,6 +48,12 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
 
         /// <inheritdoc />
         public IBulkPaymentInitiationRequests BulkPaymentInitiationRequests { get; }
+
+        /// <inheritdoc />
+        public IPaymentNotifications PaymentNotifications { get; }
+
+        /// <inheritdoc />
+        public IPaymentStatuses PaymentStatuses { get; }
     }
 
     /// <summary>
@@ -89,5 +97,15 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         /// <para>When creating the request, you should provide the payment information by uploading a PAIN xml file. <see href="https://documentation.ibanity.com/isabel-connect/products#bulk-payment-initiation">Learn more about the supported formats in Isabel Connect</see>.</para>
         /// </summary>
         IBulkPaymentInitiationRequests BulkPaymentInitiationRequests { get; }
+
+        /// <summary>
+        /// This is an object representing a payment notification.
+        /// </summary>
+        IPaymentNotifications PaymentNotifications { get; }
+
+        /// <summary>
+        /// Payment status for a bulk payment initiation request, returned as a pain.002 XML document.
+        /// </summary>
+        IPaymentStatuses PaymentStatuses { get; }
     }
 }
