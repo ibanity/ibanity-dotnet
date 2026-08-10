@@ -97,6 +97,38 @@ namespace Ibanity.Apis.Client.Tests.Products.IsabelConnect
         }
 
         [TestMethod]
+        public async Task ListWithNullMetaDoesNotThrow()
+        {
+            _apiClient
+                .Setup(c => c.Get<Collection<PaymentNotification, object, object, object, OffsetBasedPaging>>(
+                    ExpectedListUrl, BearerToken, CancellationToken.None))
+                .ReturnsAsync(CollectionWithNullMeta());
+
+            var result = await _service.List(new Token()).ConfigureAwait(false);
+
+            Assert.IsNull(result.Offset);
+            Assert.IsNull(result.Total);
+            Assert.IsNull(result.ContinuationToken);
+            Assert.AreEqual(0, result.Items.Count);
+        }
+
+        [TestMethod]
+        public async Task ListWithNullPagingDoesNotThrow()
+        {
+            _apiClient
+                .Setup(c => c.Get<Collection<PaymentNotification, object, object, object, OffsetBasedPaging>>(
+                    ExpectedListUrl, BearerToken, CancellationToken.None))
+                .ReturnsAsync(CollectionWithNullPaging());
+
+            var result = await _service.List(new Token()).ConfigureAwait(false);
+
+            Assert.IsNull(result.Offset);
+            Assert.IsNull(result.Total);
+            Assert.IsNull(result.ContinuationToken);
+            Assert.AreEqual(0, result.Items.Count);
+        }
+
+        [TestMethod]
         public async Task DeleteCallsCorrectUrl()
         {
             _apiClient
@@ -115,6 +147,18 @@ namespace Ibanity.Apis.Client.Tests.Products.IsabelConnect
                 {
                     Paging = new OffsetBasedPaging { Offset = 0, Total = 0 }
                 }
+            };
+
+        private static Collection<PaymentNotification, object, object, object, OffsetBasedPaging> CollectionWithNullMeta() =>
+            new Collection<PaymentNotification, object, object, object, OffsetBasedPaging>
+            {
+                Meta = null
+            };
+
+        private static Collection<PaymentNotification, object, object, object, OffsetBasedPaging> CollectionWithNullPaging() =>
+            new Collection<PaymentNotification, object, object, object, OffsetBasedPaging>
+            {
+                Meta = new CollectionMeta<OffsetBasedPaging> { Paging = null }
             };
 
         private static Collection<PaymentNotification, object, object, object, OffsetBasedPaging> CollectionWithOneItem() =>

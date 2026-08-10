@@ -246,18 +246,19 @@ namespace Ibanity.Apis.Client.Products
                 await GetAccessToken(token).ConfigureAwait(false),
                 cancellationToken ?? CancellationToken.None).ConfigureAwait(false);
 
+            var paging = page.Meta?.Paging;
             var result = new IsabelCollection<TAttributes>()
             {
-                Offset = page.Meta.Paging.Offset,
-                Total = page.Meta.Paging.Total,
+                Offset = paging?.Offset,
+                Total = paging?.Total,
                 Items = page.Data.Select(Map).ToList(),
-                ContinuationToken = page.Meta.Paging.Total <= page.Meta.Paging.Offset + page.Data.Count
-                    ? null
-                    : new ContinuationToken
+                ContinuationToken = paging?.Total > paging?.Offset + page.Data.Count
+                    ? new ContinuationToken
                     {
                         PageSize = page.Data.Count,
-                        PageOffset = page.Meta.Paging.Offset + page.Data.Count
+                        PageOffset = (paging.Offset ?? 0) + page.Data.Count
                     }
+                    : null
             };
 
             return result;
