@@ -10,7 +10,7 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
     /// <summary>
     /// This is an object representing a payment notification.
     /// </summary>
-    public class PaymentNotifications : ResourceClient<PaymentNotification, object, object, object, string, Token>, IPaymentNotifications
+    public class PaymentNotifications : ResourceClient<PaymentNotification, object, PaymentNotificationRelationships, object, string, Token>, IPaymentNotifications
     {
         private const string EntityName = "bulk-payment-initiation-requests/notifications";
 
@@ -26,6 +26,17 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
 
         /// <inheritdoc />
         protected override string ParseId(string id) => id;
+
+        /// <inheritdoc />
+        protected override PaymentNotification Map(JsonApi.Data<PaymentNotification, object, PaymentNotificationRelationships, object> data)
+        {
+            var result = base.Map(data);
+
+            if (data.Relationships?.Payment?.Data != null)
+                result.PaymentId = data.Relationships.Payment.Data.Id;
+
+            return result;
+        }
 
         /// <inheritdoc />
         public Task<IsabelCollection<PaymentNotification>> List(Token token, long? pageOffset = null, int? pageSize = null, CancellationToken? cancellationToken = null) =>
