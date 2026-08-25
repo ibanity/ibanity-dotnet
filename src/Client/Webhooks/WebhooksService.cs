@@ -48,7 +48,8 @@ namespace Ibanity.Apis.Client.Webhooks
             { "xs2a.paymentInitiationRequest.authorizationCompleted", typeof(Payload<Models.XS2A.NestedPaymentInitiationRequestAuthorizationCompleted>) },
             { "xs2a.paymentInitiationRequest.statusUpdate", typeof(Payload<Models.XS2A.NestedPaymentInitiationRequestStatusUpdated>) },
             { "xs2a.periodicPaymentInitiationRequest.authorizationCompleted", typeof(Payload<Models.XS2A.NestedPeriodicPaymentInitiationRequestAuthorizationCompleted>) },
-            { "xs2a.periodicPaymentInitiationRequest.statusUpdate", typeof(Payload<Models.XS2A.NestedPeriodicPaymentInitiationRequestStatusUpdated>) }
+            { "xs2a.periodicPaymentInitiationRequest.statusUpdate", typeof(Payload<Models.XS2A.NestedPeriodicPaymentInitiationRequestStatusUpdated>) },
+            { "isabelConnect.payment.status.updated", typeof(Payload<Models.IsabelConnect.NestedPaymentStatusUpdated>) }
         };
 
         private readonly ISerializer<string> _serializer;
