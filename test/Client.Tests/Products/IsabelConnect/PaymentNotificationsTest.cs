@@ -41,13 +41,13 @@ namespace Ibanity.Apis.Client.Tests.Products.IsabelConnect
         public async Task ListCallsCorrectUrl()
         {
             _apiClient
-                .Setup(c => c.Get<Collection<PaymentNotification, object, object, object, OffsetBasedPaging>>(
+                .Setup(c => c.Get<Collection<PaymentNotification, object, PaymentNotificationRelationships, object, OffsetBasedPaging>>(
                     ExpectedListUrl, BearerToken, CancellationToken.None))
                 .ReturnsAsync(EmptyCollection());
 
             await _service.List(new Token()).ConfigureAwait(false);
 
-            _apiClient.Verify(c => c.Get<Collection<PaymentNotification, object, object, object, OffsetBasedPaging>>(
+            _apiClient.Verify(c => c.Get<Collection<PaymentNotification, object, PaymentNotificationRelationships, object, OffsetBasedPaging>>(
                 ExpectedListUrl, BearerToken, CancellationToken.None), Times.Once);
         }
 
@@ -55,7 +55,7 @@ namespace Ibanity.Apis.Client.Tests.Products.IsabelConnect
         public async Task ListMapsItemsCorrectly()
         {
             _apiClient
-                .Setup(c => c.Get<Collection<PaymentNotification, object, object, object, OffsetBasedPaging>>(
+                .Setup(c => c.Get<Collection<PaymentNotification, object, PaymentNotificationRelationships, object, OffsetBasedPaging>>(
                     ExpectedListUrl, BearerToken, CancellationToken.None))
                 .ReturnsAsync(CollectionWithOneItem());
 
@@ -65,13 +65,14 @@ namespace Ibanity.Apis.Client.Tests.Products.IsabelConnect
             Assert.AreEqual(NotificationId, result.Items[0].Id);
             Assert.AreEqual("payment.status.updated", result.Items[0].NotificationType);
             Assert.AreEqual("2026-06-04T14:30:00.000Z", result.Items[0].CreatedAt);
+            Assert.AreEqual("90000036388319", result.Items[0].PaymentId);
         }
 
         [TestMethod]
         public async Task ListReturnsPagingMetadata()
         {
             _apiClient
-                .Setup(c => c.Get<Collection<PaymentNotification, object, object, object, OffsetBasedPaging>>(
+                .Setup(c => c.Get<Collection<PaymentNotification, object, PaymentNotificationRelationships, object, OffsetBasedPaging>>(
                     ExpectedListUrl, BearerToken, CancellationToken.None))
                 .ReturnsAsync(CollectionWithOneItem());
 
@@ -86,13 +87,13 @@ namespace Ibanity.Apis.Client.Tests.Products.IsabelConnect
         {
             var urlWithParams = ExpectedListUrl + "?size=10&offset=5";
             _apiClient
-                .Setup(c => c.Get<Collection<PaymentNotification, object, object, object, OffsetBasedPaging>>(
+                .Setup(c => c.Get<Collection<PaymentNotification, object, PaymentNotificationRelationships, object, OffsetBasedPaging>>(
                     urlWithParams, BearerToken, CancellationToken.None))
                 .ReturnsAsync(EmptyCollection());
 
             await _service.List(new Token(), pageOffset: 5, pageSize: 10).ConfigureAwait(false);
 
-            _apiClient.Verify(c => c.Get<Collection<PaymentNotification, object, object, object, OffsetBasedPaging>>(
+            _apiClient.Verify(c => c.Get<Collection<PaymentNotification, object, PaymentNotificationRelationships, object, OffsetBasedPaging>>(
                 urlWithParams, BearerToken, CancellationToken.None), Times.Once);
         }
 
@@ -100,7 +101,7 @@ namespace Ibanity.Apis.Client.Tests.Products.IsabelConnect
         public async Task ListWithNullMetaDoesNotThrow()
         {
             _apiClient
-                .Setup(c => c.Get<Collection<PaymentNotification, object, object, object, OffsetBasedPaging>>(
+                .Setup(c => c.Get<Collection<PaymentNotification, object, PaymentNotificationRelationships, object, OffsetBasedPaging>>(
                     ExpectedListUrl, BearerToken, CancellationToken.None))
                 .ReturnsAsync(CollectionWithNullMeta());
 
@@ -116,7 +117,7 @@ namespace Ibanity.Apis.Client.Tests.Products.IsabelConnect
         public async Task ListWithNullPagingDoesNotThrow()
         {
             _apiClient
-                .Setup(c => c.Get<Collection<PaymentNotification, object, object, object, OffsetBasedPaging>>(
+                .Setup(c => c.Get<Collection<PaymentNotification, object, PaymentNotificationRelationships, object, OffsetBasedPaging>>(
                     ExpectedListUrl, BearerToken, CancellationToken.None))
                 .ReturnsAsync(CollectionWithNullPaging());
 
@@ -140,8 +141,8 @@ namespace Ibanity.Apis.Client.Tests.Products.IsabelConnect
             _apiClient.Verify(c => c.Delete(ExpectedDeleteUrl, BearerToken, CancellationToken.None), Times.Once);
         }
 
-        private static Collection<PaymentNotification, object, object, object, OffsetBasedPaging> EmptyCollection() =>
-            new Collection<PaymentNotification, object, object, object, OffsetBasedPaging>
+        private static Collection<PaymentNotification, object, PaymentNotificationRelationships, object, OffsetBasedPaging> EmptyCollection() =>
+            new Collection<PaymentNotification, object, PaymentNotificationRelationships, object, OffsetBasedPaging>
             {
                 Meta = new CollectionMeta<OffsetBasedPaging>
                 {
@@ -149,34 +150,38 @@ namespace Ibanity.Apis.Client.Tests.Products.IsabelConnect
                 }
             };
 
-        private static Collection<PaymentNotification, object, object, object, OffsetBasedPaging> CollectionWithNullMeta() =>
-            new Collection<PaymentNotification, object, object, object, OffsetBasedPaging>
+        private static Collection<PaymentNotification, object, PaymentNotificationRelationships, object, OffsetBasedPaging> CollectionWithNullMeta() =>
+            new Collection<PaymentNotification, object, PaymentNotificationRelationships, object, OffsetBasedPaging>
             {
                 Meta = null
             };
 
-        private static Collection<PaymentNotification, object, object, object, OffsetBasedPaging> CollectionWithNullPaging() =>
-            new Collection<PaymentNotification, object, object, object, OffsetBasedPaging>
+        private static Collection<PaymentNotification, object, PaymentNotificationRelationships, object, OffsetBasedPaging> CollectionWithNullPaging() =>
+            new Collection<PaymentNotification, object, PaymentNotificationRelationships, object, OffsetBasedPaging>
             {
                 Meta = new CollectionMeta<OffsetBasedPaging> { Paging = null }
             };
 
-        private static Collection<PaymentNotification, object, object, object, OffsetBasedPaging> CollectionWithOneItem() =>
-            new Collection<PaymentNotification, object, object, object, OffsetBasedPaging>
+        private static Collection<PaymentNotification, object, PaymentNotificationRelationships, object, OffsetBasedPaging> CollectionWithOneItem() =>
+            new Collection<PaymentNotification, object, PaymentNotificationRelationships, object, OffsetBasedPaging>
             {
                 Meta = new CollectionMeta<OffsetBasedPaging>
                 {
                     Paging = new OffsetBasedPaging { Offset = 0, Total = 1 }
                 },
-                Data = new List<Data<PaymentNotification, object, object, object>>
+                Data = new List<Data<PaymentNotification, object, PaymentNotificationRelationships, object>>
                 {
-                    new Data<PaymentNotification, object, object, object>
+                    new Data<PaymentNotification, object, PaymentNotificationRelationships, object>
                     {
                         Id = NotificationId,
                         Attributes = new PaymentNotification
                         {
                             NotificationType = "payment.status.updated",
                             CreatedAt = "2026-06-04T14:30:00.000Z"
+                        },
+                        Relationships = new PaymentNotificationRelationships
+                        {
+                            Payment = new Relationship { Data = new Data { Id = "90000036388319" } }
                         }
                     }
                 }
