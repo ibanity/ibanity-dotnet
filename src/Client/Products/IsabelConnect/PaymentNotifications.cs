@@ -48,12 +48,6 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
                 pageSize,
                 cancellationToken);
 
-        /// <inheritdoc />
-        public Task Delete(Token token, string id, CancellationToken? cancellationToken = null) =>
-            InternalDelete(
-                token ?? throw new ArgumentNullException(nameof(token)),
-                id,
-                cancellationToken);
     }
 
     /// <summary>
@@ -71,12 +65,5 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         /// <returns>A list of payment notification resources</returns>
         Task<IsabelCollection<PaymentNotification>> List(Token token, long? pageOffset = null, int? pageSize = null, CancellationToken? cancellationToken = null);
 
-        /// <summary>
-        /// Acknowledge Payment Notification
-        /// </summary>
-        /// <param name="token">Authentication token</param>
-        /// <param name="id">Payment Notification ID</param>
-        /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        Task Delete(Token token, string id, CancellationToken? cancellationToken = null);
     }
 }

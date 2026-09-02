@@ -17,7 +17,6 @@ namespace Ibanity.Apis.Client.Tests.Products.IsabelConnect
         private const string BearerToken = "test-bearer-token";
         private const string NotificationId = "14e2bff5-e365-4bc7-bf48-76b7bcd464e9";
         private const string ExpectedListUrl = "isabel-connect/bulk-payment-initiation-requests/notifications";
-        private const string ExpectedDeleteUrl = "isabel-connect/bulk-payment-initiation-requests/notifications/" + NotificationId;
 
         private Mock<IApiClient> _apiClient;
         private Mock<IAccessTokenProvider<Token>> _accessTokenProvider;
@@ -127,18 +126,6 @@ namespace Ibanity.Apis.Client.Tests.Products.IsabelConnect
             Assert.IsNull(result.Total);
             Assert.IsNull(result.ContinuationToken);
             Assert.AreEqual(0, result.Items.Count);
-        }
-
-        [TestMethod]
-        public async Task DeleteCallsCorrectUrl()
-        {
-            _apiClient
-                .Setup(c => c.Delete(ExpectedDeleteUrl, BearerToken, CancellationToken.None))
-                .Returns(Task.CompletedTask);
-
-            await _service.Delete(new Token(), NotificationId).ConfigureAwait(false);
-
-            _apiClient.Verify(c => c.Delete(ExpectedDeleteUrl, BearerToken, CancellationToken.None), Times.Once);
         }
 
         private static Collection<PaymentNotification, object, PaymentNotificationRelationships, object, OffsetBasedPaging> EmptyCollection() =>
