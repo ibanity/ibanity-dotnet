@@ -9,10 +9,10 @@ namespace Ibanity.Apis.Client.Webhooks.Models.IsabelConnect
     public class PaymentStatusUpdated : JsonApi.Data, IWebhookEvent
     {
         /// <summary>
-        /// Type of the notification event.
+        /// Identifier of the Isabel notification.
         /// </summary>
-        [DataMember(Name = "notificationType", EmitDefaultValue = false)]
-        public string NotificationType { get; set; }
+        [DataMember(Name = "notificationId", EmitDefaultValue = false)]
+        public string NotificationId { get; set; }
 
         /// <summary>
         /// When this notification was created.
@@ -38,7 +38,7 @@ namespace Ibanity.Apis.Client.Webhooks.Models.IsabelConnect
             {
                 Id = Id,
                 Type = Type,
-                NotificationType = Attributes.NotificationType,
+                NotificationId = Attributes.NotificationId,
                 CreatedAt = Attributes.CreatedAt,
                 PaymentId = Relationships.Payment.Data.Id
             };
@@ -50,10 +50,10 @@ namespace Ibanity.Apis.Client.Webhooks.Models.IsabelConnect
     public class PaymentStatusUpdatedAttributes
     {
         /// <summary>
-        /// Type of the notification event.
+        /// Identifier of the Isabel notification.
         /// </summary>
-        [DataMember(Name = "notificationType", EmitDefaultValue = false)]
-        public string NotificationType { get; set; }
+        [DataMember(Name = "notificationId", EmitDefaultValue = false)]
+        public string NotificationId { get; set; }
 
         /// <summary>
         /// When this notification was created.
