@@ -14,12 +14,12 @@ namespace Ibanity.Apis.Client.Tests.Webhooks
     [TestClass]
     public class IsabelConnectWebhooksServiceTest
     {
-        private const string _payload = @"{""data"":{""id"":""550e8400-e29b-41d4-a716-446655440000"",""type"":""isabelConnect.payment.status.updated"",""attributes"":{""notificationType"":""payment.status.updated"",""createdAt"":""2026-06-04T14:30:00.000Z""},""relationships"":{""payment"":{""data"":{""id"":""90000036388319"",""type"":""bulkPayment""}}}}}";
-        private const string _signature = "eyJhbGciOiJSUzUxMiIsImtpZCI6InNhbmRib3hfZXZlbnRzX3NpZ25hdHVyZV8xIn0.eyJhdWQiOiI5NzlmZDRkMi1jYzFlLTQyNjUtODM1MS0yNmEwYzNlYzE4ODUiLCJkaWdlc3QiOiJ1SzRjWGQ2L3prQjlBdnFEYzlPd3RvYlZuYkFhVDhsUHdZVVFnanppYmovZWIxMmRzSUJUZmpFUnM0bjlKS0tDQVhSL1pJclpUMlJucXZPYlVPSlc0UT09IiwiZXhwIjoxNzg3Mjk4NjQwLCJpYXQiOjE3ODcyOTg1ODAsImlzcyI6Imh0dHBzOi8vYXBpLmliYW5pdHkuY29tIiwianRpIjoiYzIyODU4NmMtOTRkNi00ZTBiLTlkNWMtN2Q5Y2YxZTdhOThmIn0.FQPEnc17ONlIXEzBD3k1uayB6HQfSgYRSFACtVq-g5nfdPbxwPKJfYHBbGhVDRI2kE6QSkUHfGfCrJt1PGSbMvX4LxPCop_LJ5j3Bv6pQJCNsgVwvz_IoUR34K3DWbw0OOb6EcCig86zflc9ef_ourytzlEklJz6TyDDow-bzLW-KbLENk67MThGvzGi7llKjJdnaNbwZcx23qsY5bVJiWVegy6rsnnLQLOeFDvJ-hqEGzo99y2E5EqbJTPpfMrjK6gB_B-nXYlmwBqS4gSlauKScBKh9gqkpHBcfpqOgo5e9aov1x12X3krwx66F-9pAQk1W9D-V3nk50Msl6Pk_w";
+        private const string _payload = @"{""data"":{""id"":""550e8400-e29b-41d4-a716-446655440000"",""type"":""isabelConnect.payment.status.updated"",""attributes"":{""notificationId"":""14e2bff5-e365-4bc7-bf48-76b7bcd464e9"",""createdAt"":""2026-06-04T14:30:00.000Z""},""relationships"":{""payment"":{""data"":{""id"":""90000036388319"",""type"":""bulkPayment""}}}}}";
+        private const string _signature = "eyJhbGciOiJSUzUxMiIsImtpZCI6InNhbmRib3hfZXZlbnRzX3NpZ25hdHVyZV8xIiwidHlwIjoiSldUIn0.eyJhdWQiOiI5NzlmZDRkMi1jYzFlLTQyNjUtODM1MS0yNmEwYzNlYzE4ODUiLCJkaWdlc3QiOiI0bmZuTVhEaDdSc2NIQnRqSG5xQzBubGdSNkFhN0s0WTRSeEc2b1JCT085bStTMTR2L0RmN2NGRk1udmc5VDRwYXFvcXBmZXJpRy9udk5IYTk5K3VVUT09IiwiZXhwIjoxNzg3Mjk4NjQwLCJpYXQiOjE3ODcyOTg1ODAsImlzcyI6Imh0dHBzOi8vYXBpLmliYW5pdHkuY29tIiwianRpIjoiZTllNDAzZDYtN2E5NS00YzE2LThkOWQtMWUwNmRlZmZlN2VjIn0.fAqTiOX_xNn9T4wOzkkCXYdKzPPMwwRJV8N3929DHjSUehXunH8yuaYmIujzCvtmCjCRoj2wkR7pucDDjDlzdqWxRepT01T3oW2uWW4-pOVZXz5BeS1aN3VKLmGeggKMAExxxBaUhUSDSWrKHVPnzltbN_Bo9lBTXXZrI6sJ83vWiTqC-hhrWQvw6PyFez_0XS9UISbBLipjXJqXbP1G9WssPmw_1hhv0fexCMZjyQbXH9-NtcYQaliUh3xP-0nBshvkuHLUCKPu6iBZBIYsSfT74wMrplmvDa22f5DwB5Uj5XRwPR96aqRJgHl-JyVSoS-M2NMtR-Yw4cocA1tKPw";
 
         private static readonly RSA _publicKey;
         private static readonly (string, string) _publicKeyNE = (
-            "qV42Q_Ge5rHPKMHW82B19G4Nh4_96qPiFz_qyCbtsIqSfg7HfcbXm2B3uoGHqHdE43NUmXGKChbWWEdpeHXogg9mm4IfCyamAWkG_ks2gKprQZFHt1pfuABw7PAWUt3RumkgS5oXxqaNWNEIsZj_GX3FbevH-C06HQ-mnoigTe0TBRqpHhygKoGIEFd1LVk-9pb7gAKNhjxbk8Kq5MVHwuazdqlz1yK40_0DxbhQazf40bhDTKJssF4Z1Rolk3pVZ67V-AEBeXjsmgPWl0iRVGqQbVDnizt892_h2ZFu4Vwk8fNJ3JsDNWBKp8QEPLwWVNfi60HVbQZBibegU_p1tQ",
+            "8zQfv8_RaWOlI4VpQJ0oV6dS3kqP3ze7WiH0AN6ByZRo502xgI1WnSlicaBErhEkOYhpdCNQlFMIX25niTp3PyhTSA1XY5QNVPyh2_rHemAmkKUup7oUqYT16raz9EVoC5VEtpUtfhWmIJ5cXgim5tZwzr97B1gxqFfJlVKZ7e0T2QTuyLsNi_mbNk0EsxDH6bKs6Kj4j9qDJ82MM82w00bmCFYIxXudaqdJ5eQ0SCbhjKqnyIdZBBB1yqFxmskAty1ISieIMf9szkNvRrLLF07BxaIsK-BnvHsdVYjkgBqhwcpIt_dNFEIVuaGC_3MbDO_oTwZ_05If69mq7d8qXw",
             "AQAB");
 
         private const long _oneSecondAfterTokenCreation = 1787298581; /* 2026-08-21 */
@@ -62,7 +62,7 @@ namespace Ibanity.Apis.Client.Tests.Webhooks
             switch (result)
             {
                 case PaymentStatusUpdated webhookEvent:
-                    Assert.AreEqual("payment.status.updated", webhookEvent.NotificationType);
+                    Assert.AreEqual("14e2bff5-e365-4bc7-bf48-76b7bcd464e9", webhookEvent.NotificationId);
                     Assert.AreEqual("90000036388319", webhookEvent.PaymentId);
                     Assert.AreEqual(new DateTimeOffset(2026, 6, 4, 14, 30, 0, TimeSpan.Zero), webhookEvent.CreatedAt);
                     break;

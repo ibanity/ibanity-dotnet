@@ -10,10 +10,10 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect.Models
     public class PaymentNotification : Identified<string>
     {
         /// <summary>
-        /// Type of the payment notification (e.g. <c>payment.status.updated</c>)
+        /// Identifier of the Isabel notification.
         /// </summary>
-        [DataMember(Name = "notificationType", EmitDefaultValue = false)]
-        public string NotificationType { get; set; }
+        [DataMember(Name = "NotificationId", EmitDefaultValue = false)]
+        public string NotificationId { get; set; }
 
         /// <summary>
         /// When the notification was created, in ISO8601 format
