@@ -62,7 +62,7 @@ namespace Ibanity.Apis.Client.Tests.Products.IsabelConnect
 
             Assert.AreEqual(1, result.Items.Count);
             Assert.AreEqual(NotificationId, result.Items[0].Id);
-            Assert.AreEqual("payment.status.updated", result.Items[0].NotificationType);
+            Assert.AreEqual("abc123", result.Items[0].NotificationId);
             Assert.AreEqual("2026-06-04T14:30:00.000Z", result.Items[0].CreatedAt);
             Assert.AreEqual("90000036388319", result.Items[0].PaymentId);
         }
@@ -163,7 +163,7 @@ namespace Ibanity.Apis.Client.Tests.Products.IsabelConnect
                         Id = NotificationId,
                         Attributes = new PaymentNotification
                         {
-                            NotificationType = "payment.status.updated",
+                            NotificationId = "abc123",
                             CreatedAt = "2026-06-04T14:30:00.000Z"
                         },
                         Relationships = new PaymentNotificationRelationships
