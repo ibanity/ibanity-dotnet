@@ -159,6 +159,41 @@ namespace Ibanity.Apis.Client.Products.PontoConnect.Models
         public string TimeZone { get; set; }
 
         /// <summary>
+        /// Indicates whether pending transactions are available for accounts belonging to this financial institution
+        /// </summary>
+        /// <value>Indicates whether pending transactions are available for accounts belonging to this financial institution</value>
+        [DataMember(Name = "pendingTransactionsAvailable", EmitDefaultValue = true)]
+        public bool PendingTransactionsAvailable { get; set; }
+
+        /// <summary>
+        /// Maximum number of instructions allowed in a bulk payment for this financial institution
+        /// </summary>
+        /// <value>Maximum number of instructions allowed in a bulk payment for this financial institution</value>
+        [DataMember(Name = "bulkPaymentInstructionsLimit", EmitDefaultValue = false)]
+        public int? BulkPaymentInstructionsLimit { get; set; }
+
+        /// <summary>
+        /// Expected lifetime of authorization for accounts belonging to this financial institution
+        /// </summary>
+        /// <value>Expected lifetime of authorization for accounts belonging to this financial institution</value>
+        [DataMember(Name = "expectedAuthorizationLifetime", EmitDefaultValue = false)]
+        public int? ExpectedAuthorizationLifetime { get; set; }
+
+        /// <summary>
+        /// Indicates whether debtor account reference is required for payments from this financial institution
+        /// </summary>
+        /// <value>Indicates whether debtor account reference is required for payments from this financial institution</value>
+        [DataMember(Name = "paymentDebtorAccountReferenceRequired", EmitDefaultValue = true)]
+        public bool PaymentDebtorAccountReferenceRequired { get; set; }
+
+        /// <summary>
+        /// Indicates whether debtor account reference is required for bulk payments from this financial institution
+        /// </summary>
+        /// <value>Indicates whether debtor account reference is required for bulk payments from this financial institution</value>
+        [DataMember(Name = "bulkPaymentDebtorAccountReferenceRequired", EmitDefaultValue = true)]
+        public bool BulkPaymentDebtorAccountReferenceRequired { get; set; }
+
+        /// <summary>
         /// Short string representation.
         /// </summary>
         /// <returns>Short string representation</returns>
