@@ -30,14 +30,14 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         }
 
         /// <inheritdoc />
-        public async Task Get(Token token, string bulkPaymentInitiationRequestId, Stream target, string notificationId = null, CancellationToken? cancellationToken = null)
+        public async Task<string> Get(Token token, string bulkPaymentInitiationRequestId, Stream target, string notificationId = null, CancellationToken? cancellationToken = null)
         {
             var path = $"{_urlPrefix}/bulk-payment-initiation-requests/{bulkPaymentInitiationRequestId}/payment-status";
 
             if (!string.IsNullOrWhiteSpace(notificationId))
                 path += $"?notificationId={notificationId}";
 
-            await _apiClient.GetToStream(
+            return await _apiClient.GetToStream(
                 path,
                 (await _accessTokenProvider.RefreshToken(token ?? throw new ArgumentNullException(nameof(token))).ConfigureAwait(false)).AccessToken,
                 null,
@@ -59,7 +59,8 @@ namespace Ibanity.Apis.Client.Products.IsabelConnect
         /// <param name="target">Destination stream where the pain.002 XML will be written</param>
         /// <param name="notificationId">Optional notification ID to filter the payment status</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <remarks>Result will be written to the provided stream.</remarks>
-        Task Get(Token token, string bulkPaymentInitiationRequestId, Stream target, string notificationId = null, CancellationToken? cancellationToken = null);
+        /// <remarks>Result will be written to the provided stream, unless the status has not changed since <paramref name="notificationId"/> was generated.</remarks>
+        /// <returns>The notification status (e.g. <c>upToDate</c>) if the status has not changed since <paramref name="notificationId"/> was generated, in which case nothing is written to <paramref name="target"/>; otherwise <c>null</c>, and the pain.002 XML has been written to <paramref name="target"/>.</returns>
+        Task<string> Get(Token token, string bulkPaymentInitiationRequestId, Stream target, string notificationId = null, CancellationToken? cancellationToken = null);
     }
 }
