@@ -17,6 +17,7 @@ namespace Ibanity.Apis.Client.Http
     public class ApiClient : IApiClient
     {
         private const string RequestIdHeader = "ibanity-request-id";
+        private const string NotificationStatusHeader = "x-notification-status";
         private static readonly Encoding Encoding = Encoding.UTF8;
 
         private readonly ILogger _logger;
@@ -207,7 +208,7 @@ namespace Ibanity.Apis.Client.Http
             filename.Replace(@"\", @"\\").Replace(@"""", @"\""");
 
         /// <inheritdoc />
-        public async Task GetToStream(string path, string bearerToken, string acceptHeader, Stream target, CancellationToken cancellationToken)
+        public async Task<string> GetToStream(string path, string bearerToken, string acceptHeader, Stream target, CancellationToken cancellationToken)
         {
             if (path is null)
                 throw new ArgumentNullException(nameof(path));
@@ -230,7 +231,11 @@ namespace Ibanity.Apis.Client.Http
 
                 using (var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false))
                 using (var streamToReadFrom = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                {
                     await streamToReadFrom.CopyToAsync(target, 81920, cancellationToken).ConfigureAwait(false);
+
+                    return response.Headers.TryGetValues(NotificationStatusHeader, out var values) ? values.SingleOrDefault() : null;
+                }
             }
         }
     }
@@ -258,8 +263,8 @@ namespace Ibanity.Apis.Client.Http
         /// <param name="acceptHeader">Format of the response you expect from the call</param>
         /// <param name="target">Destination stream where the payload will be written to</param>
         /// <param name="cancellationToken">Allow to cancel a long-running task</param>
-        /// <returns>The specified resource</returns>
-        Task GetToStream(string path, string bearerToken, string acceptHeader, Stream target, CancellationToken cancellationToken);
+        /// <returns>The value of the <c>X-Notification-Status</c> response header, if present; otherwise <c>null</c></returns>
+        Task<string> GetToStream(string path, string bearerToken, string acceptHeader, Stream target, CancellationToken cancellationToken);
 
         /// <summary>
         /// Send a DELETE request with a returned payload.

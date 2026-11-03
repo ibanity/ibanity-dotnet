@@ -39,7 +39,7 @@ namespace Ibanity.Apis.Client.Tests.Products.IsabelConnect
         {
             _apiClient
                 .Setup(c => c.GetToStream(ExpectedUrl, BearerToken, null, It.IsAny<Stream>(), CancellationToken.None))
-                .Returns(Task.CompletedTask);
+                .ReturnsAsync((string)null);
 
             using var stream = new MemoryStream();
             await _service.Get(new Token(), BulkPaymentId, stream).ConfigureAwait(false);
@@ -52,7 +52,7 @@ namespace Ibanity.Apis.Client.Tests.Products.IsabelConnect
         {
             _apiClient
                 .Setup(c => c.GetToStream(ExpectedUrlWithNotification, BearerToken, null, It.IsAny<Stream>(), CancellationToken.None))
-                .Returns(Task.CompletedTask);
+                .ReturnsAsync((string)null);
 
             using var stream = new MemoryStream();
             await _service.Get(new Token(), BulkPaymentId, stream, notificationId: "a").ConfigureAwait(false);
@@ -65,13 +65,26 @@ namespace Ibanity.Apis.Client.Tests.Products.IsabelConnect
         {
             _apiClient
                 .Setup(c => c.GetToStream(ExpectedUrl, BearerToken, null, It.IsAny<Stream>(), CancellationToken.None))
-                .Returns(Task.CompletedTask);
+                .ReturnsAsync((string)null);
 
             using var stream = new MemoryStream();
             await _service.Get(new Token(), BulkPaymentId, stream, notificationId: null).ConfigureAwait(false);
 
             _apiClient.Verify(c => c.GetToStream(ExpectedUrl, BearerToken, null, stream, CancellationToken.None), Times.Once);
             _apiClient.Verify(c => c.GetToStream(It.Is<string>(s => s.Contains("notificationId")), BearerToken, null, stream, CancellationToken.None), Times.Never);
+        }
+
+        [TestMethod]
+        public async Task GetReturnsNotificationStatusWhenUpToDate()
+        {
+            _apiClient
+                .Setup(c => c.GetToStream(ExpectedUrlWithNotification, BearerToken, null, It.IsAny<Stream>(), CancellationToken.None))
+                .ReturnsAsync("upToDate");
+
+            using var stream = new MemoryStream();
+            var result = await _service.Get(new Token(), BulkPaymentId, stream, notificationId: "a").ConfigureAwait(false);
+
+            Assert.AreEqual("upToDate", result);
         }
     }
 }
