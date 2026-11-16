@@ -80,7 +80,7 @@ namespace Ibanity.Apis.Client.Http
             Execute("Post", async () => await _underlyingInstance.PostInline<TResponse>(path, bearerToken, additionalHeaders, filename, payload, contentType, cancellationToken).ConfigureAwait(false), cancellationToken);
 
         /// <inheritdoc />
-        public Task GetToStream(string path, string bearerToken, string acceptHeader, Stream target, CancellationToken cancellationToken) =>
-            Execute<object>("Get", async () => { await _underlyingInstance.GetToStream(path, bearerToken, acceptHeader, target, cancellationToken).ConfigureAwait(false); return null; }, cancellationToken);
+        public Task<string> GetToStream(string path, string bearerToken, string acceptHeader, Stream target, CancellationToken cancellationToken) =>
+            Execute("Get", async () => await _underlyingInstance.GetToStream(path, bearerToken, acceptHeader, target, cancellationToken).ConfigureAwait(false), cancellationToken);
     }
 }
